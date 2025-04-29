@@ -24,6 +24,7 @@ jobs:
           );
           ?>
           EOF
+          ls -al htdocs/functions/
 
       - name: via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
