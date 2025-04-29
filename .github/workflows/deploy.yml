@@ -12,6 +12,19 @@ jobs:
       - name: Upload to infinityfree
         uses: actions/checkout@v3
 
+      - name: Write config
+        run: |
+          cat <<EOF > htdocs/functions/.config.php
+          <?php
+          return array(
+              "servername" => "${{ secrets.servername }}",
+              "username" => "${{ secrets.username }}",
+              "password" => "${{ secrets.password }}",
+              "dbname" => "${{ secrets.dbname }}",
+          );
+          ?>
+          EOF
+
       - name: via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
