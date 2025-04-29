@@ -1,0 +1,27 @@
+name: FTPUpload
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Upload to infinityfree
+        uses: actions/checkout@v3
+
+      - name: via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.server }}
+          username: ${{ secrets.username }}
+          password: ${{ secrets.password }}
+          server-dir: /htdocs/
+          protocol: ftps
+          port: 21
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
