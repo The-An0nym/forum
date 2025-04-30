@@ -20,7 +20,7 @@ $path = $_SERVER['DOCUMENT_ROOT'];
                     posts.user_id, 
                     posts.content, 
                     posts.created, 
-                    posts.edited,
+                    posts.edited
                 FROM 
                     posts 
                 LEFT JOIN 
