@@ -2,7 +2,7 @@
 $path = $_SERVER['DOCUMENT_ROOT'];
 
 // CONNECT
-$configs = include($path . 'functions/.config.php');
+$configs = include($path . '/functions/.config.php');
 extract($configs);
 
 // Create connection
@@ -13,7 +13,7 @@ if ($conn->connect_error) {
 }
 
 session_start();
-if(include($path . 'functions/validateSession.php')) {
+if(include($path . '/functions/validateSession.php')) {
     // idk about mysql_real_escape_string ??
     $cont = htmlspecialchars($_POST["c"]);
     $dtime = date('Y-m-d H:i:s');

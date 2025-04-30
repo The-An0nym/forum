@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/styles/posts.css" />
 </head>
 <body>
-    <?php include $path . "basic/menu.php"; ?>
+    <?php include $path . "/basic/menu.php"; ?>
 
     <div id="post-container"></div>
 
@@ -24,6 +24,6 @@
     <script src="sendEdit.js"></script>
     <script src="getPosts.js"></script>
     <script src="editPost.js"></script>
-    <?php include $path . "basic/footer.php"; ?>
+    <?php include $path . "/basic/footer.php"; ?>
 </body>
 </html>

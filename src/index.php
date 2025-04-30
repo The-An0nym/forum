@@ -9,10 +9,10 @@
     <link rel="stylesheet" href="/styles/topics.css" />
 </head>
 <body>
-    <?php include $path . "basic/menu.php"; ?>
+    <?php include $path . "/basic/menu.php"; ?>
 
     <?php
-    $configs = include($path . 'functions/.config.php');
+    $configs = include($path . '/functions/.config.php');
     extract($configs);
 
     // Create connection
@@ -40,6 +40,6 @@
 
     
 
-    <?php include $path . "basic/footer.php"; ?>
+    <?php include $path . "/basic/footer.php"; ?>
 </body>
 </html>
