@@ -48,7 +48,7 @@ if(include($path . '/functions/validateSession.php')) {
             echo "Error: " . $sql . "<br>" . $conn->error;
         }
     } else {
-        echo "ERROR: Invalid or missing arguments."
+        echo "ERROR: Invalid or missing arguments.";
     }
 } else {
     echo "Please Login to comment";
