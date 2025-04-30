@@ -1,12 +1,12 @@
 const cont = document.getElementById("thread-container");
 
-function getPosts() {
+function getThreads() {
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onload = function () {
     const dataJSON = JSON.parse(xmlhttp.responseText);
     cont.innerHTML = "";
     for (let i = 0; i < dataJSON.length; i++) {
-      const URLEscapedName = dataJSON.name.replaceAll(" ", "-");
+      const URLEscapedName = dataJSON[i].name.replaceAll(" ", "-");
 
       const threadWrapper = document.createElement("a");
       threadWrapper.className = "thread-wrapper";
@@ -49,4 +49,4 @@ function getPosts() {
   xmlhttp.send();
 }
 
-getPosts();
+getThreads();

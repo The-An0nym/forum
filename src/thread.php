@@ -15,11 +15,8 @@
 
     <textarea id="post-content" placeholder="Type your post here..."></textarea>
     <button onclick="send()">Submit</button>
-    <?php echo "
-    <script>
-    const thread = \"" . str_replace("-", " ", $_GET["n"]) . "\"
-    </script>
-    " ?>
+    
+    <script> const thread = "<?php str_replace("-", " ", $_GET["n"]) ?>" </script>
     <script src="/scripts/sendPost.js"></script>
     <script src="/scripts/sendEdit.js"></script>
     <script src="/scripts/getPosts.js"></script>

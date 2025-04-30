@@ -13,7 +13,7 @@
 
     <div id="thread-container"></div>
 
-    <script> const category = <?php echo $_GET["n"] ?> </script>
+    <script> const category = "<?php echo $_GET["n"] ?>" </script>
     <script src="/scripts/getThreads.js"></script>
 
     <?php include $path . "/basic/footer.php"; ?>
