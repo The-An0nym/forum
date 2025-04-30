@@ -12,7 +12,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-if(isset[$_GET['n']]) {
+if(isset($_GET['n'])) {
     $category = str_replace("-", " ", $_GET['n']);
     if($category != "") {
         $sql = "SELECT 
