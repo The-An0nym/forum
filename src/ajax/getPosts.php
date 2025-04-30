@@ -15,25 +15,16 @@ $path = $_SERVER['DOCUMENT_ROOT'];
         $thread_name = $_GET['t'];
         $sql = "SELECT 
                     users.username, 
+                    users.posts,
                     posts.post_id, 
                     posts.user_id, 
                     posts.content, 
                     posts.created, 
                     posts.edited,
-                    COALESCE(post_counts.user_post_count, 0) AS user_post_count
                 FROM 
                     posts 
                 LEFT JOIN 
                     users ON users.user_id = posts.user_id 
-                LEFT JOIN (
-                    SELECT 
-                        user_id, 
-                        COUNT(*) AS user_post_count
-                    FROM 
-                        posts
-                    GROUP BY 
-                        user_id
-                ) post_counts ON post_counts.user_id = posts.user_id
                 WHERE 
                     posts.thread = '$thread_name'
                 ORDER BY 
@@ -49,7 +40,7 @@ $path = $_SERVER['DOCUMENT_ROOT'];
             while($row = $result->fetch_assoc()) {
                 $post = new stdClass();
                 $post->username = $row["username"];
-                $post->userPostCount = $row["user_post_count"];
+                $post->userPostCount = $row["posts"];
                 $post->id = $row["post_id"];
                 $post->content = $row["content"];
                 $post->created = $row["created"];
