@@ -1,56 +1,56 @@
 const cont = document.getElementById("post-container");
 
 function getPosts() {
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onload = function() {
-        const dataJSON = JSON.parse(xmlhttp.responseText);
-        cont.innerHTML = "";
-        for(let i = 0; i < dataJSON.length; i++) {
-            const post = document.createElement("div");
-            post.className = "post";
-            post.id = dataJSON[i].id;
-            
-            const username = document.createElement("span");
-            username.className = "username"
-            username.textContent = dataJSON[i].username;
-            post.appendChild(username);
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onload = function () {
+    const dataJSON = JSON.parse(xmlhttp.responseText);
+    cont.innerHTML = "";
+    for (let i = 0; i < dataJSON.length; i++) {
+      const post = document.createElement("div");
+      post.className = "post";
+      post.id = dataJSON[i].id;
 
-            const userPostCount = document.createElement("span");
-            userPostCount.className = "user-post-count"
-            userPostCount.textContent = dataJSON[i].userPostCount;
-            post.appendChild(userPostCount);
+      const username = document.createElement("span");
+      username.className = "username";
+      username.textContent = dataJSON[i].username;
+      post.appendChild(username);
 
-            const content = document.createElement("span");
-            content.className = "content"
-            content.innerHTML = dataJSON[i].content;
-            post.appendChild(content);
+      const userPostCount = document.createElement("span");
+      userPostCount.className = "user-post-count";
+      userPostCount.textContent = dataJSON[i].userPostCount;
+      post.appendChild(userPostCount);
 
-            const created = document.createElement("span");
-            created.className = "created"
-            created.textContent = dataJSON[i].created;
-            post.appendChild(created);
+      const content = document.createElement("span");
+      content.className = "content";
+      content.innerHTML = dataJSON[i].content;
+      post.appendChild(content);
 
-            if(dataJSON[i].edited !== "0") {
-                const edited = document.createElement("span");
-                edited.className = "edited"
-                edited.textContent = "edited";
-                post.appendChild(edited);
-            }
+      const created = document.createElement("span");
+      created.className = "created";
+      created.textContent = dataJSON[i].created;
+      post.appendChild(created);
 
-            if(dataJSON[i].editable) {
-                const editable = document.createElement("button");
-                editable.className = "edit-button"
-                editable.textContent = "edit";
-                editable.setAttribute("onclick",`editPost("${dataJSON[i].id}")`)
-                post.appendChild(editable);
-            }
+      if (dataJSON[i].edited !== "0") {
+        const edited = document.createElement("span");
+        edited.className = "edited";
+        edited.textContent = "edited";
+        post.appendChild(edited);
+      }
 
-            cont.appendChild(post);
-        }
+      if (dataJSON[i].editable) {
+        const editable = document.createElement("button");
+        editable.className = "edit-button";
+        editable.textContent = "edit";
+        editable.setAttribute("onclick", `editPost("${dataJSON[i].id}")`);
+        post.appendChild(editable);
+      }
+
+      cont.appendChild(post);
     }
-    xmlhttp.open("GET", `getPosts.php?t=${thread}`);
-    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xmlhttp.send();
+  };
+  xmlhttp.open("GET", `/getPosts.php?t=${thread}`);
+  xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xmlhttp.send();
 }
 
 getPosts();
