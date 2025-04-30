@@ -5,9 +5,23 @@ php_value date.timezone America/New_York
 DirectoryIndex index.php index.html index.htm index2.html
 
 # In practice may be better to whitelist, but I like the simplicity and automatization of this one
-RedirectMatch 404 /\..*$
-RedirectMatch 404 ^/functions/.*$
+
+RedirectMatch 404 /\.._$
+RedirectMatch 404 ^/functions/._$
 
 ErrorDocument 403 https://errors.infinityfree.net/errors/403/
 ErrorDocument 404 https://errors.infinityfree.net/errors/404/
 ErrorDocument 500 /500.html
+
+RewriteEngine On
+
+# http -> https
+
+RewriteCond %{SERVER_PORT} !^443$
+RewriteRule (.\*) https://%{HTTP_HOST}/$1 [R=301,L]
+
+# / -> ?
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([a-zA-Z\_]+)/([a-zA-Z]+)$ $1.php?n=$2 [L]
