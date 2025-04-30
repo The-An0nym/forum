@@ -35,7 +35,6 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 
         $data = [];
         if ($result->num_rows > 0) {
-            $indx = 0;
             // output data of each row
             while($row = $result->fetch_assoc()) {
                 $post = new stdClass();
@@ -54,7 +53,6 @@ $path = $_SERVER['DOCUMENT_ROOT'];
                     $post->editable = false;
                 }
                 $data[] = $post;
-                $indx += 1;
             }
 
         $dataJSON = json_encode($data);
