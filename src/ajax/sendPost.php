@@ -27,6 +27,25 @@ if(include($path . '/functions/validateSession.php')) {
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
+
+    // Increment post count of user
+    $sql = "UPDATE users SET posts = posts +1 WHERE user_id = $user_id";
+    if ($conn->query($sql) === TRUE) {
+        echo "Incremented post count for user successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+
+    // Increment user post count of category and thread
+    $sql = "UPDATE categories c
+            INNER JOIN threads t ON t.category = c.name
+            SET c.posts = c.posts +1, t.posts = t.posts +1 
+            WHERE t.name = $thread";
+    if ($conn->query($sql) === TRUE) {
+        echo "Incremented post count for category successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
 } else {
     echo "Please Login to comment";
 }
