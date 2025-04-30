@@ -1,3 +1,4 @@
-<div style="font-size: 0.4em;">
+<style src="styles/footer.css"></style>
+<div class="footer">
 footer (to come)
 </div>

@@ -1,0 +1,30 @@
+.name {
+  font-weight: 800;
+  display: block;
+}
+
+.created {
+  font-size: 0.4em;
+}
+
+.lastCreated {
+  font-size: 0.4em;
+}
+
+.lastUser {
+  font-size: 0.5em;
+}
+
+.post-count {
+  font-size: 1em;
+  margin: 4px;
+  padding: 4px;
+  border: 1px black solid;
+}
+
+.thread-count {
+  font-size: 1em;
+  margin: 4px;
+  padding: 4px;
+  border: 1px black solid;
+}

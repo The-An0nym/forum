@@ -1,0 +1,22 @@
+.post {
+  margin: 4px;
+  padding: 4px;
+  border: 1px black solid;
+}
+
+.username {
+  font-weight: 800;
+  display: block;
+}
+
+.content {
+  font-size: 0.7em;
+}
+
+.created {
+  font-size: 0.4em;
+}
+
+.edited {
+  font-size: 0.4em;
+}
