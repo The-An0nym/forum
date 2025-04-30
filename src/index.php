@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="styles/topics.css" />
 </head>
 <body>
-    <?php include "basic/header.php"; ?>
+    <?php include "basic/menu.php"; ?>
 
     <?php
     $configs = include('functions/.config.php');
@@ -21,21 +21,14 @@
     die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "SELECT c.name, c.created, COALESCE(t.numThreads, 0) AS numThreads, COALESCE(p.numPosts, 0) AS numPosts 
-            FROM categories c 
-            LEFT JOIN ( SELECT category, COUNT(*) AS numThreads FROM threads GROUP BY category ) t 
-                ON t.category = c.name 
-            LEFT JOIN ( SELECT t.category, COUNT(*) AS numPosts FROM posts p 
-                INNER JOIN threads t 
-                    ON p.thread = t.name GROUP BY t.category ) p 
-                ON p.category = c.name
-            ";
+    $sql = "SELECT name, description, created, threads, posts 
+            FROM categories";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-        echo "<a href=\"/topic.php?c=" . $row["name"] . "\"><div class=\"category\"><span class=\"name\">" . $row["name"] . "</span><span class=\"date\">" . $row["created"] . "</span><span class=\"thread-count\">" . $row["numThreads"]. "</span><span class=\"post-count\">" . $row["numPosts"]. "</span></div></a>";
+        echo "<a href=\"/topic.php?c=" . $row["name"] . "\"><div class=\"category\"><span class=\"name\">" . $row["name"] . "</span><span class=\"description\">" . $row["description"] . "</span><span class=\"date\">" . $row["created"] . "</span><span class=\"thread-count\">" . $row["threads"]. "</span><span class=\"post-count\">" . $row["posts"]. "</span></div></a>";
       }
     } else {
       echo "ERROR: Failed to load";

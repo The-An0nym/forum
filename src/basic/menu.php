@@ -1,4 +1,4 @@
-<style src="styles/menu.css"></style>
+<link rel="stylesheet" href="styles/menu.css">
 <div class="menu">
     <?php
     session_start();

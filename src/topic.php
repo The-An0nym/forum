@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="styles/threads.css" />
 </head>
 <body>
-    <?php include "basic/header.php"; ?>
+    <?php include "basic/menu.php"; ?>
 
     <?php
     $configs = include('functions/.config.php');
@@ -25,20 +25,11 @@
     $sql = "SELECT 
                 t.name, 
                 t.created, 
-                COALESCE(p.numPosts, 0) AS numPosts,
+                t.posts,
                 u.username AS lastUser,
                 lp.created AS lastCreated
             FROM 
                 threads t
-            LEFT JOIN (
-                SELECT 
-                    thread, 
-                    COUNT(*) AS numPosts
-                FROM 
-                    posts
-                GROUP BY 
-                    thread
-            ) p ON t.name = p.thread
             LEFT JOIN (
                 SELECT 
                     p1.thread, 
@@ -66,7 +57,7 @@
     // output data of each row
     while($row = $result->fetch_assoc()) {
         $posts = 0;
-        echo "<a href=\"/thread.php?n=" . $row["name"] . "\"><div class=\"category\"><span class=\"name\">" . $row["name"] . "</span><span class=\"created\">" . $row["created"] . "</span><span class=\"lastCreated\">" . $row["lastCreated"]. "</span><span class=\"lastUser\">" . $row["lastUser"]. "</span><span class=\"post-count\">" . $row["numPosts"]. "</span></div></a>";
+        echo "<a href=\"/thread.php?n=" . $row["name"] . "\"><div class=\"thread\"><span class=\"name\">" . $row["name"] . "</span><span class=\"created\">" . $row["created"] . "</span><span class=\"lastCreated\">" . $row["lastCreated"]. "</span><span class=\"lastUser\">" . $row["lastUser"]. "</span><span class=\"post-count\">" . $row["posts"]. "</span></div></a>";
       }
     } else {
       echo "ERROR: Failed to load";

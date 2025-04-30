@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="styles/posts.css" />
 </head>
 <body>
-    <?php include "basic/header.php"; ?>
+    <?php include "basic/menu.php"; ?>
 
     <div id="post-container"></div>
 

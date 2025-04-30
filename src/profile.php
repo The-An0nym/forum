@@ -1,4 +1,4 @@
-<?php include "basic/header.php"; ?>
+<?php include "basic/menu.php"; ?>
 
 <?php
 echo "To come...";
