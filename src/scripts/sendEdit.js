@@ -5,7 +5,7 @@ function sendEdit(id) {
     editTxt.value = "";
     getPosts();
   };
-  xmlhttp.open("POST", "/sendEdit.php");
+  xmlhttp.open("POST", "/ajax/sendEdit.php");
   xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xmlhttp.send(
     `c=${encodeURIComponent(editTxt.value)}&i=${encodeURIComponent(id)}`

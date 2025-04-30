@@ -20,10 +20,10 @@
     const thread = \"" . str_replace("-", " ", $_GET["n"]) . "\"
     </script>
     " ?>
-    <script src="/sendPost.js"></script>
-    <script src="/sendEdit.js"></script>
-    <script src="/getPosts.js"></script>
-    <script src="/editPost.js"></script>
+    <script src="/scripts/sendPost.js"></script>
+    <script src="/scripts/sendEdit.js"></script>
+    <script src="/scripts/getPosts.js"></script>
+    <script src="/scripts/editPost.js"></script>
     <?php include $path . "/basic/footer.php"; ?>
 </body>
 </html>

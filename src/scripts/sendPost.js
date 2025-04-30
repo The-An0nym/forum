@@ -6,7 +6,7 @@ function send() {
     txt.value = "";
     getPosts();
   };
-  xmlhttp.open("POST", "/sendPost.php");
+  xmlhttp.open("POST", "/ajax/sendPost.php");
   xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xmlhttp.send(
     `c=${encodeURIComponent(txt.value)}&t=${encodeURIComponent(thread)}`

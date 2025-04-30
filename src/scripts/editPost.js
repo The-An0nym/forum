@@ -5,7 +5,7 @@ function editPost(id) {
   textarea.id = "editTxt";
   let button = document.createElement("button");
   button.textContent = "submit";
-  button.setAttribute("onclick", `/sendEdit("${id}")`);
+  button.setAttribute("onclick", `/ajax/sendEdit("${id}")`);
   div.appendChild(textarea);
   div.appendChild(button);
 }

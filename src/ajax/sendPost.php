@@ -23,9 +23,9 @@ if(include($path . '/functions/validateSession.php')) {
     $sql = "INSERT INTO posts (user_id, post_id, content, created, edited, thread)
     VALUES ('$user_id', '$post_id', '$cont', '$dtime', 'false', '$thread')";
     if ($conn->query($sql) === TRUE) {
-        popUp("Comment posted successfully");
+        echo "Comment posted successfully";
     } else {
-        popUp("Error: " . $sql . "<br>" . $conn->error);
+        echo "Error: " . $sql . "<br>" . $conn->error;
     }
 } else {
     echo "Please Login to comment";

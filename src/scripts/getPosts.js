@@ -48,7 +48,7 @@ function getPosts() {
       cont.appendChild(post);
     }
   };
-  xmlhttp.open("GET", `/getPosts.php?t=${thread}`);
+  xmlhttp.open("GET", `/ajax/getPosts.php?t=${thread}`);
   xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xmlhttp.send();
 }
