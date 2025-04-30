@@ -22,7 +22,7 @@
     die("Connection failed: " . $conn->connect_error);
     }
 
-    $category = $_GET['n'];
+    $category = str_replace("-", " ", $_GET['n']);
     $sql = "SELECT 
                 t.name, 
                 t.created, 
@@ -58,7 +58,7 @@
     // output data of each row
     while($row = $result->fetch_assoc()) {
         $posts = 0;
-        echo "<a href=\"/thread/" . $row["name"] . "\"><div class=\"thread\"><span class=\"name\">" . $row["name"] . "</span><span class=\"created\">" . $row["created"] . "</span><span class=\"lastCreated\">" . $row["lastCreated"]. "</span><span class=\"lastUser\">" . $row["lastUser"]. "</span><span class=\"post-count\">" . $row["posts"]. "</span></div></a>";
+        echo "<a href=\"/thread/" . str_replace(" ", "-", $row["name"]) . "\"><div class=\"thread\"><span class=\"name\">" . $row["name"] . "</span><span class=\"created\">" . $row["created"] . "</span><span class=\"lastCreated\">" . $row["lastCreated"]. "</span><span class=\"lastUser\">" . $row["lastUser"]. "</span><span class=\"post-count\">" . $row["posts"]. "</span></div></a>";
       }
     } else {
       echo "ERROR: Failed to load";

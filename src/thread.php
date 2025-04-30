@@ -17,13 +17,13 @@
     <button onclick="send()">Submit</button>
     <?php echo "
     <script>
-    const thread = \"" . $_GET["n"] . "\"
+    const thread = \"" . str_replace("-", " ", $_GET["n"]) . "\"
     </script>
     " ?>
-    <script src="sendPost.js"></script>
-    <script src="sendEdit.js"></script>
-    <script src="getPosts.js"></script>
-    <script src="editPost.js"></script>
+    <script src="/sendPost.js"></script>
+    <script src="/sendEdit.js"></script>
+    <script src="/getPosts.js"></script>
+    <script src="/editPost.js"></script>
     <?php include $path . "/basic/footer.php"; ?>
 </body>
 </html>

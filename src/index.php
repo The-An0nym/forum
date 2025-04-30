@@ -29,7 +29,7 @@
     if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-        echo "<a href=\"/topic/" . $row["name"] . "\"><div class=\"category\"><span class=\"name\">" . $row["name"] . "</span><span class=\"description\">" . $row["description"] . "</span><span class=\"date\">" . $row["created"] . "</span><span class=\"thread-count\">" . $row["threads"]. "</span><span class=\"post-count\">" . $row["posts"]. "</span></div></a>";
+        echo "<a href=\"/topic/" . str_replace(" ", "-", $row["name"]) . "\"><div class=\"category\"><span class=\"name\">" . $row["name"] . "</span><span class=\"description\">" . $row["description"] . "</span><span class=\"date\">" . $row["created"] . "</span><span class=\"thread-count\">" . $row["threads"]. "</span><span class=\"post-count\">" . $row["posts"]. "</span></div></a>";
       }
     } else {
       echo "ERROR: Failed to load";
