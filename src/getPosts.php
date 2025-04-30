@@ -1,5 +1,9 @@
 <?php
-    $configs = include('functions/.config.php');
+$path = $_SERVER['DOCUMENT_ROOT'];
+
+
+
+    $configs = include($path . 'functions/.config.php');
     extract($configs);
 
     // Create connection

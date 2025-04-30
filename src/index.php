@@ -1,17 +1,18 @@
+<?php $path = $_SERVER['DOCUMENT_ROOT']; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forums</title>
-    <link rel="stylesheet" href="styles/main.css" />
-    <link rel="stylesheet" href="styles/topics.css" />
+    <link rel="stylesheet" href="/styles/main.css" />
+    <link rel="stylesheet" href="/styles/topics.css" />
 </head>
 <body>
-    <?php include "basic/menu.php"; ?>
+    <?php include $path . "basic/menu.php"; ?>
 
     <?php
-    $configs = include('functions/.config.php');
+    $configs = include($path . 'functions/.config.php');
     extract($configs);
 
     // Create connection
@@ -39,6 +40,6 @@
 
     
 
-    <?php include "basic/footer.php"; ?>
+    <?php include $path . "basic/footer.php"; ?>
 </body>
 </html>

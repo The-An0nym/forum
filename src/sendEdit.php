@@ -1,6 +1,9 @@
 <?php
+$path = $_SERVER['DOCUMENT_ROOT'];
+
+
 // CONNECT
-$configs = include('functions/.config.php');
+$configs = include($path . 'functions/.config.php');
 extract($configs);
 
 // Create connection
@@ -11,7 +14,7 @@ if ($conn->connect_error) {
 }
 
 session_start();
-if(include('functions/validateSession.php')) {
+if(include($path . 'functions/validateSession.php')) {
     // idk about mysql_real_escape_string ??
     $cont = htmlspecialchars($_POST["c"]);
     $user_id = $_SESSION["user_id"];

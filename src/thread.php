@@ -1,14 +1,15 @@
+<?php $path = $_SERVER['DOCUMENT_ROOT']; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forums</title>
-    <link rel="stylesheet" href="styles/main.css" />
-    <link rel="stylesheet" href="styles/posts.css" />
+    <link rel="stylesheet" href="/styles/main.css" />
+    <link rel="stylesheet" href="/styles/posts.css" />
 </head>
 <body>
-    <?php include "basic/menu.php"; ?>
+    <?php include $path . "basic/menu.php"; ?>
 
     <div id="post-container"></div>
 
@@ -23,6 +24,6 @@
     <script src="sendEdit.js"></script>
     <script src="getPosts.js"></script>
     <script src="editPost.js"></script>
-    <?php include "basic/footer.php"; ?>
+    <?php include $path . "basic/footer.php"; ?>
 </body>
 </html>
