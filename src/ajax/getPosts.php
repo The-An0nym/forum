@@ -13,6 +13,8 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 
     if(isset($_GET['t'])) {
         $thread_name = $_GET['t'];
+        if($thread_name != "") {
+
         $sql = "SELECT 
                     users.username, 
                     users.posts,
@@ -29,41 +31,44 @@ $path = $_SERVER['DOCUMENT_ROOT'];
                     posts.thread = '$thread_name'
                 ORDER BY 
                     posts.created ASC";
-        $result = $conn->query($sql);
+            $result = $conn->query($sql);
 
-        session_start();
+            session_start();
 
-        $data = [];
-        if ($result->num_rows > 0) {
-            // output data of each row
-            while($row = $result->fetch_assoc()) {
-                $post = new stdClass();
-                $post->username = $row["username"];
-                $post->userPostCount = $row["posts"];
-                $post->id = $row["post_id"];
-                $post->content = $row["content"];
-                $post->created = $row["created"];
-                $post->edited = $row["edited"];
-                if(isset($_SESSION["user_id"])) {
-                if($row["user_id"] == $_SESSION["user_id"]) {
-                    $post->editable = true;
-                } else {
-                    $post->editable = false;
-                }} else {
-                    $post->editable = false;
+            $data = [];
+            if ($result->num_rows > 0) {
+                // output data of each row
+                while($row = $result->fetch_assoc()) {
+                    $post = new stdClass();
+                    $post->username = $row["username"];
+                    $post->userPostCount = $row["posts"];
+                    $post->id = $row["post_id"];
+                    $post->content = $row["content"];
+                    $post->created = $row["created"];
+                    $post->edited = $row["edited"];
+                    if(isset($_SESSION["user_id"])) {
+                    if($row["user_id"] == $_SESSION["user_id"]) {
+                        $post->editable = true;
+                    } else {
+                        $post->editable = false;
+                    }} else {
+                        $post->editable = false;
+                    }
+                    $data[] = $post;
                 }
-                $data[] = $post;
+
+                $dataJSON = json_encode($data);
+                echo $dataJSON;
+
+            } else {
+                echo "ERROR: Failed to load";
             }
-
-        $dataJSON = json_encode($data);
-        echo $dataJSON;
-
         } else {
-        echo "ERROR: Failed to load";
+            header('Location: /');
+            die();
         }
     } else {
-        header('Location: /');
-        die();
+        echo "ERROR: Invalid or missing argument";
     }
 
     $conn->close();

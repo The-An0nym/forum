@@ -2,18 +2,20 @@
 
 $path = $_SERVER['DOCUMENT_ROOT'];
 
-    $configs = include($path . '/functions/.config.php');
-    extract($configs);
+$configs = include($path . '/functions/.config.php');
+extract($configs);
 
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    // Check connection
-    if ($conn->connect_error) {
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
-    }
+}
 
+if(isset[$_GET['n']]) {
     $category = str_replace("-", " ", $_GET['n']);
-    $sql = "SELECT 
+    if($category != "") {
+        $sql = "SELECT 
                 t.name, 
                 t.created, 
                 t.posts,
@@ -42,26 +44,32 @@ $path = $_SERVER['DOCUMENT_ROOT'];
                     SELECT username, user_id FROM users
                 ) u ON u.user_id = lp.user_id
                 WHERE t.category = '$category'";
-    $result = $conn->query($sql);
+        $result = $conn->query($sql);
 
-    $data = [];
-    if ($result->num_rows > 0) {
-        // output data of each row
-        while($row = $result->fetch_assoc()) {
-            $post = new stdClass();
-            $post->name = $row["name"];
-            $post->created = $row["created"];
-            $post->postCount = $row["posts"];
-            $post->lastUser = $row["lastUser"];
-            $post->lastPost = $row["lastPost"];
-            $data[] = $post;
+        $data = [];
+        if ($result->num_rows > 0) {
+            // output data of each row
+            while($row = $result->fetch_assoc()) {
+                $post = new stdClass();
+                $post->name = $row["name"];
+                $post->created = $row["created"];
+                $post->postCount = $row["posts"];
+                $post->lastUser = $row["lastUser"];
+                $post->lastPost = $row["lastPost"];
+                $data[] = $post;
+            }
+
+            $dataJSON = json_encode($data);
+            echo $dataJSON;
+        } else {
+        echo "ERROR: Failed to load";
         }
-
-        $dataJSON = json_encode($data);
-        echo $dataJSON;
     } else {
-      echo "ERROR: Failed to load";
+        echo "ERROR: Invalid or missing argument";
     }
+} else {
+    echo "ERROR: Invalid or missing arguments";
+}
 
-    $conn->close();
-    ?>   
+$conn->close();
+?>   
