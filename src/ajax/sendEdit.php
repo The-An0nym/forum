@@ -22,7 +22,7 @@ if(include($path . '/functions/validateSession.php')) {
     $sql = "UPDATE posts
             SET content = '$cont', edited = '1'
             WHERE post_id = '$post_id' AND user_id = '$user_id'";
-    if ($conn->query($sql) !== TRUE) {
+    if ($conn->query($sql) === FALSE) {
         echo "An error has occured [EP0]";
     }
 } else {

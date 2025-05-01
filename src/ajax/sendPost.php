@@ -23,13 +23,13 @@ if(include($path . '/functions/validateSession.php')) {
         $user_id = $_SESSION["user_id"];
         $sql = "INSERT INTO posts (user_id, post_id, content, created, edited, thread)
         VALUES ('$user_id', '$post_id', '$cont', '$dtime', 'false', '$thread')";
-        if ($conn->query($sql) === TRUE) {
+        if ($conn->query($sql) === FALSE) {
             echo "An error has occured [SP0]";
         }
 
         // Increment post count of user
         $sql = "UPDATE users SET posts = posts +1 WHERE user_id = '$user_id'";
-        if ($conn->query($sql) === TRUE) {
+        if ($conn->query($sql) === FALSE) {
             echo "An error has occured [SP1]";
         }
 
@@ -38,7 +38,7 @@ if(include($path . '/functions/validateSession.php')) {
                 INNER JOIN threads t ON t.category = c.name
                 SET c.posts = c.posts +1, t.posts = t.posts +1 
                 WHERE t.name = '$thread'";
-        if ($conn->query($sql) !== TRUE) {
+        if ($conn->query($sql) === FALSE) {
             echo "An error has occured [SP2]";
         }
     } else {
