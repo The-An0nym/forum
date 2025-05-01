@@ -6,8 +6,8 @@ DirectoryIndex index.php index.html index.htm index2.html
 
 # In practice may be better to whitelist, but I like the simplicity and automatization of this one
 
-RedirectMatch 404 /\.._$
-RedirectMatch 404 ^/functions/._$
+RedirectMatch 404 /\..
+RedirectMatch 404 /functions/.
 
 ErrorDocument 403 https://errors.infinityfree.net/errors/403/
 ErrorDocument 404 https://errors.infinityfree.net/errors/404/

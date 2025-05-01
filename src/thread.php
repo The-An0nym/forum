@@ -17,6 +17,7 @@
     <button onclick="send()">Submit</button>
     
     <script> const thread = "<?php echo str_replace("-", " ", $_GET["n"]) ?>" </script>
+    <script src="/scripts/errorMessage.js"></script>
     <script src="/scripts/sendPost.js"></script>
     <script src="/scripts/sendEdit.js"></script>
     <script src="/scripts/getPosts.js"></script>

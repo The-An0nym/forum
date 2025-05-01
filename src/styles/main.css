@@ -9,3 +9,13 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+.error-message {
+  border-radius: 5px;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #faa;
+  padding: 1%;
+  font-size: 0.8em;
+}

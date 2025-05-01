@@ -38,7 +38,7 @@
     $conn->close();
     ?>
 
-    
+    <script src="/scripts/errorMessage.js"></script>
 
     <?php include $path . "/basic/footer.php"; ?>
 </body>

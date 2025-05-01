@@ -2,6 +2,7 @@ function sendEdit(id) {
   const editTxt = document.getElementById("editTxt");
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onload = function () {
+    console.log(xmlhttp.responseText); // Check if there is response (for testing purposes)
     editTxt.value = "";
     getPosts();
   };
