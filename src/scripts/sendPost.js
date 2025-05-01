@@ -1,18 +1,18 @@
 const txt = document.getElementById("post-content");
 
-function send() {
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onload = function () {
-    if (xmlhttp.responseText !== "") {
-      errorMessage(xmlhttp.responseText);
-    } else {
-      txt.value = "";
-    }
-    getPosts();
-  };
-  xmlhttp.open("POST", "/ajax/sendPost.php");
-  xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xmlhttp.send(
-    `c=${encodeURIComponent(txt.value)}&t=${encodeURIComponent(thread)}`
-  );
+async function send() {
+  const response = await fetch("/ajax/sendPost.php", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/x-www-form-urlencoded",
+    },
+    body: `c=${encodeURIComponent(txt.value)}&t=${encodeURIComponent(thread)}`,
+  });
+  const result = await response.text();
+  if (result !== "") {
+    errorMessage(result);
+  } else {
+    txt.value = "";
+  }
+  getPosts();
 }

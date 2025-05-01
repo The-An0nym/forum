@@ -24,17 +24,13 @@ if(include($path . '/functions/validateSession.php')) {
         $sql = "INSERT INTO posts (user_id, post_id, content, created, edited, thread)
         VALUES ('$user_id', '$post_id', '$cont', '$dtime', 'false', '$thread')";
         if ($conn->query($sql) === TRUE) {
-            echo "Comment posted successfully";
-        } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
+            echo "An error has occured [SP0]";
         }
 
         // Increment post count of user
         $sql = "UPDATE users SET posts = posts +1 WHERE user_id = '$user_id'";
         if ($conn->query($sql) === TRUE) {
-            echo "Incremented post count for user successfully";
-        } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
+            echo "An error has occured [SP1]";
         }
 
         // Increment user post count of category and thread
@@ -42,10 +38,8 @@ if(include($path . '/functions/validateSession.php')) {
                 INNER JOIN threads t ON t.category = c.name
                 SET c.posts = c.posts +1, t.posts = t.posts +1 
                 WHERE t.name = '$thread'";
-        if ($conn->query($sql) === TRUE) {
-            echo "Incremented post count for category successfully";
-        } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
+        if ($conn->query($sql) !== TRUE) {
+            echo "An error has occured [SP2]";
         }
     } else {
         echo "ERROR: Invalid or missing arguments.";

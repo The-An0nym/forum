@@ -22,10 +22,8 @@ if(include($path . '/functions/validateSession.php')) {
     $sql = "UPDATE posts
             SET content = '$cont', edited = '1'
             WHERE post_id = '$post_id' AND user_id = '$user_id'";
-    if ($conn->query($sql) === TRUE) {
-        echo "0";
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+    if ($conn->query($sql) !== TRUE) {
+        echo "An error has occured [EP0]";
     }
 } else {
     echo "Please Login to comment";
