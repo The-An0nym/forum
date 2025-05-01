@@ -3,7 +3,11 @@ const txt = document.getElementById("post-content");
 function send() {
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onload = function () {
-    txt.value = "";
+    if (xmlhttp.responseText !== "") {
+      errorMessage(xmlhttp.responseText);
+    } else {
+      txt.value = "";
+    }
     getPosts();
   };
   xmlhttp.open("POST", "/ajax/sendPost.php");
