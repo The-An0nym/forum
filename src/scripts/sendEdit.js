@@ -1,11 +1,11 @@
 async function sendEdit(id) {
   const editTxt = document.getElementById("editTxt");
   const response = await fetch("/ajax/sendEdit.php", {
-    Method: "POST",
-    Headers: {
+    method: "POST",
+    headers: {
       "Content-type": "application/x-www-form-urlencoded",
     },
-    Body: `c=${encodeURIComponent(editTxt.value)}&i=${encodeURIComponent(id)}`,
+    body: `c=${encodeURIComponent(editTxt.value)}&i=${encodeURIComponent(id)}`,
   });
   const result = await response.text();
   if (result !== "") {
