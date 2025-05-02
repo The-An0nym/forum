@@ -1,7 +1,7 @@
 const cont = document.getElementById("thread-container");
 
 async function getThreads() {
-  const response = await fetch(`/ajax/getThreads.php?n=${category}`);
+  const response = await fetch(`/api/getThreads.php?n=${category}`);
   try {
     const dataJSON = await response.json();
     cont.innerHTML = "";

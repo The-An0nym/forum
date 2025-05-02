@@ -1,7 +1,7 @@
 const cont = document.getElementById("post-container");
 
 async function getPosts() {
-  const response = await fetch(`/ajax/getPosts.php?t=${thread}`);
+  const response = await fetch(`/api/getPosts.php?t=${thread}`);
   try {
     const dataJSON = await response.json();
     cont.innerHTML = "";

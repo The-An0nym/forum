@@ -26,7 +26,7 @@ if(include($path . '/functions/validateSession.php')) {
         echo "An error has occured [EP0]";
     }
 } else {
-    echo "Please Login to comment";
+    echo "Please Login to edit posts";
 }
 
 $conn->close();

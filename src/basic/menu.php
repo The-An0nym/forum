@@ -10,8 +10,9 @@
         <?php
     } else {
         ?>
+        <script src="/scripts/login.js"></script>
         <span class="home menu-button"><a href="/">home</a></span>
-        <span class="login menu-button"><a href="/login.php">login</a></span>
+        <span class="login menu-button" onclick="createLogin()">login</span>
         <span class="sign-up menu-button"><a href="/signup.php">sign up</a></span>
         <?php 
     } 

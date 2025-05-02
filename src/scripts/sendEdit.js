@@ -1,6 +1,6 @@
 async function sendEdit(id) {
   const editTxt = document.getElementById("editTxt");
-  const response = await fetch("/ajax/sendEdit.php", {
+  const response = await fetch("/api/sendEdit.php", {
     method: "POST",
     headers: {
       "Content-type": "application/x-www-form-urlencoded",

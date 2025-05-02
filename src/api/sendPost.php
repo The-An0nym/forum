@@ -45,7 +45,7 @@ if(include($path . '/functions/validateSession.php')) {
         echo "ERROR: Invalid or missing arguments.";
     }
 } else {
-    echo "Please Login to comment";
+    echo "Please Login to post";
 }
 
 $conn->close();
