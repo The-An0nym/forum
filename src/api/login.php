@@ -35,6 +35,7 @@ if(isset($_POST["u"], $_POST["p"])) {
             VALUES ('$user_id', '$ip', '$user_agent', '$session_id', '$dtime')";
 
             if ($conn->query($sql) === TRUE) {
+                session_start();
                 $_SESSION['user_id'] = $user_id;
                 $_SESSION['session_id'] = $session_id;
                 include($path . '/functions/deleteExpiredSessions.php');
@@ -51,6 +52,7 @@ if(isset($_POST["u"], $_POST["p"])) {
     } else {
         echo "This account does not exist!<br>Try signing up instead?";
     }
+
 } else {
     echo "ERROR: L0";
 }
