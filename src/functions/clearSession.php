@@ -1,6 +1,19 @@
 <?php
-// Needs to be connected to db
-// Needs to be within session start()
+$path = $_SERVER['DOCUMENT_ROOT'];
+include($path . '/functions/.config.php');
+
+// Get Connection
+$conn = getConn();
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+if(!session_id()) {
+    session_start();
+}
+
 echo "deleteing expired sessions...";
 include('deleteExpiredSessions.php');
 

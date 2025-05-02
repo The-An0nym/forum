@@ -1,6 +1,19 @@
 <?php
-// Server needs to be connected
-// Session needs to have been started
+$path = $_SERVER['DOCUMENT_ROOT'];
+include($path . '/functions/.config.php');
+
+// Get connection
+$conn = getConn();
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+if(!session_id()) {
+    session_start();
+}
+
 if(!isset($_SESSION['user_id']) || !isset($_SESSION['session_id'])) {
     return false;
 } else {

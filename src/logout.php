@@ -1,19 +1,20 @@
 <?php
+$path = $_SERVER['DOCUMENT_ROOT'];
+include($path . '/functions/.config.php');
 
-// CONNECT
-$configs = include('functions/.config.php');
-extract($configs);
+// Get connection
+$conn = getConn();
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
 // Check connection
 if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
 
-session_start();
+if(!session_id()) {
+  session_start();
+}
 
-$res = include('functions/clearSession.php');
+$res = include($path . '/functions/clearSession.php');
 if($res === "PASS") {
     header('Location: https://quir.free.nf');
 } else {

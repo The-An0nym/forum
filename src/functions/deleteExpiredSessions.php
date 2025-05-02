@@ -1,4 +1,19 @@
 <?php
+$path = $_SERVER['DOCUMENT_ROOT'];
+include($path . '/functions/.config.php');
+
+// Get connection
+$conn = getConn();
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+if(!session_id()) {
+    session_start();
+}
+
 $user_id = $_SESSION['user_id'];
 
 $delArr = array();

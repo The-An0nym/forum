@@ -1,15 +1,13 @@
 <?php
 $path = $_SERVER['DOCUMENT_ROOT'];
+include($path . '/functions/.config.php');
 
-// CONNECT
-$configs = include($path . '/functions/.config.php');
-extract($configs);
+// Get connection
+$conn = getConn();
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
 // Check connection
 if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
 
 session_start();

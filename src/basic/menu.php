@@ -1,7 +1,12 @@
+<?php
+if(!session_id()) {
+    session_start();
+}
+?>
+
 <link rel="stylesheet" href="/styles/menu.css">
 <div class="menu">
     <?php
-    session_start();
     if(isset($_SESSION['user_id'])) {
         ?>
         <span class="profile menu-button"><a href="/profile.php">profile</a></span>
