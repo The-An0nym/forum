@@ -44,7 +44,7 @@ async function getThreads() {
       cont.appendChild(threadWrapper);
     }
   } catch {
-    errorMessage(xmlhttp.responseText);
+    errorMessage(response.text());
   }
 }
 

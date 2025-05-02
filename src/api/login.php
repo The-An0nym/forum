@@ -13,10 +13,10 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
     
-if(isset($_POST["u"], $_POST["p1"])) {
+if(isset($_POST["u"], $_POST["p"])) {
    
-    $username = htmlspecialchars($_POST["u"]) // idk about mysql_real_escape_string ??
-    $password = $_POST["p1"]
+    $username = htmlspecialchars($_POST["u"]); // idk about mysql_real_escape_string ??
+    $password = $_POST["p"];
 
     $sql = "SELECT password, user_id FROM users WHERE username='$username'";
     $result = $conn->query($sql);
@@ -52,7 +52,7 @@ if(isset($_POST["u"], $_POST["p1"])) {
         echo "This account does not exist!<br>Try signing up instead?";
     }
 } else {
-    echo "ERROR: L0"
+    echo "ERROR: L0";
 }
 
 $conn->close();

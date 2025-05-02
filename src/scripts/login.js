@@ -33,7 +33,7 @@ async function login() {
     headers: {
       "Content-type": "application/x-www-form-urlencoded",
     },
-    body: `u=${encodeURIComponent(user.value)}&p1=${encodeURIComponent(
+    body: `u=${encodeURIComponent(user.value)}&p=${encodeURIComponent(
       pswd.value
     )}`,
   });

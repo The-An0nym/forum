@@ -48,7 +48,7 @@ async function getPosts() {
       cont.appendChild(post);
     }
   } catch {
-    errorMessage(xmlhttp.responseText);
+    errorMessage(response.text());
   }
 }
 
