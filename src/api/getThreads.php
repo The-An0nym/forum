@@ -1,7 +1,7 @@
 <?php
 
 $path = $_SERVER['DOCUMENT_ROOT'];
-include($path . '/functions/.config.php');
+include $path . '/functions/.connect.php' ;
 
 // Get connection
 $conn = getConn();

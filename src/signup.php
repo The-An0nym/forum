@@ -13,15 +13,16 @@
 <div id="Error" style="display:none;">AN ERROR HAS OCCURED</div>
 
 <?php
-        $configs = include('functions/.config.php');
-        extract($configs);
-        
-        // Create connection
-        $conn = new mysqli($servername, $username, $password, $dbname);
+        $path = $_SERVER['DOCUMENT_ROOT'];
+        include $path . '/functions/.connect.php' ;
+
+        // Get connection
+        $conn = getConn();
+
         // Check connection
         if ($conn->connect_error) {
-          die("Connection failed: " . $conn->connect_error);
-        }
+            die("Connection failed: " . $conn->connect_error);
+        } 
 
         session_start();
         if (isset($_POST["submit"])) {

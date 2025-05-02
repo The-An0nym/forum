@@ -1,6 +1,6 @@
 <?php 
 $path = $_SERVER['DOCUMENT_ROOT'];
-include($path . '/functions/.config.php');
+include $path . '/functions/.connect.php' ;
 
 // Get connection
 $conn = getConn();
@@ -24,16 +24,6 @@ if ($conn->connect_error) {
     <?php include $path . "/basic/menu.php"; ?>
 
     <?php
-    $configs = include($path . '/functions/.config.php');
-    extract($configs);
-
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    // Check connection
-    if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-    }
-
     $sql = "SELECT name, description, created, threads, posts 
             FROM categories";
     $result = $conn->query($sql);
