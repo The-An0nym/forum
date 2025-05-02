@@ -44,10 +44,10 @@ async function signUp() {
     )}&p2=${encodeURIComponent(pswdConf.value)}`,
   });
   const result = await response.text();
-  if (result !== "") {
+  if (/\S/.test(result)) {
     errorMessage(result);
   } else {
     loginCont.remove();
-    // Refresh
+    location.reload();
   }
 }

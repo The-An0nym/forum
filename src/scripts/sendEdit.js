@@ -8,7 +8,7 @@ async function sendEdit(id) {
     body: `c=${encodeURIComponent(editTxt.value)}&i=${encodeURIComponent(id)}`,
   });
   const result = await response.text();
-  if (result !== "") {
+  if (/\S/.test(result)) {
     errorMessage(result);
   } else {
     editTxt.value = "";

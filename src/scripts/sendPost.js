@@ -9,7 +9,7 @@ async function send() {
     body: `c=${encodeURIComponent(txt.value)}&t=${encodeURIComponent(thread)}`,
   });
   const result = await response.text();
-  if (result !== "") {
+  if (/\S/.test(result)) {
     errorMessage(result);
   } else {
     txt.value = "";

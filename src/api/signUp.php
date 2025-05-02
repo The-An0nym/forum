@@ -1,4 +1,3 @@
-
 <?php
 $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
@@ -15,12 +14,12 @@ if(!session_id()) {
   session_start();
 } 
         
-if (isset($_POST['u']), isset($_POST['p1']), isset($_POST['p2'])) {
-    $username = $htmlspecialchars(["u"]); // idk about mysql_real_escape_string ??
+if (isset($_POST['u'], $_POST['p1'], $_POST['p2'])) {
+    $username = htmlspecialchars($_POST["u"]); // idk about mysql_real_escape_string ??
     $password = $_POST["p1"];
     $password2 = $_POST["p2"];
             
-    if(strlen($username) <= 16 && strlen($username) >= 4 && strlen($password) <= 64 && strlen($password) >= 8 && preg_match('/^[A-z0-9.\-+]*$/i', $username) == 1) {
+    if(strlen($username) <= 16 && strlen($username) >= 4 && strlen($password) <= 64 && strlen($password) >= 8 && preg_match('/^[A-z0-9.\-+]*$/i', $username) == 1 && $password === $password2) {
 
         $sql = "SELECT * FROM users WHERE username='$username'";
         $result = $conn->query($sql);
@@ -68,6 +67,8 @@ if (isset($_POST['u']), isset($_POST['p1']), isset($_POST['p2'])) {
         echo "Max 50. chars allowed for your password";
     } else if(strlen($username) < 8) {
         echo "Min. 8 chars needed for password";
+    } else if($password !== $password2) {
+        echo "Passwords do not match";
     } else {
         echo "no input";
     }
