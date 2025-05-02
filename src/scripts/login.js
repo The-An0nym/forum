@@ -42,6 +42,6 @@ async function login() {
     errorMessage(result);
   } else {
     loginCont.remove();
-    // Refresh
+    location.reload();
   }
 }

@@ -40,7 +40,7 @@ if(isset($_POST["u"], $_POST["p"])) {
                 exit;
 
             } else {
-              echo "Login attempt failed, please try again";
+              echo "Login failed: Please try again later";
             }
 
         } else {
@@ -48,11 +48,11 @@ if(isset($_POST["u"], $_POST["p"])) {
         }
 
     } else {
-        echo "This account does not exist!<br>Try signing up instead?";
+        echo "This account does not exist! Try signing up instead?";
     }
 
 } else {
-    echo "ERROR: L0";
+    echo "Login failed: Please try again later";
 }
 
 $conn->close();

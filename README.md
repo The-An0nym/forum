@@ -8,7 +8,8 @@ PHP x MySQL Forum (using infinityFree)
 - Set character limits and other user input limits
 - Implement adding theads
 - Implement user profile page
-- Make Login, Sign-in & Logout (Logout script imported via menu) based on AJAX
+- Make post/thread inputs not show when not logged in
+- Make sign-up & Logout (Logout script imported via menu) based on AJAX
 - Make initial load with PHP, all subsequent calls with AJAX (-> Makes refreshing faster by ~100ms. Subsequent calls by AJAX are ~100ms faster than refreshing)
 
 - Make clearance levels and moderation tools

@@ -17,7 +17,7 @@ function createSignUp() {
 
   const submitButton = document.createElement("button");
   submitButton.textContent = "Login";
-  submitButton.setAttribute("onclick", "login()");
+  submitButton.setAttribute("onclick", "signUp()");
 
   container.appendChild(username);
   container.appendChild(password);
@@ -27,7 +27,7 @@ function createSignUp() {
   document.body.prepend(container);
 }
 
-async function sightUp() {
+async function signUp() {
   const user = document.getElementById("username");
   const pswd = document.getElementById("password");
   const pswdConf = document.getElementById("password-confirmation");

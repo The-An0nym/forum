@@ -16,9 +16,10 @@ if(!session_id()) {
     } else {
         ?>
         <script src="/scripts/login.js"></script>
+        <script src="/scripts/sighUp.js"></script>
         <span class="home menu-button"><a href="/">home</a></span>
         <span class="login menu-button" onclick="createLogin()">login</span>
-        <span class="sign-up menu-button"><a href="/signup.php">sign up</a></span>
+        <span class="sign-up menu-button" onclick="createSignUp()">sign up</span>
         <?php 
     } 
     ?>
