@@ -1,4 +1,9 @@
-<?php $path = $_SERVER['DOCUMENT_ROOT']; ?>
+<?php 
+$path = $_SERVER['DOCUMENT_ROOT']; 
+
+if(!session_id()) {
+    session_start();
+} ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +18,7 @@
 
     <div id="thread-container"></div>
 
-    <?php if(include $path . "/functions/validSession.php") { ?>
+    <?php if(isset($_SESSION['user_id'])) { ?>
         <input id="thread-name" placeholder="Thread title..."></input>
         <textarea id="post-content" placeholder="Type your post here..."></textarea>
         <button onclick="createThread()">Submit</button>
