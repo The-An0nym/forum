@@ -1,7 +1,7 @@
 <?php
 $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
-include $path . '/function/slugify.php';
+include($path . '/functions/slugify.php');
 
 // Get connection
 $conn = getConn();
@@ -24,12 +24,11 @@ if(include($path . '/functions/validateSession.php')) {
 
         $result = $conn->query($sql);
         if ($result->num_rows == 1) {
-            $threadName = $_POST["t"];
+            $threadName = trim(htmlspecialchars($_POST["t"]), "\u{0009}\u{000a}\u{000b}\u{000c}\u{000d}\u{0020}\u{00a0}\u{0085}\u{1680}\u{180e}\u{2000}\u{2001}\u{2002}\u{2003}\u{2004}\u{2005}\u{2006}\u{2007}\u{2008}\u{2009}\u{200a}\u{200b}\u{2028}\u{2029}\u{202f}\u{205f}\u{3000}\u{feff}"); // idk about mysql_real_escape_string ??
             $category_id = $result->fetch_assoc()["id"];
-            $category = $_POST["c"];
             $cont = trim(htmlspecialchars($_POST["p"]), "\u{0009}\u{000a}\u{000b}\u{000c}\u{000d}\u{0020}\u{00a0}\u{0085}\u{1680}\u{180e}\u{2000}\u{2001}\u{2002}\u{2003}\u{2004}\u{2005}\u{2006}\u{2007}\u{2008}\u{2009}\u{200a}\u{200b}\u{2028}\u{2029}\u{202f}\u{205f}\u{3000}\u{feff}"); // idk about mysql_real_escape_string ??
 
-            if(strlen($cont) !== 0 && strlen($cont) <= 2000 && strlen($threadName) <= 64 && strlen($threadName) >= 8 && preg_match('/^[A-z0-9-_!?().,]*$/i', $threadName) == 1) {
+            if(strlen($cont) !== 0 && strlen($cont) <= 2000 && strlen($threadName) <= 64 && strlen($threadName) >= 8) {
                 // Create Thread
                 $dtime = date('Y-m-d H:i:s');
                 $thread_id = uniqid(rand(), true);
@@ -67,8 +66,6 @@ if(include($path . '/functions/validateSession.php')) {
                 echo "No content";
             } else if(strlen($cont) > 2000) {
                 echo "2000 character limit surpassed";
-            } else if(preg_match('/^[A-z0-9-_!?().,]*$/i', $threadName) != 1) {
-                echo "Only characters a-Z 0-9 - _ ! ? ( ) . , are allowed";
             } else if(strlen($threadName) > 64) {
                 echo "Max. 64 chars allowed for thread names";
             } else if(strlen($threadName) < 8) {

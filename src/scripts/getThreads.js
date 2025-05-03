@@ -2,6 +2,7 @@ const cont = document.getElementById("thread-container");
 
 async function getThreads() {
   const response = await fetch(`/api/getThreads.php?s=${slug}`);
+  const clone = response.clone();
   try {
     const dataJSON = await response.json();
     cont.innerHTML = "";
@@ -42,7 +43,7 @@ async function getThreads() {
       cont.appendChild(threadWrapper);
     }
   } catch {
-    errorMessage(response.text());
+    errorMessage(clone.text());
   }
 }
 

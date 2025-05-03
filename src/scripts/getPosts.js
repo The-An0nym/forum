@@ -2,6 +2,7 @@ const cont = document.getElementById("post-container");
 
 async function getPosts() {
   const response = await fetch(`/api/getPosts.php?s=${slug}`);
+  const clone = response.clone();
   try {
     const dataJSON = await response.json();
     cont.innerHTML = "";
@@ -48,7 +49,7 @@ async function getPosts() {
       cont.appendChild(post);
     }
   } catch {
-    errorMessage(response.text());
+    errorMessage(clone.text());
   }
 }
 

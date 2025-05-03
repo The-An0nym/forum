@@ -17,7 +17,8 @@ async function createThread() {
   if (/\S/.test(result)) {
     errorMessage(result);
   } else {
-    txt.value = "";
-    getPosts();
+    threadName.value = "";
+    content.value = "";
+    getThreads();
   }
 }
