@@ -6,11 +6,11 @@ async function getThreads() {
     const dataJSON = await response.json();
     cont.innerHTML = "";
     for (let i = 0; i < dataJSON.length; i++) {
-      const URLEscapedName = dataJSON[i].name.replaceAll(" ", "-");
+      const URIname = encodeURIComponent(dataJSON[i].name.replaceAll(" ", "-"));
 
       const threadWrapper = document.createElement("a");
       threadWrapper.className = "thread-wrapper";
-      threadWrapper.setAttribute("href", `/thread/${URLEscapedName}`);
+      threadWrapper.setAttribute("href", `/thread/${URIname}`);
 
       const thread = document.createElement("div");
       thread.className = "thread";

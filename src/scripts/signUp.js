@@ -16,7 +16,7 @@ function createSignUp() {
   passwordConfirmation.id = "password-confirmation";
 
   const submitButton = document.createElement("button");
-  submitButton.textContent = "Login";
+  submitButton.textContent = "Sign-up";
   submitButton.setAttribute("onclick", "signUp()");
 
   container.appendChild(username);
