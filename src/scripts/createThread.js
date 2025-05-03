@@ -7,9 +7,9 @@ async function createThread() {
     headers: {
       "Content-type": "application/x-www-form-urlencoded",
     },
-    body: `n=${encodeURIComponent(threadName.value)}&p=${encodeURIComponent(
+    body: `t=${encodeURIComponent(threadName.value)}&p=${encodeURIComponent(
       content.value
-    )}&c=${encodeURIComponent(category)}`,
+    )}&s=${slug}`,
   });
 
   const result = await response.text();

@@ -6,7 +6,7 @@ async function sendPost() {
     headers: {
       "Content-type": "application/x-www-form-urlencoded",
     },
-    body: `c=${encodeURIComponent(txt.value)}&t=${encodeURIComponent(thread)}`,
+    body: `c=${encodeURIComponent(txt.value)}&s=${slug}`,
   });
 
   const result = await response.text();

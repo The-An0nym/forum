@@ -13,6 +13,7 @@ PHP x MySQL Forum (using infinityFree)
 - Make initial load with PHP, all subsequent calls with Fetch (-> Makes refreshing faster by ~100ms. Subsequent calls via API are ~100ms faster than refreshing)
 - Check if directory (thread or category) exists before adding posts/threads to them
 - Implement Slug, Name & ID for each thread and topic
+- Fix Javascript body stream issue (cannot call .text() after already calling .json())
 
 - Make clearance levels and moderation tools
 - Make notification system
