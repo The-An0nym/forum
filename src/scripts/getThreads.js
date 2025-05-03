@@ -1,12 +1,13 @@
 const cont = document.getElementById("thread-container");
 
 async function getThreads() {
-  const response = await fetch(`/api/getThreads.php?n=${category}`);
+  const response = await fetch(`/api/getThreads.php?s=${slug}`);
   try {
     const dataJSON = await response.json();
     cont.innerHTML = "";
     for (let i = 0; i < dataJSON.length; i++) {
       const URIname = encodeURIComponent(dataJSON[i].name.replaceAll(" ", "-"));
+      // Take slug instead
 
       const threadWrapper = document.createElement("a");
       threadWrapper.className = "thread-wrapper";

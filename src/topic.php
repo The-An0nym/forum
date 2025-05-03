@@ -24,7 +24,7 @@ if(!session_id()) {
         <button onclick="createThread()">Submit</button>
     <?php } ?>
 
-    <script> const category = "<?php echo $_GET["n"] ?>" </script>
+    <script> const slug = "<?php echo $_GET["s"] ?>" </script>
     <script src="/scripts/errorMessage.js"></script>
     <script src="/scripts/getThreads.js"></script>
     <script src="/scripts/createThread.js"></script>

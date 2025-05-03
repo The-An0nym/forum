@@ -23,7 +23,7 @@ if(!session_id()) {
         <button onclick="sendPost()">Submit</button>
     <?php } ?>
     
-    <script> const thread = "<?php echo str_replace("-", " ", $_GET["n"]) ?>" </script>
+    <script> const slug = "<?php echo $_GET["s"] ?>" </script>
     <script src="/scripts/errorMessage.js"></script>
     <script src="/scripts/sendPost.js"></script>
     <script src="/scripts/sendEdit.js"></script>
