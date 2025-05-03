@@ -27,7 +27,7 @@ if(!session_id()) {
     <script> const category = "<?php echo $_GET["n"] ?>" </script>
     <script src="/scripts/errorMessage.js"></script>
     <script src="/scripts/getThreads.js"></script>
-    <script src="/scripts/sendThread.js"></script>
+    <script src="/scripts/createThread.js"></script>
 
 
     <?php include $path . "/basic/footer.php"; ?>

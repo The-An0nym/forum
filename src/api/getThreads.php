@@ -11,38 +11,42 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-if(isset($_GET['n'])) {
-    $category = str_replace("-", " ", $_GET['n']);
+if(isset($_GET['s'])) {
+    $slug = $_GET['s'];
+    
     if($category != "") {
         $sql = "SELECT 
-                t.name, 
-                t.created, 
-                t.posts,
-                u.username AS lastUser,
-                lp.created AS lastPost
-            FROM 
-                threads t
-            LEFT JOIN (
-                SELECT 
-                    p1.thread, 
-                    p1.user_id,
-                    p1.created
+                    t.name, 
+                    t.created, 
+                    t.posts,
+                    u.username AS lastUser,
+                    lp.created AS lastCreated
                 FROM 
-                    posts p1
-                INNER JOIN (
+                    threads t
+                JOIN categories c ON c.id = t.category_id
+                LEFT JOIN (
                     SELECT 
-                        thread, 
-                        MAX(created) AS maxCreated
+                        p1.thread_id, 
+                        p1.user_id,
+                        p1.created
                     FROM 
-                        posts
-                    GROUP BY 
-                        thread
-                ) p2 ON p1.thread = p2.thread AND p1.created = p2.maxCreated
-            ) lp ON t.name = lp.thread
-            INNER JOIN (
+                        posts p1
+                    INNER JOIN (
+                        SELECT 
+                            thread_id, 
+                            MAX(created) AS maxCreated
+                        FROM 
+                            posts
+                        GROUP BY 
+                            thread_id
+                    ) p2 ON p1.thread_id = p2.thread_id AND p1.created = p2.maxCreated
+                ) lp ON t.id = lp.thread_id
+                LEFT JOIN (
                     SELECT username, user_id FROM users
                 ) u ON u.user_id = lp.user_id
-                WHERE t.category = '$category'";
+                WHERE 
+                    c.slug = '$slug'";
+
         $result = $conn->query($sql);
 
         $data = [];

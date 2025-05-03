@@ -19,7 +19,7 @@ if(include($path . '/functions/validateSession.php')) {
     if(isset($_POST["c"], $_POST["p"], $_POST["n"])) {
         $category = $_POST["c"];
         $cont = trim(htmlspecialchars($_POST["p"]), "\u{0009}\u{000a}\u{000b}\u{000c}\u{000d}\u{0020}\u{00a0}\u{0085}\u{1680}\u{180e}\u{2000}\u{2001}\u{2002}\u{2003}\u{2004}\u{2005}\u{2006}\u{2007}\u{2008}\u{2009}\u{200a}\u{200b}\u{2028}\u{2029}\u{202f}\u{205f}\u{3000}\u{feff}"); // idk about mysql_real_escape_string ??
-        $threadName = trim(htmlspecialchars($_POST["n"]), "\u{0009}\u{000a}\u{000b}\u{000c}\u{000d}\u{0020}\u{00a0}\u{0085}\u{1680}\u{180e}\u{2000}\u{2001}\u{2002}\u{2003}\u{2004}\u{2005}\u{2006}\u{2007}\u{2008}\u{2009}\u{200a}\u{200b}\u{2028}\u{2029}\u{202f}\u{205f}\u{3000}\u{feff}"); // idk about mysql_real_escape_string ??
+        $threadName = str_replace(" ", "-", trim(htmlspecialchars($_POST["n"]), "\u{0009}\u{000a}\u{000b}\u{000c}\u{000d}\u{0020}\u{00a0}\u{0085}\u{1680}\u{180e}\u{2000}\u{2001}\u{2002}\u{2003}\u{2004}\u{2005}\u{2006}\u{2007}\u{2008}\u{2009}\u{200a}\u{200b}\u{2028}\u{2029}\u{202f}\u{205f}\u{3000}\u{feff}")); // idk about mysql_real_escape_string ??
 
         if(strlen($cont) !== 0 && strlen($cont) <= 2000 && strlen($threadName) <= 64 && strlen($threadName) >= 8 && preg_match('/^[A-z0-9-_!?().,]*$/i', $threadName) == 1) {
             // Create Thread
@@ -34,7 +34,7 @@ if(include($path . '/functions/validateSession.php')) {
             $post_id = uniqid(rand(), true);
             $user_id = $_SESSION["user_id"];
             $sql = "INSERT INTO posts (user_id, post_id, content, created, edited, thread)
-            VALUES ('$user_id', '$post_id', '$cont', '$dtime', 'false', '$thread')";
+            VALUES ('$user_id', '$post_id', '$cont', '$dtime', 'false', '$threadName')";
             if ($conn->query($sql) === FALSE) {
                 echo "An error has occured [CT1]";
             }
@@ -57,11 +57,11 @@ if(include($path . '/functions/validateSession.php')) {
             echo "No content";
         } else if(strlen($cont) > 2000) {
             echo "2000 character limit surpassed";
-        } else if(preg_match('/^[A-z0-9-_!?().,]*$/i', $username) != 1) {
+        } else if(preg_match('/^[A-z0-9-_!?().,]*$/i', $threadName) != 1) {
             echo "Only characters a-Z 0-9 - _ ! ? ( ) . , are allowed";
-        } else if(strlen($username) > 64) {
+        } else if(strlen($threadName) > 64) {
             echo "Max. 64 chars allowed for thread names";
-        } else if(strlen($username) < 8) {
+        } else if(strlen($threadName) < 8) {
             echo "At least 8 chars are needed for a thread name";
         }
 
