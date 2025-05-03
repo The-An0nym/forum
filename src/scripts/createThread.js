@@ -5,11 +5,13 @@ async function createThread() {
   const response = await fetch("/api/createThread.php", {
     method: "POST",
     headers: {
-      "Content-type": "application/x-www-form-urlencoded",
+      "Content-type": "application/json",
     },
-    body: `t=${encodeURIComponent(threadName.value)}&p=${encodeURIComponent(
-      content.value
-    )}&s=${slug}`,
+    body: JSON.stringify({
+      t: threadName.value,
+      c: content.value,
+      s: slug,
+    }),
   });
 
   const result = await response.text();

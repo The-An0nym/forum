@@ -3,9 +3,12 @@ async function sendEdit(id) {
   const response = await fetch("/api/sendEdit.php", {
     method: "POST",
     headers: {
-      "Content-type": "application/x-www-form-urlencoded",
+      "Content-type": "application/json",
     },
-    body: `c=${encodeURIComponent(editTxt.value)}&i=${encodeURIComponent(id)}`,
+    body: JSON.stringify({
+      c: editTxt.value,
+      i: id,
+    }),
   });
 
   const result = await response.text();

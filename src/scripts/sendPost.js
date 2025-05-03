@@ -4,9 +4,12 @@ async function sendPost() {
   const response = await fetch("/api/sendPost.php", {
     method: "POST",
     headers: {
-      "Content-type": "application/x-www-form-urlencoded",
+      "Content-type": "application/json",
     },
-    body: `c=${encodeURIComponent(txt.value)}&s=${slug}`,
+    body: JSON.stringify({
+      c: txt.value,
+      s: slug,
+    }),
   });
 
   const result = await response.text();

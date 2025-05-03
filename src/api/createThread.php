@@ -13,20 +13,24 @@ if ($conn->connect_error) {
 
 if(!session_id()) {
   session_start();
-} 
+}
 
 if(include($path . '/functions/validateSession.php')) {
 
-    if(isset($_POST["t"], $_POST["p"], $_POST["s"])) {
-        $slug = $_POST["s"];
+    $json_params = file_get_contents("php://input");
+
+    if (strlen($json_params) > 0 && json_validate($json_params)) {
+        $decoded_params = json_decode($json_params);
+
+        $slug = $decoded_params->s;
 
         $sql = "SELECT id FROM categories WHERE slug = '$slug'";
 
         $result = $conn->query($sql);
         if ($result->num_rows == 1) {
-            $threadName = trim(htmlspecialchars($_POST["t"]), "\u{0009}\u{000a}\u{000b}\u{000c}\u{000d}\u{0020}\u{00a0}\u{0085}\u{1680}\u{180e}\u{2000}\u{2001}\u{2002}\u{2003}\u{2004}\u{2005}\u{2006}\u{2007}\u{2008}\u{2009}\u{200a}\u{200b}\u{2028}\u{2029}\u{202f}\u{205f}\u{3000}\u{feff}"); // idk about mysql_real_escape_string ??
+            $threadName = trim(htmlspecialchars($slug = $decoded_params->t), "\u{0009}\u{000a}\u{000b}\u{000c}\u{000d}\u{0020}\u{00a0}\u{0085}\u{1680}\u{180e}\u{2000}\u{2001}\u{2002}\u{2003}\u{2004}\u{2005}\u{2006}\u{2007}\u{2008}\u{2009}\u{200a}\u{200b}\u{2028}\u{2029}\u{202f}\u{205f}\u{3000}\u{feff}"); // idk about mysql_real_escape_string ??
             $category_id = $result->fetch_assoc()["id"];
-            $cont = trim(htmlspecialchars($_POST["p"]), "\u{0009}\u{000a}\u{000b}\u{000c}\u{000d}\u{0020}\u{00a0}\u{0085}\u{1680}\u{180e}\u{2000}\u{2001}\u{2002}\u{2003}\u{2004}\u{2005}\u{2006}\u{2007}\u{2008}\u{2009}\u{200a}\u{200b}\u{2028}\u{2029}\u{202f}\u{205f}\u{3000}\u{feff}"); // idk about mysql_real_escape_string ??
+            $cont = trim(htmlspecialchars($slug = $decoded_params->p), "\u{0009}\u{000a}\u{000b}\u{000c}\u{000d}\u{0020}\u{00a0}\u{0085}\u{1680}\u{180e}\u{2000}\u{2001}\u{2002}\u{2003}\u{2004}\u{2005}\u{2006}\u{2007}\u{2008}\u{2009}\u{200a}\u{200b}\u{2028}\u{2029}\u{202f}\u{205f}\u{3000}\u{feff}"); // idk about mysql_real_escape_string ??
 
             if(strlen($cont) !== 0 && strlen($cont) <= 2000 && strlen($threadName) <= 64 && strlen($threadName) >= 8) {
                 // Create Thread

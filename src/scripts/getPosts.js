@@ -49,7 +49,15 @@ async function getPosts() {
       cont.appendChild(post);
     }
   } catch {
-    errorMessage(clone.text());
+    const msg = await clone.text();
+    if (msg !== "") {
+      errorMessage(msg);
+    } else {
+      const noResults = document.createElement("div");
+      noResults.textContent("There are no threads here yet...");
+
+      cont.appendChild(noResults);
+    }
   }
 }
 
