@@ -6,12 +6,9 @@ async function getThreads() {
     const dataJSON = await response.json();
     cont.innerHTML = "";
     for (let i = 0; i < dataJSON.length; i++) {
-      const URIname = encodeURIComponent(dataJSON[i].name.replaceAll(" ", "-"));
-      // Take slug instead
-
       const threadWrapper = document.createElement("a");
       threadWrapper.className = "thread-wrapper";
-      threadWrapper.setAttribute("href", `/thread/${URIname}`);
+      threadWrapper.setAttribute("href", `/thread/${dataJSON[i].slug}`);
 
       const thread = document.createElement("div");
       thread.className = "thread";

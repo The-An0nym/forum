@@ -30,7 +30,7 @@ if(isset($_GET['s'])) {
             WHERE 
                 t.slug = '$slug'
             ORDER BY 
-                p.created ASC;";
+                p.created ASC";
     $result = $conn->query($sql);
 
     session_start();
@@ -65,7 +65,7 @@ if(isset($_GET['s'])) {
     }
 
 } else {
-    echo "No thread found..."
+    echo "No thread found...";
     die();
 }
 

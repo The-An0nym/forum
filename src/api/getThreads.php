@@ -14,13 +14,14 @@ if ($conn->connect_error) {
 if(isset($_GET['s'])) {
     $slug = $_GET['s'];
     
-    if($category != "") {
+    if($slug != "") {
         $sql = "SELECT 
                     t.name, 
+                    t.slug,
                     t.created, 
                     t.posts,
                     u.username AS lastUser,
-                    lp.created AS lastCreated
+                    lp.created AS lastPost
                 FROM 
                     threads t
                 JOIN categories c ON c.id = t.category_id
@@ -55,6 +56,7 @@ if(isset($_GET['s'])) {
             while($row = $result->fetch_assoc()) {
                 $post = new stdClass();
                 $post->name = $row["name"];
+                $post->slug = $row["slug"];
                 $post->created = $row["created"];
                 $post->postCount = $row["posts"];
                 $post->lastUser = $row["lastUser"];
