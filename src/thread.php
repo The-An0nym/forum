@@ -13,8 +13,10 @@
 
     <div id="post-container"></div>
 
-    <textarea id="post-content" placeholder="Type your post here..."></textarea>
-    <button onclick="send()">Submit</button>
+    <?php if(include $path . "/functions/validSession.php") { ?>
+        <textarea id="post-content" placeholder="Type your post here..."></textarea>
+        <button onclick="sendPost()">Submit</button>
+    <?php } ?>
     
     <script> const thread = "<?php echo str_replace("-", " ", $_GET["n"]) ?>" </script>
     <script src="/scripts/errorMessage.js"></script>

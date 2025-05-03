@@ -13,9 +13,17 @@
 
     <div id="thread-container"></div>
 
+    <?php if(include $path . "/functions/validSession.php") { ?>
+        <input id="thread-name" placeholder="Thread title..."></input>
+        <textarea id="post-content" placeholder="Type your post here..."></textarea>
+        <button onclick="createThread()">Submit</button>
+    <?php } ?>
+
     <script> const category = "<?php echo $_GET["n"] ?>" </script>
     <script src="/scripts/errorMessage.js"></script>
     <script src="/scripts/getThreads.js"></script>
+    <script src="/scripts/sendThread.js"></script>
+
 
     <?php include $path . "/basic/footer.php"; ?>
 </body>

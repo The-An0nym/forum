@@ -1,6 +1,6 @@
 const txt = document.getElementById("post-content");
 
-async function send() {
+async function sendPost() {
   const response = await fetch("/api/sendPost.php", {
     method: "POST",
     headers: {
@@ -8,11 +8,13 @@ async function send() {
     },
     body: `c=${encodeURIComponent(txt.value)}&t=${encodeURIComponent(thread)}`,
   });
+
   const result = await response.text();
+
   if (/\S/.test(result)) {
     errorMessage(result);
   } else {
     txt.value = "";
+    getPosts();
   }
-  getPosts();
 }

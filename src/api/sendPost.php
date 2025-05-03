@@ -36,7 +36,7 @@ if(include($path . '/functions/validateSession.php')) {
                 echo "An error has occured [SP1]";
             }
 
-            // Increment user post count of category and thread
+            // Increment post count of category and thread
             $sql = "UPDATE categories c
                     INNER JOIN threads t ON t.category = c.name
                     SET c.posts = c.posts +1, t.posts = t.posts +1 

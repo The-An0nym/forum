@@ -9,8 +9,9 @@ PHP x MySQL Forum (using infinityFree)
 - Implement adding theads
 - Implement user profile page
 - Make post/thread inputs not show when not logged in
-- Make Logout (script imported via menu) based on AJAX
-- Make initial load with PHP, all subsequent calls with AJAX (-> Makes refreshing faster by ~100ms. Subsequent calls via API are ~100ms faster than refreshing)
+- Keep logout or change to fetch()
+- Make initial load with PHP, all subsequent calls with Fetch (-> Makes refreshing faster by ~100ms. Subsequent calls via API are ~100ms faster than refreshing)
+- Check if directory (thread or category) exists before adding posts/threads to them
 
 - Make clearance levels and moderation tools
 - Make notification system
