@@ -3,12 +3,22 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
 
 function generateSlug($text) {
-    $slug = $baseSlug = slugify($text)
-    $i = 0;
-    while (slugExistsInDb($slug)) {
-        $slug = $baseSlug . '-' . $i;
-        $i++;
+    $baseSlug = slugify($text);
+
+    $conn = getConn();
+
+    $sql = "SELECT COUNT(*) FROM threads WHERE slug = '$baseSlug'";
+    $result = $conn->query($sql);
+    if ($result->num_rows == 0) {
+        $slug = $baseSlug;
+    } else {
+        $slug = $baseSlug . '-%';
+
+        $sql = "SELECT COUNT(*) FROM threads WHERE slug LIKE '$slug'";
+        $result = $conn->query($sql);
+        $slug = $baseSlug . "-" . $result->num_rows;
     }
+    
     return $slug;
 }
 
@@ -21,12 +31,6 @@ function slugify($text) {
     $text = preg_replace('~-+~', '-', $text); // Remove duplicate hyphens
     $text = strtolower($text); // Lowercase
     return $text ?: 'n-a'; // n-a as fallback
-}
-
-function slugExistsInDb($slug): bool {
-    $sql = ("SELECT COUNT(*) FROM threads WHERE slug = '$slug'");
-    $result = $conn->query($sql);
-    return $result->num_rows > 0;
 }
 
 ?>
