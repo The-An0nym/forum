@@ -14,6 +14,13 @@ if(isset($_GET['s'], $_GET['p'])) {
     $slug = $_GET['s'];
     $page = $_GET['p'] * 20;
 
+    $sql = "SELECT COUNT(*) AS total_posts
+                FROM posts p
+                JOIN threads t ON t.id = p.thread_id
+                WHERE t.slug = $slug"
+    $result = $conn->query($sql);
+    $total_posts = fetch_assoc()["total_posts"];
+
     $sql = "SELECT 
                 u.username, 
                 u.posts,
@@ -38,6 +45,7 @@ if(isset($_GET['s'], $_GET['p'])) {
     session_start();
 
     $data = [];
+    $data[] = $total_posts;
     if ($result->num_rows > 0) {
         // output data of each row
         while($row = $result->fetch_assoc()) {

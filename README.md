@@ -3,6 +3,8 @@
 PHP x MySQL Forum (using infinityFree)
 
 CreateThread: ~6 MySQL queries
+GetThreads: 2 Queries
+GetPosts: 2 Queries
 
 # TODO:
 

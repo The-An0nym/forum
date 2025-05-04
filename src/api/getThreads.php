@@ -16,13 +16,20 @@ if(isset($_GET['s'], $_GET['p'])) {
     $page = $_GET['p'] * 20;
     
     if($slug != "") {
+        $sql = "SELECT COUNT(*) AS total_threads
+                FROM threads t
+                JOIN categories c ON c.id = t.category_id
+                WHERE c.slug = $slug"
+        $result = $conn->query($sql);
+        $total_threads = fetch_assoc()["total_threads"];
+
         $sql = "SELECT 
                     t.name, 
                     t.slug,
                     t.created, 
                     t.posts,
                     u.username AS lastUser,
-                    lp.created AS lastPost
+                    lp.created AS lastPost,
                 FROM 
                     threads t
                 JOIN categories c ON c.id = t.category_id
@@ -55,6 +62,7 @@ if(isset($_GET['s'], $_GET['p'])) {
         $result = $conn->query($sql);
 
         $data = [];
+        $data[] = $total_threads;
         if ($result->num_rows > 0) {
             // output data of each row
             while($row = $result->fetch_assoc()) {
