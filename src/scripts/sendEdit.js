@@ -3,7 +3,7 @@ async function sendEdit(id) {
   const response = await fetch("/api/sendEdit.php", {
     method: "POST",
     headers: {
-      "Content-type": "application/json",
+      "Content-type": "application/json; charset=utf-8",
     },
     body: JSON.stringify({
       c: editTxt.value,

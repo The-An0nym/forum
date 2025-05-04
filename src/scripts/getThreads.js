@@ -44,7 +44,7 @@ async function getThreads() {
     }
   } catch {
     const msg = await clone.text();
-    if (msg !== "") {
+    if (/\S/.test(msg)) {
       errorMessage(msg);
     } else {
       const noResults = document.createElement("div");

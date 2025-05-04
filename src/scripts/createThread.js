@@ -5,7 +5,7 @@ async function createThread() {
   const response = await fetch("/api/createThread.php", {
     method: "POST",
     headers: {
-      "Content-type": "application/json",
+      "Content-type": "application/json; charset=utf-8",
     },
     body: JSON.stringify({
       t: threadName.value,
