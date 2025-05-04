@@ -13,6 +13,11 @@ if ($conn->connect_error) {
 
 if(isset($_GET['s'])) {
     $slug = $_GET['s'];
+    if(isset($_GET['p'])) {
+        $page = $_GET['p'];
+    } else {
+        $page = 0;
+    }
     
     if($slug != "") {
         $sql = "SELECT 
@@ -46,7 +51,10 @@ if(isset($_GET['s'])) {
                     SELECT username, user_id FROM users
                 ) u ON u.user_id = lp.user_id
                 WHERE 
-                    c.slug = '$slug'";
+                    c.slug = '$slug'
+                ORDER BY 
+                    p.created ASC
+                LIMIT 10 OFFSET '$page'";
 
         $result = $conn->query($sql);
 

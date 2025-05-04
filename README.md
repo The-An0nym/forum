@@ -2,17 +2,14 @@
 
 PHP x MySQL Forum (using infinityFree)
 
+CreateThread: ~6 MySQL queries
+
 # TODO:
 
-- Make only `a-zA-Z space _ , . ? ! ( )` valid chars for thread name (same technically goes for categories)
-- Set character limits and other user input limits
-- Implement adding theads
 - Implement user profile page
-- Make post/thread inputs not show when not logged in
 - Keep logout or change to fetch()
 - Make initial load with PHP, all subsequent calls with Fetch (-> Makes refreshing faster by ~100ms. Subsequent calls via API are ~100ms faster than refreshing)
 - Check if directory (thread or category) exists before adding posts/threads to them
-- Check for duplicate slug names
 
 - Make clearance levels and moderation tools
 - Make notification system

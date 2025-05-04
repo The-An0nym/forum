@@ -70,7 +70,7 @@ if (isset($_POST['u'], $_POST['p1'], $_POST['p2'])) {
     } else if($password !== $password2) {
         echo "Passwords do not match";
     } else {
-        echo "no input";
+        echo "No input";
     }
 } else {
     echo "Sign-up failed: Please try again later";

@@ -56,14 +56,14 @@ if(include($path . '/functions/validateSession.php')) {
                     echo "An error has occured [SP2]";
                 }
 
-            } else {
-                echo "An error has occured [SP0]";
+            } else if(strlen($cont) === 0) {
+                echo "No content";
+            } else if(strlen($cont) > 2000) {
+                echo "2000 character limit surpassed";
             }
 
-        } else if(strlen($cont) === 0) {
-            echo "No content";
-        } else if(strlen($cont) > 2000) {
-            echo "2000 character limit surpassed";
+        } else {
+            echo "An error has occured [SP0]";
         }
 
     } else {

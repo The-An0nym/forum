@@ -17,7 +17,7 @@ if(!session_id()) {
 if(include($path . '/functions/validateSession.php')) {
     $json_params = file_get_contents("php://input");
 
-    if (strlen($json_params) > 0 && json_validate($json_params)) {
+    if (strlen($json_params) > 0 && strlen($cont) <= 2000 && json_validate($json_params)) {
         $decoded_params = json_decode($json_params);
 
         // Escaping content and trimming whitespace
@@ -31,16 +31,19 @@ if(include($path . '/functions/validateSession.php')) {
                     WHERE post_id = '$post_id' AND user_id = '$user_id'";
             if ($conn->query($sql) === FALSE) {
                 echo "An error has occured [SE0]";
-            }
-
+            } 
         } else if(strlen($cont) === 0) {
             echo "No content";
         } else if(strlen($cont) > 2000) {
             echo "2000 character limit surpassed";
+        } else {
+            echo "ERROR: SE1";
         }
+
     } else {
-        echo "ERROR: SE1";
+        echo "ERROR: SE2";
     }
+
 } else {
     echo "Please Login to edit posts";
 }

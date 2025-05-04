@@ -77,9 +77,11 @@ if(include($path . '/functions/validateSession.php')) {
                 echo "Max. 64 chars allowed for thread names";
             } else if(strlen($threadName) < 8) {
                 echo "At least 8 chars are needed for a thread name";
+            } else {
+                echo "ERROR CT4";
             }
         } else {
-            echo "ERROR: CT4";
+            echo "ERROR: CT5";
         }
 
     } else {

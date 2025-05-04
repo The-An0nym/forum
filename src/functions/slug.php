@@ -9,14 +9,18 @@ function generateSlug($text) {
 
     $sql = "SELECT COUNT(*) FROM threads WHERE slug = '$baseSlug'";
     $result = $conn->query($sql);
-    if ($result->num_rows == 0) {
+    if ($result->fetch_assoc()["num"]) {
         $slug = $baseSlug;
     } else {
         $slug = $baseSlug . '-%';
 
-        $sql = "SELECT COUNT(*) FROM threads WHERE slug LIKE '$slug'";
+        $sql = "SELECT COUNT(*) AS num FROM threads WHERE slug LIKE '$slug'";
         $result = $conn->query($sql);
-        $slug = $baseSlug . "-" . $result->num_rows;
+        if($result->num_rows> 0) {
+            $slug = $baseSlug . "-" . $result->fetch_assoc()["num"];
+        } else {
+            $slug = $baseSlug . '-1';
+        }
     }
     
     return $slug;
