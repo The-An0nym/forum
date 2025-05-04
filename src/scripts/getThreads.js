@@ -1,7 +1,7 @@
 const cont = document.getElementById("thread-container");
 
 async function getThreads() {
-  const response = await fetch(`/api/getThreads.php?s=${slug}`);
+  const response = await fetch(`/api/getThreads.php?s=${slug}&p=${page}`);
   const clone = response.clone();
   try {
     const dataJSON = await response.json();

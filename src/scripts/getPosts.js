@@ -1,7 +1,7 @@
 const cont = document.getElementById("post-container");
 
 async function getPosts() {
-  const response = await fetch(`/api/getPosts.php?s=${slug}`);
+  const response = await fetch(`/api/getPosts.php?s=${slug}&?p=${page}`);
   const clone = response.clone();
   try {
     const dataJSON = await response.json();

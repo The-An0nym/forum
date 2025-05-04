@@ -24,7 +24,10 @@ if(!session_id()) {
         <button onclick="createThread()">Submit</button>
     <?php } ?>
 
-    <script> const slug = "<?php echo $_GET["s"] ?>" </script>
+    <script> 
+        const slug = "<?php echo $_GET["s"] ?>";
+        const page = "<?php if(isset($_GET["p"])) {echo $_GET["p"]} else {echo 0} ?>" 
+    </script>
     <script src="/scripts/errorMessage.js"></script>
     <script src="/scripts/getThreads.js"></script>
     <script src="/scripts/createThread.js"></script>

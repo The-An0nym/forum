@@ -10,13 +10,10 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-if(isset($_GET['s'])) {
+if(isset($_GET['s'], $_GET['p'])) {
     $slug = $_GET['s'];
-    if(isset($_GET['p'])) {
-        $page = $_GET['p'];
-    } else {
-        $page = 0;
-    }
+    $page = $_GET['p'];
+
 
     $sql = "SELECT 
                 u.username, 
@@ -36,7 +33,7 @@ if(isset($_GET['s'])) {
                 t.slug = '$slug'
             ORDER BY 
                 p.created ASC
-            LIMIT 10 OFFSET '$page'";
+            LIMIT 10 OFFSET $page";
     $result = $conn->query($sql);
 
     session_start();
