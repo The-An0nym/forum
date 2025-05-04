@@ -25,7 +25,7 @@ if(!session_id()) {
     
     <script> 
         const slug = "<?php echo $_GET["s"] ?>";
-        const page = "<?php if(isset($_GET["p"])) {echo $_GET["p"]} else {echo 0} ?>" 
+        const page = "<?php if(isset($_GET["p"])) {echo $_GET["p"];} else {echo 0;} ?>" 
     </script>
     <script src="/scripts/errorMessage.js"></script>
     <script src="/scripts/sendPost.js"></script>

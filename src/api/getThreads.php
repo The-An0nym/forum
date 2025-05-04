@@ -13,7 +13,7 @@ if ($conn->connect_error) {
 
 if(isset($_GET['s'], $_GET['p'])) {
     $slug = $_GET['s'];
-    $page = $_GET['p'];
+    $page = $_GET['p'] * 20;
     
     if($slug != "") {
         $sql = "SELECT 
@@ -49,8 +49,8 @@ if(isset($_GET['s'], $_GET['p'])) {
                 WHERE 
                     c.slug = '$slug'
                 ORDER BY 
-                    p.created ASC
-                LIMIT 10 OFFSET $page";
+                    t.created ASC
+                LIMIT 20 OFFSET $page";
 
         $result = $conn->query($sql);
 
