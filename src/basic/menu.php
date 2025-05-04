@@ -10,7 +10,7 @@ if(!session_id()) {
     if(isset($_SESSION['user_id'])) {
         ?>
         <span class="profile menu-button"><a href="/profile.php">profile</a></span>
-        <span class="logout menu-button"><a href="/logout.php">logout</a></span>
+        <span class="logout menu-button"><a href="/logout">logout</a></span>
         <span class="home menu-button"><a href="/">home</a></span>
         <?php
     } else {

@@ -20,12 +20,12 @@ if(include($path . '/functions/validateSession.php')) {
     if (strlen($json_params) > 0 && json_validate($json_params)) {
         $decoded_params = json_decode($json_params);
 
-        // idk about mysql_real_escape_string ??
+        // Escaping content and trimming whitespace
         $cont = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->c)); // idk about mysql_real_escape_string ??
             
         if(strlen($cont) !== 0 && strlen($cont) <= 2000) {
             $user_id = $_SESSION["user_id"];
-            $post_id = $_POST["i"];
+            $post_id = $decoded_params->i;
             $sql = "UPDATE posts
                     SET content = '$cont', edited = '1'
                     WHERE post_id = '$post_id' AND user_id = '$user_id'";
@@ -39,7 +39,7 @@ if(include($path . '/functions/validateSession.php')) {
             echo "2000 character limit surpassed";
         }
     } else {
-        echo "ERROR: SE1"
+        echo "ERROR: SE1";
     }
 } else {
     echo "Please Login to edit posts";

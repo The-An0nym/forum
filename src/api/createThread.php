@@ -1,7 +1,7 @@
 <?php
 $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
-include($path . '/functions/slugify.php');
+include($path . '/functions/slug.php');
 
 // Get connection
 $conn = getConn();
@@ -28,15 +28,18 @@ if(include($path . '/functions/validateSession.php')) {
 
         $result = $conn->query($sql);
         if ($result->num_rows == 1) {
+            // Escaping content and trimming whitespace
             $threadName = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->t)); // idk about mysql_real_escape_string ??
             $category_id = $result->fetch_assoc()["id"];
+            // Escaping content and trimming whitespace
             $cont = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->c)); // mysql_real_escape_string ??
 
-            if(strlen($cont) !== 0 && strlen($cont) <= 2000 && strlen($threadName) <= 64 && strlen($threadName) >= 8) {
+            if(strlen($cont) !== 0 && strlen($cont) <= 2000 && strlen($threadName) <= 64 && strlen($threadName) >= 8) {               
+                $thread_slug = generateSlug($threadName);
+                
                 // Create Thread
                 $dtime = date('Y-m-d H:i:s');
                 $thread_id = uniqid(rand(), true);
-                $thread_slug = slugify($threadName);
                 $sql = "INSERT INTO threads (name, slug, id, category_id, created, posts)
                 VALUES ('$threadName', '$thread_slug', '$thread_id', '$category_id', '$dtime', 1)";
                 if ($conn->query($sql) === FALSE) {
