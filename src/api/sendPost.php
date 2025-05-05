@@ -75,4 +75,3 @@ if(include($path . '/functions/validateSession.php')) {
 }
 
 $conn->close();
-?>

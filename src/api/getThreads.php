@@ -89,4 +89,3 @@ if(isset($_GET['s'], $_GET['p'])) {
 }
 
 $conn->close();
-?>   

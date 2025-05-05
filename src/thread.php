@@ -18,14 +18,16 @@ if(!session_id()) {
 
     <div id="post-container"></div>
 
+    <div id="pageMenu"></div>
+
     <?php if(isset($_SESSION['user_id'])) { ?>
         <textarea id="post-content" placeholder="Type your post here..."></textarea>
         <button onclick="sendPost()">Submit</button>
     <?php } ?>
-    
+
     <script> 
         const slug = "<?php echo $_GET["s"]; ?>";
-        const page = "<?php if(isset($_GET["p"])) {echo $_GET["p"];} else {echo 0;} ?>" 
+        const page = <?php if(isset($_GET["p"])) {echo $_GET["p"];} else {echo 0;} ?>
     </script>
     <script src="/scripts/main.js"></script>
     <script src="/scripts/sendPost.js"></script>

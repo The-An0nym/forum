@@ -18,6 +18,8 @@ if(!session_id()) {
 
     <div id="thread-container"></div>
 
+    <div id="pageMenu"></div>
+
     <?php if(isset($_SESSION['user_id'])) { ?>
         <input id="thread-name" placeholder="Thread title..."></input>
         <textarea id="post-content" placeholder="Type your post here..."></textarea>
@@ -26,7 +28,7 @@ if(!session_id()) {
 
     <script> 
         const slug = "<?php echo $_GET["s"]; ?>";
-        const page = "<?php if(isset($_GET["p"])) {echo $_GET["p"];} else {echo 0;} ?>" 
+        const page = <?php if(isset($_GET["p"])) {echo $_GET["p"];} else {echo 0;} ?>
     </script>
     <script src="/scripts/main.js"></script>
     <script src="/scripts/getThreads.js"></script>

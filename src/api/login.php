@@ -56,4 +56,3 @@ if(isset($_POST["u"], $_POST["p"])) {
 }
 
 $conn->close();
-?>
