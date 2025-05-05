@@ -21,7 +21,7 @@ async function getThreads() {
 
       const name = document.createElement("name");
       name.className = "thread-name";
-      name.textContent = dataJSON[i].name;
+      name.innerHTML = dataJSON[i].name;
       thread.appendChild(name);
 
       const created = document.createElement("span");

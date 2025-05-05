@@ -28,6 +28,8 @@ if(include($path . '/functions/validateSession.php')) {
 
         $result = $conn->query($sql);
         if ($result->num_rows == 1) {
+            $thread_slug = generateSlug($decoded_params->t);
+
             // Escaping content and trimming whitespace
             $threadName = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->t)); // idk about mysql_real_escape_string ??
             $category_id = $result->fetch_assoc()["id"];
@@ -35,7 +37,6 @@ if(include($path . '/functions/validateSession.php')) {
             $cont = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->c)); // mysql_real_escape_string ??
 
             if(strlen($cont) !== 0 && strlen($cont) <= 2000 && strlen($threadName) <= 64 && strlen($threadName) >= 8) {               
-                $thread_slug = generateSlug($threadName);
                 
                 // Create Thread
                 $dtime = date('Y-m-d H:i:s');

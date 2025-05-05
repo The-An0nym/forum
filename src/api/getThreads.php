@@ -56,7 +56,7 @@ if(isset($_GET['s'], $_GET['p'])) {
                 WHERE 
                     c.slug = '$slug'
                 ORDER BY 
-                    t.created ASC
+                    t.created DESC
                 LIMIT 20 OFFSET $page";
 
         $result = $conn->query($sql);

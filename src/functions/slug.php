@@ -9,7 +9,7 @@ function generateSlug($text) {
 
     $sql = "SELECT COUNT(*) AS num FROM threads WHERE slug = '$baseSlug'";
     $result = $conn->query($sql);
-    if ($result->fetch_assoc()["num"]) {
+    if ($result->fetch_assoc()["num"] == 0) {
         $slug = $baseSlug;
     } else {
         $slug = $baseSlug . '-%';
