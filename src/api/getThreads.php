@@ -19,9 +19,9 @@ if(isset($_GET['s'], $_GET['p'])) {
         $sql = "SELECT COUNT(*) AS total_threads
                 FROM threads t
                 JOIN categories c ON c.id = t.category_id
-                WHERE c.slug = $slug"
+                WHERE c.slug = '$slug'";
         $result = $conn->query($sql);
-        $total_threads = fetch_assoc()["total_threads"];
+        $total_threads = $result->fetch_assoc()["total_threads"];
 
         $sql = "SELECT 
                     t.name, 
@@ -29,7 +29,7 @@ if(isset($_GET['s'], $_GET['p'])) {
                     t.created, 
                     t.posts,
                     u.username AS lastUser,
-                    lp.created AS lastPost,
+                    lp.created AS lastPost
                 FROM 
                     threads t
                 JOIN categories c ON c.id = t.category_id

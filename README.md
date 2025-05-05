@@ -10,13 +10,13 @@ GetPosts: 2 Queries
 
 - Implement user profile page
 - Keep logout or change to fetch()
-- Make initial load with PHP, all subsequent calls with Fetch (-> Makes refreshing faster by ~100ms. Subsequent calls via API are ~100ms faster than refreshing)
+- Make initial load with PHP, all subsequent calls with Fetch (-> Makes refreshing faster by ~100ms. Subsequent calls via API are ~100ms faster than refreshing) -> Decide whether to actually implement this (Would in the end result in a lot of duplicate code)
 - Check if directory (thread or category) exists before adding posts/threads to them
 
 - Make clearance levels and moderation tools
 - Make notification system
 - Implement thread search
-- Implement pages
+- Implement thread/topic pages
 - Add user profile picture system (max. 2mb)
 
 - Style everything

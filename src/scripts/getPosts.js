@@ -6,7 +6,10 @@ async function getPosts() {
   try {
     const dataJSON = await response.json();
     cont.innerHTML = "";
-    for (let i = 0; i < dataJSON.length; i++) {
+
+    createPageMenu("thread", slug, page, dataJSON[0]);
+
+    for (let i = 1; i < dataJSON.length; i++) {
       const post = document.createElement("div");
       post.className = "post";
       post.id = dataJSON[i].id;

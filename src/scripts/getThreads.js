@@ -5,8 +5,12 @@ async function getThreads() {
   const clone = response.clone();
   try {
     const dataJSON = await response.json();
+
+    createPageMenu("topic", slug, page, dataJSON[0]);
+
     cont.innerHTML = "";
-    for (let i = 0; i < dataJSON.length; i++) {
+
+    for (let i = 1; i < dataJSON.length; i++) {
       const threadWrapper = document.createElement("a");
       threadWrapper.className = "thread-wrapper";
       threadWrapper.setAttribute("href", `/thread/${dataJSON[i].slug}`);
