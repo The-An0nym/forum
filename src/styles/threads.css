@@ -1,7 +1,9 @@
 .thread {
-  margin: 4px;
-  padding: 4px;
+  margin: 1%;
+  padding: 1%;
   border: 1px black solid;
+  display: flex;
+  justify-content: space-between;
 }
 
 .thread-name {
@@ -13,17 +15,30 @@
   font-size: 0.4em;
 }
 
-.last-post {
-  font-size: 0.4em;
+.details-wrapper {
+  display: flex;
+  flex-direction: row;
 }
 
-.last-user {
+.last-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 0 10%;
+}
+
+.last-post {
   font-size: 0.5em;
 }
 
-.thread-post-count {
-  font-size: 1em;
-  margin: 4px;
-  padding: 4px;
-  border: 1px black solid;
+.last-user {
+  font-size: 0.8em;
+}
+
+.count {
+  font-size: 1.2em;
+  border: 1px #eee solid;
+  aspect-ratio: 1 / 1;
+  align-content: center;
+  text-align: center;
+  margin: 0 10%;
 }

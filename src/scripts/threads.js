@@ -22,30 +22,48 @@ async function getThreads() {
       thread.className = "thread";
       threadWrapper.appendChild(thread);
 
-      const name = document.createElement("name");
+      // Main (Title + Created)
+      const mainWrapper = document.createElement("name");
+      mainWrapper.className = "main-wrapper";
+
+      const name = document.createElement("span");
       name.className = "thread-name";
       name.innerHTML = dataJSON[i].name;
-      thread.appendChild(name);
+      mainWrapper.appendChild(name);
 
       const created = document.createElement("span");
       created.className = "created";
       created.textContent = dataJSON[i].created;
-      thread.appendChild(created);
+      mainWrapper.appendChild(created);
+
+      thread.appendChild(mainWrapper);
+
+      // Details (Last user & last post + Posts)
+
+      const detailWrapper = document.createElement("name");
+      detailWrapper.className = "details-wrapper";
+
+      const lastWrapper = document.createElement("name");
+      lastWrapper.className = "last-wrapper";
 
       const lastPost = document.createElement("span");
       lastPost.className = "last-post";
       lastPost.textContent = dataJSON[i].lastPost;
-      thread.appendChild(lastPost);
+      lastWrapper.appendChild(lastPost);
 
       const lastUser = document.createElement("span");
       lastUser.className = "last-user";
       lastUser.textContent = dataJSON[i].lastUser;
-      thread.appendChild(lastUser);
+      lastWrapper.appendChild(lastUser);
+
+      detailWrapper.appendChild(lastWrapper);
 
       const postCount = document.createElement("span");
-      postCount.className = "thread-post-count";
+      postCount.className = "count";
       postCount.textContent = dataJSON[i].postCount;
-      thread.appendChild(postCount);
+      detailWrapper.appendChild(postCount);
+
+      thread.appendChild(detailWrapper);
 
       cont.appendChild(threadWrapper);
     }
