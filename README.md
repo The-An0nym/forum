@@ -16,7 +16,6 @@ GetPosts: 2 Queries
 - Make clearance levels and moderation tools
 - Make notification system
 - Implement thread search
-- Implement thread/topic pages
 - Add user profile picture system (max. 2mb)
 
 - Style everything

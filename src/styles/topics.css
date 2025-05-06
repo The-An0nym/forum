@@ -1,6 +1,6 @@
 .category {
-  margin: 4px;
-  padding: 4px;
+  margin: 1%;
+  padding: 1%;
   border: 1px black solid;
 }
 
@@ -9,28 +9,17 @@
   display: block;
 }
 
-.created {
-  font-size: 0.4em;
-}
-
-.lastCreated {
-  font-size: 0.4em;
-}
-
-.lastUser {
-  font-size: 0.5em;
-}
-
-.post-count {
+.count {
   font-size: 1em;
-  margin: 4px;
-  padding: 4px;
-  border: 1px black solid;
+  border: 1px #eee solid;
+  aspect-ratio: 1 / 1;
+  align-content: center;
+  text-align: center;
+  margin: 0 10%;
 }
 
-.thread-count {
-  font-size: 1em;
-  margin: 4px;
-  padding: 4px;
-  border: 1px black solid;
+.count-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
 }

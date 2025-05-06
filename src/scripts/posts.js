@@ -1,8 +1,11 @@
-const cont = document.getElementById("post-container");
+/* GETTING POSTS */
 
 async function getPosts() {
+  // VAR
+  const cont = document.getElementById("post-container");
+  // Request
   const response = await fetch(`/api/getPosts.php?s=${slug}&p=${page}`);
-  const clone = response.clone();
+  const clone = response.clone(); // For error handling
   try {
     const dataJSON = await response.json();
     cont.innerHTML = "";
@@ -65,3 +68,71 @@ async function getPosts() {
 }
 
 getPosts();
+
+/* EDITING POSTS */
+
+function editPost(id) {
+  const div = document.getElementById(id);
+  div.innerHTML = "";
+  let textarea = document.createElement("textarea");
+  textarea.id = "editTxt";
+  let button = document.createElement("button");
+  button.textContent = "submit";
+  button.setAttribute("onclick", `sendEdit("${id}")`);
+  div.appendChild(textarea);
+  div.appendChild(button);
+}
+
+/* SENDING EDITED POST */
+
+async function sendEdit(id) {
+  // VAR
+  const editTxt = document.getElementById("editTxt");
+  // Requests
+  const response = await fetch("/api/sendEdit.php", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify({
+      c: editTxt.value,
+      i: id,
+    }),
+  });
+
+  const result = await response.text();
+
+  if (/\S/.test(result)) {
+    errorMessage(result);
+  } else {
+    editTxt.value = "";
+    getPosts();
+  }
+}
+
+/* SENDING NEW POST */
+
+async function sendPost() {
+  // VAR
+  const txt = document.getElementById("post-content");
+  // Request
+  const response = await fetch("/api/sendPost.php", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify({
+      c: txt.value,
+      s: slug,
+    }),
+  });
+
+  const result = await response.text();
+
+  if (/\S/.test(result)) {
+    errorMessage(result);
+  } else {
+    txt.value = "";
+    getPosts();
+  }
+}

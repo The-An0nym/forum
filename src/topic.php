@@ -31,9 +31,7 @@ if(!session_id()) {
         const page = <?php if(isset($_GET["p"])) {echo $_GET["p"];} else {echo 0;} ?>
     </script>
     <script src="/scripts/main.js"></script>
-    <script src="/scripts/getThreads.js"></script>
-    <script src="/scripts/createThread.js"></script>
-
+    <script src="/scripts/threads.js"></script>
 
     <?php include $path . "/basic/footer.php"; ?>
 </body>

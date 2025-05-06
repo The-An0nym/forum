@@ -34,11 +34,14 @@ if ($conn->connect_error) {
         echo "
           <a href=\"/topic/" . $row["slug"] . "\">
             <div class=\"category\">
-              <span class=\"name\">" . $row["name"] . "</span>
-              <span class=\"description\">" . $row["description"] . "</span>
-              <span class=\"date\">" . $row["created"] . "</span>
-              <span class=\"thread-count\">" . $row["threads"]. "</span>
-              <span class=\"post-count\">" . $row["posts"]. "</span>
+              <span>
+                <span class=\"name\">" . $row["name"] . "</span>
+                <span class=\"description\">" . $row["description"] . "</span>
+              </span>
+              <span class=\"count-wrapped\">
+                <span class=\"thread-count\">" . $row["threads"]. "</span>
+                <span class=\"count\">" . $row["posts"]. "</span>
+              </span>
             </div>
           </a>";
       }

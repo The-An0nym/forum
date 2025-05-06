@@ -1,8 +1,11 @@
-const cont = document.getElementById("thread-container");
+/* GET THREADS */
 
 async function getThreads() {
+  // VAR
+  const cont = document.getElementById("thread-container");
+  // Request
   const response = await fetch(`/api/getThreads.php?s=${slug}&p=${page}`);
-  const clone = response.clone();
+  const clone = response.clone(); // For error handling
   try {
     const dataJSON = await response.json();
 
@@ -60,3 +63,33 @@ async function getThreads() {
 }
 
 getThreads();
+
+/* CREATE THREADS */
+
+async function createThread() {
+  // VAR
+  const threadName = document.getElementById("thread-name");
+  const content = document.getElementById("post-content");
+  // Request
+  const response = await fetch("/api/createThread.php", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify({
+      t: threadName.value,
+      c: content.value,
+      s: slug,
+    }),
+  });
+
+  const result = await response.text();
+
+  if (/\S/.test(result)) {
+    errorMessage(result);
+  } else {
+    threadName.value = "";
+    content.value = "";
+    getThreads();
+  }
+}

@@ -36,5 +36,3 @@ if ($conn->query($sql) === TRUE) {
 }
 
 return "Generic error";
-
-?>

@@ -11,4 +11,3 @@ if (!function_exists('getConn')) {
         return $conn;
     }
 }
-?>

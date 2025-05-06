@@ -36,5 +36,3 @@ function slugify($text) {
     $text = strtolower($text); // Lowercase
     return $text ?: 'n-a'; // n-a as fallback
 }
-
-?>

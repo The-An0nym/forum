@@ -43,5 +43,3 @@ foreach ($delArr as $sess) {
         echo "An error has occured";
     }
 }
-
-?>
