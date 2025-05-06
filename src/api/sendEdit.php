@@ -17,7 +17,7 @@ if(!session_id()) {
 if(include($path . '/functions/validateSession.php')) {
     $json_params = file_get_contents("php://input");
 
-    if (strlen($json_params) > 0 && strlen($cont) <= 2000 && json_validate($json_params)) {
+    if (strlen($json_params) > 0 && json_validate($json_params)) {
         $decoded_params = json_decode($json_params);
 
         // Escaping content and trimming whitespace

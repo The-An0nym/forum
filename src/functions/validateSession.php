@@ -47,4 +47,4 @@ if(!isset($_SESSION['user_id']) || !isset($_SESSION['session_id'])) {
         }
     }
 }
-return false
+return false;

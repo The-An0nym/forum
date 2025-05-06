@@ -18,12 +18,13 @@
 .details-wrapper {
   display: flex;
   flex-direction: row;
+  justify-content: end;
 }
 
 .last-wrapper {
   display: flex;
   flex-direction: column;
-  margin: 0 10%;
+  margin: 0 4vw;
 }
 
 .last-post {
@@ -40,5 +41,5 @@
   aspect-ratio: 1 / 1;
   align-content: center;
   text-align: center;
-  margin: 0 10%;
+  margin: 0 4vw;
 }
