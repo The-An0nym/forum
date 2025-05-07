@@ -10,10 +10,15 @@
 <body>
     <?php include $path . "/basic/menu.php"; ?>
 
-    To come...
+    Username here
+    <br>
+
+    <label for="pfp">Choose a profile picture:</label>
+    <input type="file" id="pfp" name="avatar" accept="image/png, image/jpeg" />
+    <button onclick="uploadImage()">Submit</button>
 
     <?php
-
+    
     
     
     // Get username and offer option to edit username
@@ -23,5 +28,8 @@
     ?>
 
     <?php include $path . "/basic/footer.php"; ?>
+
+    <script src="/scripts/profile.js"></script>
+    <script src="/scripts/main.js"></script>
 </body>
 </html>

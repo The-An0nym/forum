@@ -14,8 +14,10 @@ GetPosts: 2 Queries
 - Check if directory (thread or category) exists before adding posts/threads to them
 
 - Make clearance levels and moderation tools
+- Add ToS, Privacy Policy and cookies warning
+- Adress, full legal name, etc. (pattern)
 - Make notification system
-- Implement thread search
+- Implement thread search (?)
 - Add user profile picture system (max. 2mb)
 
 - Style everything
