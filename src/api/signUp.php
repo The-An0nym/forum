@@ -30,8 +30,8 @@ if (isset($_POST['u'], $_POST['p1'], $_POST['p2'])) {
             $pswrd = password_hash($password, PASSWORD_DEFAULT);
             $dtime = date('Y-m-d H:i:s');
 
-            $sql = "INSERT INTO users (user_id, username, password, created)
-            VALUES ('$user_id', '$username', '$pswrd', '$dtime')";
+            $sql = "INSERT INTO users (user_id, image_id, username, password, created)
+            VALUES ('$user_id', '.default.png', '$username', '$pswrd', '$dtime')";
 
             if ($conn->query($sql) === TRUE) {
                 $ip = $_SERVER['REMOTE_ADDR'];

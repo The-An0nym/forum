@@ -20,12 +20,10 @@ if(include($path . '/functions/validateSession.php')) {
     {
         $target_dir = $path . "/images/profiles/";
         $image_id = uniqid(rand(), true);
+        $imageFileType = strtolower(pathinfo($_FILES["i"]["name"],PATHINFO_EXTENSION));
 
-        // Make sure the path is saved in the database
-        // Delete the previous image that served for that user
-        $target_file = $target_dir . $image_id;
+        $target_file = $target_dir . $image_id . "." . $imageFileType;
         $pass = true;
-        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
         // Check if image file is a actual image or fake image
         $check = getimagesize($_FILES["i"]["tmp_name"]);
         if($check !== false) {
@@ -46,7 +44,7 @@ if(include($path . '/functions/validateSession.php')) {
         }
 
         if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-            echo "Only JPG, JPEG, PNG & GIF files are allowed.";
+            echo "Only JPG, JPEG & PNG files are allowed.";
             $pass = false;
         }
 

@@ -11,7 +11,7 @@ async function uploadImage() {
     method: "POST",
     body: form_data,
   });
-  const result = response.text();
+  const result = await response.text();
 
   if (/\S/.test(result)) {
     errorMessage(result);
