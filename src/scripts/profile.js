@@ -7,17 +7,18 @@ async function uploadImage() {
   const form_data = new FormData();
   form_data.append("i", img);
 
-  fetch("/api/changePFP.php", {
+  const response = await fetch("/api/changePFP.php", {
     method: "POST",
     body: form_data,
-  })
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (responseData) {
-      errorMessage(responseData.image_source);
-      file.value = "";
-    });
+  });
+  const result = response.text();
+
+  if (/\S/.test(result)) {
+    errorMessage(result);
+  } else {
+    file.value = "";
+    // Refresh?
+  }
 }
 
 function verifyImage(img) {

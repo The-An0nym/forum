@@ -19,44 +19,64 @@ if(include($path . '/functions/validateSession.php')) {
     if(isset($_FILES['i']))
     {
         $target_dir = $path . "/images/profiles/";
-        // Implement random UUID for image name
+        $image_id = uniqid(rand(), true);
+
         // Make sure the path is saved in the database
         // Delete the previous image that served for that user
-        $target_file = $target_dir . basename($_FILES["i"]["name"]);
-        $uploadOk = true;
+        $target_file = $target_dir . $image_id;
+        $pass = true;
         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
         // Check if image file is a actual image or fake image
         $check = getimagesize($_FILES["i"]["tmp_name"]);
         if($check !== false) {
             echo "File is not an image.";
-            $uploadOk = false;
+            $pass = false;
         }
 
         // Check if file already exists
         if (file_exists($target_file)) {
             echo "Sorry, file already exists.";
-            $uploadOk = false;
+            $pass = false;
         }
 
         // Check file size
         if ($_FILES["i"]["size"] > 2 * 1024 * 1024) {
             echo "Sorry, your file is too large.";
-            $uploadOk = false;
+            $pass = false;
         }
 
         if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-            $uploadOk = false;
+            echo "Only JPG, JPEG, PNG & GIF files are allowed.";
+            $pass = false;
         }
 
-        if (!$uploadOk) {
-            echo "Sorry, your file was not uploaded.";
-            // if everything is ok, try to upload file
-        } else {
+        // Add file to server
+        if ($pass) {
             if (move_uploaded_file($_FILES["i"]["tmp_name"], $target_file)) {
                 echo "The file ". htmlspecialchars( basename( $_FILES["i"]["name"])). " has been uploaded.";
             } else {
                 echo "Sorry, there was an error uploading your file.";
+                $pass = false;
+            }
+        }
+        
+        // Database stuff
+        if($pass) {
+            $user_id = $_SESSION["user_id"];
+
+            // Get previous image path
+            $sql = "SELECT image_id FROM users WHERE user_id = '$user_id'";
+            $conn->query($sql);
+            $previous_image_id = $result->fetch_assoc()["image_id"];
+
+            // Delete previous image
+            unlink($target_dir . $previous_image_id);
+
+            // Update image path
+            $sql = "UPDATE users SET image_id = '$image_id'";
+            $conn->query($sql);
+            if ($conn->query($sql) === FALSE) {
+                echo "An error has occured [CP0]";
             }
         }
 

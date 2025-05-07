@@ -22,6 +22,14 @@ async function getPosts() {
       username.textContent = dataJSON[i].username;
       post.appendChild(username);
 
+      const profilePicture = document.createElement("img");
+      profilePicture.className = "profile-picture";
+      profilePicture.setAttribute(
+        "src",
+        `/images/profiles/${dataJSON[i].image}`
+      );
+      post.appendChild(profilePicture);
+
       const userPostCount = document.createElement("span");
       userPostCount.className = "user-post-count";
       userPostCount.textContent = dataJSON[i].userPostCount;
