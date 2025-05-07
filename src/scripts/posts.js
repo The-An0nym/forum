@@ -26,7 +26,7 @@ async function getPosts() {
       profilePicture.className = "profile-picture";
       profilePicture.setAttribute(
         "src",
-        `/images/profiles/${dataJSON[i].image}`
+        `/images/profiles/${dataJSON[i].imageSrc}`
       );
       post.appendChild(profilePicture);
 

@@ -67,7 +67,7 @@ if(include($path . '/functions/validateSession.php')) {
             $result = $conn->query($sql);
             $previous_image_dir = $result->fetch_assoc()["image_dir"];
 
-            if($previous_image_dir != "" && $previous_image_dir != ".default.png") {
+            if($previous_image_dir != "" && $previous_image_dir != "_default.png") {
                 // Delete previous image
                 $previous_dir = $target_dir . $previous_image_dir;
                 unlink($previous_dir);
