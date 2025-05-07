@@ -20,13 +20,13 @@ if(include($path . '/functions/validateSession.php')) {
     {
         $target_dir = $path . "/images/profiles/";
         $image_id = uniqid(rand(), true);
-        $imageFileType = strtolower(pathinfo($_FILES["i"]["name"],PATHINFO_EXTENSION));
+        $imageFileType = strtolower(pathinfo(basename($_FILES["i"]["name"]),PATHINFO_EXTENSION));
 
         $target_file = $target_dir . $image_id . "." . $imageFileType;
         $pass = true;
         // Check if image file is a actual image or fake image
         $check = getimagesize($_FILES["i"]["tmp_name"]);
-        if($check !== false) {
+        if($check === false) {
             echo "File is not an image.";
             $pass = false;
         }
@@ -38,22 +38,22 @@ if(include($path . '/functions/validateSession.php')) {
         }
 
         // Check file size
-        if ($_FILES["i"]["size"] > 2 * 1024 * 1024) {
-            echo "Sorry, your file is too large.";
+        if ($_FILES["i"]["size"] > 1024 * 1024) {
+            echo "Image must be less than 1MB";
             $pass = false;
         }
 
         if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-            echo "Only JPG, JPEG & PNG files are allowed.";
+            echo "Image must be jpg or png";
             $pass = false;
         }
 
         // Add file to server
         if ($pass) {
             if (move_uploaded_file($_FILES["i"]["tmp_name"], $target_file)) {
-                echo "The file ". htmlspecialchars( basename( $_FILES["i"]["name"])). " has been uploaded.";
+                // Success
             } else {
-                echo "Sorry, there was an error uploading your file.";
+                echo "An error has occured [CP0]";
                 $pass = false;
             }
         }
@@ -63,18 +63,22 @@ if(include($path . '/functions/validateSession.php')) {
             $user_id = $_SESSION["user_id"];
 
             // Get previous image path
-            $sql = "SELECT image_id FROM users WHERE user_id = '$user_id'";
-            $conn->query($sql);
-            $previous_image_id = $result->fetch_assoc()["image_id"];
+            $sql = "SELECT image_dir FROM users WHERE user_id = '$user_id'";
+            $result = $conn->query($sql);
+            $previous_image_dir = $result->fetch_assoc()["image_dir"];
 
-            // Delete previous image
-            unlink($target_dir . $previous_image_id);
+            if($previous_image_dir != "" && $previous_image_dir != ".default.png") {
+                // Delete previous image
+                $previous_dir = $target_dir . $previous_image_dir;
+                unlink($previous_dir);
+            }
+
+            $image_dir = $image_id . "." . $imageFileType;
 
             // Update image path
-            $sql = "UPDATE users SET image_id = '$image_id'";
-            $conn->query($sql);
+            $sql = "UPDATE users SET image_dir = '$image_dir' WHERE user_id = '$user_id'";
             if ($conn->query($sql) === FALSE) {
-                echo "An error has occured [CP0]";
+                echo "An error has occured [CP1]";
             }
         }
 

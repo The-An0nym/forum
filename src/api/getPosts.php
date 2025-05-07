@@ -23,7 +23,7 @@ if(isset($_GET['s'], $_GET['p'])) {
 
     $sql = "SELECT 
                 u.username, 
-                u.image_id,
+                u.image_dir,
                 u.posts,
                 p.post_id, 
                 p.user_id, 
@@ -52,7 +52,7 @@ if(isset($_GET['s'], $_GET['p'])) {
         while($row = $result->fetch_assoc()) {
             $post = new stdClass();
             $post->username = $row["username"];
-            $post->imageSrc = $row["image_id"];
+            $post->imageSrc = $row["image_dir"];
             $post->userPostCount = $row["posts"];
             $post->id = $row["post_id"];
             $post->content = $row["content"];
