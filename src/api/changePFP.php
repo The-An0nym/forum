@@ -16,41 +16,40 @@ if(!session_id()) {
 }
 
 if(include($path . '/functions/validateSession.php')) {
-
     if(isset($_FILES['i']))
     {
-
-        $target_dir = "uploads/";
+        $target_dir = $path . "/images/profiles/";
+        // Implement random UUID for image name
+        // Make sure the path is saved in the database
+        // Delete the previous image that served for that user
         $target_file = $target_dir . basename($_FILES["i"]["name"]);
-        $uploadOk = 1;
+        $uploadOk = true;
         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
         // Check if image file is a actual image or fake image
         $check = getimagesize($_FILES["i"]["tmp_name"]);
         if($check !== false) {
-            echo "File is an image - " . $check["mime"] . ".";
-        } else {
             echo "File is not an image.";
-            $uploadOk = 0;
+            $uploadOk = false;
         }
 
         // Check if file already exists
         if (file_exists($target_file)) {
-        echo "Sorry, file already exists.";
-        $uploadOk = 0;
+            echo "Sorry, file already exists.";
+            $uploadOk = false;
         }
 
         // Check file size
         if ($_FILES["i"]["size"] > 2 * 1024 * 1024) {
             echo "Sorry, your file is too large.";
-            $uploadOk = 0;
+            $uploadOk = false;
         }
 
         if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
             echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-            $uploadOk = 0;
+            $uploadOk = false;
         }
 
-        if ($uploadOk == 0) {
+        if (!$uploadOk) {
             echo "Sorry, your file was not uploaded.";
             // if everything is ok, try to upload file
         } else {

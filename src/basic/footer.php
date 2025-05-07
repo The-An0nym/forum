@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/styles/footer.css">
 <div class="footer">
 footer (to come)
-<a href="https://github.com"><img href="/icons/github-mark-white.png"></img></a>
+<a style="display: block;" href="https://github.com"><img href="/images/icons/github-mark.png"></img></a>
 </div>
