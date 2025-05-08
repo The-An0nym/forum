@@ -44,14 +44,19 @@ if(include($path . '/functions/validateSession.php')) {
         }
 
         // Check file type
-        if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+        if($imageFileType == "png") {
+            $image = imageCreateFromPng($_FILES["i"]["tmp_name"]);
+        } else if($imageFileType == "jpg" || $imageFileType == "jpeg") {
+            $image = imageCreateFromJpeg($_FILES["i"]["tmp_name"]);
+        } else {
             echo "Image must be jpg or png";
             $pass = false;
         }
 
+        list($width, $height, $type, $attr) = $check;
+
         // Check resolution
         if($pass) {
-            list($width, $height, $type, $attr) = $check;
             if($width > 512 || $height > 512) {
                 echo "Image size must be below 512 x 512px";
                 $pass = false;
@@ -60,10 +65,14 @@ if(include($path . '/functions/validateSession.php')) {
                 echo "Image size must be bigger than 128 x 128px";
                 $pass = false;
             }
+        }
+
+        // Crop to square
+        if($pass) {
             if($width < $height) {
-                $image = imagecrop($_FILES["i"]["tmp_name"], ['x' => 0, 'y' => 0, 'width' => $width, 'height' => $width]);
+                $image = imagecrop($image, ['x' => 0, 'y' => 0, 'width' => $width, 'height' => $width]);
             } else if($width > $height) {
-                $image = imagecrop($_FILES["i"]["tmp_name"], ['x' => 0, 'y' => 0, 'width' => $height, 'height' => $height]);
+                $image = imagecrop($image, ['x' => 0, 'y' => 0, 'width' => $height, 'height' => $height]);
             }
         }
 
