@@ -17,10 +17,10 @@ async function getPosts() {
       post.className = "post";
       post.id = dataJSON[i].id;
 
-      const username = document.createElement("span");
-      username.className = "username";
-      username.textContent = dataJSON[i].username;
-      post.appendChild(username);
+      /* USER INFO */
+
+      const userDetails = document.createElement("span");
+      userDetails.className = "user-details";
 
       const profilePicture = document.createElement("img");
       profilePicture.className = "profile-picture";
@@ -28,28 +28,45 @@ async function getPosts() {
         "src",
         `/images/profiles/${dataJSON[i].imageSrc}`
       );
-      post.appendChild(profilePicture);
+      userDetails.appendChild(profilePicture);
+
+      const username = document.createElement("span");
+      username.className = "username";
+      username.textContent = dataJSON[i].username;
+      userDetails.appendChild(username);
 
       const userPostCount = document.createElement("span");
       userPostCount.className = "user-post-count";
       userPostCount.textContent = dataJSON[i].userPostCount;
-      post.appendChild(userPostCount);
+      userDetails.appendChild(userPostCount);
+
+      post.appendChild(userDetails);
+
+      /* REST OF THE POST */
+
+      const postData = document.createElement("span");
+      postData.className = "post-data";
 
       const content = document.createElement("span");
       content.className = "content";
       content.innerHTML = dataJSON[i].content;
-      post.appendChild(content);
+      postData.appendChild(content);
+
+      /* META */
+
+      const postMeta = document.createElement("span");
+      postMeta.className = "post-metadata";
 
       const created = document.createElement("span");
       created.className = "created";
       created.textContent = dataJSON[i].created;
-      post.appendChild(created);
+      postMeta.appendChild(created);
 
       if (dataJSON[i].edited !== "0") {
         const edited = document.createElement("span");
         edited.className = "edited";
         edited.textContent = "edited";
-        post.appendChild(edited);
+        postMeta.appendChild(edited);
       }
 
       if (dataJSON[i].editable) {
@@ -57,8 +74,11 @@ async function getPosts() {
         editable.className = "edit-button";
         editable.textContent = "edit";
         editable.setAttribute("onclick", `editPost("${dataJSON[i].id}")`);
-        post.appendChild(editable);
+        postMeta.appendChild(editable);
       }
+
+      postData.appendChild(postMeta);
+      post.appendChild(postData);
 
       cont.appendChild(post);
     }
@@ -81,7 +101,7 @@ getPosts();
 
 function editPost(id) {
   const div = document.getElementById(id);
-  const cont = div.textContent; // Get text content
+  const cont = div.querySelector(".content").textContent;
   div.innerHTML = "";
 
   const textarea = document.createElement("textarea");

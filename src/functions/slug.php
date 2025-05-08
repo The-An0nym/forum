@@ -7,7 +7,7 @@ function generateSlug($text) {
 
     $conn = getConn();
 
-    $sql = "SELECT COUNT(*) AS num FROM threads WHERE slug = '$baseSlug'";
+    $sql = "SELECT COUNT(*) AS num FROM threads WHERE slug = '$baseSlug' LIMIT 1";
     $result = $conn->query($sql);
     if ($result->fetch_assoc()["num"] == 0) {
         $slug = $baseSlug;
@@ -16,7 +16,7 @@ function generateSlug($text) {
 
         $sql = "SELECT COUNT(*) AS num FROM threads WHERE slug LIKE '$slug'";
         $result = $conn->query($sql);
-        if($result->num_rows> 0) {
+        if($result->num_rows > 0) {
             $slug = $baseSlug . "-" . $result->fetch_assoc()["num"];
         } else {
             $slug = $baseSlug . '-1';

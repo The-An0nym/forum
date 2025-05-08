@@ -22,6 +22,7 @@ if(!session_id()) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quir | Profile</title>
     <link rel="stylesheet" href="/styles/main.css" />
+    <link rel="stylesheet" href="/styles/profile.css"/>
 </head>
 <body>
     <?php include $path . "/basic/menu.php"; ?>
@@ -30,11 +31,12 @@ if(!session_id()) {
         if(include($path . '/functions/validateSession.php')) {
             $user_id = $_SESSION["user_id"];
 
-            $sql = "SELECT username, image_dir, posts FROM users WHERE user_id = '$user_id'";
+            $sql = "SELECT username, image_dir, posts FROM users WHERE user_id = '$user_id' LIMIT 1";
             $result = $conn->query($sql);
-            $username = $result->fetch_assoc()["username"];
-            $image_dir = $result->fetch_assoc()["image_dir"];
-            $posts = $result->fetch_assoc()["posts"];
+            $row = $result->fetch_assoc();
+            $username = $row["username"];
+            $image_dir = $row["image_dir"];
+            $posts = $row["posts"];
 
             echo '<label for="pfp">Choose a profile picture:</label>
                 <input type="file" id="pfp" name="avatar" accept="image/png, image/jpeg" />
@@ -45,7 +47,7 @@ if(!session_id()) {
                 <div class="posts">' . $posts . '</div>';
 
         } else {
-            echo "Please Log in or Sign up to continue..."
+            echo "Please Log in or Sign up to continue...";
         }
     
     
