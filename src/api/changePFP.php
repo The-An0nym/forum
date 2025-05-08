@@ -43,14 +43,33 @@ if(include($path . '/functions/validateSession.php')) {
             $pass = false;
         }
 
+        // Check file type
         if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
             echo "Image must be jpg or png";
             $pass = false;
         }
 
+        // Check resolution
+        if($pass) {
+            list($width, $height, $type, $attr) = $check;
+            if($width > 512 || $height > 512) {
+                echo "Image size must be below 512 x 512px";
+                $pass = false;
+            }
+            if($width < 128 || $height < 128) {
+                echo "Image size must be bigger than 128 x 128px";
+                $pass = false;
+            }
+            if($width < $height) {
+                $image = imagecrop($_FILES["i"]["tmp_name"], ['x' => 0, 'y' => 0, 'width' => $width, 'height' => $width]);
+            } else if($width > $height) {
+                $image = imagecrop($_FILES["i"]["tmp_name"], ['x' => 0, 'y' => 0, 'width' => $height, 'height' => $height]);
+            }
+        }
+
         // Add file to server
         if ($pass) {
-            if (move_uploaded_file($_FILES["i"]["tmp_name"], $target_file)) {
+            if (move_uploaded_file($image, $target_file)) {
                 // Success
             } else {
                 echo "An error has occured [CP0]";
