@@ -1,7 +1,18 @@
 .post {
-  margin: 4px;
-  padding: 4px;
+  margin: 1%;
+  padding: 1%;
   border: 1px black solid;
+  display: flex;
+  flex-direction: row;
+}
+
+.user-details {
+  width: 16%;
+  border-right: 1px solid black;
+}
+
+.profile-picture {
+  width: 80%;
 }
 
 .username {
@@ -9,8 +20,11 @@
   display: block;
 }
 
-.profile-picture {
-  width: 8%;
+.post-data {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 80%;
 }
 
 .content {

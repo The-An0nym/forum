@@ -100,8 +100,8 @@ getPosts();
 /* EDITING POSTS */
 
 function editPost(id) {
-  const div = document.getElementById(id);
-  const cont = div.querySelector(".content").textContent;
+  const div = document.getElementById(id).querySelector(".content");
+  const cont = div.textContent;
   div.innerHTML = "";
 
   const textarea = document.createElement("textarea");
