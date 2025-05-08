@@ -1,3 +1,5 @@
+/* CHANGING THE PROFILE PICTURE */
+
 async function uploadImage() {
   const file = document.getElementById("pfp");
   const img = file.files[0];
@@ -39,6 +41,8 @@ function verifyImage(img) {
   return true;
 }
 
+/* CHANGING THE USERNAME */
+
 async function changeUsername() {
   const inp = document.getElementById("username");
   const val = inp.value;
@@ -56,7 +60,6 @@ async function changeUsername() {
   if (/\S/.test(result)) {
     errorMessage(result);
   } else {
-    loginCont.remove();
     location.reload();
   }
 }

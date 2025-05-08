@@ -81,10 +81,13 @@ getPosts();
 
 function editPost(id) {
   const div = document.getElementById(id);
+  const cont = div.textContent; // Get text content
   div.innerHTML = "";
-  let textarea = document.createElement("textarea");
+
+  const textarea = document.createElement("textarea");
   textarea.id = "editTxt";
-  let button = document.createElement("button");
+  textarea.value = cont;
+  const button = document.createElement("button");
   button.textContent = "submit";
   button.setAttribute("onclick", `sendEdit("${id}")`);
   div.appendChild(textarea);

@@ -14,9 +14,7 @@ if(!session_id()) {
     session_start();
 }
 
-if(!isset($_SESSION['user_id']) || !isset($_SESSION['session_id'])) {
-    return false;
-} else {
+if(isset($_SESSION['user_id'], $_SESSION['session_id'])) {
     $session_id = $_SESSION['session_id'];
 
     // Don't search by session_id ?
@@ -47,4 +45,13 @@ if(!isset($_SESSION['user_id']) || !isset($_SESSION['session_id'])) {
         }
     }
 }
+
+if(isset($_SESSION["user_id"])) {
+    unset($_SESSION['user_id']);
+}
+
+if(isset($_SESSION["session_id"])) {
+    unset($_SESSION['session_id']);
+}
+
 return false;
