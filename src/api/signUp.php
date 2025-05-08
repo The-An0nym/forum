@@ -30,7 +30,7 @@ if (isset($_POST['u'], $_POST['p1'], $_POST['p2'])) {
             $pswrd = password_hash($password, PASSWORD_DEFAULT);
             $dtime = date('Y-m-d H:i:s');
 
-            $sql = "INSERT INTO users (user_id, image_id, username, password, created)
+            $sql = "INSERT INTO users (user_id, image_dir, username, password, created)
             VALUES ('$user_id', '_default.png', '$username', '$pswrd', '$dtime')";
 
             if ($conn->query($sql) === TRUE) {
@@ -63,9 +63,9 @@ if (isset($_POST['u'], $_POST['p1'], $_POST['p2'])) {
         echo "Max 20. chars allowed for username";
     } else if(strlen($username) < 4) {
         echo "Min. 4 chars needed for username";
-    } else if(strlen($username) > 80) {
+    } else if(strlen($password) > 64) {
         echo "Max 50. chars allowed for your password";
-    } else if(strlen($username) < 8) {
+    } else if(strlen($password) < 8) {
         echo "Min. 8 chars needed for password";
     } else if($password !== $password2) {
         echo "Passwords do not match";

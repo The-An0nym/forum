@@ -9,6 +9,10 @@
   display: block;
 }
 
+.profile-picture {
+  width: 8%;
+}
+
 .content {
   font-size: 0.7em;
 }

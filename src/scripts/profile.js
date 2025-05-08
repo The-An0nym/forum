@@ -38,3 +38,25 @@ function verifyImage(img) {
 
   return true;
 }
+
+async function changeUsername() {
+  const inp = document.getElementById("username");
+  const val = inp.value;
+  // Check username restrictions
+
+  const response = await fetch("/api/changeUsername.php", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/x-www-form-urlencoded",
+    },
+    body: `u=${val}`,
+  });
+
+  const result = await response.text();
+  if (/\S/.test(result)) {
+    errorMessage(result);
+  } else {
+    loginCont.remove();
+    location.reload();
+  }
+}

@@ -17,6 +17,9 @@
     <input type="file" id="pfp" name="avatar" accept="image/png, image/jpeg" />
     <button onclick="uploadImage()">Submit</button>
 
+    <input id="username" placeholder="Change username..." />
+    <buton onclick="changeUsername()">Change username</button>
+
     <?php
     
     
