@@ -75,8 +75,8 @@ function loadPreview() {
 
   const img = file.files[0];
   if (verifyImage(img)) {
-    document.getElementById("imageSave").removeAttribute("disabled");
-    document.getElementById("imageClear").removeAttribute("disabled");
+    document.getElementById("imageSave").disabled = false;
+    document.getElementById("imageClear").disabled = false;
     document.getElementById("imagePreview").src =
       window.URL.createObjectURL(img);
   } else {
@@ -86,15 +86,15 @@ function loadPreview() {
 
 function clearImage() {
   document.getElementById("pfp").value = "";
-  document.getElementById("imageSave").setAttribute("disabled");
-  document.getElementById("imageClear").setAttribute("disabled");
+  document.getElementById("imageSave").disabled = true;
+  document.getElementById("imageClear").disabled = true;
 }
 
 // Username
 document.getElementById("username").addEventListener("keyup", (e) => {
   if (username !== e.target.value) {
-    document.getElementById("usernameSave").setAttribute("disabled");
+    document.getElementById("usernameSave").disabled = true;
   } else {
-    document.getElementById("usernameSave").removeAttribute("disabled");
+    document.getElementById("usernameSave").disabled = false;
   }
 });
