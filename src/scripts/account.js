@@ -35,9 +35,9 @@ async function signUp() {
   const pswdConf = document.getElementById("password-confirmation");
   const loginCont = document.getElementById("login-container");
 
-  if (!checkUsername(user)) return;
-  if (!checkPassword(pswd)) return;
-  if (pswd !== pswdConf) return;
+  if (!checkUsername(user.value)) return;
+  if (!checkPassword(pswd.value)) return;
+  if (pswd.value !== pswdConf.value) return;
 
   // Sign up
   const response = await fetch("/api/signUp.php", {
@@ -89,8 +89,8 @@ async function login() {
   const pswd = document.getElementById("password");
   const loginCont = document.getElementById("login-container");
 
-  if (!checkUsername(user)) return;
-  if (!checkPassword(pswd)) return;
+  if (!checkUsername(user.value)) return;
+  if (!checkPassword(pswd.value)) return;
 
   // Login
   const response = await fetch("/api/login.php", {

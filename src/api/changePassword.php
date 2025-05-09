@@ -17,7 +17,7 @@ if(!session_id()) {
 if (isset($_POST['p'], $_POST['np'])) {
     $password = htmlspecialchars($_POST["p"]);
     $newPassword = htmlspecialchars($_POST["np"]);
-    $user_id = $_SESSION["user_id"]
+    $user_id = $_SESSION["user_id"];
             
     if(strlen($password) <= 50 && strlen($password) >= 8 && strlen($newPassword) <= 50 && strlen($newPassword) >= 8) {
         $sql = "SELECT password FROM users WHERE user_id='$user_id'";
@@ -30,7 +30,7 @@ if (isset($_POST['p'], $_POST['np'])) {
             if(password_verify($password, $hashedPassword)) {
                 $newHashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 
-                $sql = "UPDATE users SET sessions password = '$newHashedPassword'";
+                $sql = "UPDATE users SET password = '$newHashedPassword'";
 
                 if ($conn->query($sql) === FALSE) {
                     echo "Changing password failed: Please try again later";

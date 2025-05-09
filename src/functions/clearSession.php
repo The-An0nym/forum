@@ -1,6 +1,6 @@
 <?php
 $path = $_SERVER['DOCUMENT_ROOT'];
-include $path . '/functions/connect.php' ;
+include $path . '/functions/.connect.php' ;
 
 // Get Connection
 $conn = getConn();
@@ -14,12 +14,12 @@ if(!session_id()) {
     session_start();
 }
 
-include('deleteExpiredSessions.php');
-
-if(!isset($_SESSION['session_id'])) {
-    return "No session_id";
+if(!isset($_SESSION['session_id'], $_SESSION['user_id'])) {
+    return "No session";
     exit;
 }
+
+include('deleteExpiredSessions.php');
 
 $session_id = $_SESSION['session_id'];
 $sql = "DELETE FROM sessions WHERE session_id='$session_id'";

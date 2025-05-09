@@ -139,7 +139,13 @@ function passwordChange() {
   const currPassword = document.getElementById("currPassword").value;
   const newPassword = document.getElementById("newPassword").value;
   const confPassword = document.getElementById("confPassword").value;
-  if (currPassword !== "" && newPassword !== "" && confPassword !== "") {
+  // Maybe just hide/show if the user wants to edit instead of detecting changes?
+  if (
+    currPassword !== "" &&
+    newPassword !== "" &&
+    confPassword !== "" &&
+    currPassword !== newPassword
+  ) {
     document.getElementById("passwordButtons").style.display = "block";
   } else {
     document.getElementById("passwordButtons").style.display = "none";
