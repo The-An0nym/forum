@@ -87,6 +87,7 @@ function clearImage() {
   document.getElementById("pfp").value = "";
   document.getElementById("imageSave").disabled = true;
   document.getElementById("imageClear").disabled = true;
+  document.getElementById("preview").src = `/images/profiles/${image_dir}`;
 }
 
 // Username

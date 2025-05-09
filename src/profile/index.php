@@ -50,6 +50,7 @@ if(!session_id()) {
                 <div class="posts"><?php echo $posts; ?></div>
                 <script>
                     const username = "<?php echo $username; ?>";
+                    const image_id = "<?php echo $image_dir; ?>";
                 </script>
             <?php
 
