@@ -39,7 +39,7 @@ if(!session_id()) {
             $posts = $row["posts"];
 
             ?>
-                <input type="file" id="pfp" name="avatar" accept="image/png, image/jpeg, image/jpg" />
+                <input onchange="loadPreview()" type="file" id="pfp" name="avatar" accept="image/png, image/jpeg, image/jpg" />
                 <button onclick="uploadImage()" id="imageSave" disabled="true">Save</button>
                 <button onclick="clearImage()" id="imageClear" disabled="true">Clear</button>
                 <img id="preview" src="/images/profiles/<?php echo $image_dir; ?>">

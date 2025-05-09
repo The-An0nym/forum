@@ -69,32 +69,32 @@ async function changeUsername() {
 /* SAVE BUTTONS */
 
 // Image
-document.getElementById("pfp").addEventListener("change", (e) => {
-  const file = e.target;
+function loadPreview() {
+  const file = document.getElementById("pfp");
   if ((file.value = "")) return; // Guard clause
 
   const img = file.files[0];
   if (verifyImage(img)) {
-    document.getElementById("imageSave").setAttribute("disabled", "false");
-    document.getElementById("imageClear").setAttribute("disabled", "false");
+    document.getElementById("imageSave").removeAttribute("disabled");
+    document.getElementById("imageClear").removeAttribute("disabled");
     document.getElementById("imagePreview").src =
       window.URL.createObjectURL(img);
   } else {
     clearImage();
   }
-});
+}
 
 function clearImage() {
   document.getElementById("pfp").value = "";
-  document.getElementById("imageSave").setAttribute("disabled", "true");
-  document.getElementById("imageClear").setAttribute("disabled", "true");
+  document.getElementById("imageSave").setAttribute("disabled");
+  document.getElementById("imageClear").setAttribute("disabled");
 }
 
 // Username
-document.getElementById("username").addEventListener("change", (e) => {
+document.getElementById("username").addEventListener("keyup", (e) => {
   if (username !== e.target.value) {
-    document.getElementById("usernameSave").setAttribute("disabled", "true");
+    document.getElementById("usernameSave").setAttribute("disabled");
   } else {
-    document.getElementById("usernameSave").setAttribute("disabled", "false");
+    document.getElementById("usernameSave").removeAttribute("disabled");
   }
 });
