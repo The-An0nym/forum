@@ -75,26 +75,31 @@ function loadPreview() {
 
   const img = file.files[0];
   if (verifyImage(img)) {
-    document.getElementById("imageSave").disabled = false;
-    document.getElementById("imageClear").disabled = false;
+    document.getElementById("imageButtons").style.display = "block";
     document.getElementById("preview").src = window.URL.createObjectURL(img);
   } else {
-    clearImage();
+    revertImage();
   }
 }
 
-function clearImage() {
+function revertImage() {
   document.getElementById("pfp").value = "";
-  document.getElementById("imageSave").disabled = true;
-  document.getElementById("imageClear").disabled = true;
+  document.getElementById("imageButtons").style.display = "none";
   document.getElementById("preview").src = `/images/profiles/${image_dir}`;
 }
 
 // Username
 document.getElementById("username").addEventListener("keyup", (e) => {
   if (username === e.target.value) {
-    document.getElementById("usernameSave").disabled = true;
+    document.getElementById("usernameButtons").style.display = "none";
   } else {
-    document.getElementById("usernameSave").disabled = false;
+    document.getElementById("usernameButtons").style.display = "block";
   }
 });
+
+function revertUsername() {
+  document.getElementById("username").value = username;
+  document.getElementById("usernameButtons").style.display = "none";
+}
+
+// Password

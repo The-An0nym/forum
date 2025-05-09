@@ -38,19 +38,36 @@ if(!session_id()) {
             $image_dir = $row["image_dir"];
             $posts = $row["posts"];
 
-            ?>
+            ?>  
+            <div class="profile-picture">
                 <input onchange="loadPreview()" type="file" id="pfp" name="avatar" accept="image/png, image/jpeg, image/jpg" />
-                <button onclick="uploadImage()" id="imageSave" disabled="true">Save</button>
-                <button onclick="clearImage()" id="imageClear" disabled="true">Clear</button>
+                <div id="imageButtons">
+                    <button class="save button" onclick="uploadImage()" disabled="true">Save</button>
+                    <button class="clear button" onclick="revertImage()" disabled="true">Cancel</button>
+                </div>
                 <img id="preview" src="/images/profiles/<?php echo $image_dir; ?>">
-
+            </div>
+            <div class="username">
                 <input id="username" value="<?php echo $username; ?>" placeholder="Change username..." />
-                <button onclick="changeUsername()" id="usernameSave" disabled="true">Save</button>
-
-                <div class="posts"><?php echo $posts; ?></div>
+                <div id="usernameButtons">
+                    <button class="save button" onclick="changeusername()" disabled="true">Save</button>
+                    <button class="save button" onclick="revertUsername()" disabled="true">Cancel</button>
+                </div>
+            </div>
+            <div class="password">
+                <input type="password" id="currPassword" placeholder="Current password...">
+                <input type="password" id="newPassword" placeholder="New password...">
+                <input type="password" id="confPassword" placeholder="Confirm password...">
+                <div id="passwordButtons">
+                    <button class="save button" onclick="changePassword()" id="passwordSave">Save</button>
+                    <button class="save button" onclick="revertUsername()" id="usernameSave" disabled="true">Cancel</button>
+                </div>
+            </div>
+            <!-- DELETE ACCOUNT -->
+            <div class="posts"><?php echo $posts; ?></div>
                 <script>
                     const username = "<?php echo $username; ?>";
-                    const image_id = "<?php echo $image_dir; ?>";
+                    const image_dir = "<?php echo $image_dir; ?>";
                 </script>
             <?php
 
