@@ -38,13 +38,20 @@ if(!session_id()) {
             $image_dir = $row["image_dir"];
             $posts = $row["posts"];
 
-            echo '<label for="pfp">Choose a profile picture:</label>
-                <input type="file" id="pfp" name="avatar" accept="image/png, image/jpeg" />
-                <button onclick="uploadImage()">Submit</button>
-                <img id="preview" src="/images/profiles/' . $image_dir . '">
-                <input id="username" value="' . $username . '" placeholder="Change username..." />
-                <button onclick="changeUsername()">Change username</button>
-                <div class="posts">' . $posts . '</div>';
+            ?>
+                <input type="file" id="pfp" name="avatar" accept="image/png, image/jpeg, image/jpg" />
+                <button onclick="uploadImage()" id="imageSave" disabled="true">Save</button>
+                <button onclick="clearImage()" id="imageClear" disabled="true">Clear</button>
+                <img id="preview" src="/images/profiles/<?php echo $image_dir; ?>">
+
+                <input id="username" value="<?php echo $username; ?>" placeholder="Change username..." />
+                <button onclick="changeUsername()" id="usernameSave" disabled="true">Save</button>
+
+                <div class="posts"><?php echo $posts; ?></div>
+                <script>
+                    const username = "<?php echo $username; ?>";
+                </script>
+            <?php
 
         } else {
             echo "Please Log in or Sign up to continue...";

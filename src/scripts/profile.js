@@ -1,4 +1,4 @@
-/* CHANGING THE PROFILE PICTURE */
+/* UPLOADING THE PROFILE PICTURE */
 
 async function uploadImage() {
   const file = document.getElementById("pfp");
@@ -41,13 +41,15 @@ function verifyImage(img) {
   return true;
 }
 
-/* CHANGING THE USERNAME */
+/* UPLOADING THE USERNAME */
 
 async function changeUsername() {
   const inp = document.getElementById("username");
   const val = inp.value;
-  // Check username restrictions
 
+  if (username === val) return;
+
+  // Check username restrictions
   const response = await fetch("/api/changeUsername.php", {
     method: "POST",
     headers: {
@@ -63,3 +65,36 @@ async function changeUsername() {
     location.reload();
   }
 }
+
+/* SAVE BUTTONS */
+
+// Image
+document.getElementById("pfp").addEventListener("change", (e) => {
+  const file = e.target;
+  if ((file.value = "")) return; // Guard clause
+
+  const img = file.files[0];
+  if (verifyImage(img)) {
+    document.getElementById("imageSave").setAttribute("disabled", "false");
+    document.getElementById("imageClear").setAttribute("disabled", "false");
+    document.getElementById("imagePreview").src =
+      window.URL.createObjectURL(img);
+  } else {
+    clearImage();
+  }
+});
+
+function clearImage() {
+  document.getElementById("pfp").value = "";
+  document.getElementById("imageSave").setAttribute("disabled", "true");
+  document.getElementById("imageClear").setAttribute("disabled", "true");
+}
+
+// Username
+document.getElementById("username").addEventListener("change", (e) => {
+  if (username !== e.target.value) {
+    document.getElementById("usernameSave").setAttribute("disabled", "true");
+  } else {
+    document.getElementById("usernameSave").setAttribute("disabled", "false");
+  }
+});

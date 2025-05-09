@@ -78,11 +78,10 @@ if(include($path . '/functions/validateSession.php')) {
 
         // Add file to server
         if ($pass) {
-            if (move_uploaded_file($image, $target_file)) {
-                // Success
-            } else {
-                echo "An error has occured [CP0]";
-                $pass = false;
+            if($imageFileType == "png") {
+                imagepng($image, $target_file);
+            } else if($imageFileType == "jpg" || $imageFileType == "jpeg") {
+                imagejpeg($image, $target_file);
             }
         }
         
