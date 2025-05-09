@@ -15,7 +15,7 @@ if(!session_id()) {
 } 
         
 if (isset($_POST['u'])) {
-    $username = htmlspecialchars($_POST["u"]); // idk about mysql_real_escape_string ??
+    $username = htmlspecialchars($_POST["u"]);
             
     if(strlen($username) <= 16 && strlen($username) >= 4 && preg_match('/^[A-z0-9.\-+]*$/i', $username) == 1) {
 
@@ -36,7 +36,7 @@ if (isset($_POST['u'])) {
     } else if(preg_match('/^[A-z0-9.\-+]*$/i', $username) != 1) {
         echo "Only characters <b>a-Z 0-9 + - _ .</b> are allowed";
     } else if(strlen($username) > 20) {
-        echo "Max 20. chars allowed for username";
+        echo "Max 16. chars allowed for username";
     } else if(strlen($username) < 4) {
         echo "Min. 4 chars needed for username";
     } else {

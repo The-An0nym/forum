@@ -12,8 +12,7 @@ if ($conn->connect_error) {
 }
     
 if(isset($_POST["u"], $_POST["p"])) {
-   
-    $username = htmlspecialchars($_POST["u"]); // idk about mysql_real_escape_string ??
+    $username = htmlspecialchars($_POST["u"]);
     $password = $_POST["p"];
 
     $sql = "SELECT password, user_id FROM users WHERE username='$username'";

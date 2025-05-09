@@ -41,26 +41,26 @@ if(!session_id()) {
             ?>  
             <div class="profile-picture">
                 <input onchange="loadPreview()" type="file" id="pfp" name="avatar" accept="image/png, image/jpeg, image/jpg" />
-                <div id="imageButtons">
-                    <button class="save button" onclick="uploadImage()" disabled="true">Save</button>
-                    <button class="clear button" onclick="revertImage()" disabled="true">Cancel</button>
+                <div class="button-container" id="imageButtons">
+                    <button class="save button" onclick="uploadImage()">Save</button>
+                    <button class="clear button" onclick="revertImage()">Cancel</button>
                 </div>
                 <img id="preview" src="/images/profiles/<?php echo $image_dir; ?>">
             </div>
             <div class="username">
                 <input id="username" value="<?php echo $username; ?>" placeholder="Change username..." />
-                <div id="usernameButtons">
-                    <button class="save button" onclick="changeusername()" disabled="true">Save</button>
-                    <button class="save button" onclick="revertUsername()" disabled="true">Cancel</button>
+                <div class="button-container" id="usernameButtons">
+                    <button class="save button" onclick="changeusername()">Save</button>
+                    <button class="save button" onclick="revertUsername()">Cancel</button>
                 </div>
             </div>
             <div class="password">
-                <input type="password" id="currPassword" placeholder="Current password...">
-                <input type="password" id="newPassword" placeholder="New password...">
-                <input type="password" id="confPassword" placeholder="Confirm password...">
-                <div id="passwordButtons">
+                <input oninput="passwordChange()" type="password" id="currPassword" placeholder="Current password...">
+                <input oninput="passwordChange()" type="password" id="newPassword" placeholder="New password...">
+                <input oninput="passwordChange()" type="password" id="confPassword" placeholder="Confirm password...">
+                <div class="button-container" id="passwordButtons">
                     <button class="save button" onclick="changePassword()" id="passwordSave">Save</button>
-                    <button class="save button" onclick="revertUsername()" id="usernameSave" disabled="true">Cancel</button>
+                    <button class="save button" onclick="revertUsername()" id="usernameSave">Cancel</button>
                 </div>
             </div>
             <!-- DELETE ACCOUNT -->

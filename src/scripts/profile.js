@@ -41,13 +41,14 @@ function verifyImage(img) {
   return true;
 }
 
-/* UPLOADING THE USERNAME */
+/* CHANGING THE USERNAME */
 
 async function changeUsername() {
   const inp = document.getElementById("username");
   const val = inp.value;
 
   if (username === val) return;
+  if (!checkUsername(val)) return;
 
   // Check username restrictions
   const response = await fetch("/api/changeUsername.php", {
@@ -56,6 +57,36 @@ async function changeUsername() {
       "Content-type": "application/x-www-form-urlencoded",
     },
     body: `u=${val}`,
+  });
+
+  const result = await response.text();
+  if (/\S/.test(result)) {
+    errorMessage(result);
+  } else {
+    location.reload();
+  }
+}
+
+/* CHANGING THE PASSWORD */
+async function changePassword() {
+  const currPswdEle = document.getElementById("currPassword");
+  const newPswdEle = document.getElementById("newPassword");
+  const confPswdEle = document.getElementById("confPassword");
+  const currPswd = currPswdEle.value;
+  const newPswd = newPswdEle.value;
+  const confPswd = confPswdEle.value;
+
+  if (!checkPassword(currPswd)) return;
+  if (!checkPassword(newPswd)) return;
+  if (confPswd !== newPswd) return;
+
+  // Check password restrictions
+  const response = await fetch("/api/changePassword.php", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/x-www-form-urlencoded",
+    },
+    body: `p=${currPswd}&np=${newPswd}`,
   });
 
   const result = await response.text();
@@ -89,13 +120,14 @@ function revertImage() {
 }
 
 // Username
-document.getElementById("username").addEventListener("keyup", (e) => {
-  if (username === e.target.value) {
+function usernameChange() {
+  const usernameInput = document.getElementById("username");
+  if (username === usernameInput.value) {
     document.getElementById("usernameButtons").style.display = "none";
   } else {
     document.getElementById("usernameButtons").style.display = "block";
   }
-});
+}
 
 function revertUsername() {
   document.getElementById("username").value = username;
@@ -103,3 +135,13 @@ function revertUsername() {
 }
 
 // Password
+function passwordChange() {
+  const currPassword = document.getElementById("currPassword").value;
+  const newPassword = document.getElementById("newPassword").value;
+  const confPassword = document.getElementById("confPassword").value;
+  if (!currPassword && !newPassword && !confPassword) {
+    document.getElementById("passwordButtons").style.display = "block";
+  } else {
+    document.getElementById("passwordButtons").style.display = "none";
+  }
+}

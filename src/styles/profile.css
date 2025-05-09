@@ -1,3 +1,12 @@
 #preview {
   width: 20%;
 }
+
+.button-container {
+  display: none;
+}
+
+.button {
+  padding: 1%;
+  margin: 1%;
+}
