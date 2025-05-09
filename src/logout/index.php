@@ -15,7 +15,7 @@ if(!session_id()) {
 }
 
 $res = include($path . '/functions/clearSession.php');
-if($res === "PASS") {
+if($res === "") {
     header('Location: https://quir.free.nf');
 } else {
     echo $res;
