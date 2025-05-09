@@ -139,7 +139,7 @@ function passwordChange() {
   const currPassword = document.getElementById("currPassword").value;
   const newPassword = document.getElementById("newPassword").value;
   const confPassword = document.getElementById("confPassword").value;
-  if (!currPassword && !newPassword && !confPassword) {
+  if (currPassword !== "" && newPassword !== "" && confPassword !== "") {
     document.getElementById("passwordButtons").style.display = "block";
   } else {
     document.getElementById("passwordButtons").style.display = "none";

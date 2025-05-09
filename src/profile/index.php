@@ -48,7 +48,7 @@ if(!session_id()) {
                 <img id="preview" src="/images/profiles/<?php echo $image_dir; ?>">
             </div>
             <div class="username">
-                <input id="username" value="<?php echo $username; ?>" placeholder="Change username..." />
+                <input oninput="usernameChange()" id="username" value="<?php echo $username; ?>" placeholder="Change username..." />
                 <div class="button-container" id="usernameButtons">
                     <button class="save button" onclick="changeusername()">Save</button>
                     <button class="save button" onclick="revertUsername()">Cancel</button>

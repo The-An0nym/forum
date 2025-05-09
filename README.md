@@ -10,8 +10,8 @@ GetPosts: 2 Queries
 
 - Keep logout or change to fetch()
 - Make initial load with PHP, all subsequent calls with Fetch (-> Makes refreshing faster by ~100ms. Subsequent calls via API are ~100ms faster than refreshing) -> Decide whether to actually implement this (Would in the end result in a lot of duplicate code)
-- Q: Make save button for all changes made to profile (username, password, pfp)
 - Only let one post be edited at a time
+- Finalize profile settings page
 
 - Make clearance levels and moderation tools
 - Add ToS, Privacy Policy and cookies warning
