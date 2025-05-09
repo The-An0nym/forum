@@ -71,14 +71,13 @@ async function changeUsername() {
 // Image
 function loadPreview() {
   const file = document.getElementById("pfp");
-  if ((file.value = "")) return; // Guard clause
+  if (file.value == "") return; // Guard clause
 
   const img = file.files[0];
   if (verifyImage(img)) {
     document.getElementById("imageSave").disabled = false;
     document.getElementById("imageClear").disabled = false;
-    document.getElementById("imagePreview").src =
-      window.URL.createObjectURL(img);
+    document.getElementById("preview").src = window.URL.createObjectURL(img);
   } else {
     clearImage();
   }
@@ -92,7 +91,7 @@ function clearImage() {
 
 // Username
 document.getElementById("username").addEventListener("keyup", (e) => {
-  if (username !== e.target.value) {
+  if (username === e.target.value) {
     document.getElementById("usernameSave").disabled = true;
   } else {
     document.getElementById("usernameSave").disabled = false;
