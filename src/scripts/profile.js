@@ -78,7 +78,10 @@ async function changePassword() {
 
   if (!checkPassword(currPswd)) return;
   if (!checkPassword(newPswd)) return;
-  if (confPswd !== newPswd) return;
+  if (confPswd !== newPswd) {
+    errorMessage("Passwords do not match");
+    return;
+  }
 
   // Check password restrictions
   const response = await fetch("/api/changePassword.php", {

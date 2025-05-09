@@ -37,7 +37,10 @@ async function signUp() {
 
   if (!checkUsername(user.value)) return;
   if (!checkPassword(pswd.value)) return;
-  if (pswd.value !== pswdConf.value) return;
+  if (pswd.value !== pswdConf.value) {
+    errorMessage("Passwords do not match");
+    return;
+  }
 
   // Sign up
   const response = await fetch("/api/signUp.php", {

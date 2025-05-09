@@ -50,7 +50,7 @@ if(!session_id()) {
             <div class="username">
                 <input oninput="usernameChange()" id="username" value="<?php echo $username; ?>" placeholder="Change username..." />
                 <div class="button-container" id="usernameButtons">
-                    <button class="save button" onclick="changeusername()">Save</button>
+                    <button class="save button" onclick="changeUsername()">Save</button>
                     <button class="save button" onclick="revertUsername()">Cancel</button>
                 </div>
             </div>
