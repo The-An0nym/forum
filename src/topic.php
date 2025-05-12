@@ -32,6 +32,9 @@ if(!session_id()) {
     </script>
     <script src="/scripts/main.js"></script>
     <script src="/scripts/threads.js"></script>
+    <script>
+        initLoad(<?php include $path . "/api/getThreads"; ?>);
+    </script>
 
     <?php include $path . "/basic/footer.php"; ?>
 </body>

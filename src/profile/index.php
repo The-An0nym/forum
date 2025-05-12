@@ -60,7 +60,7 @@ if(!session_id()) {
                 <input oninput="passwordChange()" type="password" id="confPassword" placeholder="Confirm password...">
                 <div class="button-container" id="passwordButtons">
                     <button class="save button" onclick="changePassword()" id="passwordSave">Save</button>
-                    <button class="save button" onclick="revertUsername()" id="usernameSave">Cancel</button>
+                    <button class="save button" onclick="revertPassword()" id="usernameSave">Cancel</button>
                 </div>
             </div>
             <!-- DELETE ACCOUNT -->

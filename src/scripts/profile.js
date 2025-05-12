@@ -154,3 +154,9 @@ function passwordChange() {
     document.getElementById("passwordButtons").style.display = "none";
   }
 }
+
+function revertPassword() {
+  currPassword = document.getElementById("currPassword").value = "";
+  newPassword = document.getElementById("newPassword").value = "";
+  confPassword = document.getElementById("confPassword").value = "";
+}
