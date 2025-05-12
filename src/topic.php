@@ -6,11 +6,11 @@ if(!session_id()) {
 } 
 
 // Initial threads load
-include $path . "/api/require/threads.php";
+include $path . "/functions/require/threads.php";
 if(isset($_GET["s"])) {
     $slug = $_GET["s"];
 } else {
-    $slug = ""
+    $slug = "";
 }
 
 if(isset($_GET["p"])) {
@@ -39,18 +39,18 @@ $totalThreads = array_shift($threads);
         if($threads !== []) {
         foreach ($threads as $thread): 
         ?>
-            <a class="thread-wrapper" href="/thread/<?= $post['slug'] ?>">
+            <a class="thread-wrapper" href="/thread/<?= $thread['slug'] ?>">
                 <div class="thread">
                     <span class="main-wrapper">
-                        <span class="thread-name"><?= $post['name'] ?></span>
-                        <span class="created"><?= $post['created'] ?></span>
+                        <span class="thread-name"><?= $thread['name'] ?></span>
+                        <span class="created"><?= $thread['created'] ?></span>
                     </span>
                     <span class="details-wrapper">
                         <span class="last-wrapper">
-                            <span class="last-post"><?= $post['lastPost'] ?></span>
-                            <span class="last-user"><?= $post['lastUser'] ?></span>
+                            <span class="last-post"><?= $thread['lastPost'] ?></span>
+                            <span class="last-user"><?= $thread['lastUser'] ?></span>
                         </span>
-                        <span class="count"><?= $post['posts'] ?></span>
+                        <span class="count"><?= $thread['posts'] ?></span>
                     </span>
                 </div>
             </a>

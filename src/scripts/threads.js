@@ -80,8 +80,6 @@ async function getThreads() {
   }
 }
 
-getThreads();
-
 /* CREATE THREADS */
 
 async function createThread() {
