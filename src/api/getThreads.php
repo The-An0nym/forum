@@ -2,6 +2,7 @@
 
 $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
+include $path . '/functions/require/threads.php';
 
 // Get connection
 $conn = getConn();
@@ -15,72 +16,26 @@ if(isset($_GET['s'], $_GET['p'])) {
     $slug = $_GET['s'];
     $page = $_GET['p'] * 20;
     
-    if($slug != "") {
-        $sql = "SELECT COUNT(*) AS total_threads
-                FROM threads t
-                JOIN categories c ON c.id = t.category_id
-                WHERE c.slug = '$slug'";
-        $result = $conn->query($sql);
-        $total_threads = $result->fetch_assoc()["total_threads"];
+    $threads = getThreads($slug, $page);
 
-        $sql = "SELECT 
-                    t.name, 
-                    t.slug,
-                    t.created, 
-                    t.posts,
-                    u.username AS lastUser,
-                    lp.created AS lastPost
-                FROM 
-                    threads t
-                JOIN categories c ON c.id = t.category_id
-                LEFT JOIN (
-                    SELECT 
-                        p1.thread_id, 
-                        p1.user_id,
-                        p1.created
-                    FROM 
-                        posts p1
-                    INNER JOIN (
-                        SELECT 
-                            thread_id, 
-                            MAX(created) AS maxCreated
-                        FROM 
-                            posts
-                        GROUP BY 
-                            thread_id
-                    ) p2 ON p1.thread_id = p2.thread_id AND p1.created = p2.maxCreated
-                ) lp ON t.id = lp.thread_id
-                LEFT JOIN (
-                    SELECT username, user_id FROM users
-                ) u ON u.user_id = lp.user_id
-                WHERE 
-                    c.slug = '$slug'
-                ORDER BY 
-                    lp.created DESC
-                LIMIT 20 OFFSET $page";
-
-        $result = $conn->query($sql);
-
+    if($threads > 1) {
         $data = [];
-        $data[] = $total_threads;
-        if ($result->num_rows > 0) {
-            // output data of each row
-            while($row = $result->fetch_assoc()) {
-                $post = new stdClass();
-                $post->name = $row["name"];
-                $post->slug = $row["slug"];
-                $post->created = $row["created"];
-                $post->postCount = $row["posts"];
-                $post->lastUser = $row["lastUser"];
-                $post->lastPost = $row["lastPost"];
-                $data[] = $post;
-            }
+        $data[] = array_shift($threads);
 
-            $dataJSON = json_encode($data);
-            echo $dataJSON;
-        } else {
-        echo "ERROR: Failed to load";
+        // output data of each thread
+        foreach($thread in $threads) {
+            $post = new stdClass();
+            $post->name = $thread["name"];
+            $post->slug = $thread["slug"];
+            $post->created = $thread["created"];
+            $post->postCount = $thread["posts"];
+            $post->lastUser = $thread["lastUser"];
+            $post->lastPost = $thread["lastPost"];
+            $data[] = $post;
         }
+
+        $dataJSON = json_encode($data);
+        echo $dataJSON;
     } else {
         echo "ERROR: Invalid or missing argument";
     }

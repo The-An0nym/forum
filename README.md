@@ -10,7 +10,6 @@ GetPosts: 2 Queries
 
 - Keep logout or change to fetch()
 - Make initial load with PHP, all subsequent calls with Fetch (-> Makes refreshing faster by ~100ms. Subsequent calls via API are ~100ms faster than refreshing)
-- Make the api/getThreads.php use functions/require/threads.php
 - Only let one post be edited at a time
 - Finalize profile settings page
 

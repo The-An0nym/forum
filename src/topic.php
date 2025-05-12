@@ -73,7 +73,7 @@ $totalThreads = array_shift($threads);
     <script src="/scripts/main.js"></script>
     <script> 
         const slug = "<?= $slug; ?>";
-        const page = <?= $page ?>
+        const page = <?= $page; ?>;
         createPageMenu("topic", <?= $slug ?>, <?= $page ?>, <?= $totalThreads ?>);
     </script>
     <script src="/scripts/threads.js"></script>
