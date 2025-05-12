@@ -9,7 +9,64 @@ async function getThreads() {
   try {
     const dataJSON = await response.json();
 
-    generateThreads(dataJSON);
+    createPageMenu("topic", slug, page, dataJSON[0]);
+
+    cont.innerHTML = "";
+
+    for (let i = 1; i < dataJSON.length; i++) {
+      const threadWrapper = document.createElement("a");
+      threadWrapper.className = "thread-wrapper";
+      threadWrapper.setAttribute("href", `/thread/${dataJSON[i].slug}`);
+
+      const thread = document.createElement("div");
+      thread.className = "thread";
+      threadWrapper.appendChild(thread);
+
+      // Main (Title + Created)
+      const mainWrapper = document.createElement("span");
+      mainWrapper.className = "main-wrapper";
+
+      const name = document.createElement("span");
+      name.className = "thread-name";
+      name.innerHTML = dataJSON[i].name;
+      mainWrapper.appendChild(name);
+
+      const created = document.createElement("span");
+      created.className = "created";
+      created.textContent = dataJSON[i].created;
+      mainWrapper.appendChild(created);
+
+      thread.appendChild(mainWrapper);
+
+      // Details (Last user & last post + Posts)
+
+      const detailWrapper = document.createElement("span");
+      detailWrapper.className = "details-wrapper";
+
+      const lastWrapper = document.createElement("span");
+      lastWrapper.className = "last-wrapper";
+
+      const lastPost = document.createElement("span");
+      lastPost.className = "last-post";
+      lastPost.textContent = dataJSON[i].lastPost;
+      lastWrapper.appendChild(lastPost);
+
+      const lastUser = document.createElement("span");
+      lastUser.className = "last-user";
+      lastUser.textContent = dataJSON[i].lastUser;
+      lastWrapper.appendChild(lastUser);
+
+      detailWrapper.appendChild(lastWrapper);
+
+      const postCount = document.createElement("span");
+      postCount.className = "count";
+      postCount.textContent = dataJSON[i].postCount;
+      detailWrapper.appendChild(postCount);
+
+      thread.appendChild(detailWrapper);
+
+      cont.appendChild(threadWrapper);
+    }
   } catch {
     const msg = await clone.text();
     if (/\S/.test(msg)) {
@@ -23,82 +80,7 @@ async function getThreads() {
   }
 }
 
-function generateThreads(data) {
-  createPageMenu("topic", slug, page, data[0]);
-
-  cont.innerHTML = "";
-
-  for (let i = 1; i < data.length; i++) {
-    const threadWrapper = document.createElement("a");
-    threadWrapper.className = "thread-wrapper";
-    threadWrapper.setAttribute("href", `/thread/${data[i].slug}`);
-
-    const thread = document.createElement("div");
-    thread.className = "thread";
-    threadWrapper.appendChild(thread);
-
-    // Main (Title + Created)
-    const mainWrapper = document.createElement("name");
-    mainWrapper.className = "main-wrapper";
-
-    const name = document.createElement("span");
-    name.className = "thread-name";
-    name.innerHTML = data[i].name;
-    mainWrapper.appendChild(name);
-
-    const created = document.createElement("span");
-    created.className = "created";
-    created.textContent = data[i].created;
-    mainWrapper.appendChild(created);
-
-    thread.appendChild(mainWrapper);
-
-    // Details (Last user & last post + Posts)
-
-    const detailWrapper = document.createElement("name");
-    detailWrapper.className = "details-wrapper";
-
-    const lastWrapper = document.createElement("name");
-    lastWrapper.className = "last-wrapper";
-
-    const lastPost = document.createElement("span");
-    lastPost.className = "last-post";
-    lastPost.textContent = data[i].lastPost;
-    lastWrapper.appendChild(lastPost);
-
-    const lastUser = document.createElement("span");
-    lastUser.className = "last-user";
-    lastUser.textContent = data[i].lastUser;
-    lastWrapper.appendChild(lastUser);
-
-    detailWrapper.appendChild(lastWrapper);
-
-    const postCount = document.createElement("span");
-    postCount.className = "count";
-    postCount.textContent = data[i].postCount;
-    detailWrapper.appendChild(postCount);
-
-    thread.appendChild(detailWrapper);
-
-    cont.appendChild(threadWrapper);
-  }
-}
-
-function initLoad(res) {
-  try {
-    const data = JSON.parse(res);
-    generateThreads(data);
-  } catch {
-    if (/\S/.test(res)) {
-      errorMessage(res);
-    } else {
-      const noResults = document.createElement("div");
-      noResults.textContent("There are no threads here yet...");
-
-      cont.appendChild(noResults);
-    }
-  }
-}
+getThreads();
 
 /* CREATE THREADS */
 

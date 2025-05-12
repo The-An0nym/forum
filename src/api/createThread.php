@@ -34,7 +34,7 @@ if(include($path . '/functions/validateSession.php')) {
             $threadName = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->t)); // idk about mysql_real_escape_string ??
             $category_id = $result->fetch_assoc()["id"];
             // Escaping content and trimming whitespace
-            $cont = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->c)); // mysql_real_escape_string ??
+            $cont = nl2br(preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->c))); // mysql_real_escape_string ??
 
             if(strlen($cont) !== 0 && strlen($cont) <= 2000 && strlen($threadName) <= 64 && strlen($threadName) >= 8) {               
                 

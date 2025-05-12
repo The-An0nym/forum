@@ -21,7 +21,7 @@ if(include($path . '/functions/validateSession.php')) {
         $decoded_params = json_decode($json_params);
 
         // Escaping content and trimming whitespace
-        $cont = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->c)); // idk about mysql_real_escape_string ??
+        $cont = nl2br(preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->c))); // idk about mysql_real_escape_string ??
             
         if(strlen($cont) !== 0 && strlen($cont) <= 2000) {
             $user_id = $_SESSION["user_id"];

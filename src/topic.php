@@ -3,7 +3,25 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 
 if(!session_id()) {
     session_start();
-} ?>
+} 
+
+// Initial threads load
+include $path . "/api/require/threads.php";
+if(isset($_GET["s"])) {
+    $slug = $_GET["s"];
+} else {
+    $slug = ""
+}
+
+if(isset($_GET["p"])) {
+    $page = $_GET["p"];
+} else {
+    $page = 0;
+}
+
+$threads = getThreads($slug, $page);
+$totalThreads = array_shift($threads);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +34,33 @@ if(!session_id()) {
 <body>
     <?php include $path . "/basic/menu.php"; ?>
 
-    <div id="thread-container"></div>
+    <div id="thread-container">
+        <?php 
+        if($threads !== []) {
+        foreach ($threads as $thread): 
+        ?>
+            <a class="thread-wrapper" href="/thread/<?= $post['slug'] ?>">
+                <div class="thread">
+                    <span class="main-wrapper">
+                        <span class="thread-name"><?= $post['name'] ?></span>
+                        <span class="created"><?= $post['created'] ?></span>
+                    </span>
+                    <span class="details-wrapper">
+                        <span class="last-wrapper">
+                            <span class="last-post"><?= $post['lastPost'] ?></span>
+                            <span class="last-user"><?= $post['lastUser'] ?></span>
+                        </span>
+                        <span class="count"><?= $post['posts'] ?></span>
+                    </span>
+                </div>
+            </a>
+        <?php 
+        endforeach;
+        } else {
+            echo "An error has occured";
+        }
+        ?>
+    </div>
 
     <div id="pageMenu"></div>
 
@@ -27,14 +71,13 @@ if(!session_id()) {
     <?php } ?>
 
     <script> 
-        const slug = "<?php echo $_GET["s"]; ?>";
-        const page = <?php if(isset($_GET["p"])) {echo $_GET["p"];} else {echo 0;} ?>
+        const slug = "<?= $slug; ?>";
+        const page = <?= $page ?>
+        createPageMenu("topic", <?= $slug ?>, <?= $page ?>, <?= $totalThreads ?>);
+
     </script>
     <script src="/scripts/main.js"></script>
     <script src="/scripts/threads.js"></script>
-    <script>
-        initLoad(<?php include $path . "/api/getThreads"; ?>);
-    </script>
 
     <?php include $path . "/basic/footer.php"; ?>
 </body>
