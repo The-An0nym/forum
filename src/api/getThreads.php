@@ -23,7 +23,7 @@ if(isset($_GET['s'], $_GET['p'])) {
         $data[] = array_shift($threads);
 
         // output data of each thread
-        foreach($thread in $threads) {
+        foreach($threads as $thread) {
             $post = new stdClass();
             $post->name = $thread["name"];
             $post->slug = $thread["slug"];
