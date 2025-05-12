@@ -70,13 +70,12 @@ $totalThreads = array_shift($threads);
         <button onclick="createThread()">Submit</button>
     <?php } ?>
 
+    <script src="/scripts/main.js"></script>
     <script> 
         const slug = "<?= $slug; ?>";
         const page = <?= $page ?>
         createPageMenu("topic", <?= $slug ?>, <?= $page ?>, <?= $totalThreads ?>);
-
     </script>
-    <script src="/scripts/main.js"></script>
     <script src="/scripts/threads.js"></script>
 
     <?php include $path . "/basic/footer.php"; ?>
