@@ -48,13 +48,14 @@ $totalPosts = array_shift($posts);
             <span class="post-data">
                 <span class="content"><?= $post['content'] ?></span>
                 <span class="post-metadata">
-                    <span class="created"><?= $post['created'] ?></span>
-                    <?php if($posts['edited'] === "1") { ?>
-                        <span class="edited">edited</span>
-                    <?= } ?>
-                    <?php if(isset($_SESSION["user_id"])) {
+                    <?php 
+                    echo '<span class="created">' . $post['created'] . '</span>'
+                    if($post['edited'] === "1") {
+                        echo '<span class="edited">edited</span>'
+                    } 
+                    if(isset($_SESSION["user_id"])) {
                         if($post["user_id"] == $_SESSION["user_id"]) {
-                            echo '<button class="edit-button" onclick="editPost(' . $post['post_id'] . ')">edit</button>';
+                            echo '<button class="edit-button" onclick="editPost("' . $post['post_id'] . '")">edit</button>';
                         }
                     } ?>
                 </span>

@@ -1,16 +1,6 @@
 <?php
-
 $path = $_SERVER['DOCUMENT_ROOT'];
-include $path . '/functions/.connect.php' ;
 include $path . '/functions/require/threads.php';
-
-// Get connection
-$conn = getConn();
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 if(isset($_GET['s'], $_GET['p'])) {
     $slug = $_GET['s'];
@@ -24,23 +14,23 @@ if(isset($_GET['s'], $_GET['p'])) {
 
         // output data of each thread
         foreach($threads as $thread) {
-            $post = new stdClass();
-            $post->name = $thread["name"];
-            $post->slug = $thread["slug"];
-            $post->created = $thread["created"];
-            $post->postCount = $thread["posts"];
-            $post->lastUser = $thread["lastUser"];
-            $post->lastPost = $thread["lastPost"];
-            $data[] = $post;
+            $t = new stdClass();
+            $t->name = $thread["name"];
+            $t->slug = $thread["slug"];
+            $t->created = $thread["created"];
+            $t->postCount = $thread["posts"];
+            $t->lastUser = $thread["lastUser"];
+            $t->lastPost = $thread["lastPost"];
+            $data[] = $t;
         }
 
         $dataJSON = json_encode($data);
         echo $dataJSON;
     } else {
-        echo "ERROR: Invalid or missing argument";
+        echo "An error has occured";
     }
 } else {
-    echo "ERROR: Invalid or missing arguments";
+    echo "An error has occured";
 }
 
 $conn->close();

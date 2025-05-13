@@ -73,7 +73,7 @@ async function getPosts() {
         const editable = document.createElement("button");
         editable.className = "edit-button";
         editable.textContent = "edit";
-        editable.setAttribute("onclick", `editPost("${dataJSON[i].id}")`);
+        editable.setAttribute("onclick", `editPost('${dataJSON[i].id}')`);
         postMeta.appendChild(editable);
       }
 

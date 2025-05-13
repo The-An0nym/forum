@@ -1,85 +1,55 @@
 <?php
 $path = $_SERVER['DOCUMENT_ROOT'];
-include $path . '/functions/.connect.php' ;
-
-// Get connection
-$conn = getConn();
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include $path . '/functions/require/posts.php';
 
 if(isset($_GET['s'], $_GET['p'])) {
     $slug = $_GET['s'];
     $page = $_GET['p'] * 20;
 
-    $sql = "SELECT COUNT(*) AS total_posts
-                FROM posts p
-                JOIN threads t ON t.id = p.thread_id
-                WHERE t.slug = '$slug'";
-    $result = $conn->query($sql);
-    $total_posts = $result->fetch_assoc()["total_posts"];
+    $posts = getPosts($slug, $page);
 
-    $sql = "SELECT 
-                u.username, 
-                u.image_dir,
-                u.posts,
-                p.post_id, 
-                p.user_id, 
-                p.content, 
-                p.created, 
-                p.edited
-            FROM 
-                posts p
-            LEFT JOIN 
-                users u ON u.user_id = p.user_id
-            JOIN 
-                threads t ON t.id = p.thread_id
-            WHERE 
-                t.slug = '$slug'
-            ORDER BY 
-                p.created ASC
-            LIMIT 20 OFFSET $page";
-    $result = $conn->query($sql);
+    if($posts > 1) {
+        $data = [];
+        $data[] = array_shift($posts);
 
-    session_start();
+        session_start();
 
-    $data = [];
-    $data[] = $total_posts;
-    if ($result->num_rows > 0) {
-        // output data of each row
-        while($row = $result->fetch_assoc()) {
-            $post = new stdClass();
-            $post->username = $row["username"];
-            $post->imageSrc = $row["image_dir"];
-            $post->userPostCount = $row["posts"];
-            $post->id = $row["post_id"];
-            $post->content = $row["content"];
-            $post->created = $row["created"];
-            $post->edited = $row["edited"];
-            if(isset($_SESSION["user_id"])) {
-                if($row["user_id"] == $_SESSION["user_id"]) {
-                    $post->editable = true;
+        // output data of each post
+        foreach($posts as $post) {
+            if ($result->num_rows > 0) {
+                $p = new stdClass();
+                $p->username = $post["username"];
+                $p->imageSrc = $post["image_dir"];
+                $p->userPostCount = $post["posts"];
+                $p->id = $post["post_id"];
+                $p->content = $post["content"];
+                $p->created = $post["created"];
+                $p->edited = $post["edited"];
+                if(isset($_SESSION["user_id"])) {
+                    if($post["user_id"] == $_SESSION["user_id"]) {
+                        $p->editable = true;
+                    } else {
+                        $p->editable = false;
+                    }
                 } else {
-                    $post->editable = false;
+                    $p->editable = false;
                 }
-            } else {
-                $post->editable = false;
+                $data[] = $p;
             }
-            $data[] = $post;
         }
+
+        $dataJSON = json_encode($data);
+        echo $dataJSON;
+    } else {
+        echo "An error has occured";
+    }
 
         $dataJSON = json_encode($data);
         echo $dataJSON;
 
     } else {
-        echo "ERROR: Failed to load";
+        echo "An error has occured";
+        die();
     }
-
-} else {
-    echo "No thread found...";
-    die();
-}
 
 $conn->close();
