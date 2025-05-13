@@ -42,12 +42,7 @@ if(isset($_GET['s'], $_GET['p'])) {
         echo "An error has occured";
     }
 
-        $dataJSON = json_encode($data);
-        echo $dataJSON;
-
-    } else {
-        echo "An error has occured";
-        die();
-    }
-
-$conn->close();
+} else {
+    echo "An error has occured";
+    die();
+}
