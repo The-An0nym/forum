@@ -1,5 +1,5 @@
 <?php
-function getThreads(string $slug, int $page) {   
+function getThreads(string $slug, int $page) : array {   
     $path = $_SERVER['DOCUMENT_ROOT'];
     include $path . '/functions/.connect.php' ;
 

@@ -59,11 +59,12 @@ if(isset($_GET['s'], $_GET['p'])) {
             $post->created = $row["created"];
             $post->edited = $row["edited"];
             if(isset($_SESSION["user_id"])) {
-            if($row["user_id"] == $_SESSION["user_id"]) {
-                $post->editable = true;
+                if($row["user_id"] == $_SESSION["user_id"]) {
+                    $post->editable = true;
+                } else {
+                    $post->editable = false;
+                }
             } else {
-                $post->editable = false;
-            }} else {
                 $post->editable = false;
             }
             $data[] = $post;

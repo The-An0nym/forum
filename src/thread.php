@@ -3,7 +3,25 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 
 if(!session_id()) {
     session_start();
-} ?>
+} 
+
+// Initial threads load
+include $path . "/functions/require/posts.php";
+if(isset($_GET["s"])) {
+    $slug = $_GET["s"];
+} else {
+    $slug = "";
+}
+
+if(isset($_GET["p"])) {
+    $page = $_GET["p"];
+} else {
+    $page = 0;
+}
+
+$posts = getPosts($slug, $page);
+$totalPosts = array_shift($posts);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +34,39 @@ if(!session_id()) {
 <body>
     <?php include $path . "/basic/menu.php"; ?>
 
-    <div id="post-container"></div>
+    <div id="post-container">
+        <?php 
+        if($posts !== []) {
+        foreach ($posts as $post): 
+        ?>
+        <div class="post" id="<?= $post['post_id'] ?>">
+            <span class="user-details">
+                <img class="profile-picture" src="/images/profiles/<?= $post['image_dir'] ?>">
+                <span class="username"><?= $post['username'] ?></span>
+                <span class="user-post-count"><?= $post['posts'] ?></span>
+            </span>
+            <span class="post-data">
+                <span class="content"><?= $post['content'] ?></span>
+                <span class="post-metadata">
+                    <span class="created"><?= $post['created'] ?></span>
+                    <?php if($posts['edited'] === "1") { ?>
+                        <span class="edited">edited</span>
+                    <?= } ?>
+                    <?php if(isset($_SESSION["user_id"])) {
+                        if($post["user_id"] == $_SESSION["user_id"]) {
+                            echo '<button class="edit-button" onclick="editPost(' . $post['post_id'] . ')">edit</button>';
+                        }
+                    } ?>
+                </span>
+            </span>
+        </div>
+        <?php 
+        endforeach;
+        } else {
+            echo "An error has occured";
+        }
+        ?>
+    </div>
 
     <div id="pageMenu"></div>
 
@@ -25,11 +75,13 @@ if(!session_id()) {
         <button onclick="sendPost()">Submit</button>
     <?php } ?>
 
-    <script> 
-        const slug = "<?= $_GET["s"] ?>";
-        const page = <?php if(isset($_GET["p"])) {echo $_GET["p"];} else {echo 0;} ?>
-    </script>
     <script src="/scripts/main.js"></script>
+    <script> 
+        const slug = "<?= $slug ?>";
+        const page = <?= $page ?>;
+        createPageMenu("thread", slug, page, <?= $totalPosts?>);
+
+    </script>
     <script src="/scripts/posts.js"></script>
     <?php include $path . "/basic/footer.php"; ?>
 </body>

@@ -62,7 +62,7 @@ async function getPosts() {
       created.textContent = dataJSON[i].created;
       postMeta.appendChild(created);
 
-      if (dataJSON[i].edited !== "0") {
+      if (dataJSON[i].edited === "1") {
         const edited = document.createElement("span");
         edited.className = "edited";
         edited.textContent = "edited";
@@ -94,8 +94,6 @@ async function getPosts() {
     }
   }
 }
-
-getPosts();
 
 /* EDITING POSTS */
 
