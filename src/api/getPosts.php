@@ -16,26 +16,24 @@ if(isset($_GET['s'], $_GET['p'])) {
 
         // output data of each post
         foreach($posts as $post) {
-            if ($result->num_rows > 0) {
-                $p = new stdClass();
-                $p->username = $post["username"];
-                $p->imageSrc = $post["image_dir"];
-                $p->userPostCount = $post["posts"];
-                $p->id = $post["post_id"];
-                $p->content = $post["content"];
-                $p->created = $post["created"];
-                $p->edited = $post["edited"];
-                if(isset($_SESSION["user_id"])) {
-                    if($post["user_id"] == $_SESSION["user_id"]) {
-                        $p->editable = true;
-                    } else {
-                        $p->editable = false;
-                    }
+            $p = new stdClass();
+            $p->username = $post["username"];
+            $p->imageSrc = $post["image_dir"];
+            $p->userPostCount = $post["posts"];
+            $p->id = $post["post_id"];
+            $p->content = $post["content"];
+            $p->created = $post["created"];
+            $p->edited = $post["edited"];
+            if(isset($_SESSION["user_id"])) {
+                if($post["user_id"] == $_SESSION["user_id"]) {
+                    $p->editable = true;
                 } else {
                     $p->editable = false;
                 }
-                $data[] = $p;
+            } else {
+                $p->editable = false;
             }
+            $data[] = $p;
         }
 
         $dataJSON = json_encode($data);
