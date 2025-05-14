@@ -9,8 +9,8 @@ GetPosts: 2 Queries
 # TODO:
 
 - Keep logout or change to fetch()
-- Only let one post be edited at a time
 - Finalize profile settings page
+- Make posting a new post focus on this post
 
 - Make clearance levels and moderation tools
 - Add ToS, Privacy Policy and cookies warning

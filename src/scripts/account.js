@@ -2,8 +2,8 @@
 
 function createSignUp() {
   const container = document.createElement("div");
-  container.className = "login-container";
-  container.id = "login-container";
+  container.className = "signup-container";
+  container.id = "signup-container";
 
   const username = document.createElement("input");
   username.placeholder = "Username...";
@@ -33,7 +33,7 @@ async function signUp() {
   const user = document.getElementById("username");
   const pswd = document.getElementById("password");
   const pswdConf = document.getElementById("password-confirmation");
-  const loginCont = document.getElementById("login-container");
+  const loginCont = document.getElementById("signup-container");
 
   if (!checkUsername(user.value)) return;
   if (!checkPassword(pswd.value)) return;

@@ -98,18 +98,33 @@ async function getPosts() {
 /* EDITING POSTS */
 
 function editPost(id) {
-  const div = document.getElementById(id).querySelector(".content");
-  const cont = div.textContent;
-  div.innerHTML = "";
+  const posts = document.getElementsByClassName("post-data");
+  for (let i in posts) i.style.display = "flex"; // Reset
 
+  const post = document.getElementById(id);
+  const cont = post.querySelector(".content").textContent;
+  post.querySelector(".post-data").style.display = "none"; // Hide
+
+  // Create textarea and buttons
   const textarea = document.createElement("textarea");
   textarea.id = "editTxt";
   textarea.value = cont;
-  const button = document.createElement("button");
-  button.textContent = "submit";
-  button.setAttribute("onclick", `sendEdit("${id}")`);
   div.appendChild(textarea);
-  div.appendChild(button);
+
+  const send = document.createElement("button");
+  send.textContent = "send";
+  send.setAttribute("onclick", `sendEdit("${id}")`);
+  div.appendChild(send);
+
+  const cancel = document.createElement("button");
+  cancel.textContent = "cancel";
+  cancel.setAttribute("onclick", `cancelEdit("${id}")`);
+  div.appendChild(cancel);
+}
+
+function cancelEdit(id) {
+  document.getElementById(id).querySelector(".post-data").style.display =
+    "flex";
 }
 
 /* SENDING EDITED POST */
