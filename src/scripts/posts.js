@@ -98,35 +98,46 @@ async function getPosts() {
 /* EDITING POSTS */
 
 function editPost(id) {
-  const posts = document.getElementsByClassName("post-data");
-  for (let i of posts) i.style.display = "flex"; // Reset
+  // Reset Posts
+  const posts = document.getElementsByClassName("post");
+  for (let i of posts) {
+    if (i.querySelector(".edit-wrapper")) {
+      i.querySelector(".post-data").style.display = "flex";
+      i.querySelector(".edit-wrapper").remove();
+    }
+  }
 
   const post = document.getElementById(id);
-  const cont = post.querySelector(".post-data");
   const textCont = post.querySelector(".content").textContent;
   post.querySelector(".post-data").style.display = "none"; // Hide
 
   // Create textarea and buttons
+  const editWrapper = document.createElement("span");
+  editWrapper.className = "edit-wrapper";
+
   const textarea = document.createElement("textarea");
   textarea.className = "editTxt";
   textarea.id = "editTxt";
   textarea.value = textCont;
-  cont.appendChild(textarea);
+  editWrapper.appendChild(textarea);
 
   const send = document.createElement("button");
   send.textContent = "send";
   send.setAttribute("onclick", `sendEdit("${id}")`);
-  cont.appendChild(send);
+  editWrapper.appendChild(send);
 
   const cancel = document.createElement("button");
   cancel.textContent = "cancel";
   cancel.setAttribute("onclick", `cancelEdit("${id}")`);
-  cont.appendChild(cancel);
+  editWrapper.appendChild(cancel);
+
+  post.appendChild(editWrapper);
 }
 
 function cancelEdit(id) {
-  document.getElementById(id).querySelector(".post-data").style.display =
-    "flex";
+  const post = document.getElementById(id);
+  post.querySelector(".post-data").style.display = "flex";
+  post.querySelector(".edit-wrapper").remove();
 }
 
 /* SENDING EDITED POST */
