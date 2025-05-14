@@ -55,7 +55,7 @@ $totalPosts = array_shift($posts);
                     }
                     if(isset($_SESSION["user_id"])) {
                         if($post["user_id"] == $_SESSION["user_id"]) {
-                            echo '<button class="edit-button" onclick="editPost("' . $post['post_id'] . '")">edit</button>';
+                            echo '<button class="edit-button" onclick="editPost(\'' . $post['post_id'] . '\')">edit</button>';
                         }
                     } ?>
                 </span>
