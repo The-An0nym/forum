@@ -9,6 +9,8 @@
 .user-details {
   width: 16%;
   border-right: 1px solid black;
+  overflow-wrap: break-word;
+  font-size: 0.8em;
 }
 
 .profile-picture {
@@ -25,7 +27,6 @@
   flex-direction: row;
   justify-content: space-between;
   width: 80%;
-  overflow-wrap: break-word;
 }
 
 .content {
