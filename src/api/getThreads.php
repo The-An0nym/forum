@@ -32,5 +32,3 @@ if(isset($_GET['s'], $_GET['p'])) {
 } else {
     echo "An error has occured";
 }
-
-$conn->close();
