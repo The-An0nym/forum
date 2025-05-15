@@ -5,7 +5,7 @@ if(!session_id()) {
     session_start();
 } 
 
-include $path . "/api/getThreads1.php";
+include $path . "/functions/require/threads.php";
 if(isset($_GET["s"])) {
     $slug = $_GET["s"];
 } else {
@@ -33,7 +33,7 @@ if(isset($_GET["p"])) {
     <?php include $path . "/basic/menu.php"; ?>
 
     <div id="thread-container">
-        <?php generateThreads($slug, $page * 20) ?>
+        <?php getThreads($slug, $page * 20) ?>
     </div>
 
     <div id="pageMenu"></div>
@@ -48,7 +48,7 @@ if(isset($_GET["p"])) {
     <script> 
         const slug = "<?= $slug; ?>";
         const page = <?= $page; ?>;
-        createPageMenu("topic", slug, page, <?= getThreadCount() ?>);
+        createPageMenu("topic", slug, page, <?= getThreadCount($slug); ?>);
     </script>
     <script src="/scripts/threads.js"></script>
 

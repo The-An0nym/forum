@@ -3,7 +3,7 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/require/threads.php';
 
 if(isset($_GET['s'], $_GET['p'])) {
-    getThreadCount();
+    echo getThreadCount($_GET['s']);
     echo "\0";
     getThreads($_GET['s'], $_GET['p'] * 20);
 } else {

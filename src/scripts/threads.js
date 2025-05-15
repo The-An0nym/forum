@@ -7,11 +7,12 @@ async function getThreads() {
   const response = await fetch(`/api/getThreads.php?s=${slug}&p=${page}`);
   const clone = response.clone(); // For error handling
   try {
-    const data = response.text().split(null);
+    const rawData = await response.text();
+    const data = rawData.split("\u0000");
 
-    const totalThreads = isNaN(data[0]) ? 0 : data[0];
+    const totalThreads = isNaN(data[0]) ? 0 : parseInt(data[0]);
 
-    createPageMenu("topic", slug, page, data[0]);
+    createPageMenu("topic", slug, page, totalThreads);
 
     if (data[1].length !== 0) {
       cont.innerHTML = data[1];

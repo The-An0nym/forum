@@ -78,12 +78,10 @@ function getThreads(string $slug, int $page) {
     } else {
         return [];
     }
-
-    $conn->close();
 }
 
 function getThreadCount(string $slug) {
-    if($slug = "") {
+    if($slug === "") {
         return 0;
     }
 
@@ -92,11 +90,9 @@ function getThreadCount(string $slug) {
     $sql = "SELECT threads FROM categories WHERE slug = '$slug'";
     $result = $conn->query($sql);
 
-    if ($result->num_rows === 0) {
-        $total_threads = $result->fetch_assoc()["total_threads"];
+    if ($result->num_rows !== 0) {
+        return $result->fetch_assoc()["threads"];
     } else {
-        $total_threads = 0;
+        return 0;
     }
-
-    echo $total_threads;
 }
