@@ -7,7 +7,19 @@ async function getThreads() {
   const response = await fetch(`/api/getThreads.php?s=${slug}&p=${page}`);
   const clone = response.clone(); // For error handling
   try {
-    const dataJSON = await response.json();
+    const data = response.text().split(null);
+
+    const totalThreads = isNaN(data[0]) ? 0 : data[0];
+
+    createPageMenu("topic", slug, page, data[0]);
+
+    if (data[1].length !== 0) {
+      cont.innerHTML = data[1];
+    } else {
+      errorMessage("No threads found...");
+    }
+
+    /*const dataJSON = await response.json();
 
     createPageMenu("topic", slug, page, dataJSON[0]);
 
@@ -66,7 +78,7 @@ async function getThreads() {
       thread.appendChild(detailWrapper);
 
       cont.appendChild(threadWrapper);
-    }
+    }*/
   } catch {
     const msg = await clone.text();
     if (/\S/.test(msg)) {

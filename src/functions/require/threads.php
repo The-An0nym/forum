@@ -15,7 +15,7 @@ function getDBConnection() : mysqli {
 }
 
 
-function getThreads(string $slug, int $page) : array {
+function getThreads(string $slug, int $page) {
     $conn = getDBConnection();
 
     $sql = "SELECT 
@@ -56,13 +56,25 @@ function getThreads(string $slug, int $page) : array {
 
     $result = $conn->query($sql);
 
-    $data = [];
     if ($result->num_rows > 0) {
         // output data of each row
-        while($row = $result->fetch_assoc()) {
-            $data[] = $row;
-        }
-        return $data;
+        while($thread = $result->fetch_assoc()) { ?>
+            <a class="thread-wrapper" href="/thread/<?= $thread['slug'] ?>">
+                    <div class="thread">
+                        <span class="main-wrapper">
+                            <span class="thread-name"><?= $thread['name'] ?></span>
+                            <span class="created"><?= $thread['created'] ?></span>
+                        </span>
+                        <span class="details-wrapper">
+                            <span class="last-wrapper">
+                                <span class="last-post"><?= $thread['lastPost'] ?></span>
+                                <span class="last-user"><?= $thread['lastUser'] ?></span>
+                            </span>
+                            <span class="count"><?= $thread['posts'] ?></span>
+                        </span>
+                    </div>
+                </a>
+        <?php }
     } else {
         return [];
     }
@@ -70,25 +82,21 @@ function getThreads(string $slug, int $page) : array {
     $conn->close();
 }
 
-function getThreadCount(string $slug) : int {
+function getThreadCount(string $slug) {
     if($slug = "") {
         return 0;
     }
 
     $conn = getDBConnection();
 
-    
-    $sql = "SELECT COUNT(*) AS total_threads
-            FROM threads t
-            JOIN categories c ON c.id = t.category_id
-            WHERE c.slug = '$slug'";
+    $sql = "SELECT threads FROM categories WHERE slug = '$slug'";
     $result = $conn->query($sql);
 
-    try {
+    if ($result->num_rows === 0) {
         $total_threads = $result->fetch_assoc()["total_threads"];
-    } catch {
+    } else {
         $total_threads = 0;
     }
 
-    return $total_threads;
+    echo $total_threads;
 }
