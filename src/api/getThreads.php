@@ -10,7 +10,6 @@ if(isset($_GET['s'], $_GET['p'])) {
 
     if($threads > 1) {
         $data = [];
-        $data[] = array_shift($threads);
 
         // output data of each thread
         foreach($threads as $thread) {

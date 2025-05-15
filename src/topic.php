@@ -33,7 +33,7 @@ if(isset($_GET["p"])) {
     <?php include $path . "/basic/menu.php"; ?>
 
     <div id="thread-container">
-        <?php $totalThreads = generateThreads($slug, $page * 20) ?>
+        <?php generateThreads($slug, $page * 20) ?>
     </div>
 
     <div id="pageMenu"></div>
@@ -48,7 +48,7 @@ if(isset($_GET["p"])) {
     <script> 
         const slug = "<?= $slug; ?>";
         const page = <?= $page; ?>;
-        createPageMenu("topic", slug, page, <?= $totalThreads ?>);
+        createPageMenu("topic", slug, page, <?= getThreadCount() ?>);
     </script>
     <script src="/scripts/threads.js"></script>
 
