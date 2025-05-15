@@ -5,6 +5,20 @@ if(!session_id()) {
     session_start();
 } 
 
+include $path . "/api/getThreads1.php";
+if(isset($_GET["s"])) {
+    $slug = $_GET["s"];
+} else {
+    $slug = "";
+}
+
+if(isset($_GET["p"])) {
+    $page = $_GET["p"];
+} else {
+    $page = 0;
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +33,7 @@ if(!session_id()) {
     <?php include $path . "/basic/menu.php"; ?>
 
     <div id="thread-container">
-        <?php include $path . "/api/getThreads1.php"; // Must include $totalThreads ?>
+        <?php $totalThreads = getThreads($slug, $page * 20) ?>
     </div>
 
     <div id="pageMenu"></div>
