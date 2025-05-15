@@ -1,5 +1,5 @@
 <?php
-function getThreads($slug, $page) {
+function generateThreads($slug, $page) {
     $path = $_SERVER['DOCUMENT_ROOT'];
     include $path . '/functions/require/threads.php';
 
