@@ -52,6 +52,4 @@ function getPosts(string $slug, int $page) :array {
     } else {
         return [];
     }
-
-    $conn->close();
 }

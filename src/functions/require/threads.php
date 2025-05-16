@@ -14,7 +14,6 @@ function getDBConnection() : mysqli {
     return $conn;
 }
 
-
 function getThreads(string $slug, int $page) {
     $conn = getDBConnection();
 
@@ -58,7 +57,19 @@ function getThreads(string $slug, int $page) {
 
     if ($result->num_rows > 0) {
         // output data of each row
-        while($thread = $result->fetch_assoc()) { ?>
+        $data = [];
+        while($thread = $result->fetch_assoc()) { 
+            $data[] = $thread;
+        }
+        return $data;
+    } else {
+        return [];
+    }
+}
+
+function generateHTMLFromThreads(string $slug, int $page) {
+    $threads = getThreads($slug, $page * 20);
+    foreach($threads as $thread) {?>
             <a class="thread-wrapper" href="/thread/<?= $thread['slug'] ?>">
                     <div class="thread">
                         <span class="main-wrapper">
@@ -74,9 +85,7 @@ function getThreads(string $slug, int $page) {
                         </span>
                     </div>
                 </a>
-        <?php }
-    } else {
-        return [];
+        <?php 
     }
 }
 

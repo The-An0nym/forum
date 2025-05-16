@@ -115,5 +115,3 @@ if(include($path . '/functions/validateSession.php')) {
 } else {
     echo "Please Login to change your profile picture";
 }
-
-$conn->close();

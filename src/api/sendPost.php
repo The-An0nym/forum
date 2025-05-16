@@ -73,5 +73,3 @@ if(include($path . '/functions/validateSession.php')) {
 } else {
     echo "Please Login to post";
 }
-
-$conn->close();

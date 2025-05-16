@@ -45,5 +45,3 @@ if (isset($_POST['u'])) {
 } else {
     echo "ERROR: Please try again later [CU1]";
 }
-
-$conn->close();

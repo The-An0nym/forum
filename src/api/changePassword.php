@@ -55,5 +55,3 @@ if (isset($_POST['p'], $_POST['np'])) {
 } else {
     echo "ERROR: Please try again later [CP1]";
 }
-
-$conn->close();

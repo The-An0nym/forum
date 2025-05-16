@@ -53,5 +53,3 @@ if(isset($_POST["u"], $_POST["p"])) {
 } else {
     echo "Login failed: Please try again later";
 }
-
-$conn->close();

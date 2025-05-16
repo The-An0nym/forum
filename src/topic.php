@@ -33,7 +33,7 @@ if(isset($_GET["p"])) {
     <?php include $path . "/basic/menu.php"; ?>
 
     <div id="thread-container">
-        <?php getThreads($slug, $page * 20) ?>
+        <?php generateHTMLFromThreads($slug, $page) ?>
     </div>
 
     <div id="pageMenu"></div>

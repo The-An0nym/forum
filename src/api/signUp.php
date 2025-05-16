@@ -75,5 +75,3 @@ if (isset($_POST['u'], $_POST['p1'], $_POST['p2'])) {
 } else {
     echo "Sign-up failed: Please try again later";
 }
-
-$conn->close();

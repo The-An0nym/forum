@@ -47,5 +47,3 @@ if(include($path . '/functions/validateSession.php')) {
 } else {
     echo "Please Login to edit posts";
 }
-
-$conn->close();
