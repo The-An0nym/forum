@@ -22,7 +22,7 @@ Clearance level is an integer.
 - [ ] Make posting a new post focus on this post
 - [ ] There are still some mismatches between menu displaying you are logged in while having no posting privliges
 
-- [ ] Make clearance levels and moderation tools
+- [ ] Make clearance levels, moderation tools, history stack, etc.
 - [ ] Add ToS, Privacy Policy and cookies warning
 - [ ] Adress, full legal name, etc. (pattern)
 - [ ] Make notification system

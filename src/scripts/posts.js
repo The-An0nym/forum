@@ -208,11 +208,13 @@ async function deletePost(id) {
   const editTxt = document.getElementById("editTxt");
   // Requests
   const response = await fetch("/api/deletePost.php", {
-    method: "DELETE",
+    method: "POST",
     headers: {
       "Content-type": "application/json; charset=utf-8",
     },
-    body: id,
+    body: JSON.stringify({
+      i: id,
+    }),
   });
 
   const result = await response.text();

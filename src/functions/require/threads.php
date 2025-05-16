@@ -99,7 +99,7 @@ function getThreadCount(string $slug) {
     $sql = "SELECT threads FROM categories WHERE slug = '$slug'";
     $result = $conn->query($sql);
 
-    if ($result->num_rows !== 0) {
+    if ($result->num_rows === 1) {
         return $result->fetch_assoc()["threads"];
     } else {
         return 0;
