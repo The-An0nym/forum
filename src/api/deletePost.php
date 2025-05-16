@@ -14,9 +14,9 @@ if(!session_id()) {
   session_start();
 } 
 
-if(include $path . "/validateSession.php") {
-    if(isset($_POST['i'])) {
-        $id = $_POST['i'];
+if(include($path . "/functions/validateSession.php")) {
+    if(isset($_GET['i'])) {
+        $id = $_GET['i'];
 
         $conn = getConn();
         $user_id = $_SESSION['user_id'];
@@ -25,7 +25,7 @@ if(include $path . "/validateSession.php") {
         $result = $conn->query($sql);
         if($result->num_rows === 1) {
             $clearance = $result->fetch_assoc()['clearance'];
-            if($clearance > 1) {
+            if($clearance >= 1) {
                 // Push deleted post onto a history
                 // Delete post
                 echo "Deleted post: $id";
