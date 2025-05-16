@@ -33,6 +33,11 @@ if(isset($_GET['s'], $_GET['p'])) {
             } else {
                 $p->editable = false;
             }
+            if($post["deletable"] > 0) {
+                $p->deletable = true;
+            } else {
+                $p->deletable = false;
+            }
             $data[] = $p;
         }
 

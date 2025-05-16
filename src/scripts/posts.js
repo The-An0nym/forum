@@ -77,6 +77,14 @@ async function getPosts() {
         postMeta.appendChild(editable);
       }
 
+      if (dataJSON[i].deletable) {
+        const deletable = document.createElement("button");
+        deletable.className = "delete-button";
+        deletable.textContent = "delete";
+        deletable.setAttribute("onclick", `deletePost('${dataJSON[i].id}')`);
+        postMeta.appendChild(deletable);
+      }
+
       postData.appendChild(postMeta);
       post.appendChild(postData);
 
@@ -190,6 +198,29 @@ async function sendPost() {
     errorMessage(result);
   } else {
     txt.value = "";
+    getPosts();
+  }
+}
+
+/* DELETING POST */
+async function deletePost(id) {
+  // VAR
+  const editTxt = document.getElementById("editTxt");
+  // Requests
+  const response = await fetch("/api/deletePost.php", {
+    method: "DELETE",
+    headers: {
+      "Content-type": "application/json; charset=utf-8",
+    },
+    body: id,
+  });
+
+  const result = await response.text();
+
+  if (/\S/.test(result)) {
+    errorMessage(result);
+  } else {
+    editTxt.value = "";
     getPosts();
   }
 }

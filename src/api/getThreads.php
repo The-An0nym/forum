@@ -24,8 +24,11 @@ if(isset($_GET['s'], $_GET['p'])) {
             $data[] = $t;
         }
 
-    $dataJSON = json_encode($data);
-    echo $dataJSON;
+        $dataJSON = json_encode($data);
+        echo $dataJSON;
+    } else {
+        echo "No threads found...";
+    }
 } else {
     echo "An error has occured";
 }

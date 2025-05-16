@@ -27,7 +27,8 @@ function getPosts(string $slug, int $page) :array {
                 p.user_id, 
                 p.content, 
                 p.created, 
-                p.edited
+                p.edited,
+                u.clearance,
             FROM 
                 posts p
             LEFT JOIN 
