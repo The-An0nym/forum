@@ -34,3 +34,11 @@ a {
   z-index: 1;
   background-color: white;
 }
+
+.overlay {
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+  position: fixed;
+  width: 100vw;
+}

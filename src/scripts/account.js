@@ -1,6 +1,18 @@
+/* OVERLAY */
+function createWrapperOverlay() {
+  const wrapper = document.createElement("div");
+  wrapper.className = "overlay";
+  wrapper.addEventListener("mouseup", (e) => {
+    if (e.target.className === "overlay") wrapper.remove();
+  });
+  return wrapper;
+}
+
 /* SIGN UP */
 
 function createSignUp() {
+  const wrapper = createWrapperOverlay();
+
   const container = document.createElement("div");
   container.className = "signup-container";
   container.id = "signup-container";
@@ -26,7 +38,9 @@ function createSignUp() {
   container.appendChild(passwordConfirmation);
   container.appendChild(submitButton);
 
-  document.body.prepend(container);
+  wrapper.appendChild(container);
+
+  document.body.prepend(wrapper);
 }
 
 async function signUp() {
@@ -64,6 +78,8 @@ async function signUp() {
 /* LOGIN */
 
 function createLogin() {
+  const wrapper = createWrapperOverlay();
+
   const container = document.createElement("div");
   container.className = "login-container";
   container.id = "login-container";
@@ -84,7 +100,9 @@ function createLogin() {
   container.appendChild(password);
   container.appendChild(submitButton);
 
-  document.body.prepend(container);
+  wrapper.appendChild(container);
+
+  document.body.prepend(wrapper);
 }
 
 async function login() {
