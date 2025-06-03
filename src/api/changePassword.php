@@ -30,7 +30,7 @@ if (isset($_POST['p'], $_POST['np'])) {
             if(password_verify($password, $hashedPassword)) {
                 $newHashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 
-                $sql = "UPDATE users SET password = '$newHashedPassword'";
+                $sql = "UPDATE users SET password = '$newHashedPassword' WHERE user_id='$user_id'";
 
                 if ($conn->query($sql) === FALSE) {
                     echo "Changing password failed: Please try again later";

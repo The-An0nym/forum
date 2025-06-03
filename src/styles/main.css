@@ -18,6 +18,7 @@ a {
   background-color: #faa;
   padding: 1%;
   font-size: 0.8em;
+  z-index: 20;
 }
 
 .login-container,

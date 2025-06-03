@@ -23,7 +23,8 @@ Clearance level is an integer.
 - [ ] There are still some mismatches between menu displaying you are logged in while having no posting privliges
 - [ ] Change initial load (php) and subsequent loads (js) to match each other.
 - [ ] Change the /functions/require/posts.php to match the /function/require/threads.php and adjust accordingly in thread.php and api/getThreads.php
-- [ ] Make login or sign-up pop-up hide when sign-up/login is pressed respectively (and also just add a way to close them anyway)
+- [ ] Make login or sign-up pop-up hide when sign-up/login is pressed respectively
+- [ ] Delete button on profile page
 
 - [ ] Make clearance levels, moderation tools, report system, history stack, etc.
 - [ ] Add ToS, Privacy Policy and cookies warning
