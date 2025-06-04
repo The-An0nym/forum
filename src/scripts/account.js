@@ -1,13 +1,3 @@
-/* OVERLAY */
-function createWrapperOverlay() {
-  const wrapper = document.createElement("div");
-  wrapper.className = "overlay";
-  wrapper.addEventListener("mouseup", (e) => {
-    if (e.target.className === "overlay") wrapper.remove();
-  });
-  return wrapper;
-}
-
 /* SIGN UP */
 
 function createSignUp() {
