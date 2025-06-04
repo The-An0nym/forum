@@ -235,12 +235,13 @@ function deleteConf(username, id) {
 
   const input = document.createElement("input");
   input.className = "delete-conf-inp";
+  input.id = "delete-conf-inp";
   input.setAttribute("placeholder", "I confirm");
 
   const del = document.createElement("button");
   del.className = "delete-conf-button";
   del.textContent = "delete";
-  del.setAttribute("onclick", `checkConfInput('${input}', '${id}')`);
+  del.setAttribute("onclick", `checkConfInput('${id}')`);
 
   container.appendChild(info);
   container.appendChild(input);
@@ -251,7 +252,9 @@ function deleteConf(username, id) {
   document.body.prepend(wrapper);
 }
 
-function checkConfInput(inp, id) {
+function checkConfInput(id) {
+  if (!document.getElementById("delete-conf-inp")) return;
+  inp = document.getElementById("delete-conf-inp");
   if (inp.toLowerCase() === "i confirm") {
     deletePost(id);
   } else {
