@@ -233,7 +233,7 @@ function deleteConf(username, id) {
   info.className = "delete-conf-info";
   info.textContent = `Delete post ${id} by ${username}`;
 
-  const input = document.createElement("inp");
+  const input = document.createElement("input");
   input.className = "delete-conf-inp";
   input.setAttribute("placeholder", "I confirm");
 

@@ -59,7 +59,7 @@ $totalPosts = array_shift($posts);
                         }
                     }
                     if($post['clearance'] >= 1) {
-                        echo '<button class="delete-button" onclick="deleteConf(\'' . $post['post_id'] . '\')">delete</button>';
+                        echo '<button class="delete-button" onclick="deleteConf(\'' . $post['username'] . '\', \'' . $post['post_id'] . '\')">delete</button>';
                     } ?>
                 </span>
             </span>
