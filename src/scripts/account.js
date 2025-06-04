@@ -4,7 +4,7 @@ function createSignUp() {
   const wrapper = createWrapperOverlay();
 
   const container = document.createElement("div");
-  container.className = "signup-container";
+  container.className = "signup-container pop-up-container";
   container.id = "signup-container";
 
   const username = document.createElement("input");
@@ -71,7 +71,7 @@ function createLogin() {
   const wrapper = createWrapperOverlay();
 
   const container = document.createElement("div");
-  container.className = "login-container";
+  container.className = "login-container pop-up-container";
   container.id = "login-container";
 
   const username = document.createElement("input");

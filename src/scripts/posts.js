@@ -226,7 +226,7 @@ function deleteConf(username, id) {
   const wrapper = createWrapperOverlay();
 
   const container = document.createElement("div");
-  container.className = "delete-conf-container";
+  container.className = "delete-conf-container pop-up-container";
   container.id = "delete-conf-container";
 
   const info = document.createElement("span");

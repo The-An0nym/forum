@@ -21,8 +21,7 @@ a {
   z-index: 20;
 }
 
-.login-container,
-.signup-container {
+.pop-up-container {
   display: flex;
   flex-direction: column;
   position: fixed;
