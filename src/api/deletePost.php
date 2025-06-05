@@ -27,11 +27,9 @@ if(include($path . "/functions/validateSession.php")) {
             $clearance = $result->fetch_assoc()['clearance'];
             if($clearance >= 1) {
                 // (Soft) delete post
-                $sql = "UPDATE posts SET deleted = 1 WHERE post_id = '$id'"
+                $sql = "UPDATE posts SET deleted = 1 WHERE post_id = '$id'";
                 if ($conn->query($sql) === FALSE) {
                     echo "ERROR: Please try again later [DP0]";
-                } else {
-                    echo "Deleted post: $id";
                 }
             } else {
                 echo "Clearance level too low";
