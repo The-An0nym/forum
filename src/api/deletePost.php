@@ -29,29 +29,27 @@ if(include($path . "/functions/validateSession.php")) {
 
         $result = $conn->query($sql);
         if($result->num_rows === 1) {
-            $row = $result->fetch_assoc()
+            $row = $result->fetch_assoc();
             $clearance = $row['clearance'];
             $post_user_id = $row['user_id'];
             $user_id === $_SESSION["user_id"];
 
-            if($post_user_id === $user_id) {
+            if($post_user_id === $user_id || $clearance >= 1) {
                 // (Soft) delete post
                 $sql = "UPDATE posts SET deleted = 1 WHERE post_id = '$id'";
                 if ($conn->query($sql) === FALSE) {
                     echo "ERROR: Please try again later [DP0]";
                 }
-            } else if($clearance >= 1) {
-                // (Soft) delete post
-                $sql = "UPDATE posts SET deleted = 1 WHERE post_id = '$id'";
-                if ($conn->query($sql) === FALSE) {
-                    echo "ERROR: Please try again later [DP1]";
-                }
-                
-                // Push onto history
-                $sql = "INSERT INTO history (id, type, judgement, sender_id)
-                VALUES ('$id', 0, 0, '$user_id')"
-                if ($conn->query($sql) === FALSE) {
-                    echo "ERROR: Please try again later [DP2]";
+
+                // Decrement thread & category post count
+
+                if($clearance >= 1) {
+                    // Push onto history
+                    $sql = "INSERT INTO history (id, type, judgement, sender_id)
+                    VALUES ('$id', 0, 0, '$user_id')";
+                    if ($conn->query($sql) === FALSE) {
+                        echo "ERROR: Please try again later [DP2]";
+                    }
                 }
             } else {
                 echo "Clearance level too low";

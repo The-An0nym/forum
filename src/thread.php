@@ -58,9 +58,9 @@ $totalPosts = array_shift($posts);
                         if($post["user_id"] === $_SESSION["user_id"]) {
                             echo '<button class="edit-button" onclick="editPost(\'' . $post['post_id'] . '\')">edit</button>';
                             echo '<button class="delete-button" onclick="deleteConf(\'' . $post['username'] . '\', \'' . $post['post_id'] . '\')">delete</button>';
+                        } else if($post['clearance'] === 1) {
+                            echo '<button class="delete-button" onclick="deleteConf(\'' . $post['username'] . '\', \'' . $post['post_id'] . '\')">delete</button>';
                         }
-                    } else if($post['clearance'] === 1 $post["user_id"] === $_SESSION["user_id"]) {
-                        echo '<button class="delete-button" onclick="deleteConf(\'' . $post['username'] . '\', \'' . $post['post_id'] . '\')">delete</button>';
                     } ?>
                 </span>
             </span>
@@ -68,7 +68,7 @@ $totalPosts = array_shift($posts);
         <?php 
         endforeach;
         } else {
-            echo "An error has occured";
+            echo '<div class="result-message">Yikes! It appears there are no posts here yet.</div>';
         }
         ?>
     </div>

@@ -12,6 +12,13 @@ async function getPosts() {
 
     createPageMenu("thread", slug, page, dataJSON[0]);
 
+    if (!dataJSON[1]) {
+      const div = document.createElement("div");
+      div.className = "result-message";
+      div.textContent = "Yikes! It appears there are no posts here yet.";
+      cont.appendChild(div);
+    }
+
     for (let i = 1; i < dataJSON.length; i++) {
       const post = document.createElement("div");
       post.className = "post";

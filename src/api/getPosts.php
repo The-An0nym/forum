@@ -6,13 +6,13 @@ if(isset($_GET['s'], $_GET['p'])) {
     $slug = $_GET['s'];
     $page = $_GET['p'] * 20;
 
+    session_start();
+
     $posts = getPosts($slug, $page);
 
     if($posts > 1) {
         $data = [];
         $data[] = array_shift($posts);
-
-        session_start();
 
         // output data of each post
         foreach($posts as $post) {
@@ -33,7 +33,7 @@ if(isset($_GET['s'], $_GET['p'])) {
             } else {
                 $p->editable = false;
             }
-            $p->deletable = $post["clearance"]
+            $p->deletable = $post["clearance"];
             $data[] = $p;
         }
 
