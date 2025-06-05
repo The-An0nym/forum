@@ -20,25 +20,47 @@ if(include($path . "/functions/validateSession.php")) {
 
         $conn = getConn();
         $user_id = $_SESSION['user_id'];
-        $sql = "SELECT clearance FROM users WHERE user_id = '$user_id'";
+        $sql = "SELECT u.clearance, p.user_id 
+                    FROM users u 
+                JOIN posts p 
+                    ON p.post_id = '$id' 
+                WHERE u.user_id = '$user_id'
+                LIMIT 1";
 
         $result = $conn->query($sql);
         if($result->num_rows === 1) {
-            $clearance = $result->fetch_assoc()['clearance'];
-            if($clearance >= 1) {
+            $row = $result->fetch_assoc()
+            $clearance = $row['clearance'];
+            $post_user_id = $row['user_id'];
+            $user_id === $_SESSION["user_id"];
+
+            if($post_user_id === $user_id) {
                 // (Soft) delete post
                 $sql = "UPDATE posts SET deleted = 1 WHERE post_id = '$id'";
                 if ($conn->query($sql) === FALSE) {
                     echo "ERROR: Please try again later [DP0]";
                 }
+            } else if($clearance >= 1) {
+                // (Soft) delete post
+                $sql = "UPDATE posts SET deleted = 1 WHERE post_id = '$id'";
+                if ($conn->query($sql) === FALSE) {
+                    echo "ERROR: Please try again later [DP1]";
+                }
+                
+                // Push onto history
+                $sql = "INSERT INTO history (id, type, judgement, sender_id)
+                VALUES ('$id', 0, 0, '$user_id')"
+                if ($conn->query($sql) === FALSE) {
+                    echo "ERROR: Please try again later [DP2]";
+                }
             } else {
                 echo "Clearance level too low";
             }
         } else {
-            echo "An error has occured DP1";
+            echo "An error has occured DP3";
         }
     } else {
-        echo "An error has occured DP2";
+        echo "An error has occured DP4";
     }
 
 } else {

@@ -57,9 +57,9 @@ $totalPosts = array_shift($posts);
                     if(isset($_SESSION["user_id"])) {
                         if($post["user_id"] === $_SESSION["user_id"]) {
                             echo '<button class="edit-button" onclick="editPost(\'' . $post['post_id'] . '\')">edit</button>';
+                            echo '<button class="delete-button" onclick="deleteConf(\'' . $post['username'] . '\', \'' . $post['post_id'] . '\')">delete</button>';
                         }
-                    }
-                    if($post['clearance'] === 1) {
+                    } else if($post['clearance'] === 1 $post["user_id"] === $_SESSION["user_id"]) {
                         echo '<button class="delete-button" onclick="deleteConf(\'' . $post['username'] . '\', \'' . $post['post_id'] . '\')">delete</button>';
                     } ?>
                 </span>

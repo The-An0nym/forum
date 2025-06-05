@@ -77,7 +77,7 @@ async function getPosts() {
         postMeta.appendChild(editable);
       }
 
-      if (dataJSON[i].deletable === 1) {
+      if (dataJSON[i].deletable === 1 || dataJSON[i].editable) {
         const deletable = document.createElement("button");
         deletable.className = "delete-button";
         deletable.textContent = "delete";
