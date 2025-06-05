@@ -58,7 +58,7 @@ function getPosts(string $slug, int $page) :array {
     $data[] = $total_posts;
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
-            if($row["clearance"] >= $myClearance) {
+            if($row["clearance"] < $myClearance) {
                 $row["clearance"] = 1;
             } else {
                 $row["clearance"] = 0;
