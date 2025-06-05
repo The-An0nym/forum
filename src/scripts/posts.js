@@ -10,14 +10,15 @@ async function getPosts() {
     const dataJSON = await response.json();
     cont.innerHTML = "";
 
-    createPageMenu("thread", slug, page, dataJSON[0]);
-
     if (!dataJSON[1]) {
       const div = document.createElement("div");
       div.className = "result-message";
-      div.textContent = "Yikes! It appears there are no posts here yet.";
+      div.textContent = "Failed to load posts for this page";
       cont.appendChild(div);
+      return;
     }
+
+    createPageMenu("thread", slug, page, dataJSON[0]);
 
     for (let i = 1; i < dataJSON.length; i++) {
       const post = document.createElement("div");

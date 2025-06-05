@@ -22,6 +22,10 @@ if(isset($_GET["p"])) {
 $posts = getPosts($slug, $page);
 $totalPosts = array_shift($posts);
 
+if(!isset($totalPosts)) {
+    $totalPosts = 0;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,7 +72,7 @@ $totalPosts = array_shift($posts);
         <?php 
         endforeach;
         } else {
-            echo '<div class="result-message">Yikes! It appears there are no posts here yet.</div>';
+            echo '<div class="result-message">Failed to load posts for this page</div>';
         }
         ?>
     </div>
