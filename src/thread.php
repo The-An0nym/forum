@@ -21,6 +21,7 @@ if(isset($_GET["p"])) {
 
 $posts = getPosts($slug, $page);
 $totalPosts = array_shift($posts);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,11 +55,11 @@ $totalPosts = array_shift($posts);
                         echo '<span class="edited">edited</span>';
                     }
                     if(isset($_SESSION["user_id"])) {
-                        if($post["user_id"] == $_SESSION["user_id"]) {
+                        if($post["user_id"] === $_SESSION["user_id"]) {
                             echo '<button class="edit-button" onclick="editPost(\'' . $post['post_id'] . '\')">edit</button>';
                         }
                     }
-                    if($post['clearance'] >= 1) {
+                    if($post['clearance'] >= $myClearance) {
                         echo '<button class="delete-button" onclick="deleteConf(\'' . $post['username'] . '\', \'' . $post['post_id'] . '\')">delete</button>';
                     } ?>
                 </span>

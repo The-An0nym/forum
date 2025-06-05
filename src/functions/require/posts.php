@@ -19,6 +19,14 @@ function getPosts(string $slug, int $page) :array {
     $result = $conn->query($sql);
     $total_posts = $result->fetch_assoc()["total_posts"];
 
+    if(isset($_SESSION["user_id"])) {
+        $sql = "SELECT clearance FROM users WHERE user_id = '$_SESSION['user_id']'";
+        $result = $conn->query($sql);
+        $myClearance = $result->fetch_assoc()["clearance"];
+    } else {
+        $myClearance = 0;
+    }
+
     $sql = "SELECT 
                 u.username, 
                 u.image_dir,
@@ -49,6 +57,11 @@ function getPosts(string $slug, int $page) :array {
     $data[] = $total_posts;
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
+            if($row["clearance"] >= $myClearance) {
+                $row["clearance"] = 1;
+            } else {
+                $row["clearance"] = 0;
+            }
             $data[] = $row;
         }
         return $data;
