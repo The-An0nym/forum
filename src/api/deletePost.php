@@ -41,7 +41,22 @@ if(include($path . "/functions/validateSession.php")) {
                     echo "ERROR: Please try again later [DP0]";
                 }
 
-                // Decrement thread & category post count
+                // Decrement post count of user
+                $sql = "UPDATE users SET posts = posts -1 WHERE user_id = '$post_user_id'";
+                if ($conn->query($sql) === FALSE) {
+                    echo "An error has occured [SP1]";
+                }
+
+                // Decrement post count of category and thread
+                $sql = "UPDATE posts p
+                        INNER JOIN threads t ON p.thread_id = t.id
+                        INNER JOIN categories c ON t.category_id = c.id
+                        SET c.posts = c.posts -1, t.posts = t.posts -1 
+                        WHERE p.id = '$id'";
+                        
+                if ($conn->query($sql) === FALSE) {
+                    echo "An error has occured [SP2]";
+                }
 
                 if($clearance >= 1) {
                     // Push onto history
