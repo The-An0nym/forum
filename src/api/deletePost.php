@@ -35,12 +35,6 @@ if(include($path . "/functions/validateSession.php")) {
             $user_id === $_SESSION["user_id"];
 
             if($post_user_id === $user_id || $clearance >= 1) {
-                // (Soft) delete post
-                $sql = "UPDATE posts SET deleted = 1 WHERE post_id = '$id'";
-                if ($conn->query($sql) === FALSE) {
-                    echo "ERROR: Please try again later [DP0]";
-                }
-
                 // Decrement post count of user
                 $sql = "UPDATE users SET posts = posts -1 WHERE user_id = '$post_user_id'";
                 if ($conn->query($sql) === FALSE) {
@@ -52,11 +46,7 @@ if(include($path . "/functions/validateSession.php")) {
                         INNER JOIN threads t ON p.thread_id = t.id
                         INNER JOIN categories c ON t.category_id = c.id
                         SET c.posts = c.posts -1, t.posts = t.posts -1 
-                        WHERE p.id = '$id'";
-                        
-                if ($conn->query($sql) === FALSE) {
-                    echo "An error has occured [SP2]";
-                }
+                        WHERE p.post_id = '$id'";
 
                 if($clearance >= 1) {
                     // Push onto history
@@ -65,6 +55,16 @@ if(include($path . "/functions/validateSession.php")) {
                     if ($conn->query($sql) === FALSE) {
                         echo "ERROR: Please try again later [DP2]";
                     }
+                }
+
+                // (Soft) delete post
+                $sql = "UPDATE posts SET deleted = 1 WHERE post_id = '$id'";
+                if ($conn->query($sql) === FALSE) {
+                    echo "ERROR: Please try again later [DP0]";
+                }
+
+                if ($conn->query($sql) === FALSE) {
+                    echo "An error has occured [SP2]";
                 }
             } else {
                 echo "Clearance level too low";
