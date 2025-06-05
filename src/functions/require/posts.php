@@ -37,6 +37,8 @@ function getPosts(string $slug, int $page) :array {
                 threads t ON t.id = p.thread_id
             WHERE 
                 t.slug = '$slug'
+            AND 
+                p.deleted = 0
             ORDER BY 
                 p.created ASC
             LIMIT 20 OFFSET $page";

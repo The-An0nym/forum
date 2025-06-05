@@ -256,6 +256,7 @@ function checkConfInput(id) {
   if (!document.getElementById("delete-conf-inp")) return;
   inp = document.getElementById("delete-conf-inp");
   if (inp.value.toLowerCase() === "i confirm") {
+    inp.parentNode().parentNode().remove();
     deletePost(id);
   } else {
     inp.style.border = "1px solid red";
