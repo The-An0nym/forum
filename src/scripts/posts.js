@@ -207,17 +207,13 @@ async function sendPost() {
 
 /* DELETING POST */
 async function deletePost(id) {
-  // VAR
-  const editTxt = document.getElementById("editTxt");
   // Requests
   const response = await fetch(`/api/deletePost.php?i=${id}`);
-
   const result = await response.text();
 
   if (/\S/.test(result)) {
     errorMessage(result);
   } else {
-    editTxt.value = "";
     getPosts();
   }
 }
