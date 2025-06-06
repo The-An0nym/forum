@@ -6,7 +6,7 @@ if(isset($_GET['s'], $_GET['p'])) {
     $slug = $_GET['s'];
     $page = $_GET['p'] * 20;
 
-    session_start()
+    session_start();
 
     $threads = getThreads($slug, $page);
 

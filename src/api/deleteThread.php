@@ -36,23 +36,21 @@ if(include($path . "/functions/validateSession.php")) {
             $user_id === $_SESSION["user_id"];
 
             if($clearance >= 1) {
-                // Decrement post count of user
-                $sql = "UPDATE users SET posts = posts -1 WHERE user_id = '$post_user_id'";
-                if ($conn->query($sql) === FALSE) {
-                    echo "An error has occured [SP1]";
-                }
-
                 // Get amount of posts (which are now hidden)
                 $sql = "SELECT 
-                            COUNT(*) AS post_number
+                            posts.user_id
                         FROM posts 
                         WHERE posts.thread_id = '$id'";
                 
                 $result = $conn->query($sql);
-                if ($result->num_rows === 1) {
-                    $post_count = $result->fetch_assoc()["threads"];
-                } else {
-                    $post_cound = 0;
+                $post_count = 0;
+                // Decrement user posts
+                while($post = $result->fetch_assoc()) {
+                    $post_count++;
+                    $sql = "UPDATE users SET posts = posts - 1 WHERE id = $post['user_id']";
+                    if ($conn->query($sql) === FALSE) {
+                        echo "An error has occured [DT0]";
+                    }
                 }
 
                 // Decrement post and thread count of category
