@@ -17,6 +17,7 @@ if(isset($_GET['s'], $_GET['p'])) {
             $t = new stdClass();
             $t->name = $thread["name"];
             $t->slug = $thread["slug"];
+            $t->id = $thread["id"];
             $t->created = $thread["created"];
             $t->postCount = $thread["posts"];
             $t->lastUser = $thread["lastUser"];

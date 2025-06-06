@@ -27,7 +27,8 @@ function getThreads(string $slug, int $page) {
     }
 
     $sql = "SELECT 
-                t.name, 
+                t.name,
+                t.id, 
                 t.slug,
                 t.created, 
                 t.posts,
@@ -88,25 +89,28 @@ function getThreads(string $slug, int $page) {
 function generateHTMLFromThreads(string $slug, int $page) {
     $threads = getThreads($slug, $page * 20);
     foreach($threads as $thread) {?>
-            <a class="thread-wrapper" href="/thread/<?= $thread['slug'] ?>">
-                    <div class="thread">
-                        <span class="main-wrapper">
-                            <span class="thread-name"><?= $thread['name'] ?></span>
-                            <span class="thread-creator"><?= $thread['username'] ?></span>
-                            <span class="created"><?= $thread['created'] ?></span>
+        <div class="thread-wrapper">
+            <a href="/thread/<?= $thread['slug'] ?>">
+                <div class="thread">
+                    <span class="main-wrapper">
+                        <span class="thread-name"><?= $thread['name'] ?></span>
+                        <span class="thread-creator"><?= $thread['username'] ?></span>
+                        <span class="created"><?= $thread['created'] ?></span>
+                    </span>
+                    <span class="details-wrapper">
+                        <span class="last-wrapper">
+                            <span class="last-post"><?= $thread['lastPost'] ?></span>
+                            <span class="last-user"><?= $thread['lastUser'] ?></span>
                         </span>
-                        <span class="details-wrapper">
-                            <span class="last-wrapper">
-                                <span class="last-post"><?= $thread['lastPost'] ?></span>
-                                <span class="last-user"><?= $thread['lastUser'] ?></span>
-                            </span>
-                            <span class="count"><?= $thread['posts'] ?></span>
-                        </span>
-                        <?php if($thread['clearance'] === "1") {?>
-                        <button class="delete-button" onclick="deleteConf('<?= $thread['username'] ?>', '<?= $thread['id'] ?>')">delete</button>
-                        <?php } ?>
-                    </div>
-                </a>
+                        <span class="count"><?= $thread['posts'] ?></span>
+                    </span>
+                </div>
+            </a>
+            <?php if($thread['deletable'] === 1) {?>
+            <button class="delete-button" onclick="deleteConf('<?= $thread['username'] ?>', '<?= $thread['id'] ?>')">delete</button>
+            <?php } ?>
+        </div>
+
         <?php 
     }
 }

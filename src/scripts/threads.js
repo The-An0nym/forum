@@ -14,13 +14,15 @@ async function getThreads() {
     cont.innerHTML = "";
 
     for (let i = 1; i < dataJSON.length; i++) {
-      const threadWrapper = document.createElement("a");
+      const threadWrapper = document.createElement("div");
       threadWrapper.className = "thread-wrapper";
-      threadWrapper.setAttribute("href", `/thread/${dataJSON[i].slug}`);
+
+      const linkWrapper = document.createElement("a");
+      linkWrapper.setAttribute("href", `/thread/${dataJSON[i].slug}`);
 
       const thread = document.createElement("div");
       thread.className = "thread";
-      threadWrapper.appendChild(thread);
+      linkWrapper.appendChild(thread);
 
       // Main (Title + Created)
       const mainWrapper = document.createElement("span");
@@ -30,6 +32,11 @@ async function getThreads() {
       name.className = "thread-name";
       name.innerHTML = dataJSON[i].name;
       mainWrapper.appendChild(name);
+
+      const creator = document.createElement("span");
+      creator.className = "thread-creator";
+      creator.innerHTML = dataJSON[i].creator;
+      mainWrapper.appendChild(creator);
 
       const created = document.createElement("span");
       created.className = "created";
@@ -66,7 +73,9 @@ async function getThreads() {
       thread.appendChild(detailWrapper);
       detailWrapper.appendChild(postCount);
 
-      if (dataJSON[i].clearance === 1) {
+      threadWrapper.appendChild(linkWrapper);
+
+      if (dataJSON[i].deletable === 1) {
         const deleteButton = document.createElement("button");
         deleteButton.className = "delete-button";
         deleteButton.textContent = "delete";
