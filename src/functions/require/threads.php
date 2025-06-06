@@ -92,6 +92,7 @@ function generateHTMLFromThreads(string $slug, int $page) {
                     <div class="thread">
                         <span class="main-wrapper">
                             <span class="thread-name"><?= $thread['name'] ?></span>
+                            <span class="thread-creator"><?= $thread['username'] ?></span>
                             <span class="created"><?= $thread['created'] ?></span>
                         </span>
                         <span class="details-wrapper">
@@ -101,6 +102,9 @@ function generateHTMLFromThreads(string $slug, int $page) {
                             </span>
                             <span class="count"><?= $thread['posts'] ?></span>
                         </span>
+                        <?php if($thread['clearance'] === "1") {?>
+                        <button class="delete-button" onclick="deleteConf('<?= $thread['username'] ?>', '<?= $thread['id'] ?>')">delete</button>
+                        <?php } ?>
                     </div>
                 </a>
         <?php 

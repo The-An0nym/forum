@@ -21,6 +21,8 @@ if(isset($_GET['s'], $_GET['p'])) {
             $t->postCount = $thread["posts"];
             $t->lastUser = $thread["lastUser"];
             $t->lastPost = $thread["lastPost"];
+            $t->creator = $thread["username"];
+            $t->deletable = $thread["clearance"];
             $data[] = $t;
         }
 
