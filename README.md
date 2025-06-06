@@ -16,6 +16,12 @@ Clearance level is an integer.
 4 = Admin (The above and can promote and demote all of the below)
 5 = Super Admin (The above and can promote and demote level 4 admin. Can also view all deleted posts and deleted accounts and restore them (within the time limit))
 
+### Deletion
+
+Posts will be soft deleted and only completely deleted after a set amount of time (60 days)
+
+Threads that are deleted will follow the same logic. Posts under that thread will not be flagged as "deleted" though. Only moderators with clearance levels 2 or above can view deleted threads (for anyone else it will show an error message)
+
 # Structure (tables)
 
 ### History

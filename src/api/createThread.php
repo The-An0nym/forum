@@ -37,19 +37,19 @@ if(include($path . '/functions/validateSession.php')) {
             $cont = nl2br(preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->c))); // mysql_real_escape_string ??
 
             if(strlen($cont) !== 0 && strlen($cont) <= 2000 && strlen($threadName) <= 64 && strlen($threadName) >= 8) {               
-                
+                $user_id = $_SESSION["user_id"];
+
                 // Create Thread
                 $dtime = date('Y-m-d H:i:s');
                 $thread_id = uniqid(rand(), true);
-                $sql = "INSERT INTO threads (name, slug, id, category_id, created, posts)
-                VALUES ('$threadName', '$thread_slug', '$thread_id', '$category_id', '$dtime', 1)";
+                $sql = "INSERT INTO threads (name, slug, id, category_id, created, user_id, posts)
+                VALUES ('$threadName', '$thread_slug', '$thread_id', '$category_id', '$dtime', '$user_id', 1)";
                 if ($conn->query($sql) === FALSE) {
                     echo "An error has occured [CT0]";
                 }
 
                 // Create Post
                 $post_id = uniqid(rand(), true);
-                $user_id = $_SESSION["user_id"];
                 $sql = "INSERT INTO posts (user_id, post_id, content, created, edited, thread_id)
                 VALUES ('$user_id', '$post_id', '$cont', '$dtime', 'false', '$thread_id')";
                 if ($conn->query($sql) === FALSE) {

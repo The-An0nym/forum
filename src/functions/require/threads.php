@@ -17,11 +17,22 @@ function getDBConnection() : mysqli {
 function getThreads(string $slug, int $page) {
     $conn = getDBConnection();
 
+    if(isset($_SESSION["user_id"])) {
+        $user_id = $_SESSION['user_id'];
+        $sql = "SELECT clearance FROM users WHERE user_id = '$user_id'";
+        $result = $conn->query($sql);
+        $myClearance = $result->fetch_assoc()["clearance"];
+    } else {
+        $myClearance = 0;
+    }
+
     $sql = "SELECT 
                 t.name, 
                 t.slug,
                 t.created, 
                 t.posts,
+                cr.clearance,
+                cr.username,
                 u.username AS lastUser,
                 lp.created AS lastPost
             FROM 
@@ -47,8 +58,10 @@ function getThreads(string $slug, int $page) {
             LEFT JOIN (
                 SELECT username, user_id FROM users
             ) u ON u.user_id = lp.user_id
+            INNER JOIN users cr 
+                ON cr.user_id = t.user_id
             WHERE 
-                c.slug = '$slug'
+                c.slug = '$slug' AND t.deleted = 0
             ORDER BY 
                 lp.created DESC
             LIMIT 20 OFFSET $page";
@@ -59,6 +72,11 @@ function getThreads(string $slug, int $page) {
         // output data of each row
         $data = [];
         while($thread = $result->fetch_assoc()) { 
+            if($thread["clearance"] < $myClearance) {
+                $thread["clearance"] = 1;
+            } else {
+                $thread["clearance"] = 0;
+            }
             $data[] = $thread;
         }
         return $data;
