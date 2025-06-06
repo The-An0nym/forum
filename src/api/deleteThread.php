@@ -47,7 +47,8 @@ if(include($path . "/functions/validateSession.php")) {
                 // Decrement user posts
                 while($post = $result->fetch_assoc()) {
                     $post_count++;
-                    $sql = "UPDATE users SET posts = posts - 1 WHERE id = $post['user_id']";
+                    $user_id = $post["user_id"];
+                    $sql = "UPDATE users SET posts = posts - 1 WHERE user_id = '$user_id'";
                     if ($conn->query($sql) === FALSE) {
                         echo "An error has occured [DT0]";
                     }
@@ -57,7 +58,7 @@ if(include($path . "/functions/validateSession.php")) {
                 $sql = "UPDATE threads t
                         INNER JOIN categories c ON t.category_id = c.id
                         SET c.threads = c.threads -1,
-                            c.posts = posts - $post_count
+                            c.posts = c.posts - $post_count
                         WHERE t.id = '$id'";
                 if ($conn->query($sql) === FALSE) {
                     echo "An error has occured [DT2]";
