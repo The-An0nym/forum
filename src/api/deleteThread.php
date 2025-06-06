@@ -42,10 +42,24 @@ if(include($path . "/functions/validateSession.php")) {
                     echo "An error has occured [SP1]";
                 }
 
-                // Decrement post count of category and thread
+                // Get amount of posts (which are now hidden)
+                $sql = "SELECT 
+                            COUNT(*) AS post_number
+                        FROM posts 
+                        WHERE posts.thread_id = '$id'";
+                
+                $result = $conn->query($sql);
+                if ($result->num_rows === 1) {
+                    $post_count = $result->fetch_assoc()["threads"];
+                } else {
+                    $post_cound = 0;
+                }
+
+                // Decrement post and thread count of category
                 $sql = "UPDATE threads t
                         INNER JOIN categories c ON t.category_id = c.id
-                        SET c.threads = c.threads -1
+                        SET c.threads = c.threads -1,
+                            c.posts = posts - $post_count
                         WHERE t.id = '$id'";
                 if ($conn->query($sql) === FALSE) {
                     echo "An error has occured [DT2]";

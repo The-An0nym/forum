@@ -141,7 +141,7 @@ async function deleteThread(id) {
   if (/\S/.test(result)) {
     errorMessage(result);
   } else {
-    getPosts();
+    getThreads();
   }
 }
 

@@ -106,7 +106,7 @@ function generateHTMLFromThreads(string $slug, int $page) {
                     </span>
                 </div>
             </a>
-            <?php if($thread['deletable'] === 1) {?>
+            <?php if($thread['clearance'] === 1) {?>
             <button class="delete-button" onclick="deleteConf('<?= $thread['username'] ?>', '<?= $thread['id'] ?>')">delete</button>
             <?php } ?>
         </div>
