@@ -16,13 +16,13 @@ function generateMenu($paths) {
             ?>
             <span class="profile menu-button"><a href="/profile/">profile</a></span>
             <span class="logout menu-button"><a href="/logout/">logout</a></span>
-            <span class="path menu-path"><?= $HTMLpath ?></span>
+            <span class="menu-path"><?= $HTMLpath ?></span>
             <?php
         } else {
             ?>
             <script src="/scripts/account.js"></script>
-            <span class="path menu-button"><?= $HTMLpath ?></span>
-            <span class="login menu-path" onclick="createLogin()">login</span>
+            <span class="menu-path"><?= $HTMLpath ?></span>
+            <span class="login menu-button" onclick="createLogin()">login</span>
             <span class="sign-up menu-button" onclick="createSignUp()">sign up</span>
             <?php 
         } 
