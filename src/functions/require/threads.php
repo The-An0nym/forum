@@ -151,8 +151,8 @@ function getPathName(string $slug) {
 
     $result = $conn->query($sql);
     if ($result->num_rows === 1) {
-        return [[$slug, $result->->fetch_assoc()["name"]]]
+        return [["topic/" . $slug, $result->fetch_assoc()["name"]]];
     }
 
-    return;
+    return [];
 }

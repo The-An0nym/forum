@@ -92,8 +92,8 @@ function getPathNames(string $slug) {
 
     $result = $conn->query($sql);
     if ($result->num_rows === 1) {
-        $row = $result->fetch_assoc()
-        return [[$row["c_slug"], $row["c_name"]],  [$slug, $row["t_name"]]];
+        $row = $result->fetch_assoc();
+        return [["topic/" . $row["c_slug"], $row["c_name"]], ["thread/" . $slug, $row["t_name"]]];
     } 
     return [];
 }
