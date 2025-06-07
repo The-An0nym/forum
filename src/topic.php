@@ -5,6 +5,8 @@ if(!session_id()) {
     session_start();
 } 
 
+include $path . "/basic/menu.php";
+
 include $path . "/functions/require/threads.php";
 if(isset($_GET["s"])) {
     $slug = $_GET["s"];
@@ -30,7 +32,7 @@ if(isset($_GET["p"])) {
     <link rel="stylesheet" href="/styles/threads.css" />
 </head>
 <body>
-    <?php include $path . "/basic/menu.php"; ?>
+    <?php generateMenu(getPathName($slug)) ?>
 
     <div id="thread-container">
         <?php generateHTMLFromThreads($slug, $page) ?>

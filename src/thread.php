@@ -5,6 +5,8 @@ if(!session_id()) {
     session_start();
 } 
 
+include $path . "/basic/menu.php";
+
 // Initial threads load
 include $path . "/functions/require/posts.php";
 if(isset($_GET["s"])) {
@@ -37,7 +39,7 @@ if(!isset($totalPosts)) {
     <link rel="stylesheet" href="/styles/posts.css" />
 </head>
 <body>
-    <?php include $path . "/basic/menu.php"; ?>
+    <?php generateMenu(getPathNames($slug)) ?>
 
     <div id="post-container">
         <?php 

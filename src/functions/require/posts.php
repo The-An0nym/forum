@@ -9,8 +9,9 @@ function getPosts(string $slug, int $page) :array {
     // Check connection
     if ($conn->connect_error) {
         return [];
-    }
+    }   
 
+    // Total posts
     $sql = "SELECT COUNT(*) AS total_posts
                 FROM posts p
                 JOIN threads t ON t.id = p.thread_id
@@ -69,4 +70,30 @@ function getPosts(string $slug, int $page) :array {
     } else {
         return [];
     }
+}
+
+function getPathNames(string $slug) {
+    $path = $_SERVER['DOCUMENT_ROOT'];
+    include $path . '/functions/.connect.php' ;
+
+    // Get connection
+    $conn = getConn();
+
+    // Check connection
+    if ($conn->connect_error) {
+        return [];
+    }
+
+    // Category
+    $sql = "SELECT c.slug AS c_slug, c.name AS c_name, t.name AS t_name
+    FROM categories c
+    JOIN threads t ON t.category_id = c.id
+    WHERE t.slug = '$slug'";
+
+    $result = $conn->query($sql);
+    if ($result->num_rows === 1) {
+        $row = $result->fetch_assoc()
+        return [[$row["c_slug"], $row["c_name"]],  [$slug, $row["t_name"]]];
+    } 
+    return [];
 }

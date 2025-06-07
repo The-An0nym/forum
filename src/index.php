@@ -5,6 +5,8 @@ include $path . '/functions/.connect.php' ;
 // Get connection
 $conn = getConn();
 
+include $path . "/basic/menu.php";
+
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
@@ -21,7 +23,7 @@ if ($conn->connect_error) {
     <link rel="stylesheet" href="/styles/topics.css" />
 </head>
 <body>
-    <?php include $path . "/basic/menu.php"; ?>
+    <?php generateMenu([]) ?>
 
     <?php
     $sql = "SELECT name, slug, description, created, threads, posts 
