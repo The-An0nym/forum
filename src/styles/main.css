@@ -42,3 +42,7 @@ a {
   position: fixed;
   width: 100vw;
 }
+
+.container {
+  margin-top: 60px;
+}

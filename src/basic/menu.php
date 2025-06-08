@@ -7,6 +7,10 @@ function generateMenu($paths) {
         $HTMLpath .= '<a href=/' . $path[0];
         $HTMLpath .= '>' . $path[1] . '</a>';
     }
+
+    if(!session_id()) {
+        session_start();
+    }
     
     ?>
     <link rel="stylesheet" href="/styles/menu.css">

@@ -4,6 +4,9 @@
   background-color: #eee;
   border-bottom: 1px black solid;
   align-items: end;
+  position: fixed;
+  width: 100%;
+  top: 0;
 }
 
 .menu > span {
@@ -11,7 +14,7 @@
   border-left: 1px black solid;
 }
 
-.a:hover {
+.menu-path > a:hover {
   text-decoration: underline;
 }
 

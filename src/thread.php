@@ -41,7 +41,7 @@ if(!isset($totalPosts)) {
 <body>
     <?php generateMenu(getPathNames($slug)) ?>
 
-    <div id="post-container">
+    <div id="post-container" class="container">
         <?php 
         if($posts !== []) {
         foreach ($posts as $post): 

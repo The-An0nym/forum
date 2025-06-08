@@ -34,7 +34,7 @@ if(isset($_GET["p"])) {
 <body>
     <?php generateMenu(getPathName($slug)) ?>
 
-    <div id="thread-container">
+    <div id="thread-container" class="container">
         <?php generateHTMLFromThreads($slug, $page) ?>
     </div>
 
