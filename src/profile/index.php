@@ -14,6 +14,8 @@ if(!session_id()) {
   session_start();
 }
 
+include $path . "/basic/menu.php";
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,8 +27,9 @@ if(!session_id()) {
     <link rel="stylesheet" href="/styles/profile.css"/>
 </head>
 <body>
-    <?php include $path . "/basic/menu.php"; ?>
+    <?php generateMenu([]) ?>
 
+    <div class="container">
     <?php
         if(include($path . '/functions/validateSession.php')) {
             $user_id = $_SESSION["user_id"];
@@ -73,14 +76,10 @@ if(!session_id()) {
 
         } else {
             echo "Please Log in or Sign up to continue...";
-        }
-    
-    
-    // Get username and offer option to edit username
-    // Give option to upload pfp
-    // Other stuff
-    
+        }        
     ?>
+    </div>
+
 
     <?php include $path . "/basic/footer.php"; ?>
 
