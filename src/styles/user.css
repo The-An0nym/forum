@@ -1,0 +1,21 @@
+#global {
+  margin-top: 60px;
+}
+
+#user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-image {
+  max-width: 20vw;
+  border-radius: 50%;
+}
+
+.username {
+  font-weight: 800;
+}
+
+.handle {
+  font-style: italic;
+}

@@ -1,11 +1,10 @@
 <?php 
 $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
+include $path . "/basic/menu.php";
 
 // Get connection
 $conn = getConn();
-
-include $path . "/basic/menu.php";
 
 // Check connection
 if ($conn->connect_error) {

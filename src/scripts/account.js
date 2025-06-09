@@ -43,12 +43,12 @@ async function signUp() {
   const handle = document.getElementById("handle").value.trim();
   const pswd = document.getElementById("password").value.trim();
   const pswdCnf = document.getElementById("password-confirmation").value.trim();
-  const loginCont = document.getElementById("signup-container").value.trim();
+  const loginCont = document.getElementById("signup-container");
 
   if (!checkUsername(user)) return;
   if (!checkHandle(handle)) return;
   if (!checkPassword(pswd)) return;
-  if (pswd.value !== pswdCnf) {
+  if (pswd !== pswdCnf) {
     errorMessage("Passwords do not match");
     return;
   }
@@ -83,9 +83,9 @@ function createLogin() {
   container.className = "login-container pop-up-container";
   container.id = "login-container";
 
-  const username = document.createElement("input");
-  username.placeholder = "Username...";
-  username.id = "username";
+  const handle = document.createElement("input");
+  handle.placeholder = "Handle...";
+  handle.id = "handle";
 
   const password = document.createElement("input");
   password.placeholder = "Password...";
@@ -95,7 +95,7 @@ function createLogin() {
   submitButton.textContent = "Login";
   submitButton.setAttribute("onclick", "login()");
 
-  container.appendChild(username);
+  container.appendChild(handle);
   container.appendChild(password);
   container.appendChild(submitButton);
 
@@ -105,11 +105,11 @@ function createLogin() {
 }
 
 async function login() {
-  const user = document.getElementById("username").value.trim();
+  const handle = document.getElementById("handle").value.trim();
   const pswd = document.getElementById("password").value.trim();
   const loginCont = document.getElementById("login-container");
 
-  if (!checkUsername(user)) return;
+  if (!checkHandle(handle)) return;
   if (!checkPassword(pswd)) return;
 
   // Login
@@ -118,7 +118,7 @@ async function login() {
     headers: {
       "Content-type": "application/x-www-form-urlencoded",
     },
-    body: `u=${encodeURIComponent(user)}&p=${encodeURIComponent(pswd)}`,
+    body: `h=${encodeURIComponent(handle)}&p=${encodeURIComponent(pswd)}`,
   });
   const result = await response.text();
   if (/\S/.test(result)) {

@@ -44,8 +44,8 @@ function createPageMenu(dir, slug, page, items) {
 
 /* USER INPUT VALIDATION */
 function checkUsername(username) {
-  if (username.length > 16) {
-    errorMessage("Max 16. chars allowed for username");
+  if (username.length > 24) {
+    errorMessage("Max 24. chars allowed for username");
     return false;
   } else if (username.length < 4) {
     errorMessage("Min 4. chars needed for username");
@@ -54,15 +54,17 @@ function checkUsername(username) {
   return true;
 }
 
-function checkHandle(username) {
-  if (username.length > 16) {
-    errorMessage("Max 16. chars allowed for username");
+function checkHandle(handle) {
+  if (handle.length > 16) {
+    errorMessage("Max 16. chars allowed for handle");
     return false;
-  } else if (username.length < 4) {
-    errorMessage("Min 4. chars needed for username");
+  } else if (handle.length < 4) {
+    errorMessage("Min 4. chars needed for handle");
     return false;
-  } else if (!/^[A-z0-9.\-_]*$/i.test(username)) {
-    errorMessage("Only characters <b>a-Z 0-9 + - _ .</b> are allowed");
+  } else if (!/^[A-z0-9.\-_]*$/i.test(handle)) {
+    errorMessage(
+      "Only characters <b>a-Z 0-9 - _ .</b> are allowed for the handle"
+    );
     return false;
   }
   return true;
@@ -70,7 +72,7 @@ function checkHandle(username) {
 
 function checkPassword(pswd) {
   if (pswd.length > 64) {
-    errorMessage("Max 50. chars allowed for your password");
+    errorMessage("Max 64. chars allowed for your password");
     return false;
   } else if (pswd.length < 8) {
     errorMessage("Min. 8 chars needed for password");

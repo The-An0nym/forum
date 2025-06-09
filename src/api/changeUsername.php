@@ -17,7 +17,7 @@ if(!session_id()) {
 if (isset($_POST['u'])) {
     $username = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($_POST['u']));
     
-    if(strlen($username) <= 16 && strlen($username) >= 4) {
+    if(strlen($username) <= 24 && strlen($username) >= 4) {
 
         $sql = "SELECT * FROM users WHERE username='$username'";
         $result = $conn->query($sql);
@@ -33,8 +33,8 @@ if (isset($_POST['u'])) {
         } else {
             echo "Username is already taken!";
         }
-    } else if(strlen($username) > 16) {
-        echo "Max 16. chars allowed for username";
+    } else if(strlen($username) > 24) {
+        echo "Max 24. chars allowed for username";
     } else if(strlen($username) < 4) {
         echo "Min. 4 chars needed for username";
     } else {
