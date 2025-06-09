@@ -63,6 +63,7 @@ if($result->num_rows === 1) {
         <div id="history">
 
         <div id="post-history" class="history-block">
+            Post History:
         <?php
         $sql = "SELECT p.content, p.created, t.name, t.slug FROM posts p 
                 LEFT JOIN threads t ON t.id = p.thread_id
@@ -87,6 +88,7 @@ if($result->num_rows === 1) {
         </div>
         
         <div id="thread-history" class="history-block">
+            Thread History:
         <?php
         $sql = "SELECT 
                     t.name, 
@@ -103,8 +105,8 @@ if($result->num_rows === 1) {
         if($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {?>
             <span class="thread">
-                <span class="category">
-                    <a href="/category/<?= $row['cat_slug']; ?>"><?= $row["cat_name"]; ?></a>
+                <span class="topic">
+                    <a href="/topic/<?= $row['cat_slug']; ?>"><?= $row["cat_name"]; ?></a>
                 </span>
                 <span class="date"><?= $row["created"]; ?></span>
                 <span class="thread">
