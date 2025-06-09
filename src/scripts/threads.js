@@ -17,20 +17,18 @@ async function getThreads() {
       const threadWrapper = document.createElement("div");
       threadWrapper.className = "thread-wrapper";
 
-      const linkWrapper = document.createElement("a");
-      linkWrapper.setAttribute("href", `/thread/${dataJSON[i].slug}`);
-
-      const thread = document.createElement("div");
-      thread.className = "thread";
-      linkWrapper.appendChild(thread);
-
       // Main (Title + Created)
       const mainWrapper = document.createElement("span");
       mainWrapper.className = "main-wrapper";
 
       const name = document.createElement("span");
       name.className = "thread-name";
-      name.innerHTML = dataJSON[i].name;
+
+      const threadHref = document.createElement("a");
+      threadHref.setAttribute("href", `/thread/${dataJSON[i].slug}`);
+      threadHref.innerHTML = dataJSON[i].name;
+
+      name.appendChild(threadHref);
       mainWrapper.appendChild(name);
 
       const creator = document.createElement("span");
@@ -38,7 +36,7 @@ async function getThreads() {
 
       const creatorHandle = document.createElement("a");
       creatorHandle.innerHTML = dataJSON[i].creator;
-      creatorHandle.href = "/user/" + dataJSON[i].handle;
+      creatorHandle.href = "/user/" + dataJSON[i].creatorHandle;
 
       creator.appendChild(creatorHandle);
       mainWrapper.appendChild(creator);
@@ -48,7 +46,7 @@ async function getThreads() {
       created.textContent = dataJSON[i].created;
       mainWrapper.appendChild(created);
 
-      thread.appendChild(mainWrapper);
+      threadWrapper.appendChild(mainWrapper);
 
       // Details (Last user & last post + Posts)
 
@@ -80,10 +78,8 @@ async function getThreads() {
       postCount.textContent = dataJSON[i].postCount;
       detailWrapper.appendChild(postCount);
 
-      thread.appendChild(detailWrapper);
+      threadWrapper.appendChild(detailWrapper);
       detailWrapper.appendChild(postCount);
-
-      threadWrapper.appendChild(linkWrapper);
 
       if (dataJSON[i].deletable === 1) {
         const deleteButton = document.createElement("button");
