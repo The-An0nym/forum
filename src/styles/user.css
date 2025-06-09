@@ -10,6 +10,7 @@
   padding: 1%;
   margin: 1%;
   border: 1px solid black;
+  text-align: center;
 }
 
 .user-image {
@@ -23,6 +24,7 @@
 
 .handle {
   font-style: italic;
+  font-size: 0.8em;
 }
 
 #history {
@@ -33,7 +35,7 @@
 
 .history-block {
   width: 70vw;
-  max-height: 35vh;
+  max-height: 30vh;
   overflow-y: scroll;
   overflow-x: hidden;
   border: 1px solid black;
@@ -56,7 +58,7 @@
   text-align: center;
   white-space: nowrap;
   text-overflow: ellipsis;
-  overflow: none;
+  overflow: hidden;
 }
 
 .datetime {

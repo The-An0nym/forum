@@ -80,3 +80,44 @@ function checkPassword(pswd) {
   }
   return true;
 }
+
+/* REPORTING */
+function createReport(type) {
+  const wrapper = createWrapperOverlay();
+
+  const container = document.createElement("div");
+  container.className = "report-container pop-up-container";
+  container.id = "report-container";
+
+  const select = document.createElement("select");
+  select.className = "report-select";
+  select.id = "report-select";
+
+  const options = ["Spam", "Inappropriate", "Copyright", "Other"];
+  for (let i = 0; i < options.length; i++) {
+    const option = document.createElement("option");
+    option.value = i;
+    option.textContent = options[i];
+    select.appendChild(option);
+  }
+
+  const message = document.createElement("textarea");
+  message.placeholder = "Message...";
+  message.id = "message";
+
+  const submitButton = document.createElement("button");
+  submitButton.textContent = "Report";
+  submitButton.setAttribute("onclick", "report()");
+
+  container.appendChild(select);
+  container.appendChild(message);
+  container.appendChild(submitButton);
+
+  wrapper.appendChild(container);
+
+  document.body.prepend(wrapper);
+}
+
+function report() {
+  // Todo...
+}

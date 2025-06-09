@@ -59,7 +59,7 @@ include $path . "/basic/menu.php";
                 </div>
             </div>
             <div class="handle">
-                <input oninput="usernameHandle()" id="handle" value="<?= $handle; ?>" placeholder="Change handle..." />
+                <input oninput="handleChange()" id="handle" value="<?= $handle; ?>" placeholder="Change handle..." />
                 <div class="button-container" id="handleButtons">
                     <button class="save button" onclick="changeHandle()">Save</button>
                     <button class="save button" onclick="revertHandle()">Cancel</button>

@@ -15,6 +15,17 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
 
+$clearance = -1;
+
+if(include($path . '/functions/validateSession.php')) {
+    $user_id = $_SESSION['user_id'];
+    $sql = "SELECT clearance FROM users WHERE user_id='$user_id'";
+    $result->$conn->query($sql);
+    if($result->num_rows === 1) {
+        $clearance = $result->fetch_assoc()['clearance'];
+    }
+}
+
 if(isset($_GET["s"])) {
     $handle = $_GET["s"];
 } else {
@@ -23,7 +34,7 @@ if(isset($_GET["s"])) {
 
 $load = true;
 
-$sql = "SELECT username, user_id, image_dir, posts FROM users WHERE handle = '$handle' LIMIT 1";
+$sql = "SELECT username, user_id, image_dir, posts, clearance FROM users WHERE handle = '$handle' LIMIT 1";
 $result = $conn->query($sql);
 if($result->num_rows === 1) {
     $row = $result->fetch_assoc();
@@ -31,6 +42,9 @@ if($result->num_rows === 1) {
     $user_id= $row["user_id"];
     $image_dir = $row["image_dir"];
     $posts = $row["posts"];
+    if($row["clearance"] < $clearance && $clearance > 0) {
+        $clearance = 0;
+    }
 } else {
     $load = false;
 }
@@ -57,13 +71,19 @@ if($result->num_rows === 1) {
             <img class="user-image" src="/images/profiles/<?= $image_dir; ?>">
             <span class="username"><?= $username ?></span>
             <span class="handle">@<?= $handle ?></span>
-            <span class="posts"><?= $posts ?></span>
+            <span class="posts">Posts: <?= $posts ?></span>
+            <?php if($clearance >= 0) {
+                echo '<button class="moderation" onclick="createReport()">Report</button>';
+            }
+            if($clearance >= 3) {
+                echo '<button class="moderation" onclick="banuser(' . $user_id .')">Ban</button>';
+            }?>
         </div>
 
         <div id="history">
 
+        Post History:
         <div id="post-history" class="history-block">
-            Post History:
         <?php
         $sql = "SELECT p.content, p.created, t.name, t.slug FROM posts p 
                 LEFT JOIN threads t ON t.id = p.thread_id
@@ -74,10 +94,10 @@ if($result->num_rows === 1) {
         if($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {?>
             <span class="post history-item">
+                <span class="date"><?= $row["created"]; ?></span>
                 <span class="thread">
                     <a href="/thread/<?= $row['slug']; ?>"><?= $row["name"]; ?></a>
                 </span>
-                <span class="date"><?= $row["created"]; ?></span>
                 <span class="content"><?= $row["content"]; ?></span>
             </span>
             <?php }
@@ -87,8 +107,8 @@ if($result->num_rows === 1) {
         ?>
         </div>
         
+        Thread History:
         <div id="thread-history" class="history-block">
-            Thread History:
         <?php
         $sql = "SELECT 
                     t.name, 
@@ -105,10 +125,10 @@ if($result->num_rows === 1) {
         if($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {?>
             <span class="thread history-item">
+                <span class="date"><?= $row["created"]; ?></span>
                 <span class="topic">
                     <a href="/topic/<?= $row['cat_slug']; ?>"><?= $row["cat_name"]; ?></a>
                 </span>
-                <span class="date"><?= $row["created"]; ?></span>
                 <span class="thread">
                     <a href="/thread/<?= $row['slug']; ?>"><?= $row["name"]; ?></a>
                 </span>
