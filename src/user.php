@@ -35,6 +35,7 @@ if($result->num_rows === 1) {
     $load = false;
 }
 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -59,7 +60,61 @@ if($result->num_rows === 1) {
             <span class="posts"><?= $posts ?></span>
         </div>
 
-        To come...
+        <div id="history">
+
+        <div id="post-history" class="history-block">
+        <?php
+        $sql = "SELECT p.content, p.created, t.name, t.slug FROM posts p 
+                LEFT JOIN threads t ON t.id = p.thread_id
+                WHERE p.deleted = 0 AND t.deleted = 0 AND p.user_id = '$user_id' LIMIT 10";
+        $result = $conn->query($sql);
+        if($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {?>
+            <span class="post">
+                <span class="thread">
+                    <a href="/thread/<?= $row['slug']; ?>"><?= $row["name"]; ?></a>
+                </span>
+                <span class="date"><?= $row["datetime"]; ?></span>
+                <span class="content"><?= $row["content"]; ?></span>
+            </span>
+            <?php }
+        } else {
+            echo "No posts yet..."
+        }
+        ?>
+        </div>
+        
+        <div id="thread-history" class="history-block">
+        <?php
+        $sql = "SELECT 
+                    t.name, 
+                    t.slug, 
+                    t.created, 
+                    c.name AS cat_name, 
+                    c.slug AS cat_slug 
+                FROM threads t
+                LEFT JOIN categories c ON c.id = t.category_id
+                WHERE t.deleted = 0 AND t.user_id = '$user_id' LIMIT 10";
+        $result = $conn->query($sql);
+        if($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {?>
+            <span class="thread">
+                <span class="category">
+                    <a href="/category/<?= $row['cat_slug']; ?>"><?= $row["cat_name"]; ?></a>
+                </span>
+                <span class="date"><?= $row["datetime"]; ?></span>
+                <span class="thread">
+                    <a href="/thread/<?= $row['slug']; ?>"><?= $row["name"]; ?></a>
+                </span>
+            </span>
+            <?php }
+        } else {
+            echo "No posts yet..."
+        }
+        ?>
+        </div>
+
+        </div>
 
     </div>
 

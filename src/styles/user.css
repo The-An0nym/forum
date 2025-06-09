@@ -1,5 +1,7 @@
 #global {
   margin-top: 60px;
+  display: flex;
+  flex-direction: row;
 }
 
 #user-info {
@@ -18,4 +20,15 @@
 
 .handle {
   font-style: italic;
+}
+
+#history {
+  display: flex;
+  flex-direction: column;
+}
+
+.history-block {
+  max-width: 35vh;
+  display: flex;
+  flex-direction: column;
 }
