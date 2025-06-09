@@ -35,7 +35,12 @@ async function getThreads() {
 
       const creator = document.createElement("span");
       creator.className = "thread-creator";
-      creator.innerHTML = dataJSON[i].creator;
+
+      const creatorHandle = document.createElement("a");
+      creatorHandle.innerHTML = dataJSON[i].creator;
+      creatorHandle.href = "/user/" + dataJSON[i].handle;
+
+      creator.appendChild(creatorHandle);
       mainWrapper.appendChild(creator);
 
       const created = document.createElement("span");
@@ -60,7 +65,12 @@ async function getThreads() {
 
       const lastUser = document.createElement("span");
       lastUser.className = "last-user";
-      lastUser.textContent = dataJSON[i].lastUser;
+
+      const lastHandle = document.createElement("a");
+      lastHandle.textContent = dataJSON[i].lastUser;
+      lastHandle.href = "/user/" + dataJSON[i].lastHandle;
+
+      lastUser.appendChild(lastHandle);
       lastWrapper.appendChild(lastUser);
 
       detailWrapper.appendChild(lastWrapper);

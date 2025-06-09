@@ -64,7 +64,7 @@ if($result->num_rows === 1) {
     </div>
 
     <script> 
-        const slug = "<?= $slug; ?>";
+        const handle = "<?= $handle; ?>";
     </script>
     <script src="/scripts/user.js"></script>
     <?php } ?>

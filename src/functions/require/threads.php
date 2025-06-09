@@ -34,7 +34,9 @@ function getThreads(string $slug, int $page) {
                 t.posts,
                 cr.clearance,
                 cr.username,
+                cr.handle,
                 u.username AS lastUser,
+                u.handle AS lastHandle,
                 lp.created AS lastPost
             FROM 
                 threads t
@@ -57,7 +59,7 @@ function getThreads(string $slug, int $page) {
                 ) p2 ON p1.thread_id = p2.thread_id AND p1.created = p2.maxCreated
             ) lp ON t.id = lp.thread_id
             LEFT JOIN (
-                SELECT username, user_id FROM users
+                SELECT username, handle, user_id FROM users
             ) u ON u.user_id = lp.user_id
             INNER JOIN users cr 
                 ON cr.user_id = t.user_id
@@ -100,7 +102,7 @@ function generateHTMLFromThreads(string $slug, int $page) {
                     <span class="details-wrapper">
                         <span class="last-wrapper">
                             <span class="last-post"><?= $thread['lastPost'] ?></span>
-                            <span class="last-user"><?= $thread['lastUser'] ?></span>
+                            <span class="last-user"><a href="/user/<?= $thread['lastHandle'] ?>"><?= $thread['lastUser'] ?></a></span>
                         </span>
                         <span class="count"><?= $thread['posts'] ?></span>
                     </span>

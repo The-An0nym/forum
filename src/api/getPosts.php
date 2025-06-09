@@ -18,6 +18,7 @@ if(isset($_GET['s'], $_GET['p'])) {
         foreach($posts as $post) {
             $p = new stdClass();
             $p->username = $post["username"];
+            $p->handle = $post["handle"];
             $p->imageSrc = $post["image_dir"];
             $p->userPostCount = $post["posts"];
             $p->id = $post["post_id"];

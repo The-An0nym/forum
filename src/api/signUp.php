@@ -65,7 +65,7 @@ if (strlen($json_params) > 0 && json_validate($json_params)) {
             if($row["username"] === $username) {
                 echo "Username is already taken!";
             } else if($row["handle"] === $handle) {
-                echo "Handle is already taken!"
+                echo "Handle is already taken!";
             } else {
                 echo "An error has occured.";
             }

@@ -23,8 +23,10 @@ if(isset($_GET['s'], $_GET['p'])) {
             $t->created = $thread["created"];
             $t->postCount = $thread["posts"];
             $t->lastUser = $thread["lastUser"];
+            $t->lastHandle = $thread["lastHandle"];
             $t->lastPost = $thread["lastPost"];
             $t->creator = $thread["username"];
+            $t->creatorHandle = $thread["handle"];
             $t->deletable = $thread["clearance"];
             $data[] = $t;
         }

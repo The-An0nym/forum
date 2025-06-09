@@ -40,7 +40,12 @@ async function getPosts() {
 
       const username = document.createElement("span");
       username.className = "username";
-      username.textContent = dataJSON[i].username;
+
+      const handle = document.createElement("a");
+      handle.textContent = dataJSON[i].username;
+      handle.href = "/user/" + dataJSON[i].handle;
+
+      username.appendChild(handle);
       userDetails.appendChild(username);
 
       const userPostCount = document.createElement("span");

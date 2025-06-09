@@ -31,6 +31,7 @@ function getPosts(string $slug, int $page) :array {
 
     $sql = "SELECT 
                 u.username, 
+                u.handle,
                 u.image_dir,
                 u.posts,
                 p.post_id, 

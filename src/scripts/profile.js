@@ -163,6 +163,21 @@ function revertUsername() {
   document.getElementById("usernameButtons").style.display = "none";
 }
 
+// Handle
+function handleChange() {
+  const handleInput = document.getElementById("handle");
+  if (handle === handleInput.value) {
+    document.getElementById("handleButtons").style.display = "none";
+  } else {
+    document.getElementById("handleButtons").style.display = "block";
+  }
+}
+
+function revertHandle() {
+  document.getElementById("handle").value = handle;
+  document.getElementById("handleButtons").style.display = "none";
+}
+
 // Password
 function passwordChange() {
   const currPassword = document.getElementById("currPassword").value;

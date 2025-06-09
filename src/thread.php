@@ -49,7 +49,7 @@ if(!isset($totalPosts)) {
         <div class="post" id="<?= $post['post_id'] ?>">
             <span class="user-details">
                 <img class="profile-picture" src="/images/profiles/<?= $post['image_dir'] ?>">
-                <span class="username"><?= $post['username'] ?></span>
+                <span class="username"><a href="/user/<?= $post['handle'] ?>"><?= $post['username'] ?></a></span>
                 <span class="user-post-count"><?= $post['posts'] ?></span>
             </span>
             <span class="post-data">
