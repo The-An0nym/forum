@@ -66,7 +66,9 @@ if($result->num_rows === 1) {
         <?php
         $sql = "SELECT p.content, p.created, t.name, t.slug FROM posts p 
                 LEFT JOIN threads t ON t.id = p.thread_id
-                WHERE p.deleted = 0 AND t.deleted = 0 AND p.user_id = '$user_id' LIMIT 10";
+                WHERE p.deleted = 0 AND t.deleted = 0 AND p.user_id = '$user_id' 
+                ORDER BY p.created DESC
+                LIMIT 10";
         $result = $conn->query($sql);
         if($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {?>
@@ -94,7 +96,9 @@ if($result->num_rows === 1) {
                     c.slug AS cat_slug 
                 FROM threads t
                 LEFT JOIN categories c ON c.id = t.category_id
-                WHERE t.deleted = 0 AND t.user_id = '$user_id' LIMIT 10";
+                WHERE t.deleted = 0 AND t.user_id = '$user_id' 
+                ORDER BY t.created DESC
+                LIMIT 10";
         $result = $conn->query($sql);
         if($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {?>
