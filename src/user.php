@@ -76,12 +76,12 @@ if($result->num_rows === 1) {
                 <span class="thread">
                     <a href="/thread/<?= $row['slug']; ?>"><?= $row["name"]; ?></a>
                 </span>
-                <span class="date"><?= $row["datetime"]; ?></span>
+                <span class="date"><?= $row["created"]; ?></span>
                 <span class="content"><?= $row["content"]; ?></span>
             </span>
             <?php }
         } else {
-            echo "No posts yet..."
+            echo "No posts yet...";
         }
         ?>
         </div>
@@ -106,14 +106,14 @@ if($result->num_rows === 1) {
                 <span class="category">
                     <a href="/category/<?= $row['cat_slug']; ?>"><?= $row["cat_name"]; ?></a>
                 </span>
-                <span class="date"><?= $row["datetime"]; ?></span>
+                <span class="date"><?= $row["created"]; ?></span>
                 <span class="thread">
                     <a href="/thread/<?= $row['slug']; ?>"><?= $row["name"]; ?></a>
                 </span>
             </span>
             <?php }
         } else {
-            echo "No posts yet..."
+            echo "No threads yet...";
         }
         ?>
         </div>

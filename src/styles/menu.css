@@ -14,10 +14,6 @@
   border-left: 1px black solid;
 }
 
-.menu-path > a:hover {
-  text-decoration: underline;
-}
-
 .menu-button:hover {
   background-color: #ddd;
   cursor: pointer;
