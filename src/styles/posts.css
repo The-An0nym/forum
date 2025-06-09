@@ -44,3 +44,9 @@
 .editTxt {
   width: 100%;
 }
+
+#post-content {
+  min-width: 70vw;
+  min-height: 20vh;
+  margin-left: 20px;
+}

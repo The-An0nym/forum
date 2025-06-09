@@ -115,8 +115,8 @@ async function createThread() {
       "Content-type": "application/json; charset=utf-8",
     },
     body: JSON.stringify({
-      t: threadName.value,
-      c: content.value,
+      t: threadName.value.trim(),
+      c: content.value.trim(),
       s: slug,
     }),
   });

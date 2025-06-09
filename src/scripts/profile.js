@@ -44,8 +44,7 @@ function verifyImage(img) {
 /* CHANGING THE USERNAME */
 
 async function changeUsername() {
-  const inp = document.getElementById("username");
-  const val = inp.value;
+  const val = document.getElementById("username").value.trim();
 
   if (username === val) return;
   if (!checkUsername(val)) return;
@@ -57,6 +56,33 @@ async function changeUsername() {
       "Content-type": "application/x-www-form-urlencoded",
     },
     body: `u=${val}`,
+  });
+
+  const result = await response.text();
+  if (/\S/.test(result)) {
+    errorMessage(result);
+  } else {
+    location.reload();
+  }
+}
+
+/* CHANGING THE HANDLE */
+
+async function changeHandle() {
+  const val = document.getElementById("handle").value.trim();
+
+  if (handle === val) return;
+  if (!checkHandle(val)) return;
+
+  // Check username restrictions
+  const response = await fetch("/api/changeHandle.php", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify({
+      h: val,
+    }),
   });
 
   const result = await response.text();

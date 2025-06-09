@@ -11,6 +11,10 @@ function createSignUp() {
   username.placeholder = "Username...";
   username.id = "username";
 
+  const handle = document.createElement("input");
+  handle.placeholder = "User handle...";
+  handle.id = "handle";
+
   const password = document.createElement("input");
   password.placeholder = "Password...";
   password.id = "password";
@@ -24,6 +28,7 @@ function createSignUp() {
   submitButton.setAttribute("onclick", "signUp()");
 
   container.appendChild(username);
+  container.appendChild(handle);
   container.appendChild(password);
   container.appendChild(passwordConfirmation);
   container.appendChild(submitButton);
@@ -34,14 +39,16 @@ function createSignUp() {
 }
 
 async function signUp() {
-  const user = document.getElementById("username");
-  const pswd = document.getElementById("password");
-  const pswdConf = document.getElementById("password-confirmation");
-  const loginCont = document.getElementById("signup-container");
+  const user = document.getElementById("username").value.trim();
+  const handle = document.getElementById("handle").value.trim();
+  const pswd = document.getElementById("password").value.trim();
+  const pswdCnf = document.getElementById("password-confirmation").value.trim();
+  const loginCont = document.getElementById("signup-container").value.trim();
 
-  if (!checkUsername(user.value)) return;
-  if (!checkPassword(pswd.value)) return;
-  if (pswd.value !== pswdConf.value) {
+  if (!checkUsername(user)) return;
+  if (!checkHandle(handle)) return;
+  if (!checkPassword(pswd)) return;
+  if (pswd.value !== pswdCnf) {
     errorMessage("Passwords do not match");
     return;
   }
@@ -50,11 +57,13 @@ async function signUp() {
   const response = await fetch("/api/signUp.php", {
     method: "POST",
     headers: {
-      "Content-type": "application/x-www-form-urlencoded",
+      "Content-type": "application/json; charset=utf-8",
     },
-    body: `u=${encodeURIComponent(user.value)}&p1=${encodeURIComponent(
-      pswd.value
-    )}&p2=${encodeURIComponent(pswdConf.value)}`,
+    body: JSON.stringify({
+      u: user,
+      h: handle,
+      p: pswd,
+    }),
   });
   const result = await response.text();
   if (/\S/.test(result)) {
@@ -96,12 +105,12 @@ function createLogin() {
 }
 
 async function login() {
-  const user = document.getElementById("username");
-  const pswd = document.getElementById("password");
+  const user = document.getElementById("username").value.trim();
+  const pswd = document.getElementById("password").value.trim();
   const loginCont = document.getElementById("login-container");
 
-  if (!checkUsername(user.value)) return;
-  if (!checkPassword(pswd.value)) return;
+  if (!checkUsername(user)) return;
+  if (!checkPassword(pswd)) return;
 
   // Login
   const response = await fetch("/api/login.php", {
@@ -109,9 +118,7 @@ async function login() {
     headers: {
       "Content-type": "application/x-www-form-urlencoded",
     },
-    body: `u=${encodeURIComponent(user.value)}&p=${encodeURIComponent(
-      pswd.value
-    )}`,
+    body: `u=${encodeURIComponent(user)}&p=${encodeURIComponent(pswd)}`,
   });
   const result = await response.text();
   if (/\S/.test(result)) {

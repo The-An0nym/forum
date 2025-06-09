@@ -171,7 +171,7 @@ async function sendEdit(id) {
       "Content-type": "application/json; charset=utf-8",
     },
     body: JSON.stringify({
-      c: editTxt.value,
+      c: editTxt.value.trim(),
       i: id,
     }),
   });
@@ -198,7 +198,7 @@ async function sendPost() {
       "Content-type": "application/json; charset=utf-8",
     },
     body: JSON.stringify({
-      c: txt.value,
+      c: txt.value.trim(),
       s: slug,
     }),
   });

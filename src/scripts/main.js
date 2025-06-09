@@ -50,7 +50,18 @@ function checkUsername(username) {
   } else if (username.length < 4) {
     errorMessage("Min 4. chars needed for username");
     return false;
-  } else if (!/^[A-z0-9.\-+]*$/i.test(username)) {
+  }
+  return true;
+}
+
+function checkHandle(username) {
+  if (username.length > 16) {
+    errorMessage("Max 16. chars allowed for username");
+    return false;
+  } else if (username.length < 4) {
+    errorMessage("Min 4. chars needed for username");
+    return false;
+  } else if (!/^[A-z0-9.\-_]*$/i.test(username)) {
     errorMessage("Only characters <b>a-Z 0-9 + - _ .</b> are allowed");
     return false;
   }

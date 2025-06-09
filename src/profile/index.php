@@ -34,10 +34,11 @@ include $path . "/basic/menu.php";
         if(include($path . '/functions/validateSession.php')) {
             $user_id = $_SESSION["user_id"];
 
-            $sql = "SELECT username, image_dir, posts FROM users WHERE user_id = '$user_id' LIMIT 1";
+            $sql = "SELECT username, handle, image_dir, posts FROM users WHERE user_id = '$user_id' LIMIT 1";
             $result = $conn->query($sql);
             $row = $result->fetch_assoc();
             $username = $row["username"];
+            $handle = $row["handle"];
             $image_dir = $row["image_dir"];
             $posts = $row["posts"];
 
@@ -57,6 +58,13 @@ include $path . "/basic/menu.php";
                     <button class="save button" onclick="revertUsername()">Cancel</button>
                 </div>
             </div>
+            <div class="handle">
+                <input oninput="usernameHandle()" id="handle" value="<?php echo $handle; ?>" placeholder="Change handle..." />
+                <div class="button-container" id="usernameButtons">
+                    <button class="save button" onclick="changeHandle()">Save</button>
+                    <button class="save button" onclick="revertHandle()">Cancel</button>
+                </div>
+            </div>
             <div class="password">
                 <input oninput="passwordChange()" type="password" id="currPassword" placeholder="Current password...">
                 <input oninput="passwordChange()" type="password" id="newPassword" placeholder="New password...">
@@ -70,6 +78,7 @@ include $path . "/basic/menu.php";
             <div class="posts"><?php echo $posts; ?></div>
                 <script>
                     const username = "<?php echo $username; ?>";
+                    const handle = "<?php echo $handle; ?>"
                     const image_dir = "<?php echo $image_dir; ?>";
                 </script>
             <?php
