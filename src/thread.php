@@ -63,9 +63,9 @@ if(!isset($totalPosts)) {
                     if(isset($_SESSION["user_id"])) {
                         if($post["user_id"] === $_SESSION["user_id"]) {
                             echo '<button class="edit-button" onclick="editPost(\'' . $post['post_id'] . '\')">edit</button>';
-                            echo '<button class="delete-button" onclick="deleteConf(\'' . $post['username'] . '\', \'' . $post['post_id'] . '\')">delete</button>';
+                            echo '<button class="delete-button" onclick="createConfirmation(\'' . delete $_POST['username'] . '\\\'s post\', \'I confirm\', deletePost, \'' . $_POST['id'] . '\')">delete</button>';
                         } else if($post['clearance'] === 1) {
-                            echo '<button class="delete-button" onclick="deleteConf(\'' . $post['username'] . '\', \'' . $post['post_id'] . '\')">delete</button>';
+                            echo '<button class="delete-button" onclick="createConfirmation(\'' . delete $_POST['username'] . '\\\'s post\', \'I confirm\', deletePost, \'' . $_POST['id'] . '\')">delete</button>';
                         }
                     } ?>
                 </span>

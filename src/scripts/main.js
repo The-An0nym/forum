@@ -81,6 +81,44 @@ function checkPassword(pswd) {
   return true;
 }
 
+/* CONFIRMATION POP-UP */
+function createConfirmation(text, confInp, callback, param) {
+  const wrapper = createWrapperOverlay();
+
+  const container = document.createElement("div");
+  container.className = "conf-container pop-up-container";
+  container.id = "conf-container";
+
+  const info = document.createElement("span");
+  info.className = "conf-info";
+  info.textContent = `Are you sure you want to ${text}?`;
+
+  const input = document.createElement("input");
+  input.className = "conf-inp";
+  input.id = "conf-inp";
+  input.setAttribute("placeholder", confInp);
+
+  const del = document.createElement("button");
+  del.className = "delete-conf-button";
+  del.textContent = "delete";
+  del.addEventListener("mouseup", () => {
+    if (input.value === confInp) {
+      callback(param);
+      wrapper.remove();
+    } else {
+      input.style.border = "2px solid red";
+    }
+  });
+
+  container.appendChild(info);
+  container.appendChild(input);
+  container.appendChild(del);
+
+  wrapper.appendChild(container);
+
+  document.body.prepend(wrapper);
+}
+
 /* REPORTING */
 function createReport(type) {
   const wrapper = createWrapperOverlay();

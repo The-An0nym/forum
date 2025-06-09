@@ -96,7 +96,7 @@ async function getPosts() {
         deletable.textContent = "delete";
         deletable.setAttribute(
           "onclick",
-          `deleteConf('${dataJSON[i].username}', '${dataJSON[i].id}')`
+          `createConfirmation('delete ${dataJSON[i].username}\'s post', 'I confirm', deletePost, '${dataJSON[i].id}')`
         );
         postMeta.appendChild(deletable);
       }
@@ -228,46 +228,5 @@ async function deletePost(id) {
     errorMessage(result);
   } else {
     getPosts();
-  }
-}
-
-function deleteConf(username, id) {
-  const wrapper = createWrapperOverlay();
-
-  const container = document.createElement("div");
-  container.className = "delete-conf-container pop-up-container";
-  container.id = "delete-conf-container";
-
-  const info = document.createElement("span");
-  info.className = "delete-conf-info";
-  info.textContent = `Delete post ${id} by ${username}`;
-
-  const input = document.createElement("input");
-  input.className = "delete-conf-inp";
-  input.id = "delete-conf-inp";
-  input.setAttribute("placeholder", "I confirm");
-
-  const del = document.createElement("button");
-  del.className = "delete-conf-button";
-  del.textContent = "delete";
-  del.setAttribute("onclick", `checkConfInput('${id}')`);
-
-  container.appendChild(info);
-  container.appendChild(input);
-  container.appendChild(del);
-
-  wrapper.appendChild(container);
-
-  document.body.prepend(wrapper);
-}
-
-function checkConfInput(id) {
-  if (!document.getElementById("delete-conf-inp")) return;
-  inp = document.getElementById("delete-conf-inp");
-  if (inp.value.toLowerCase() === "i confirm") {
-    inp.parentNode.parentNode.remove();
-    deletePost(id);
-  } else {
-    inp.style.border = "1px solid red";
   }
 }

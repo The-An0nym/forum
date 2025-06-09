@@ -14,7 +14,7 @@ Clearance level is an integer.
 2 = Moderator (The above and can delete threads)
 3 = Admin (The above and can ban users)
 4 = Admin (The above and can promote and demote all of the below)
-5 = Super Admin (The above and can promote and demote level 4 admin. Can also view all deleted posts and deleted accounts and restore them (within the time limit))
+5 = Super Admin (The above and can promote and demote level 3 to level 4 admin. Can also view all deleted posts and deleted accounts and restore them (within the time limit))
 
 ### Deletion
 

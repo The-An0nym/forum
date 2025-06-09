@@ -19,8 +19,8 @@ $clearance = -1;
 
 if(include($path . '/functions/validateSession.php')) {
     $user_id = $_SESSION['user_id'];
-    $sql = "SELECT clearance FROM users WHERE user_id='$user_id'";
-    $result->$conn->query($sql);
+    $sql = "SELECT clearance FROM users WHERE user_id = '$user_id'";
+    $result = $conn->query($sql);
     if($result->num_rows === 1) {
         $clearance = $result->fetch_assoc()['clearance'];
     }
@@ -42,8 +42,10 @@ if($result->num_rows === 1) {
     $user_id= $row["user_id"];
     $image_dir = $row["image_dir"];
     $posts = $row["posts"];
-    if($row["clearance"] < $clearance && $clearance > 0) {
-        $clearance = 0;
+    if($row["clearance"] > $clearance && $clearance > 0) {
+            $clearance = 0;
+    } else if($clearance === 4 && $row["clearance"] >= 4) {
+        $clearance = 3;
     }
 } else {
     $load = false;
@@ -77,6 +79,10 @@ if($result->num_rows === 1) {
             }
             if($clearance >= 3) {
                 echo '<button class="moderation" onclick="banuser(' . $user_id .')">Ban</button>';
+            }
+            if($clearance >= 4) {
+                echo '<button class="moderation" onclick="demoteUser(' . $user_id .')">Demote user</button>';
+                echo '<button class="moderation" onclick="promoteUser(' . $user_id .')">Promote User</button>';
             }?>
         </div>
 
