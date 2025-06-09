@@ -73,7 +73,7 @@ if($result->num_rows === 1) {
         $result = $conn->query($sql);
         if($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {?>
-            <span class="post">
+            <span class="post history-item">
                 <span class="thread">
                     <a href="/thread/<?= $row['slug']; ?>"><?= $row["name"]; ?></a>
                 </span>
@@ -104,7 +104,7 @@ if($result->num_rows === 1) {
         $result = $conn->query($sql);
         if($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {?>
-            <span class="thread">
+            <span class="thread history-item">
                 <span class="topic">
                     <a href="/topic/<?= $row['cat_slug']; ?>"><?= $row["cat_name"]; ?></a>
                 </span>
