@@ -78,11 +78,11 @@ if($result->num_rows === 1) {
                 echo '<button class="moderation" onclick="createReport()">Report</button>';
             }
             if($clearance >= 3) {
-                echo '<button class="moderation" onclick="banuser(' . $user_id .')">Ban</button>';
+                echo '<button class="moderation" onclick="createConfirmation(\'ban ' . $username . '\', \'\', banUser, \'' . $user_id .'\')">Ban</button>';
             }
             if($clearance >= 4) {
-                echo '<button class="moderation" onclick="demoteUser(' . $user_id .')">Demote user</button>';
-                echo '<button class="moderation" onclick="promoteUser(' . $user_id .')">Promote User</button>';
+                echo '<button class="moderation" onclick="createConfirmation(\'ban ' . $username . '\', \'\', demoteUser, \'' . $user_id .'\')">Demote User</button>';
+                echo '<button class="moderation" onclick="createConfirmation(\'ban ' . $username . '\', \'\', promoteUser, \'' . $user_id .'\')">Promote User</button>';
             }?>
         </div>
 

@@ -87,7 +87,7 @@ async function getThreads() {
         deleteButton.textContent = "delete";
         deleteButton.setAttribute(
           "onclick",
-          `createConfirmation('delete ${dataJSON[i].username}\\\'s post', 'I confirm', deleteThread, '${dataJSON[i].id}')`
+          `createConfirmation('delete ${dataJSON[i].username}\\\'s post', '', deleteThread, '${dataJSON[i].id}')`
         );
 
         threadWrapper.appendChild(deleteButton);

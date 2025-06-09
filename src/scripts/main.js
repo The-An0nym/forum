@@ -83,6 +83,8 @@ function checkPassword(pswd) {
 
 /* CONFIRMATION POP-UP */
 function createConfirmation(text, confInp, callback, param) {
+  if (confInp === "") confInp = "I confirm";
+
   const wrapper = createWrapperOverlay();
 
   const container = document.createElement("div");
