@@ -8,10 +8,19 @@ if(!session_id()) {
 include $path . "/basic/menu.php";
 
 if(isset($_GET["s"])) {
-    $slug = $_GET["s"];
+    $handle = $_GET["s"];
 } else {
-    $slug = "";
+    $handle = "";
 }
+
+$sql = "SELECT username, user_id, image_dir, posts FROM users WHERE handle = '$handle' LIMIT 1";
+$result = $conn->query($sql);
+$row = $result->fetch_assoc();
+
+$username = $row["username"];
+$user_id= $row["user_id"];
+$image_dir = $row["image_dir"];
+$posts = $row["posts"];
 
 ?>
 <!DOCTYPE html>
@@ -24,14 +33,18 @@ if(isset($_GET["s"])) {
     <link rel="stylesheet" href="/styles/threads.css" />
 </head>
 <body>
-    <?php generateMenu(getPathName($slug)) ?>
+    <?php generateMenu([]) ?>
 
     <div id="global">
 
         <div id="user-info">
-            to come...
+            <img class="user-image" src="/images/profiles/<?= $image_dir; ?>">
+            <span class="username"><?= $username ?></span>
+            <span class="handle"><?= $handle ?></span>
         </div>
-        
+
+        To come...
+
     </div>
 
     <script src="/scripts/main.js"></script>

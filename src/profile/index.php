@@ -49,17 +49,17 @@ include $path . "/basic/menu.php";
                     <button class="save button" onclick="uploadImage()">Save</button>
                     <button class="clear button" onclick="revertImage()">Cancel</button>
                 </div>
-                <img id="preview" src="/images/profiles/<?php echo $image_dir; ?>">
+                <img id="preview" src="/images/profiles/<?= $image_dir; ?>">
             </div>
             <div class="username">
-                <input oninput="usernameChange()" id="username" value="<?php echo $username; ?>" placeholder="Change username..." />
+                <input oninput="usernameChange()" id="username" value="<?= $username; ?>" placeholder="Change username..." />
                 <div class="button-container" id="usernameButtons">
                     <button class="save button" onclick="changeUsername()">Save</button>
                     <button class="save button" onclick="revertUsername()">Cancel</button>
                 </div>
             </div>
             <div class="handle">
-                <input oninput="usernameHandle()" id="handle" value="<?php echo $handle; ?>" placeholder="Change handle..." />
+                <input oninput="usernameHandle()" id="handle" value="<?= $handle; ?>" placeholder="Change handle..." />
                 <div class="button-container" id="usernameButtons">
                     <button class="save button" onclick="changeHandle()">Save</button>
                     <button class="save button" onclick="revertHandle()">Cancel</button>
@@ -77,9 +77,9 @@ include $path . "/basic/menu.php";
             <!-- DELETE ACCOUNT -->
             <div class="posts"><?php echo $posts; ?></div>
                 <script>
-                    const username = "<?php echo $username; ?>";
-                    const handle = "<?php echo $handle; ?>"
-                    const image_dir = "<?php echo $image_dir; ?>";
+                    const username = "<?= $username; ?>";
+                    const handle = "<?= $handle; ?>"
+                    const image_dir = "<?= $image_dir; ?>";
                 </script>
             <?php
 
