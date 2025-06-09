@@ -96,7 +96,7 @@ async function getPosts() {
         deletable.textContent = "delete";
         deletable.setAttribute(
           "onclick",
-          `createConfirmation('delete ${dataJSON[i].username}\'s post', 'I confirm', deletePost, '${dataJSON[i].id}')`
+          `createConfirmation('delete ${dataJSON[i].username}\\\'s post', 'I confirm', deletePost, '${dataJSON[i].id}')`
         );
         postMeta.appendChild(deletable);
       }
