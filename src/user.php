@@ -42,10 +42,10 @@ if($result->num_rows === 1) {
     $user_id= $row["user_id"];
     $image_dir = $row["image_dir"];
     $posts = $row["posts"];
-    if($row["clearance"] > $clearance && $clearance > 0) {
+    if($row["clearance"] >= $clearance && $clearance > 0) {
             $clearance = 0;
-    } else if($clearance === 4 && $row["clearance"] >= 4) {
-        $clearance = 3;
+    } else if($clearance === 4 && $row["clearance"] < 3) {
+        $clearance = 5;
     }
 } else {
     $load = false;
@@ -81,8 +81,10 @@ if($result->num_rows === 1) {
                 echo '<button class="moderation" onclick="createConfirmation(\'ban ' . $username . '\', \'\', banUser, \'' . $user_id .'\')">Ban</button>';
             }
             if($clearance >= 4) {
-                echo '<button class="moderation" onclick="createConfirmation(\'ban ' . $username . '\', \'\', demoteUser, \'' . $user_id .'\')">Demote User</button>';
-                echo '<button class="moderation" onclick="createConfirmation(\'ban ' . $username . '\', \'\', promoteUser, \'' . $user_id .'\')">Promote User</button>';
+                echo '<button class="moderation" onclick="createConfirmation(\'demote ' . $username . '\', \'\', demoteUser, \'' . $user_id .'\')">Demote User</button>';
+            }
+            if($clearance >= 5) {
+                echo '<button class="moderation" onclick="createConfirmation(\'promote ' . $username . '\', \'\', promoteUser, \'' . $user_id .'\')">Promote User</button>';
             }?>
         </div>
 
