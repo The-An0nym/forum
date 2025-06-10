@@ -76,7 +76,6 @@ if($result->num_rows === 1) {
             <span class="handle">@<?= $handle ?></span>
             <span class="posts">Posts: <?= $posts ?></span>
             <?php 
-            if($username !== )
             if($clearance >= 0 && $user_clearance <= $clearance) {
                 echo '<button class="moderation" onclick="createReport()">Report</button>';
             }

@@ -50,6 +50,8 @@ function getPosts(string $slug, int $page) :array {
                 t.slug = '$slug'
             AND 
                 p.deleted = 0
+            AND
+                t.deleted = 0
             ORDER BY 
                 p.created ASC
             LIMIT 20 OFFSET $page";

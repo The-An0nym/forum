@@ -55,6 +55,8 @@ function getThreads(string $slug, int $page) {
                         MAX(created) AS maxCreated
                     FROM 
                         posts
+                    WHERE 
+                        deleted = 0
                     GROUP BY 
                         thread_id
                 ) p2 ON p1.thread_id = p2.thread_id AND p1.created = p2.maxCreated
@@ -91,7 +93,7 @@ function getThreads(string $slug, int $page) {
 
 function generateHTMLFromThreads(string $slug, int $page) {
     $threads = getThreads($slug, $page * 20);
-    
+
     foreach($threads as $thread) {?>
         <div class="thread-wrapper">
             <span class="main-wrapper">
@@ -113,7 +115,7 @@ function generateHTMLFromThreads(string $slug, int $page) {
                 <span class="count"><?= $thread['posts'] ?></span>
             </span>
             <?php if($thread['clearance'] === 1) {?>
-            <button class="delete-button" onclick="createConfirmation('delete <?= $thread['username'] ?>\'s post', '', deletePost, '<?= $thread['id'] ?>')">delete</button>
+            <button class="delete-button" onclick="createModeration('deleting <?= $thread['username'] ?>\'s post', deleteThread, '<?= $thread['id'] ?>')">delete</button>
             <?php } ?>
         </div>
 

@@ -34,7 +34,16 @@ datetime -> when
 
 ### Posts
 
-Delete_type -> 0 = not deleted, 1 = deleted by owner, 2 = deleted by moderator (direct), 3 = deleted by account ban
+Delete*type -> 0 = not deleted, 1 = deleted by owner, 2 = deleted by moderator (direct), 3 = deleted by account ban
+// *> This approach needs an overhaul
+
+`POSTS`
+VAL BINARY Meaning
+0 -> 0000 -> Not deleted
+1 -> 0001 -> User deleted
+2 -> 0010 -> Mod deleted
+4 -> 0100 -> Thread deleted
+8 -> 1000 -> Ban deleted
 
 # TODO:
 

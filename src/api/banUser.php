@@ -42,33 +42,59 @@ if(include($path . "/functions/validateSession.php")) {
                     echo "ERROR: Please try again later [BU0]";
                 }
 
-                $dtime = date('Y-m-d H:i:s');
-                
-                // Flag user as banned
-                $sql = "UPDATE users SET deleted = 2, deleted_datetime = '$dtime' WHERE user_id = '$id'";
+                // Update affected threads (posts)
+                $sql = "UPDATE threads t
+                        JOIN (
+                            SELECT thread_id, COUNT(*) AS cnt
+                            FROM posts
+                            WHERE user_id = '$id' AND deleted = 0
+                            GROUP BY thread_id
+                        ) p ON t.id = p.thread_id
+                        SET t.posts = p.cnt";
                 if ($conn->query($sql) === FALSE) {
                     echo "ERROR: Please try again later [BU1]";
                 }
 
-                // Flag threads as deleted
-                $sql = "UPDATE threads SET deleted = 1, deleted_datetime = '$dtime' WHERE user_id = '$id'";
+                // Update affected category (threads)
+                $sql = "UPDATE category c
+                        JOIN (
+                            SELECT category_id, COUNT(*) AS cnt, SUM(posts) AS sum
+                            FROM threads
+                            WHERE user_id = '$id' AND deleted = 0
+                            GROUP BY category_id
+                        ) t ON c.id = t.category_id
+                        SET c.threads = t.cnt, c.posts = t.sum";
                 if ($conn->query($sql) === FALSE) {
                     echo "ERROR: Please try again later [BU2]";
                 }
 
-                // Flag posts as deleted
-                $sql = "UPDATE posts SET deleted = 3, deleted_datetime = '$dtime' WHERE user_id = '$id'";
+                $dtime = date('Y-m-d H:i:s');
+
+                // Flag user as banned
+                $sql = "UPDATE users SET deleted | 4, deleted_datetime = '$dtime' WHERE user_id = '$id'";
                 if ($conn->query($sql) === FALSE) {
-                    echo "ERROR: Please try again later [BU3]";
+                    echo "ERROR: Please try again later [BU5]";
+                }
+
+                // Soft delete threads
+                $sql = "UPDATE threads SET deleted | 4, deleted_datetime = '$dtime' WHERE user_id = '$id'";
+                if ($conn->query($sql) === FALSE) {
+                    echo "ERROR: Please try again later [BU6]";
+                }
+
+                // Soft delete posts
+                $sql = "UPDATE posts SET deleted | 4, deleted_datetime = '$dtime' WHERE user_id = '$id'";
+                if ($conn->query($sql) === FALSE) {
+                    echo "ERROR: Please try again later [BU7]";
                 }
             } else {
                 echo "Clearance level too low";
             }
         } else {
-            echo "An error has occured BU4";
+            echo "An error has occured BU8";
         }
     } else {
-        echo "An error has occured BU5";
+        echo "An error has occured BU9";
     }
 
 } else {

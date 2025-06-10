@@ -222,7 +222,7 @@ async function sendPost() {
 /* DELETING POST */
 async function deletePost(id) {
   // Requests
-  const response = await fetch(`/api/deletePost.php?i=${id}`);
+  const response = await fetch(`/api/delete/deletePost.php?i=${id}`);
   const result = await response.text();
 
   if (/\S/.test(result)) {

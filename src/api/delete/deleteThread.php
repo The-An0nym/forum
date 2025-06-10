@@ -73,7 +73,14 @@ if(include($path . "/functions/validateSession.php")) {
                 
                 // (Soft) delete thread
                 $dtime = date('Y-m-d H:i:s');
-                $sql = "UPDATE threads SET deleted = 1, deleted_datetime = '$dtime' WHERE id = '$id'";
+                $sql = "UPDATE threads SET deleted | 2, deleted_datetime = '$dtime' WHERE id = '$id'";
+                if ($conn->query($sql) === FALSE) {
+                    echo "ERROR: Please try again later [DT4]";
+                }
+
+                // (Soft) delete posts
+                $dtime = date('Y-m-d H:i:s');
+                $sql = "UPDATE posts SET deleted | 3, deleted_datetime = '$dtime' WHERE thread_id = '$id'";
                 if ($conn->query($sql) === FALSE) {
                     echo "ERROR: Please try again later [DT4]";
                 }

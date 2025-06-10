@@ -57,12 +57,12 @@ if(include($path . '/functions/validateSession.php')) {
 
         // Check resolution
         if($pass) {
-            if($width > 512 || $height > 512) {
-                echo "Image size must be below 512 x 512px";
+            if($width > 1024 || $height > 1024) {
+                echo "Image size must be below or equal to 1024 x 1024px";
                 $pass = false;
             }
             if($width < 128 || $height < 128) {
-                echo "Image size must be bigger than 128 x 128px";
+                echo "Image size must be bigger or equal to than 128 x 128px";
                 $pass = false;
             }
         }

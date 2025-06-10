@@ -141,7 +141,7 @@ async function createThread() {
 /* DELETING POST */
 async function deleteThread(id) {
   // Requests
-  const response = await fetch(`/api/deleteThread.php?i=${id}`);
+  const response = await fetch(`/api/delete/deleteThread.php?i=${id}`);
   const result = await response.text();
 
   if (/\S/.test(result)) {
