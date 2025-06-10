@@ -17,8 +17,7 @@ if(!session_id()) {
 if(include($path . "/functions/validateSession.php")) {
     $conn = getConn();
     $user_id = $_SESSION['user_id'];
-    $sql = "SELECT clearance
-                FROM users 
+    $sql = "SELECT clearance FROM users 
             WHERE user_id = '$user_id'
             LIMIT 1";
 
@@ -27,9 +26,8 @@ if(include($path . "/functions/validateSession.php")) {
     if($result->num_rows === 1) {
         $row = $result->fetch_assoc();
         $clearance = $row['clearance'];
-        $user_clearance = $row['user_clearance'];
 
-        if($clearance === 5) {
+        if($clearance == 5) {
             // Update threads
             $sql = "UPDATE threads t
                     JOIN (
@@ -44,14 +42,33 @@ if(include($path . "/functions/validateSession.php")) {
             }
 
             // Update category
-            $sql = "UPDATE category c
+            $sql = "UPDATE categories c
                     JOIN (
                         SELECT category_id, COUNT(*) AS cnt, SUM(posts) AS sum
                         FROM threads
-                        WHERE AND deleted = 0
+                        WHERE deleted = 0
                         GROUP BY category_id
                     ) t ON c.id = t.category_id
                     SET c.threads = t.cnt, c.posts = t.sum";
+            if ($conn->query($sql) === FALSE) {
+                echo "ERROR: Please try again later [SN1]";
+            }
+
+            // Update user post count
+            $sql = "UPDATE users u
+                    JOIN (
+                        SELECT user_id, COUNT(*) AS cnt
+                        FROM posts
+                        WHERE deleted = 0
+                        GROUP BY user_id
+                    ) p ON u.user_id = p.user_id
+                    JOIN (
+                        SELECT user_id, COUNT(*) AS cnt
+                        FROM threads
+                        WHERE deleted = 0
+                        GROUP BY user_id
+                    ) t ON u.user_id = t.user_id
+                    SET u.posts = p.cnt, u.threads = t.cnt";
             if ($conn->query($sql) === FALSE) {
                 echo "ERROR: Please try again later [SN1]";
             }

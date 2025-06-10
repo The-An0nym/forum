@@ -39,7 +39,7 @@ if(include($path . '/functions/validateSession.php')) {
 
 $load = true;
 
-$sql = "SELECT username, user_id, image_dir, posts, clearance FROM users WHERE handle = '$handle' AND deleted = 0 LIMIT 1";
+$sql = "SELECT username, user_id, image_dir, posts, threads, clearance FROM users WHERE handle = '$handle' AND deleted = 0 LIMIT 1";
 $result = $conn->query($sql);
 if($result->num_rows === 1) {
     $row = $result->fetch_assoc();
@@ -47,6 +47,7 @@ if($result->num_rows === 1) {
     $user_id= $row["user_id"];
     $image_dir = $row["image_dir"];
     $posts = $row["posts"];
+    $threads = $row["threads"];
     $user_clearance = $row["clearance"];
 } else {
     $load = false;
@@ -75,6 +76,7 @@ if($result->num_rows === 1) {
             <span class="username"><?= $username ?></span>
             <span class="handle">@<?= $handle ?></span>
             <span class="posts">Posts: <?= $posts ?></span>
+            <span class="threads">Threads: <?= $threads ?></span>
             <?php 
             if($clearance >= 0 && $user_clearance <= $clearance) {
                 echo '<button class="moderation" onclick="createReport()">Report</button>';
