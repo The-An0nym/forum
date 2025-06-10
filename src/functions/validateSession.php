@@ -18,7 +18,7 @@ if(isset($_SESSION['user_id'], $_SESSION['session_id'])) {
     $session_id = $_SESSION['session_id'];
 
     // Don't search by session_id ?
-    $sql = "SELECT ip, user_agent, user_id, datetime FROM sessions WHERE session_id='$session_id'";
+    $sql = "SELECT ip, user_agent, user_id, deleted datetime FROM sessions WHERE session_id='$session_id'";
     // Compare each character instead
     // OR hash_equals($string1, $string2) : Bool
     $result = $conn->query($sql);
@@ -29,8 +29,9 @@ if(isset($_SESSION['user_id'], $_SESSION['session_id'])) {
         $db_user_agent = $row["user_agent"];
         $db_user_id = $row["user_id"];
         $db_datetime = $row["datetime"];
+        $deleted = $row["deleted"];
 
-        if($_SESSION['user_id'] === $db_user_id && $_SERVER['REMOTE_ADDR'] === $db_ip && $_SERVER['HTTP_USER_AGENT'] === $db_user_agent) {
+        if($deleted === 0 && $_SESSION['user_id'] === $db_user_id && $_SERVER['REMOTE_ADDR'] === $db_ip && $_SERVER['HTTP_USER_AGENT'] === $db_user_agent) {
             $diff = time() - strtotime($db_datetime);
             // Sessions is valid for max. 20h
             if($diff <= 60 * 60 * 20) {

@@ -56,8 +56,8 @@ if(include($path . '/functions/validateSession.php')) {
                     echo "An error has occured [CT1]";
                 }
 
-                // Increment post count of user
-                $sql = "UPDATE users SET posts = posts +1 WHERE user_id = '$user_id'";
+                // Increment post and thread count of user
+                $sql = "UPDATE users SET posts = posts +1, threads = threads +1 WHERE user_id = '$user_id'";
                 if ($conn->query($sql) === FALSE) {
                     echo "An error has occured [CT2]";
                 }
