@@ -41,21 +41,23 @@ if(include($path . "/functions/validateSession.php")) {
                 if ($conn->query($sql) === FALSE) {
                     echo "ERROR: Please try again later [BU0]";
                 }
+
+                $dtime = date('Y-m-d H:i:s');
                 
                 // Flag user as banned
-                $sql = "UPDATE users SET deleted = true WHERE user_id = '$id'";
+                $sql = "UPDATE users SET deleted = 2, deleted_datetime = '$dtime' WHERE user_id = '$id'";
                 if ($conn->query($sql) === FALSE) {
                     echo "ERROR: Please try again later [BU1]";
                 }
 
                 // Flag threads as deleted
-                $sql = "UPDATE threads SET deleted = 1 WHERE user_id = '$id'";
+                $sql = "UPDATE threads SET deleted = 1, deleted_datetime = '$dtime' WHERE user_id = '$id'";
                 if ($conn->query($sql) === FALSE) {
                     echo "ERROR: Please try again later [BU2]";
                 }
 
                 // Flag posts as deleted
-                $sql = "UPDATE posts SET deleted = 1 WHERE user_id = '$id'";
+                $sql = "UPDATE posts SET deleted = 3, deleted_datetime = '$dtime' WHERE user_id = '$id'";
                 if ($conn->query($sql) === FALSE) {
                     echo "ERROR: Please try again later [BU3]";
                 }

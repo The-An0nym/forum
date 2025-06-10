@@ -15,7 +15,7 @@ if(isset($_POST["h"], $_POST["p"])) {
     $handle = htmlspecialchars($_POST["h"]);
     $password = $_POST["p"];
 
-    $sql = "SELECT password, user_id FROM users WHERE handle='$handle'";
+    $sql = "SELECT password, user_id FROM users WHERE handle='$handle' AND deleted = 0";
     $result = $conn->query($sql);
 
     if ($result->num_rows === 1) {

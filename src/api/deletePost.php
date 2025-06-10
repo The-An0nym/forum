@@ -49,9 +49,12 @@ if(include($path . "/functions/validateSession.php")) {
                         WHERE p.post_id = '$id'";
                 if ($conn->query($sql) === FALSE) {
                     echo "An error has occured [DP1]";
-                }
+                }   
+
+                $type = 1;
 
                 if($post_user_id !== $user_id) {
+                    $type = 2;
                     // Push onto history
                     $sql = "INSERT INTO history (id, type, judgement, sender_id)
                     VALUES ('$id', 0, 0, '$user_id')";
@@ -61,10 +64,12 @@ if(include($path . "/functions/validateSession.php")) {
                 }
 
                 // (Soft) delete post
-                $sql = "UPDATE posts SET deleted = 1 WHERE post_id = '$id'";
+                $dtime = date('Y-m-d H:i:s');
+                $sql = "UPDATE posts SET deleted = $type, deleted_datetime = '$dtime' WHERE post_id = '$id'";
                 if ($conn->query($sql) === FALSE) {
                     echo "ERROR: Please try again later [DP3]";
                 }
+                
             } else {
                 echo "Clearance level too low";
             }

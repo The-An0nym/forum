@@ -34,7 +34,7 @@ if(isset($_GET["s"])) {
 
 $load = true;
 
-$sql = "SELECT username, user_id, image_dir, posts, clearance FROM users WHERE handle = '$handle' LIMIT 1";
+$sql = "SELECT username, user_id, image_dir, posts, clearance FROM users WHERE handle = '$handle' AND deleted = 0 LIMIT 1";
 $result = $conn->query($sql);
 if($result->num_rows === 1) {
     $row = $result->fetch_assoc();

@@ -32,6 +32,10 @@ type -> 0 = deleted post, 1 = deleted thread, 3 = demotion/promotion user, 4 = b
 judgement -> false = deleted/demoted, true = restored/promoted
 datetime -> when
 
+### Posts
+
+Delete_type -> 0 = not deleted, 1 = deleted by owner, 2 = deleted by moderator (direct), 3 = deleted by account ban
+
 # TODO:
 
 - [ ] Finalize profile settings page
