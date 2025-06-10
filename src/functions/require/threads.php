@@ -17,7 +17,7 @@ function getDBConnection() : mysqli {
 function getThreads(string $slug, int $page) {
     $conn = getDBConnection();
 
-    if(isset($_SESSION["user_id"])) {
+    if(include($path . '/functions/validateSession.php')) {
         $user_id = $_SESSION['user_id'];
         $sql = "SELECT clearance FROM users WHERE user_id = '$user_id'";
         $result = $conn->query($sql);

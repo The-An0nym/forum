@@ -20,7 +20,7 @@ function getPosts(string $slug, int $page) :array {
     $result = $conn->query($sql);
     $total_posts = $result->fetch_assoc()["total_posts"];
 
-    if(isset($_SESSION["user_id"])) {
+    if(include($path . '/functions/validateSession.php')) {
         $user_id = $_SESSION['user_id'];
         $sql = "SELECT clearance FROM users WHERE user_id = '$user_id'";
         $result = $conn->query($sql);
