@@ -73,8 +73,6 @@ if(!isset($totalPosts)) {
         </div>
         <?php 
         endforeach;
-        } else {
-            echo '<div class="result-message">Failed to load posts for this page</div>';
         }
         ?>
     </div>

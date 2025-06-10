@@ -19,7 +19,6 @@ $json_params = file_get_contents("php://input");
 if (strlen($json_params) > 0 && json_validate($json_params)) {
     $decoded_params = json_decode($json_params);
 
-    $slug = $decoded_params->s;
     $username = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->u));
     $handle = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->h));
     $password = $decoded_params->p;

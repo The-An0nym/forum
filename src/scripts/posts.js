@@ -10,13 +10,7 @@ async function getPosts() {
     const dataJSON = await response.json();
     cont.innerHTML = "";
 
-    if (!dataJSON[1]) {
-      const div = document.createElement("div");
-      div.className = "result-message";
-      div.textContent = "Failed to load posts for this page";
-      cont.appendChild(div);
-      return;
-    }
+    if (!dataJSON[1]) return;
 
     createPageMenu("thread", slug, page, dataJSON[0]);
 

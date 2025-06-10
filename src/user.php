@@ -15,21 +15,26 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
 
-$clearance = -1;
-
-if(include($path . '/functions/validateSession.php')) {
-    $user_id = $_SESSION['user_id'];
-    $sql = "SELECT clearance FROM users WHERE user_id = '$user_id'";
-    $result = $conn->query($sql);
-    if($result->num_rows === 1) {
-        $clearance = $result->fetch_assoc()['clearance'];
-    }
-}
-
 if(isset($_GET["s"])) {
     $handle = $_GET["s"];
 } else {
     $handle = "";
+}
+
+$clearance = -1;
+
+if(include($path . '/functions/validateSession.php')) {
+    $user_id = $_SESSION['user_id'];
+    $sql = "SELECT clearance, handle FROM users WHERE user_id = '$user_id'";
+    $result = $conn->query($sql);
+    if($result->num_rows === 1) {
+        $row = $result->fetch_assoc();
+        if($row['handle'] === $handle) {
+            $clearance = -1;
+        } else {
+            $clearance = $row['clearance'];
+        }
+    }
 }
 
 $load = true;
@@ -70,7 +75,9 @@ if($result->num_rows === 1) {
             <span class="username"><?= $username ?></span>
             <span class="handle">@<?= $handle ?></span>
             <span class="posts">Posts: <?= $posts ?></span>
-            <?php if($clearance >= 0 && $user_clearance <= $clearance) {
+            <?php 
+            if($username !== )
+            if($clearance >= 0 && $user_clearance <= $clearance) {
                 echo '<button class="moderation" onclick="createReport()">Report</button>';
             }
             if($clearance >= 3 && $user_clearance < $clearance) {

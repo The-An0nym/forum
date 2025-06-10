@@ -15,6 +15,7 @@ function getDBConnection() : mysqli {
 }
 
 function getThreads(string $slug, int $page) {
+    $path = $_SERVER['DOCUMENT_ROOT'];
     $conn = getDBConnection();
 
     if(include($path . '/functions/validateSession.php')) {
@@ -90,6 +91,7 @@ function getThreads(string $slug, int $page) {
 
 function generateHTMLFromThreads(string $slug, int $page) {
     $threads = getThreads($slug, $page * 20);
+    
     foreach($threads as $thread) {?>
         <div class="thread-wrapper">
             <span class="main-wrapper">

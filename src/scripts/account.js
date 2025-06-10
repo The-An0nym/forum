@@ -17,10 +17,12 @@ function createSignUp() {
 
   const password = document.createElement("input");
   password.placeholder = "Password...";
+  password.type = "password";
   password.id = "password";
 
   const passwordConfirmation = document.createElement("input");
   passwordConfirmation.placeholder = "Confirm password";
+  passwordConfirmation.type = "password";
   passwordConfirmation.id = "password-confirmation";
 
   const submitButton = document.createElement("button");
@@ -89,6 +91,7 @@ function createLogin() {
 
   const password = document.createElement("input");
   password.placeholder = "Password...";
+  password.type = "password";
   password.id = "password";
 
   const submitButton = document.createElement("button");
