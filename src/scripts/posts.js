@@ -94,10 +94,17 @@ async function getPosts() {
         const deletable = document.createElement("button");
         deletable.className = "delete-button";
         deletable.textContent = "delete";
-        deletable.setAttribute(
-          "onclick",
-          `createConfirmation('delete ${dataJSON[i].username}\\\'s post', '', deletePost, '${dataJSON[i].id}')`
-        );
+        if (dataJSON[i].editable) {
+          deletable.setAttribute(
+            "onclick",
+            `createConfirmation('delete ${dataJSON[i].username}\\\'s post', '', deletePost, '${dataJSON[i].id}')`
+          );
+        } else {
+          deletable.setAttribute(
+            "onclick",
+            `createModeration('deleting ${dataJSON[i].username}\\\'s post', deletePost, '${dataJSON[i].id}')`
+          );
+        }
         postMeta.appendChild(deletable);
       }
 

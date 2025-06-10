@@ -28,8 +28,8 @@ Threads that are deleted will follow the same logic. Posts under that thread wil
 
 id -> id of post, thread or user
 sender_id -> id of moderator
-type -> 0 = post, 1 = thread, 2 = ban
-judgement -> false = deleted, true = restored
+type -> 0 = deleted post, 1 = deleted thread, 3 = demotion/promotion user, 4 = ban
+judgement -> false = deleted/demoted, true = restored/promoted
 datetime -> when
 
 # TODO:
@@ -41,6 +41,7 @@ datetime -> when
 - [ ] Change the /functions/require/posts.php to match the /function/require/threads.php and adjust accordingly in thread.php and api/getThreads.php
 - [ ] Make login or sign-up pop-up hide when sign-up/login is pressed respectively
 - [ ] Delete button on profile page
+- [ ] Rethink moderation structure in the tables (i.e. how do I handle restoration?)
 
 - [ ] Make clearance levels, moderation tools, report system, history stack, etc.
 - [ ] Add ToS, Privacy Policy and cookies warning

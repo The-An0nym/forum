@@ -51,7 +51,7 @@ if(include($path . "/functions/validateSession.php")) {
                     echo "An error has occured [DP1]";
                 }
 
-                if($clearance >= 1) {
+                if($post_user_id !== $user_id) {
                     // Push onto history
                     $sql = "INSERT INTO history (id, type, judgement, sender_id)
                     VALUES ('$id', 0, 0, '$user_id')";

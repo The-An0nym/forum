@@ -121,6 +121,58 @@ function createConfirmation(text, confInp, callback, param) {
   document.body.prepend(wrapper);
 }
 
+function createModeration(text, callback, param) {
+  const wrapper = createWrapperOverlay();
+
+  const container = document.createElement("div");
+  container.className = "mod-container pop-up-container";
+  container.id = "mod-container";
+
+  const info = document.createElement("span");
+  info.className = "mod-info";
+  info.textContent = `Reason for ${text}:`;
+
+  const select = document.createElement("select");
+  select.className = "mod-select";
+  select.id = "mod-select";
+
+  const options = ["Spam", "Inappropriate", "Copyright", "Other"];
+  for (let i = 0; i < options.length; i++) {
+    const option = document.createElement("option");
+    option.value = i;
+    option.textContent = options[i];
+    select.appendChild(option);
+  }
+
+  const message = document.createElement("textarea");
+  message.placeholder = "Message...";
+  message.id = "message";
+
+  const del = document.createElement("button");
+  del.className = "delete-conf-button";
+  del.textContent = "delete";
+  del.addEventListener("mouseup", () => {
+    if (
+      message.value.trim().length >= 20 &&
+      message.value.trim().length <= 200
+    ) {
+      callback(param);
+      wrapper.remove();
+    } else {
+      input.style.border = "2px solid red";
+      info.textContent = "Message length should be between 20 to 500 chars";
+    }
+  });
+
+  container.appendChild(info);
+  container.appendChild(input);
+  container.appendChild(del);
+
+  wrapper.appendChild(container);
+
+  document.body.prepend(wrapper);
+}
+
 /* REPORTING */
 function createReport(type) {
   const wrapper = createWrapperOverlay();

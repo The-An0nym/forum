@@ -42,11 +42,7 @@ if($result->num_rows === 1) {
     $user_id= $row["user_id"];
     $image_dir = $row["image_dir"];
     $posts = $row["posts"];
-    if($row["clearance"] >= $clearance && $clearance > 0) {
-            $clearance = 0;
-    } else if($clearance === 4 && $row["clearance"] < 3) {
-        $clearance = 5;
-    }
+    $user_clearance = $row["clearance"];
 } else {
     $load = false;
 }
@@ -74,17 +70,17 @@ if($result->num_rows === 1) {
             <span class="username"><?= $username ?></span>
             <span class="handle">@<?= $handle ?></span>
             <span class="posts">Posts: <?= $posts ?></span>
-            <?php if($clearance >= 0) {
+            <?php if($clearance >= 0 && $user_clearance <= $clearance) {
                 echo '<button class="moderation" onclick="createReport()">Report</button>';
             }
-            if($clearance >= 3) {
-                echo '<button class="moderation" onclick="createConfirmation(\'ban ' . $username . '\', \'\', banUser, \'' . $user_id .'\')">Ban</button>';
+            if($clearance >= 3 && $user_clearance < $clearance) {
+                echo '<button class="moderation" onclick="createModeration(\'ban ' . $username . '\', banUser, \'' . $user_id .'\')">Ban</button>';
             }
-            if($clearance >= 4) {
-                echo '<button class="moderation" onclick="createConfirmation(\'demote ' . $username . '\', \'\', demoteUser, \'' . $user_id .'\')">Demote User</button>';
+            if($clearance >= 4 && $user_clearance < $clearance) {
+                echo '<button class="moderation" onclick="createModeration(\'demote ' . $username . '\', demoteUser, \'' . $user_id .'\')">Demote User</button>';
             }
-            if($clearance >= 5) {
-                echo '<button class="moderation" onclick="createConfirmation(\'promote ' . $username . '\', \'\', promoteUser, \'' . $user_id .'\')">Promote User</button>';
+            if($clearance >= 4 && $user_clearance < ($clearance - 1)) {
+                echo '<button class="moderation" onclick="createModeration(\'promote ' . $username . '\', promoteUser, \'' . $user_id .'\')">Promote User</button>';
             }?>
         </div>
 

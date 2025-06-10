@@ -1,14 +1,38 @@
-function banUser(id) {
-  console.log("Ban user: " + id);
-  // Todo
+/* Banning user */
+async function deletePost(id) {
+  // Requests
+  const response = await fetch(`/api/banUser.php?i=${id}`);
+  const result = await response.text();
+
+  if (/\S/.test(result)) {
+    errorMessage(result);
+  } else {
+    getPosts();
+  }
 }
 
-function demoteUser(id) {
-  console.log("Demote user: " + id);
-  // Todo
+/* Demoting user */
+async function deletePost(id) {
+  // Requests
+  const response = await fetch(`/api/demoteUser.php?i=${id}`);
+  const result = await response.text();
+
+  if (/\S/.test(result)) {
+    errorMessage(result);
+  } else {
+    getPosts();
+  }
 }
 
-function promoteUser(id) {
-  console.log("Promote user: " + id);
-  // Todo
+/* Promoting user */
+async function deletePost(id) {
+  // Requests
+  const response = await fetch(`/api/promoteUser.php?i=${id}`);
+  const result = await response.text();
+
+  if (/\S/.test(result)) {
+    errorMessage(result);
+  } else {
+    getPosts();
+  }
 }
