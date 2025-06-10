@@ -87,6 +87,12 @@ if(include($path . "/functions/validateSession.php")) {
                 if ($conn->query($sql) === FALSE) {
                     echo "ERROR: Please try again later [BU7]";
                 }
+
+                // delete session
+                $sql = "DELETE sessions WHERE user_id = '$id'";
+                if ($conn->query($sql) === FALSE) {
+                    echo "ERROR: Please try again later [BU8]";
+                }
             } else {
                 echo "Clearance level too low";
             }
