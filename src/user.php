@@ -76,7 +76,7 @@ if($result->num_rows === 1) {
             if($clearance >= 3 && $user_clearance < $clearance) {
                 echo '<button class="moderation" onclick="createModeration(\'ban ' . $username . '\', banUser, \'' . $user_id .'\')">Ban</button>';
             }
-            if($clearance >= 4 && $user_clearance < $clearance) {
+            if($clearance >= 4 && $user_clearance < $clearance && $user_clearance > 0) {
                 echo '<button class="moderation" onclick="createModeration(\'demote ' . $username . '\', demoteUser, \'' . $user_id .'\')">Demote User</button>';
             }
             if($clearance >= 4 && $user_clearance < ($clearance - 1)) {

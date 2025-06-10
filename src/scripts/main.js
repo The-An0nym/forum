@@ -149,8 +149,8 @@ function createModeration(text, callback, param) {
   message.id = "message";
 
   const del = document.createElement("button");
-  del.className = "delete-conf-button";
-  del.textContent = "delete";
+  del.className = "mod-submit-button";
+  del.textContent = "submit";
   del.addEventListener("mouseup", () => {
     if (
       message.value.trim().length >= 20 &&
@@ -159,13 +159,14 @@ function createModeration(text, callback, param) {
       callback(param);
       wrapper.remove();
     } else {
-      input.style.border = "2px solid red";
+      message.style.border = "2px solid red";
       info.textContent = "Message length should be between 20 to 500 chars";
     }
   });
 
   container.appendChild(info);
-  container.appendChild(input);
+  container.appendChild(select);
+  container.appendChild(message);
   container.appendChild(del);
 
   wrapper.appendChild(container);

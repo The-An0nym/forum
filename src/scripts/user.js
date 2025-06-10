@@ -1,5 +1,5 @@
 /* Banning user */
-async function deletePost(id) {
+async function banUser(id) {
   // Requests
   const response = await fetch(`/api/banUser.php?i=${id}`);
   const result = await response.text();
@@ -12,7 +12,7 @@ async function deletePost(id) {
 }
 
 /* Demoting user */
-async function deletePost(id) {
+async function demoteUser(id) {
   // Requests
   const response = await fetch(`/api/demoteUser.php?i=${id}`);
   const result = await response.text();
@@ -25,7 +25,7 @@ async function deletePost(id) {
 }
 
 /* Promoting user */
-async function deletePost(id) {
+async function promoteUser(id) {
   // Requests
   const response = await fetch(`/api/promoteUser.php?i=${id}`);
   const result = await response.text();

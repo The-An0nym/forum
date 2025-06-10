@@ -20,7 +20,7 @@ if(include($path . "/functions/validateSession.php")) {
 
         $conn = getConn();
         $user_id = $_SESSION['user_id'];
-        $sql = "SELECT u.clearance, b.clearanse AS user_clearance 
+        $sql = "SELECT u.clearance, b.clearance AS user_clearance 
                     FROM users u 
                 JOIN users b 
                     ON b.user_id = '$id' 
@@ -33,8 +33,6 @@ if(include($path . "/functions/validateSession.php")) {
             $row = $result->fetch_assoc();
             $clearance = $row['clearance'];
             $user_clearance = $row['user_clearance'];
-            $post_user_id = $row['user_id'];
-            $user_id === $_SESSION["user_id"];
 
             if($clearance >= 3 && $user_clearance < $clearance) {
                 // Push onto history
