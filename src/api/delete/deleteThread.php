@@ -32,15 +32,15 @@ if(include($path . "/functions/validateSession.php")) {
         if($result->num_rows === 1) {
             $row = $result->fetch_assoc();
             $clearance = $row['clearance'];
-            $post_user_id = $row['user_id'];
+            $creator_user_id = $row['user_id'];
             $user_id === $_SESSION["user_id"];
 
             if($clearance >= 1) {
                 // Get amount of posts (which are now hidden)
                 $sql = "SELECT 
-                            posts.user_id
+                            user_id
                         FROM posts 
-                        WHERE posts.thread_id = '$id'";
+                        WHERE thread_id = '$id'";
                 
                 $result = $conn->query($sql);
                 $post_count = 0;
@@ -52,6 +52,14 @@ if(include($path . "/functions/validateSession.php")) {
                     if ($conn->query($sql) === FALSE) {
                         echo "An error has occured [DT0]";
                     }
+                }
+
+                // Decrement user thread count
+                $sql = "UPDATE users
+                        SET threads = threads - 1 
+                        WHERE user_id = '$creator_user_id'";
+                if ($conn->query($sql) === FALSE) {
+                    echo "An error has occured [DT1]";
                 }
 
                 // Decrement post and thread count of category
