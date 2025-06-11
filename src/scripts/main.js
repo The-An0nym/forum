@@ -205,7 +205,7 @@ function createReport(type, id) {
       message.value.trim().length >= 20 &&
       message.value.trim().length <= 200
     ) {
-      callback(type, id, select.value, message.value);
+      sendReport(type, id, select.value, message.value);
       wrapper.remove();
     } else {
       message.style.border = "2px solid red";
@@ -223,7 +223,7 @@ function createReport(type, id) {
   document.body.prepend(wrapper);
 }
 
-async function report(type, id, reason, message) {
+async function sendReport(type, id, reason, message) {
   obj = {};
   obj.t = type;
   obj.i = id;

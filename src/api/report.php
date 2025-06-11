@@ -20,9 +20,9 @@ if(include($path . "/functions/validateSession.php")) {
     if (strlen($json_params) > 0 && json_validate($json_params)) {
         $decoded_params = json_decode($json_params);
 
-        $type = settype($decoded_params->t, "integer");
+        $type = (int)$decoded_params->t;
         $id = $decoded_params->i;
-        $reason = settype($decoded_params->r, "integer");
+        $reason = (int)$decoded_params->r;
 
         $message = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->m));
         if(strlen($message) < 20 || strlen($message) > 200) {
@@ -32,11 +32,19 @@ if(include($path . "/functions/validateSession.php")) {
 
         $user_id = $_SESSION['user_id'];
 
-        // Report
-        $sql = "INSERT INTO reports (type, id, sender_id, reason, message)
-        VALUES ($type, '$id', '$user_id', $reason, '$message')";
-        if ($conn->query($sql) === FALSE) {
-            echo "ERROR: Please try again later [R0]";
+        // Check if already reported
+        $sql = "SELECT sender_id FROM reports WHERE sender_id = '$user_id' AND type = $type AND id = '$id'";
+        $result = $conn->query($sql);
+        if($result->num_rows === 0) {
+            // Report
+            $sql = "INSERT INTO reports (type, id, sender_id, reason, message)
+            VALUES ($type, '$id', '$user_id', $reason, '$message')";
+            if ($conn->query($sql) === FALSE) {
+                echo "ERROR: Please try again later [R0]";
+            }
+        } else {
+            echo "You have already reported this post";
+
         }
     } else {
         echo "An error has occured R1";

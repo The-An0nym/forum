@@ -21,7 +21,7 @@ if(include($path . "/functions/validateSession.php")) {
         $decoded_params = json_decode($json_params);
 
         $id = $decoded_params->i;
-        $reason = settype($decoded_params->r, "integer");
+        $reason = (int)$decoded_params->r;
 
         $message = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->m));
         if(strlen($message) < 20 || strlen($message) > 200) {

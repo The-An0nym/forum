@@ -46,7 +46,7 @@ if(include($path . "/functions/validateSession.php")) {
 
             if($post_user_id !== $user_id || $clearance >= 3) {
                 if(isset($decoded_params->m, $decoded_params->r)) {
-                    $reason = settype($decoded_params->r, "integer");
+                    $reason = (int)$decoded_params->r;
                     $message = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->m));
                     if(strlen($message) < 20 || strlen($message) > 200) {
                         echo "Message needs to be between 20 to 200 chars";
