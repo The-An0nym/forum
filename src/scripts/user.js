@@ -7,7 +7,7 @@ async function banUser(id) {
   if (/\S/.test(result)) {
     errorMessage(result);
   } else {
-    getPosts();
+    location.reload();
   }
 }
 
@@ -20,7 +20,7 @@ async function demoteUser(id) {
   if (/\S/.test(result)) {
     errorMessage(result);
   } else {
-    getPosts();
+    location.reload();
   }
 }
 
@@ -33,6 +33,6 @@ async function promoteUser(id) {
   if (/\S/.test(result)) {
     errorMessage(result);
   } else {
-    getPosts();
+    location.reload();
   }
 }
