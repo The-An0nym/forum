@@ -128,13 +128,7 @@ async function changePassword() {
 
 // Deleting account
 async function deleteAccount(id) {
-  const response = await fetch("/api/delete/deleteAccount.php", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/x-www-form-urlencoded",
-    },
-    body: `i=${id}`,
-  });
+  const response = await fetch(`/api/delete/deleteAccount.php?i=${id}`);
 
   const result = await response.text();
   if (/\S/.test(result)) {

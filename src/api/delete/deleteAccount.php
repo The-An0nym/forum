@@ -15,8 +15,8 @@ if(!session_id()) {
 } 
 
 if(include($path . "/functions/validateSession.php")) {
-    if(isset($_POST['i'])) {
-        $id = $_POST['i'];
+    if(isset($_GET['i'])) {
+        $id = $_GET['i'];
 
         $conn = getConn();
         $user_id = $_SESSION['user_id'];
