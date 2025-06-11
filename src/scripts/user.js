@@ -1,7 +1,18 @@
 /* Banning user */
-async function banUser(id) {
-  // Requests
-  const response = await fetch(`/api/delete/deleteAccount.php?i=${id}`);
+async function badUser(id, message) {
+  obj = {};
+  obj.i = id;
+  obj.m = message;
+
+  // Request
+  const response = await fetch("/api/delete/deleteUser.php", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify(obj),
+  });
+
   const result = await response.text();
 
   if (/\S/.test(result)) {
@@ -12,9 +23,20 @@ async function banUser(id) {
 }
 
 /* Demoting user */
-async function demoteUser(id) {
-  // Requests
-  const response = await fetch(`/api/demoteUser.php?i=${id}`);
+async function demoteUser(id, message) {
+  obj = {};
+  obj.i = id;
+  obj.m = message;
+
+  // Request
+  const response = await fetch("/api/demoteUser.php", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify(obj),
+  });
+
   const result = await response.text();
 
   if (/\S/.test(result)) {
@@ -25,9 +47,20 @@ async function demoteUser(id) {
 }
 
 /* Promoting user */
-async function promoteUser(id) {
-  // Requests
-  const response = await fetch(`/api/promoteUser.php?i=${id}`);
+async function promoteUser(id, message) {
+  obj = {};
+  obj.i = id;
+  obj.m = message;
+
+  // Request
+  const response = await fetch("/api/promoteUser.php", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify(obj),
+  });
+
   const result = await response.text();
 
   if (/\S/.test(result)) {

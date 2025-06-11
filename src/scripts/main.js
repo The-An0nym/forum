@@ -136,7 +136,7 @@ function createModeration(text, callback, param) {
   select.className = "mod-select";
   select.id = "mod-select";
 
-  const options = ["Spam", "Inappropriate", "Copyright", "Other"];
+  const options = ["Other", "Spam", "Inappropriate", "Copyright"];
   for (let i = 0; i < options.length; i++) {
     const option = document.createElement("option");
     option.value = i;
@@ -156,7 +156,7 @@ function createModeration(text, callback, param) {
       message.value.trim().length >= 20 &&
       message.value.trim().length <= 200
     ) {
-      callback(param);
+      callback(param, message.value);
       wrapper.remove();
     } else {
       message.style.border = "2px solid red";

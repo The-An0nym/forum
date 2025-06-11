@@ -139,9 +139,20 @@ async function createThread() {
 }
 
 /* DELETING POST */
-async function deleteThread(id) {
-  // Requests
-  const response = await fetch(`/api/delete/deleteThread.php?i=${id}`);
+async function deleteThread(id, message) {
+  obj = {};
+  obj.i = id;
+  obj.m = message;
+
+  // Request
+  const response = await fetch("/api/delete/deleteThread.php", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify(obj),
+  });
+
   const result = await response.text();
 
   if (/\S/.test(result)) {

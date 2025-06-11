@@ -15,8 +15,19 @@ if(!session_id()) {
 } 
 
 if(include($path . "/functions/validateSession.php")) {
-    if(isset($_GET['i'])) {
-        $id = $_GET['i'];
+    $json_params = file_get_contents("php://input");
+
+    if (strlen($json_params) > 0 && json_validate($json_params)) {
+        $decoded_params = json_decode($json_params);
+
+        $id = $decoded_params->i;
+        $reason = settype($decoded_params->r, "integer");
+
+        $message = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->m));
+        if(strlen($message) < 20 || strlen($message) < 200) {
+            echo "Message needs to be between 20 to 200 chars";
+            die();
+        }
 
         $conn = getConn();
         $user_id = $_SESSION['user_id'];
@@ -33,7 +44,7 @@ if(include($path . "/functions/validateSession.php")) {
             $row = $result->fetch_assoc();
             $clearance = $row['clearance'];
             $creator_user_id = $row['user_id'];
-            $user_id === $_SESSION["user_id"];
+            $user_id === $_SESSION["user_id"];            
 
             if($clearance >= 1) {
                 // Get amount of posts (which are now hidden)
@@ -73,8 +84,8 @@ if(include($path . "/functions/validateSession.php")) {
                 }
 
                 // Push onto history
-                $sql = "INSERT INTO history (id, type, judgement, sender_id)
-                VALUES ('$id', 1, 0, '$user_id')";
+                $sql = "INSERT INTO history (id, type, judgement, sender_id, reason, message)
+                VALUES ('$id', 1, 0, '$user_id', $reason, '$message')";
                 if ($conn->query($sql) === FALSE) {
                     echo "ERROR: Please try again later [DT3]";
                 }

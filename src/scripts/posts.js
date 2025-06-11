@@ -220,9 +220,22 @@ async function sendPost() {
 }
 
 /* DELETING POST */
-async function deletePost(id) {
-  // Requests
-  const response = await fetch(`/api/delete/deletePost.php?i=${id}`);
+async function deletePost(id, message) {
+  obj = {};
+  obj.i = id;
+  if (message) {
+    obj.m = message;
+  }
+
+  // Request
+  const response = await fetch("/api/delete/deletePost.php", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify(obj),
+  });
+
   const result = await response.text();
 
   if (/\S/.test(result)) {

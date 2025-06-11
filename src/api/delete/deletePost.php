@@ -15,8 +15,12 @@ if(!session_id()) {
 } 
 
 if(include($path . "/functions/validateSession.php")) {
-    if(isset($_GET['i'])) {
-        $id = $_GET['i'];
+    $json_params = file_get_contents("php://input");
+
+    if (strlen($json_params) > 0 && json_validate($json_params)) {
+        $decoded_params = json_decode($json_params);
+
+        $id = $decoded_params->i;
 
         $conn = getConn();
         $user_id = $_SESSION['user_id'];
@@ -33,6 +37,20 @@ if(include($path . "/functions/validateSession.php")) {
             $clearance = $row['clearance'];
             $post_user_id = $row['user_id'];
             $user_id === $_SESSION["user_id"];
+
+            if($post_user_id !== $user_id || $clearance >= 1) {
+                if(isset($decoded_params->m, $decoded_params->r)) {
+                    $reason = settype($decoded_params->r, "integer");
+                    $message = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->m));
+                    if(strlen($message) < 20 || strlen($message) < 200) {
+                        echo "Message needs to be between 20 to 200 chars";
+                        die();
+                    }
+                } else {
+                    echo "Message and reason required";
+                    die();
+                }
+            }
 
             if($post_user_id === $user_id || $clearance >= 1) {
                 // Decrement post count of user
@@ -56,8 +74,8 @@ if(include($path . "/functions/validateSession.php")) {
                 if($post_user_id !== $user_id) {
                     $type = 2;
                     // Push onto history
-                    $sql = "INSERT INTO history (id, type, judgement, sender_id)
-                    VALUES ('$id', 0, 0, '$user_id')";
+                    $sql = "INSERT INTO history (id, type, judgement, sender_id, reason, message)
+                    VALUES ('$id', 0, 0, '$user_id', $reason, '$message')";
                     if ($conn->query($sql) === FALSE) {
                         echo "ERROR: Please try again later [DP2]";
                     }

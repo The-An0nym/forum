@@ -127,10 +127,24 @@ async function changePassword() {
 }
 
 // Deleting account
-async function deleteAccount(id) {
-  const response = await fetch(`/api/delete/deleteAccount.php?i=${id}`);
+async function deleteAccount(id, message) {
+  obj = {};
+  obj.i = id;
+  if (message) {
+    obj.m = message;
+  }
+
+  // Request
+  const response = await fetch("/api/delete/deleteAccount.php", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify(obj),
+  });
 
   const result = await response.text();
+
   if (/\S/.test(result)) {
     errorMessage(result);
   } else {

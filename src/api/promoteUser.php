@@ -15,8 +15,19 @@ if(!session_id()) {
 } 
 
 if(include($path . "/functions/validateSession.php")) {
-    if(isset($_GET['i'])) {
-        $id = $_GET['i'];
+    $json_params = file_get_contents("php://input");
+
+    if (strlen($json_params) > 0 && json_validate($json_params)) {
+        $decoded_params = json_decode($json_params);
+
+        $id = $decoded_params->i;
+        $reason = settype($decoded_params->r, "integer");
+
+        $message = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->m));
+        if(strlen($message) < 20 || strlen($message) < 200) {
+            echo "Message needs to be between 20 to 200 chars";
+            die();
+        }
 
         $conn = getConn();
         $user_id = $_SESSION['user_id'];
@@ -36,8 +47,8 @@ if(include($path . "/functions/validateSession.php")) {
 
             if($clearance >= 4 && $user_clearance < $clearance - 1) {
                 // Push onto history
-                $sql = "INSERT INTO history (id, type, judgement, sender_id)
-                VALUES ('$id', 2, 1, '$user_id')";
+                $sql = "INSERT INTO history (id, type, judgement, sender_id, reason, message)
+                VALUES ('$id', 2, 1, '$user_id', $reason, '$message')";
                 if ($conn->query($sql) === FALSE) {
                     echo "ERROR: Please try again later [PU0]";
                 }
