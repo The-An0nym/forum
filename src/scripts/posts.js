@@ -102,6 +102,16 @@ async function getPosts() {
         postMeta.appendChild(deletable);
       }
 
+      if (!dataJSON[i].deletable === 1 && !dataJSON[i].deletable) {
+        const deletable = document.createElement("button");
+        deletable.className = "report-button";
+        deletable.textContent = "report";
+        deletable.setAttribute(
+          "onclick",
+          `createReport(0, '${dataJSON[i].id}')`
+        );
+      }
+
       postData.appendChild(postMeta);
       post.appendChild(postData);
 

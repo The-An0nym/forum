@@ -91,6 +91,14 @@ async function getThreads() {
         );
 
         threadWrapper.appendChild(deleteButton);
+      } else {
+        const deletable = document.createElement("button");
+        deletable.className = "report-button";
+        deletable.textContent = "report";
+        deletable.setAttribute(
+          "onclick",
+          `createReport(1, '${dataJSON[i].id}')`
+        );
       }
 
       cont.appendChild(threadWrapper);

@@ -45,6 +45,11 @@ VAL BINARY Meaning
 4 -> 0100 -> Thread deleted
 8 -> 1000 -> Ban/account deleted
 
+Report types
+0 = post
+1 = thread
+2 = user
+
 # TODO:
 
 - [ ] Finalize profile settings page
