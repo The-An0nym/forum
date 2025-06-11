@@ -15,8 +15,8 @@ if(!session_id()) {
 } 
 
 if(include($path . "/functions/validateSession.php")) {
-    if(isset($_GET['i'])) {
-        $id = $_GET['i'];
+    if(isset($_POST['i'])) {
+        $id = $_POST['i'];
 
         $conn = getConn();
         $user_id = $_SESSION['user_id'];
@@ -46,32 +46,6 @@ if(include($path . "/functions/validateSession.php")) {
                     $type = 4; // Banned
                 }
 
-                // Update affected threads (posts)
-                $sql = "UPDATE threads t
-                        JOIN (
-                            SELECT thread_id, COUNT(*) AS cnt
-                            FROM posts
-                            WHERE user_id = '$id' AND deleted = 0
-                            GROUP BY thread_id
-                        ) p ON t.id = p.thread_id
-                        SET t.posts = p.cnt";
-                if ($conn->query($sql) === FALSE) {
-                    echo "ERROR: Please try again later [BU1]";
-                }
-
-                // Update affected category (threads)
-                $sql = "UPDATE categories c
-                        JOIN (
-                            SELECT category_id, COUNT(*) AS cnt, SUM(posts) AS sum
-                            FROM threads
-                            WHERE user_id = '$id' AND deleted = 0
-                            GROUP BY category_id
-                        ) t ON c.id = t.category_id
-                        SET c.threads = t.cnt, c.posts = t.sum";
-                if ($conn->query($sql) === FALSE) {
-                    echo "ERROR: Please try again later [BU2]";
-                }
-
                 $dtime = date('Y-m-d H:i:s');
 
                 // Flag user as banned or self-deleted
@@ -90,6 +64,32 @@ if(include($path . "/functions/validateSession.php")) {
                 $sql = "UPDATE posts SET deleted = deleted | 4, deleted_datetime = '$dtime' WHERE user_id = '$id'";
                 if ($conn->query($sql) === FALSE) {
                     echo "ERROR: Please try again later [BU7]";
+                }
+
+                // Update ALL threads (posts)
+                $sql = "UPDATE threads t
+                        JOIN (
+                            SELECT thread_id, COUNT(*) AS cnt
+                            FROM posts
+                            WHERE deleted = 0
+                            GROUP BY thread_id
+                        ) p ON t.id = p.thread_id
+                        SET t.posts = p.cnt";
+                if ($conn->query($sql) === FALSE) {
+                    echo "ERROR: Please try again later [BU1]";
+                }
+
+                // Update ALL category (threads and posts)
+                $sql = "UPDATE categories c
+                        JOIN (
+                            SELECT category_id, COUNT(*) AS cnt, SUM(posts) AS sum
+                            FROM threads
+                            WHERE deleted = 0
+                            GROUP BY category_id
+                        ) t ON c.id = t.category_id
+                        SET c.threads = t.cnt, c.posts = t.sum";
+                if ($conn->query($sql) === FALSE) {
+                    echo "ERROR: Please try again later [BU2]";
                 }
 
                 // delete session

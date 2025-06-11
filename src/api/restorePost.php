@@ -15,8 +15,8 @@ if(!session_id()) {
 } 
 
 if(include($path . "/functions/validateSession.php")) {
-    if(isset($_GET['i'])) {
-        $id = $_GET['i'];
+    if(isset($_POST['i'])) {
+        $id = $_POST['i'];
 
         $conn = getConn();
         $user_id = $_SESSION['user_id'];
@@ -38,7 +38,7 @@ if(include($path . "/functions/validateSession.php")) {
                 // Increment post count of user
                 $sql = "UPDATE users SET posts = posts +1 WHERE user_id = '$post_user_id'";
                 if ($conn->query($sql) === FALSE) {
-                    echo "An error has occured [DP0]";
+                    echo "An error has occured [RP0]";
                 }
 
                 // Increment post count of category and thread
@@ -48,7 +48,7 @@ if(include($path . "/functions/validateSession.php")) {
                         SET c.posts = c.posts +1, t.posts = t.posts +1 
                         WHERE p.post_id = '$id'";
                 if ($conn->query($sql) === FALSE) {
-                    echo "An error has occured [DP1]";
+                    echo "An error has occured [RP1]";
                 }   
 
                 $type = 1;
@@ -59,7 +59,7 @@ if(include($path . "/functions/validateSession.php")) {
                     $sql = "INSERT INTO history (id, type, judgement, sender_id)
                     VALUES ('$id', 0, 1, '$user_id')";
                     if ($conn->query($sql) === FALSE) {
-                        echo "ERROR: Please try again later [DP2]";
+                        echo "ERROR: Please try again later [RP2]";
                     }
                 }
 
@@ -67,17 +67,17 @@ if(include($path . "/functions/validateSession.php")) {
                 $dtime = date('Y-m-d H:i:s');
                 $sql = "UPDATE posts SET deleted = deleted & ~$type WHERE post_id = '$id'";
                 if ($conn->query($sql) === FALSE) {
-                    echo "ERROR: Please try again later [DP3]";
+                    echo "ERROR: Please try again later [RP3]";
                 }
                 
             } else {
                 echo "Clearance level too low";
             }
         } else {
-            echo "An error has occured DP4";
+            echo "An error has occured RP4";
         }
     } else {
-        echo "An error has occured DP5";
+        echo "An error has occured RP5";
     }
 
 } else {

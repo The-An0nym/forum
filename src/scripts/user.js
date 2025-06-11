@@ -1,7 +1,7 @@
 /* Banning user */
 async function banUser(id) {
   // Requests
-  const response = await fetch(`/api/banUser.php?i=${id}`);
+  const response = await fetch(`/api/delete/deleteAccount.php?i=${id}`);
   const result = await response.text();
 
   if (/\S/.test(result)) {

@@ -79,7 +79,7 @@ if(!isset($totalPosts)) {
 
     <div id="pageMenu"></div>
 
-    <?php if(isset($_SESSION['user_id'])) { ?>
+    <?php if(isset($_SESSION['user_id']) && $posts !== []) { ?>
         <textarea id="post-content" placeholder="Type your post here..."></textarea>
         <button onclick="sendPost()">Submit</button>
     <?php } ?>

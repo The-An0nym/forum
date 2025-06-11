@@ -128,7 +128,7 @@ async function changePassword() {
 
 // Deleting account
 async function deleteAccount(id) {
-  const response = await fetch("/api/deleteAccount.php", {
+  const response = await fetch("/api/delete/deleteAccount.php", {
     method: "POST",
     headers: {
       "Content-type": "application/x-www-form-urlencoded",
@@ -222,7 +222,7 @@ function revertPassword() {
 
 /* OTHER BUTTONS */
 
-// Deleting account
+// Restoring post
 async function restorePost(id) {
   const response = await fetch("/api/restorePost.php", {
     method: "POST",

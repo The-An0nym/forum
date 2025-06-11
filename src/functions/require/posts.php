@@ -91,7 +91,7 @@ function getPathNames(string $slug) {
     $sql = "SELECT c.slug AS c_slug, c.name AS c_name, t.name AS t_name
     FROM categories c
     JOIN threads t ON t.category_id = c.id
-    WHERE t.slug = '$slug'";
+    WHERE t.slug = '$slug' AND t.deleted = 0";
 
     $result = $conn->query($sql);
     if ($result->num_rows === 1) {

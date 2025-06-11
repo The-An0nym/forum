@@ -34,13 +34,14 @@ include $path . "/basic/menu.php";
         if(include($path . '/functions/validateSession.php')) {
             $user_id = $_SESSION["user_id"];
 
-            $sql = "SELECT username, handle, image_dir, posts FROM users WHERE user_id = '$user_id' LIMIT 1";
+            $sql = "SELECT username, handle, image_dir, posts, threads FROM users WHERE user_id = '$user_id' LIMIT 1";
             $result = $conn->query($sql);
             $row = $result->fetch_assoc();
             $username = $row["username"];
             $handle = $row["handle"];
             $image_dir = $row["image_dir"];
             $posts = $row["posts"];
+            $threads = $row["threads"]
 
             ?>  
             <div class="profile-picture">
@@ -74,11 +75,11 @@ include $path . "/basic/menu.php";
                     <button class="save button" onclick="revertPassword()" id="usernameSave">Cancel</button>
                 </div>
             </div>
-             <div class="delete-account">
-                <button class="deleted" onclick="createConfirmation('delete your account', '<?= $handle ?>'), deleteAccount, '<?= $user_id ?>'"></button>
-             </div>
             <div class="posts">Posts: <?php echo $posts; ?></div>
             <div class="threads">Threads: <?php echo $threads; ?></div>
+            <div class="delete-account">
+                <button class="deleted" onclick="createConfirmation('delete your account', '<?= $handle ?>', deleteAccount, '<?= $user_id ?>')">Delete account</button>
+             </div>
 
             <!-- DELETED THINGS -->
             <div class="deleted-posts">
@@ -97,11 +98,11 @@ include $path . "/basic/menu.php";
                         ON 
                             t.id = p.thread_id
                         WHERE 
-                            p.deleted = 1 AND t.deleted = 0
+                            p.deleted = 1 AND t.deleted = 0 AND p.user_id = '$user_id'
                         ORDER BY p.deleted_datetime DESC";
                 $result = $conn->query($sql);
                 if($result->num_rows > 0) {
-                    while($post in $result->fetch_assoc()) {?>
+                    while($post = $result->fetch_assoc()) {?>
                         <div class="deleted-post">
                             <span class="deleted-datetime"><?= $post['deleted_datetime']; ?></span>
                             <span class="deleted-created"><?= $post['created']; ?></span>
