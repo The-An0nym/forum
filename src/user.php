@@ -79,7 +79,7 @@ if($result->num_rows === 1) {
             <span class="threads">Threads: <?= $threads ?></span>
             <?php 
             if($clearance >= 0 && $user_clearance <= $clearance) {
-                echo '<button class="moderation" onclick="createReport()">Report</button>';
+                echo '<button class="moderation" onclick="createReport(0, \'' . $user_id . '\')">Report</button>';
             }
             if($clearance >= 3 && $user_clearance < $clearance) {
                 echo '<button class="moderation" onclick="createModeration(\'ban ' . $username . '\', banUser, \'' . $user_id .'\')">Ban</button>';

@@ -156,7 +156,7 @@ function createModeration(text, callback, param) {
       message.value.trim().length >= 20 &&
       message.value.trim().length <= 200
     ) {
-      callback(param, message.value);
+      callback(param, select.value, message.value);
       wrapper.remove();
     } else {
       message.style.border = "2px solid red";
@@ -175,7 +175,7 @@ function createModeration(text, callback, param) {
 }
 
 /* REPORTING */
-function createReport(type) {
+function createReport(type, id) {
   const wrapper = createWrapperOverlay();
 
   const container = document.createElement("div");
@@ -200,6 +200,18 @@ function createReport(type) {
 
   const submitButton = document.createElement("button");
   submitButton.textContent = "Report";
+  submitButton.addEventListener("mouseup", () => {
+    if (
+      message.value.trim().length >= 20 &&
+      message.value.trim().length <= 200
+    ) {
+      callback(type, id, select.value, message.value);
+      wrapper.remove();
+    } else {
+      message.style.border = "2px solid red";
+      info.textContent = "Message length should be between 20 to 500 chars";
+    }
+  });
   submitButton.setAttribute("onclick", "report()");
 
   container.appendChild(select);
@@ -211,6 +223,27 @@ function createReport(type) {
   document.body.prepend(wrapper);
 }
 
-function report() {
-  // Todo...
+async function report(type, id, reason, message) {
+  obj = {};
+  obj.t = type;
+  obj.i = id;
+  obj.r = reason;
+  obj.m = message;
+
+  // Request
+  const response = await fetch("/api/report.php", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify(obj),
+  });
+
+  const result = await response.text();
+
+  if (/\S/.test(result)) {
+    errorMessage(result);
+  } else {
+    location.reload();
+  }
 }

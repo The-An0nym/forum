@@ -127,10 +127,11 @@ async function changePassword() {
 }
 
 // Deleting account
-async function deleteAccount(id, message) {
+async function deleteAccount(id, reason, message) {
   obj = {};
   obj.i = id;
-  if (message) {
+  if (reason) {
+    obj.r = reason;
     obj.m = message;
   }
 

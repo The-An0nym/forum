@@ -139,9 +139,10 @@ async function createThread() {
 }
 
 /* DELETING POST */
-async function deleteThread(id, message) {
+async function deleteThread(id, reason, message) {
   obj = {};
   obj.i = id;
+  obj.r = reason;
   obj.m = message;
 
   // Request

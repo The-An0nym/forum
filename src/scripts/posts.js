@@ -220,10 +220,11 @@ async function sendPost() {
 }
 
 /* DELETING POST */
-async function deletePost(id, message) {
+async function deletePost(id, reason, message) {
   obj = {};
   obj.i = id;
-  if (message) {
+  if (reason) {
+    obj.r = reason;
     obj.m = message;
   }
 

@@ -47,9 +47,10 @@ async function demoteUser(id, message) {
 }
 
 /* Promoting user */
-async function promoteUser(id, message) {
+async function promoteUser(id, reason, message) {
   obj = {};
   obj.i = id;
+  obj.r = reason;
   obj.m = message;
 
   // Request
