@@ -43,7 +43,7 @@ VAL BINARY Meaning
 1 -> 0001 -> User deleted
 2 -> 0010 -> Mod deleted
 4 -> 0100 -> Thread deleted
-8 -> 1000 -> Ban deleted
+8 -> 1000 -> Ban/account deleted
 
 # TODO:
 

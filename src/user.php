@@ -60,7 +60,7 @@ if($result->num_rows === 1) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quir | Threads</title>
+    <title>Quir | User</title>
     <link rel="stylesheet" href="/styles/main.css" />
     <link rel="stylesheet" href="/styles/user.css" />
 </head>

@@ -126,6 +126,24 @@ async function changePassword() {
   }
 }
 
+// Deleting account
+async function deleteAccount(id) {
+  const response = await fetch("/api/deleteAccount.php", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/x-www-form-urlencoded",
+    },
+    body: `i=${id}`,
+  });
+
+  const result = await response.text();
+  if (/\S/.test(result)) {
+    errorMessage(result);
+  } else {
+    location.reload();
+  }
+}
+
 /* SAVE BUTTONS */
 
 // Image
@@ -200,4 +218,24 @@ function revertPassword() {
   currPassword = document.getElementById("currPassword").value = "";
   newPassword = document.getElementById("newPassword").value = "";
   confPassword = document.getElementById("confPassword").value = "";
+}
+
+/* OTHER BUTTONS */
+
+// Deleting account
+async function restorePost(id) {
+  const response = await fetch("/api/restorePost.php", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/x-www-form-urlencoded",
+    },
+    body: `i=${id}`,
+  });
+
+  const result = await response.text();
+  if (/\S/.test(result)) {
+    errorMessage(result);
+  } else {
+    location.reload();
+  }
 }

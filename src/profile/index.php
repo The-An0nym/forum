@@ -74,8 +74,50 @@ include $path . "/basic/menu.php";
                     <button class="save button" onclick="revertPassword()" id="usernameSave">Cancel</button>
                 </div>
             </div>
-            <!-- DELETE ACCOUNT -->
-            <div class="posts"><?php echo $posts; ?></div>
+             <div class="delete-account">
+                <button class="deleted" onclick="createConfirmation('delete your account', '<?= $handle ?>'), deleteAccount, '<?= $user_id ?>'"></button>
+             </div>
+            <div class="posts">Posts: <?php echo $posts; ?></div>
+            <div class="threads">Threads: <?php echo $threads; ?></div>
+
+            <!-- DELETED THINGS -->
+            <div class="deleted-posts">
+                <?php 
+                $sql = "SELECT 
+                            p.content, 
+                            p.created, 
+                            p.deleted_datetime, 
+                            p.post_id,
+                            t.slug, 
+                            t.name
+                        FROM 
+                            posts p 
+                        INNER JOIN 
+                            threads t
+                        ON 
+                            t.id = p.thread_id
+                        WHERE 
+                            p.deleted = 1 AND t.deleted = 0
+                        ORDER BY p.deleted_datetime DESC";
+                $result = $conn->query($sql);
+                if($result->num_rows > 0) {
+                    while($post in $result->fetch_assoc()) {?>
+                        <div class="deleted-post">
+                            <span class="deleted-datetime"><?= $post['deleted_datetime']; ?></span>
+                            <span class="deleted-created"><?= $post['created']; ?></span>
+                            <span class="deleted-thread">
+                                <a href="/thread/<?= $post['slug']; ?>"><?= $post['name']; ?></a>
+                            </span>
+                            <span class="deleted-content"><?= $post['content']; ?></span>
+                            <button class="restore" onclick="restorePost('<?= $post['post_id']; ?>')">restore</button>
+                        <div>
+                <?php }
+                } else {
+                    echo "No deleted posts";
+                }
+                ?>
+            </div>
+    </div>
                 <script>
                     const username = "<?= $username; ?>";
                     const handle = "<?= $handle; ?>"

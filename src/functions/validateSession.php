@@ -17,7 +17,10 @@ if(!session_id()) {
 if(isset($_SESSION['user_id'], $_SESSION['session_id'])) {
     $session_id = $_SESSION['session_id'];
 
-    $sql = "SELECT ip, user_agent, user_id datetime FROM sessions WHERE session_id='$session_id'";
+    // Don't search by session_id ?
+    $sql = "SELECT ip, user_agent, user_id, datetime FROM sessions WHERE session_id='$session_id'";
+    // Compare each character instead
+    // OR hash_equals($string1, $string2) : Bool
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
