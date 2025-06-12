@@ -28,16 +28,13 @@ Threads that are deleted will follow the same logic. Posts under that thread wil
 
 id -> id of post, thread or user
 sender_id -> id of moderator
-type -> 0 = deleted post, 1 = deleted thread, 3 = demotion/promotion user, 4 = ban
+type -> 0 = deleted post, 1 = deleted thread, 2 = ban, 3 = demotion/promotion user
 judgement -> false = deleted/demoted, true = restored/promoted
 datetime -> when
 
 ### Posts
 
-Delete*type -> 0 = not deleted, 1 = deleted by owner, 2 = deleted by moderator (direct), 3 = deleted by account ban
-// *> This approach needs an overhaul
-
-`POSTS`
+`POSTS` DELETED flag
 VAL BINARY Meaning
 0 -> 0000 -> Not deleted
 1 -> 0001 -> User deleted
@@ -59,7 +56,7 @@ Report types
 - [ ] Change the /functions/require/posts.php to match the /function/require/threads.php and adjust accordingly in thread.php and api/getThreads.php
 - [ ] Make login or sign-up pop-up hide when sign-up/login is pressed respectively
 - [ ] Delete button on profile page
-- [ ] Rethink moderation structure in the tables (i.e. how do I handle restoration?)
+- [ ] Rethink moderation history, as polymorphism is to be avoided!
 
 - [ ] Make clearance levels, moderation tools, report system, history stack, etc.
 - [ ] Add ToS, Privacy Policy and cookies warning

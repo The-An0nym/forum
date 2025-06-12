@@ -34,14 +34,15 @@ include $path . "/basic/menu.php";
         if(include($path . '/functions/validateSession.php')) {
             $user_id = $_SESSION["user_id"];
 
-            $sql = "SELECT username, handle, image_dir, posts, threads FROM users WHERE user_id = '$user_id' LIMIT 1";
+            $sql = "SELECT username, handle, image_dir, posts, threads, clearance FROM users WHERE user_id = '$user_id' LIMIT 1";
             $result = $conn->query($sql);
             $row = $result->fetch_assoc();
             $username = $row["username"];
             $handle = $row["handle"];
             $image_dir = $row["image_dir"];
             $posts = $row["posts"];
-            $threads = $row["threads"]
+            $threads = $row["threads"];
+            $clearance = $row["clearance"];
 
             ?>  
             <div class="profile-picture">
@@ -115,6 +116,40 @@ include $path . "/basic/menu.php";
                 <?php }
                 } else {
                     echo "No deleted posts";
+                }
+                ?>
+                <?php
+                // MODERATION
+                if($clearance > 0) {?>
+                
+                <div id="moderation-history">
+                    <?php
+                    $sql = "SELECT 
+                                * 
+                            FROM 
+                                history h
+                            INNER JOIN
+                                users u
+                            ON
+                                u.
+                            ORDER BY 
+                                h.datetime 
+                            LIMIT 
+                                20";
+                    $result = $conn->query($sql);
+                    while($row = $result->fetch_assoc()) {?>
+                        <div class="moderation-history-entry">
+                            <span>
+
+
+                        </div>
+                    <?php
+                    }
+                    ?>
+
+                </div>
+
+                <?php
                 }
                 ?>
             </div>

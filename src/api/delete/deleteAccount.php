@@ -63,7 +63,7 @@ if(include($path . "/functions/validateSession.php")) {
                 if($id !== $user_id) {
                     // Push onto history
                     $sql = "INSERT INTO history (id, type, judgement, sender_id, reason, message)
-                    VALUES ('$id', 3, 0, '$user_id', $reason, '$message')";
+                    VALUES ('$id', 2, 0, '$user_id', $reason, '$message')";
                     if ($conn->query($sql) === FALSE) {
                         echo "ERROR: Please try again later [BU0]";
                     }

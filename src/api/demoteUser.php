@@ -48,7 +48,7 @@ if(include($path . "/functions/validateSession.php")) {
             if($clearance >= 4 && $user_clearance < $clearance) {
                 // Push onto history
                 $sql = "INSERT INTO history (id, type, judgement, sender_id, reason, message)
-                VALUES ('$id', 2, 0, '$user_id', $reason, '$message')";
+                VALUES ('$id', 3, 0, '$user_id', $reason, '$message')";
                 if ($conn->query($sql) === FALSE) {
                     echo "ERROR: Please try again later [DU0]";
                 }
