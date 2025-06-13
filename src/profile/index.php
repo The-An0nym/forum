@@ -15,6 +15,8 @@ if(!session_id()) {
 }
 
 include $path . "/basic/menu.php";
+include $path . '/profile/.generateHTML.php' ;
+
 
 ?>
 <!DOCTYPE html>
@@ -124,27 +126,7 @@ include $path . "/basic/menu.php";
                 
                 <div id="moderation-history">
                     <?php
-                    $sql = "SELECT 
-                                * 
-                            FROM 
-                                history h
-                            INNER JOIN
-                                users u
-                            ON
-                                u.
-                            ORDER BY 
-                                h.datetime 
-                            LIMIT 
-                                20";
-                    $result = $conn->query($sql);
-                    while($row = $result->fetch_assoc()) {?>
-                        <div class="moderation-history-entry">
-                            <span>
-
-
-                        </div>
-                    <?php
-                    }
+                        getHistoryHTML(0);
                     ?>
 
                 </div>
