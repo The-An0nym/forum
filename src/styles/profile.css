@@ -10,3 +10,27 @@
   padding: 1%;
   margin: 1%;
 }
+
+#moderation-history {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.7em;
+  justify-content: space-between;
+}
+
+#moderation-histroy > div {
+  border-bottom: 1px solid black;
+  padding-bottom: 2px;
+  margin-bottom: 2px;
+  display: flex;
+  flex-direction: row;
+}
+
+.datetime-history {
+  font-size: 0.5em;
+}
+
+.creator-username,
+.sender-username {
+  font-weight: 600;
+}

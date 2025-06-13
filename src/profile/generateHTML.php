@@ -93,25 +93,23 @@ function getHistory(int $page) {
     return $data;
 }
 
-function getHistoryHTML($page) {
-    $data = getHistory($page)
-    while($data as $row) {
-        if($row["type"] === 0) {
+function getHistoryHTML($page, $clearance) {
+    $data = getHistory($page);
+    foreach($data as $row) {
+        if($row["type"] == 0) {
             typePostHTML($row);
-        } else if($row["type"] === 1) {
-            typeThreadHTML($row);
-        } else if($row["type"] === 3) {
-            typeUserHTML("type");
+        } else if($row["type"] == 1) {
+            typeThreadHTML($row, $clearance);
+        } else if($row["type"] == 2) {
+            typeUserHTML($row, $clearance);
         }
     }
 }
 
 function typePostHTML($row) {
-    if($row["judgement"] === 0) {
-        $judgement = "deleted";
-    } else {
-        $judgement = "restored";
-    }
+    $judgement = judge($row["judgement"]);
+    $reason = reason($row["reason"]);
+
     ?>
     <div class="post-history">
         <span class="datetime-history"><?= $row["datetime"]; ?></span>
@@ -123,17 +121,17 @@ function typePostHTML($row) {
             <?= $judgement; ?> by
             <a href="/user/<?= $row["handle"]; ?>"><?= $row["username"]; ?></a>
         </span>
-        <span class="reason-history"> <?= $row["reason"]; ?></span>
+        <span class="reason-history"> <?= $reason; ?></span>
         <span class="message-history"> <?= $row["message"]; ?></span>
+        <button class="undo-history">Undo</span>
     </div>
-<?php}
+<?php
+}
 
-function typeThreadHTML($row) {
-    if($row["judgement"] === 0) {
-        $judgement = "deleted";
-    } else {
-        $judgement = "restored";
-    }
+function typeThreadHTML($row, $clearance) {
+    $judgement = judge($row["judgement"]);
+    $reason = reason($row["reason"]);
+
     ?>
     <div class="thread-history">
         <span class="datetime-history"><?= $row["datetime"]; ?></span>
@@ -147,21 +145,16 @@ function typeThreadHTML($row) {
             <?= $judgement; ?> by
             <a href="/user/<?= $row["handle"]; ?>"><?= $row["username"]; ?></a>
         </span>
-        <span class="reason-history"> <?= $row["reason"]; ?></span>
+        <span class="reason-history"> <?= $reason; ?></span>
         <span class="message-history"> <?= $row["message"]; ?></span>
+        <?php if($clearance > 1) { echo '<button class="undo-history">Undo</span>';} ?>
     </div>
-<?php}
+<?php
+}
 
-function userThreadHTML($row) {
-    if($row["judgement"] === 0) {
-        $judgement = "promoted";
-    } else if($row["judgement"] === 1) {
-        $judgement = "demoted";
-    } else if($row["judgement"] === 1) {
-        $judgement = "banned";
-    } else {
-        $judgement = "restored";
-    }
+function typeUserHTML($row, $clearance) {
+    $judgement = judge($row["judgement"]);
+    $reason = reason($row["reason"]);
     ?>
     <div class="user-history">
         <span class="datetime-history"><?= $row["datetime"]; ?></span>
@@ -172,7 +165,19 @@ function userThreadHTML($row) {
             <?= $judgement; ?> by
             <a href="/user/<?= $row["handle"]; ?>"><?= $row["username"]; ?></a>
         </span>
-        <span class="reason-history"> <?= $row["reason"]; ?></span>
+        <span class="reason-history"> <?= $reason; ?></span>
         <span class="message-history"> <?= $row["message"]; ?></span>
+        <?php if(($clearance > 2 && $judgement < 2) || $clearance > 3) { 
+            echo '<button class="undo-history">Undo</span>';
+        } ?>
     </div>
-<?php}
+<?php
+}
+
+function judge($i) {
+    return ["banned", "restored", "demoted", "promoted"][$i];
+}
+
+function reason($i) {
+    return ["Spam", "Inappropriate", "Copyright", "Other"][$i];
+}

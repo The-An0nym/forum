@@ -136,7 +136,7 @@ function createModeration(text, callback, param) {
   select.className = "mod-select";
   select.id = "mod-select";
 
-  const options = ["Other", "Spam", "Inappropriate", "Copyright"];
+  const options = ["Spam", "Inappropriate", "Copyright", "Other"];
   for (let i = 0; i < options.length; i++) {
     const option = document.createElement("option");
     option.value = i;
@@ -152,16 +152,8 @@ function createModeration(text, callback, param) {
   del.className = "mod-submit-button";
   del.textContent = "submit";
   del.addEventListener("mouseup", () => {
-    if (
-      message.value.trim().length >= 20 &&
-      message.value.trim().length <= 200
-    ) {
-      callback(param, select.value, message.value);
-      wrapper.remove();
-    } else {
-      message.style.border = "2px solid red";
-      info.textContent = "Message length should be between 20 to 500 chars";
-    }
+    callback(param, select.value, message.value);
+    wrapper.remove();
   });
 
   container.appendChild(info);

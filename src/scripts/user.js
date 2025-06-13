@@ -23,9 +23,10 @@ async function badUser(id, message) {
 }
 
 /* Demoting user */
-async function demoteUser(id, message) {
+async function demoteUser(id, reason, message) {
   obj = {};
   obj.i = id;
+  obj.r = reason;
   obj.m = message;
 
   // Request

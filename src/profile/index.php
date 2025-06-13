@@ -15,7 +15,7 @@ if(!session_id()) {
 }
 
 include $path . "/basic/menu.php";
-include $path . '/profile/.generateHTML.php' ;
+include $path . '/profile/generateHTML.php' ;
 
 
 ?>
@@ -120,21 +120,15 @@ include $path . '/profile/.generateHTML.php' ;
                     echo "No deleted posts";
                 }
                 ?>
+        </div>
                 <?php
                 // MODERATION
-                if($clearance > 0) {?>
-                
-                <div id="moderation-history">
-                    <?php
-                        getHistoryHTML(0);
-                    ?>
-
-                </div>
-
-                <?php
+                if($clearance > 0) {
+                    echo '<div id="moderation-history">';
+                    getHistoryHTML(0, $clearance);
+                    echo '</div>';
                 }
                 ?>
-            </div>
     </div>
                 <script>
                     const username = "<?= $username; ?>";

@@ -28,8 +28,8 @@ Threads that are deleted will follow the same logic. Posts under that thread wil
 
 id -> id of post, thread or user
 sender_id -> id of moderator
-type -> 0 = deleted post, 1 = deleted thread, 2 = ban, 3 = demotion/promotion user
-judgement -> false = deleted/demoted, true = restored/promoted
+type -> 0 = post, 1 = thread, 2 = user
+judgement -> 0 = deleted, 1 = restored, 2 = demoted, 3 = promoted
 datetime -> when
 
 ### Posts
@@ -52,13 +52,11 @@ Report types
 - [ ] Finalize profile settings page
 - [ ] Make posting a new post focus on this post
 - [ ] There are still some mismatches between menu displaying you are logged in while having no posting privliges
-- [ ] Change initial load (php) and subsequent loads (js) to match each other.
+- [ ] Change initial load (php) and subsequent loads (js) to match each other. (and maybe rethink system)
 - [ ] Change the /functions/require/posts.php to match the /function/require/threads.php and adjust accordingly in thread.php and api/getThreads.php
 - [ ] Make login or sign-up pop-up hide when sign-up/login is pressed respectively
-- [ ] Delete button on profile page
-- [ ] Rethink moderation history, as polymorphism is to be avoided!
+- [ ] Rework moderation history
 
-- [ ] Make clearance levels, moderation tools, report system, history stack, etc.
 - [ ] Add ToS, Privacy Policy and cookies warning
 - [ ] Adress, full legal name, etc. (pattern)
 - [ ] Make notification system
