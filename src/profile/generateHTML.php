@@ -15,7 +15,7 @@ function getHistory(int $page) {
 
     $offset = $page * 20;
 
-    $sql = "SELECT * FROM moderation_history";
+    $sql = "SELECT * FROM mod_history";
     
     $result = $conn->query($sql);
 
