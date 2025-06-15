@@ -1,6 +1,7 @@
 <?php
 $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
+include $path . '/functions/moderation.php' ;
 
 // Get connection
 $conn = getConn();
@@ -62,11 +63,7 @@ if(include($path . "/functions/validateSession.php")) {
                 $type = 1; // Self-deleted
                 if($id !== $user_id) {
                     // Push onto history
-                    $sql = "INSERT INTO history (id, type, judgement, sender_id, reason, message)
-                    VALUES ('$id', 2, 0, '$user_id', $reason, '$message')";
-                    if ($conn->query($sql) === FALSE) {
-                        echo "ERROR: Please try again later [BU0]";
-                    }
+                    createHistory($conn, 2, 0, $id, $user_id, $reason, $message)
                     $type = 4; // Banned
                 }
 

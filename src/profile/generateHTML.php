@@ -15,74 +15,7 @@ function getHistory(int $page) {
 
     $offset = $page * 20;
 
-    $sql = "(
-                SELECT 
-                    pi.username AS direct_username, 
-                    pi.handle AS direct_handle,
-                    pi.content AS direct_name,
-                    NULL AS direct_slug,
-                    u.username,
-                    u.handle,
-                    h.judgement,
-                    h.datetime,
-                    h.type,
-                    h.reason,
-                    h.message
-                FROM history h 
-                JOIN (
-                    SELECT s.username, s.handle, p.post_id, p.content FROM posts p 
-                    JOIN users s 
-                    ON s.user_id = p.user_id
-                    ) pi
-                ON pi.post_id = h.id
-                JOIN users u
-                ON u.user_id = h.sender_id
-                WHERE h.type = 0
-            ) UNION ALL (     
-                SELECT 
-                    ti.name AS direct_name, 
-                    ti.slug AS direct_slug, 
-                    ti.username AS direct_username, 
-                    ti.handle AS direct_handle,
-                    u.username,
-                    u.handle,
-                    h.judgement,
-                    h.datetime,
-                    h.type,
-                    h.reason,
-                    h.message
-                FROM history h 
-                JOIN (
-                    SELECT t.name, t.slug, t.id, s.username, s.handle FROM threads t 
-                    JOIN users s 
-                    ON s.user_id = t.user_id
-                    ) ti
-                ON ti.id = h.id
-                JOIN users u
-                ON u.user_id = h.sender_id
-                WHERE h.type = 1
-            ) UNION ALL (               
-                SELECT 
-                    ui.username AS direct_username, 
-                    ui.handle AS direct_handle,
-                    NULL AS direct_name,
-                    NULL AS direct_slug,
-                    u.username,
-                    u.handle,
-                    h.judgement,
-                    h.datetime,
-                    h.type,
-                    h.reason,
-                    h.message
-                FROM history h 
-                JOIN users ui
-                ON ui.user_id = h.id
-                JOIN users u
-                ON u.user_id = h.sender_id
-                WHERE h.type = 2
-            )
-            ORDER BY datetime DESC
-            LIMIT 20 OFFSET $offset";
+    $sql = "SELECT * FROM moderation_history";
     
     $result = $conn->query($sql);
 
@@ -95,6 +28,7 @@ function getHistory(int $page) {
 
 function getHistoryHTML($page, $clearance) {
     $data = getHistory($page);
+    return $data;
     foreach($data as $row) {
         if($row["type"] == 0) {
             typePostHTML($row);
@@ -175,7 +109,7 @@ function typeUserHTML($row, $clearance) {
 }
 
 function judge($i) {
-    return ["banned", "restored", "demoted", "promoted"][$i];
+    return ["deleted", "restored", "demoted", "promoted"][$i];
 }
 
 function reason($i) {

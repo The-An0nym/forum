@@ -15,15 +15,15 @@
   display: flex;
   flex-direction: column;
   font-size: 0.7em;
-  justify-content: space-between;
 }
 
-#moderation-histroy > div {
+#moderation-history > div {
   border-bottom: 1px solid black;
   padding-bottom: 2px;
   margin-bottom: 2px;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 }
 
 .datetime-history {

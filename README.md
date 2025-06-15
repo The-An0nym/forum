@@ -2,9 +2,12 @@
 
 PHP x MySQL Forum (using infinityFree)
 
-CreateThread: ~6 MySQL queries
-GetThreads: 2 Queries
-GetPosts: 2 Queries
+This is a personal project of mine to learn PHP. It is to be expected that:
+
+- There are bugs
+- Things are not optimized
+- There are missing features
+- It is unsafe
 
 # Moderation
 

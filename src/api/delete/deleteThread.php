@@ -1,6 +1,7 @@
 <?php
 $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
+include $path . '/functions/moderation.php' ;
 
 // Get connection
 $conn = getConn();
@@ -84,11 +85,7 @@ if(include($path . "/functions/validateSession.php")) {
                 }
 
                 // Push onto history
-                $sql = "INSERT INTO history (id, type, judgement, sender_id, reason, message)
-                VALUES ('$id', 1, 0, '$user_id', $reason, '$message')";
-                if ($conn->query($sql) === FALSE) {
-                    echo "ERROR: Please try again later [DT3]";
-                }
+                createHistory($conn, 1, 0, $id, $user_id, $reason, $message)
                 
                 // (Soft) delete thread
                 $dtime = date('Y-m-d H:i:s');

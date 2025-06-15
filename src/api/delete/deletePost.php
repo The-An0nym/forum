@@ -1,6 +1,7 @@
 <?php
 $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
+include $path . '/functions/moderation.php' ;
 
 // Get connection
 $conn = getConn();
@@ -74,11 +75,7 @@ if(include($path . "/functions/validateSession.php")) {
                 if($post_user_id !== $user_id) {
                     $type = 2;
                     // Push onto history
-                    $sql = "INSERT INTO history (id, type, judgement, sender_id, reason, message)
-                    VALUES ('$id', 0, 0, '$user_id', $reason, '$message')";
-                    if ($conn->query($sql) === FALSE) {
-                        echo "ERROR: Please try again later [DP2]";
-                    }
+                    createHistory($conn, 0, 0, $id, $user_id, $reason, $message)
                 }
 
                 // (Soft) delete post
