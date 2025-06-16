@@ -13,9 +13,82 @@ function getHistory(int $page) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $offset = $page * 20;
+    $offset = $page * 50;
 
-    $sql = "SELECT * FROM mod_history";
+    $sql = "(
+                SELECT 
+                    mh.username,
+                    mh.handle,
+                    mh.created, 
+                    mh.judgement, 
+                    mh.reason, 
+                    mh.message,
+                    0 AS type,
+                    mp.post_id AS id,
+                    p.content AS cont,
+                    p.username AS sender_username,
+                    p.handle AS sender_handle
+                FROM 
+                    mod_history_posts mp
+                JOIN (
+                    SELECT u.username, u.handle, mh.created, mh.judgement, mh.reason, mh.message, mh.mod_id FROM mod_history mh
+                    JOIN users u ON u.user_id = mh.sender_id
+                ) mh
+                ON mp.mod_id = mh.mod_id
+                JOIN (
+                    SELECT u.username, u.handle, p.content, p.post_id FROM posts p
+                    JOIN users u ON u.user_id = p.user_id
+                ) p
+                ON p.post_id = mp.post_id
+            ) UNION ALL (
+                SELECT 
+                    mh.username, 
+                    mh.handle,
+                    mh.created, 
+                    mh.judgement, 
+                    mh.reason, 
+                    mh.message,
+                    1 AS type,
+                    mt.thread_id AS id,
+                    t.name AS cont,
+                    t.username AS sender_username,
+                    t.handle AS sender_handle
+                FROM 
+                    mod_history_threads mt
+                JOIN (
+                    SELECT u.username, u.handle, mh.created, mh.judgement, mh.reason, mh.message, mh.mod_id FROM mod_history mh
+                    JOIN users u ON u.user_id = mh.sender_id
+                ) mh
+                ON mt.mod_id = mh.mod_id
+                JOIN (
+                    SELECT u.username, u.handle, t.name, t.id FROM threads t
+                    JOIN users u ON u.user_id = t.user_id
+                ) t
+                ON t.id = mt.thread_id
+            ) UNION ALL (
+                SELECT 
+                    mh.username, 
+                    mh.handle,
+                    mh.created, 
+                    mh.judgement, 
+                    mh.reason, 
+                    mh.message,
+                    2 AS type,
+                    mu.user_id AS id,
+                    u.username AS cont,
+                    u.username AS sender_username,
+                    u.handle AS sender_handle
+                FROM 
+                    mod_history_users mu
+                JOIN (
+                    SELECT u.username, u.handle, mh.created, mh.judgement, mh.reason, mh.message, mh.mod_id FROM mod_history mh
+                    JOIN users u ON u.user_id = mh.sender_id
+                ) mh
+                ON mu.mod_id = mh.mod_id
+                JOIN users u ON u.user_id = mu.user_id
+            )
+            ORDER BY created DESC
+            LIMIT 50 OFFSET $offset";
     
     $result = $conn->query($sql);
 
@@ -28,7 +101,6 @@ function getHistory(int $page) {
 
 function getHistoryHTML($page, $clearance) {
     $data = getHistory($page);
-    return $data;
     foreach($data as $row) {
         if($row["type"] == 0) {
             typePostHTML($row);
@@ -48,9 +120,9 @@ function typePostHTML($row) {
     <div class="post-history">
         <span class="datetime-history"><?= $row["datetime"]; ?></span>
         <span class="creator-username">
-            <a href="/user/<?= $row["direct_handle"]; ?>"><?= $row["direct_username"]; ?></a>
+            <a href="/user/<?= $row["sender_handle"]; ?>"><?= $row["sender_username"]; ?></a>
         </span>
-        <span class="content-history"> <?= $row["direct_name"]; ?></span>
+        <span class="content-history"> <?= $row["cont"]; ?></span>
         <span class="sender-username">
             <?= $judgement; ?> by
             <a href="/user/<?= $row["handle"]; ?>"><?= $row["username"]; ?></a>
@@ -70,11 +142,9 @@ function typeThreadHTML($row, $clearance) {
     <div class="thread-history">
         <span class="datetime-history"><?= $row["datetime"]; ?></span>
         <span class="creator-username">
-            <a href="/user/<?= $row["direct_handle"]; ?>"><?= $row["direct_username"]; ?></a>
+            <a href="/user/<?= $row["sender_handle"]; ?>"><?= $row["sender_username"]; ?></a>
         </span>
-        <span class="thread-name">
-            <a href="/thread/<?= $row["direct_slug"]; ?>"><?= $row["direct_name"]; ?></a>
-        </span>
+        <span class="thread-name"><?= $row["cont"] ?></span>
         <span class="sender-username">
             <?= $judgement; ?> by
             <a href="/user/<?= $row["handle"]; ?>"><?= $row["username"]; ?></a>
@@ -93,7 +163,7 @@ function typeUserHTML($row, $clearance) {
     <div class="user-history">
         <span class="datetime-history"><?= $row["datetime"]; ?></span>
         <span class="creator-username">
-            <a href="/user/<?= $row["direct_handle"]; ?>"><?= $row["direct_username"]; ?></a>
+            <a href="/user/<?= $row["sender_handle"]; ?>"><?= $row["sender_username"]; ?></a>
         </span>
         <span class="sender-username">
             <?= $judgement; ?> by
@@ -115,3 +185,126 @@ function judge($i) {
 function reason($i) {
     return ["Spam", "Inappropriate", "Copyright", "Other"][$i];
 }
+
+/* UNCLEAN mysql statement for POSTS MOD HISTORY
+
+SELECT * FROM mod_history_posts mp
+JOIN (
+    SELECT u.username, mh.created, mh.judgement, mh.reason, mh.message, mh.mod_id FROM mod_history mh
+    JOIN users u ON u.user_id = mh.sender_id
+) mh
+ON mp.mod_id = mh.mod_id
+JOIN (
+    SELECT u.username, p.content, p.post_id FROM posts p
+    JOIN users u ON u.user_id = p.user_id
+) p
+ON p.post_id = mp.post_id
+
+*/
+
+/* UNCLEAN mysql statement for THREAD MOD HISTORY
+
+SELECT * FROM mod_history_threads mt
+JOIN (
+    SELECT u.username, mh.created, mh.judgement, mh.reason, mh.message, mh.mod_id FROM mod_history mh
+    JOIN users u ON u.user_id = mh.sender_id
+) mh
+ON mt.mod_id = mh.mod_id
+JOIN (
+    SELECT u.username, t.name, t.id FROM threads t
+    JOIN users u ON u.user_id = t.user_id
+) t
+ON t.id = mt.thread_id
+
+*/
+
+/* UNCLEAN mysql statement for USER MOD HISTORY
+
+SELECT * FROM mod_history_users mu
+JOIN (
+    SELECT u.username, mh.created, mh.judgement, mh.reason, mh.message, mh.mod_id FROM mod_history mh
+    JOIN users u ON u.user_id = mh.sender_id
+) mh
+ON mu.mod_id = mh.mod_id
+JOIN users u ON u.user_id = mu.user_id
+
+*/
+
+/* JOINED with UNION STATEMENTS
+
+(
+    SELECT 
+		mh.username,
+    	mh.handle,
+		mh.created, 
+		mh.judgement, 
+		mh.reason, 
+		mh.message,
+		0 AS type,
+		mp.post_id AS id,
+    	p.content AS cont,
+        p.username AS sender_username,
+    	p.handle AS sender_handle
+	FROM 
+		mod_history_posts mp
+    JOIN (
+        SELECT u.username, u.handle, mh.created, mh.judgement, mh.reason, mh.message, mh.mod_id FROM mod_history mh
+        JOIN users u ON u.user_id = mh.sender_id
+    ) mh
+    ON mp.mod_id = mh.mod_id
+    JOIN (
+        SELECT u.username, u.handle, p.content, p.post_id FROM posts p
+        JOIN users u ON u.user_id = p.user_id
+    ) p
+    ON p.post_id = mp.post_id
+) UNION ALL (
+    SELECT 
+		mh.username, 
+    	mh.handle,
+		mh.created, 
+		mh.judgement, 
+		mh.reason, 
+		mh.message,
+		1 AS type,
+		mt.thread_id AS id,
+    	t.name AS cont,
+    	t.username AS sender_username,
+    	t.handle AS sender_handle
+	FROM 
+		mod_history_threads mt
+    JOIN (
+        SELECT u.username, u.handle, mh.created, mh.judgement, mh.reason, mh.message, mh.mod_id FROM mod_history mh
+        JOIN users u ON u.user_id = mh.sender_id
+    ) mh
+    ON mt.mod_id = mh.mod_id
+    JOIN (
+        SELECT u.username, u.handle, t.name, t.id FROM threads t
+        JOIN users u ON u.user_id = t.user_id
+    ) t
+    ON t.id = mt.thread_id
+) UNION ALL (
+    SELECT 
+		mh.username, 
+    	mh.handle,
+		mh.created, 
+		mh.judgement, 
+		mh.reason, 
+		mh.message,
+		2 AS type,
+		mu.user_id AS id,
+    	u.username AS cont,
+    	u.username AS sender_username,
+    	u.handle AS sender_handle
+	FROM 
+		mod_history_users mu
+    JOIN (
+        SELECT u.username, u.handle, mh.created, mh.judgement, mh.reason, mh.message, mh.mod_id FROM mod_history mh
+        JOIN users u ON u.user_id = mh.sender_id
+    ) mh
+    ON mu.mod_id = mh.mod_id
+    JOIN users u ON u.user_id = mu.user_id
+)
+ORDER BY created DESC
+LIMIT 50 OFFSET 0
+
+*/
