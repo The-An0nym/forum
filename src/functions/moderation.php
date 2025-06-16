@@ -26,3 +26,28 @@ function createHistory($conn, int $type, int $judgement, $id, $sender_id, int $r
         echo "ERROR M1";
     }
 }
+
+function createReport($conn, int $type, $id, $user_id, int $reason, string $message) {
+    if($type === 0) {
+        $sql = "SELECT * FROM mod_history_posts mp
+                JOIN mod_history mh ON mh.mod_id = mp.mod_id
+                WHERE mp.post_id = '$id' AND mh.sender_id = '$user_id'";
+    } else if($type === 1) {
+        $sql = "SELECT * FROM mod_history_threads mt
+                JOIN mod_history mh ON mh.mod_id = mt.mod_id
+                WHERE mt.id = '$id' AND mh.sender_id = '$user_id'";
+    } else if($type === 2) {
+        $sql = "SELECT * FROM mod_history_users mu
+                JOIN mod_history mh ON mh.mod_id = mu.mod_id
+                WHERE mu.user_id = '$id' AND mh.sender_id = '$user_id'";
+    } else {
+        return;
+    }
+
+    $result = $conn->query($sql);
+    if($result->num_rows === 0) {
+        createHistory($conn, $type, 0, $id, $user_id, $reason, $message);
+    } else {
+        echo "You have already reported this item";
+    }
+}

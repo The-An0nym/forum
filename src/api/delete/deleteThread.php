@@ -85,7 +85,7 @@ if(include($path . "/functions/validateSession.php")) {
                 }
 
                 // Push onto history
-                createHistory($conn, 1, 0, $id, $user_id, $reason, $message);
+                createHistory($conn, 1, 1, $id, $user_id, $reason, $message);
                 
                 // (Soft) delete thread
                 $dtime = date('Y-m-d H:i:s');

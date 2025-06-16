@@ -118,7 +118,7 @@ function typePostHTML($row) {
 
     ?>
     <div class="post-history">
-        <span class="datetime-history"><?= $row["datetime"]; ?></span>
+        <span class="datetime-history"><?= $row["created"]; ?></span>
         <span class="creator-username">
             <a href="/user/<?= $row["sender_handle"]; ?>"><?= $row["sender_username"]; ?></a>
         </span>
@@ -140,7 +140,7 @@ function typeThreadHTML($row, $clearance) {
 
     ?>
     <div class="thread-history">
-        <span class="datetime-history"><?= $row["datetime"]; ?></span>
+        <span class="datetime-history"><?= $row["created"]; ?></span>
         <span class="creator-username">
             <a href="/user/<?= $row["sender_handle"]; ?>"><?= $row["sender_username"]; ?></a>
         </span>
@@ -161,10 +161,11 @@ function typeUserHTML($row, $clearance) {
     $reason = reason($row["reason"]);
     ?>
     <div class="user-history">
-        <span class="datetime-history"><?= $row["datetime"]; ?></span>
+        <span class="datetime-history"><?= $row["created"]; ?></span>
         <span class="creator-username">
             <a href="/user/<?= $row["sender_handle"]; ?>"><?= $row["sender_username"]; ?></a>
         </span>
+        <span class="culprit-username"><?= $row["cont"]; ?></span>
         <span class="sender-username">
             <?= $judgement; ?> by
             <a href="/user/<?= $row["handle"]; ?>"><?= $row["username"]; ?></a>
@@ -179,7 +180,7 @@ function typeUserHTML($row, $clearance) {
 }
 
 function judge($i) {
-    return ["deleted", "restored", "demoted", "promoted"][$i];
+    return ["reported", "deleted", "restored", "demoted", "promoted"][$i];
 }
 
 function reason($i) {

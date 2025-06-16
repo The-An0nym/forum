@@ -1,6 +1,7 @@
 <?php
 $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
+include $path . '/functions/moderation.php' ;
 
 // Get connection
 $conn = getConn();
@@ -33,19 +34,8 @@ if(include($path . "/functions/validateSession.php")) {
         $user_id = $_SESSION['user_id'];
 
         // Check if already reported
-        $sql = "SELECT sender_id FROM reports WHERE sender_id = '$user_id' AND type = $type AND id = '$id'";
-        $result = $conn->query($sql);
-        if($result->num_rows === 0) {
-            // Report
-            $sql = "INSERT INTO reports (type, id, sender_id, reason, message)
-            VALUES ($type, '$id', '$user_id', $reason, '$message')";
-            if ($conn->query($sql) === FALSE) {
-                echo "ERROR: Please try again later [R0]";
-            }
-        } else {
-            echo "You have already reported this post";
-
-        }
+        createReport($conn, $type, $id, $user_id, $reason, $message);
+        
     } else {
         echo "An error has occured R1";
     }

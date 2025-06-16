@@ -75,7 +75,7 @@ if(include($path . "/functions/validateSession.php")) {
                 if($post_user_id !== $user_id) {
                     $type = 2;
                     // Push onto history
-                    createHistory($conn, 0, 0, $id, $user_id, $reason, $message);
+                    createHistory($conn, 0, 1, $id, $user_id, $reason, $message);
                 }
 
                 // (Soft) delete post

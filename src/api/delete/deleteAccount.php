@@ -63,7 +63,7 @@ if(include($path . "/functions/validateSession.php")) {
                 $type = 1; // Self-deleted
                 if($id !== $user_id) {
                     // Push onto history
-                    createHistory($conn, 2, 0, $id, $user_id, $reason, $message);
+                    createHistory($conn, 2, 1, $id, $user_id, $reason, $message);
                     $type = 4; // Banned
                 }
 
