@@ -11,13 +11,15 @@
   margin: 1%;
 }
 
-#moderation-history {
+#moderation-history,
+#report-history {
   display: flex;
   flex-direction: column;
   font-size: 0.7em;
 }
 
-#moderation-history > div {
+#moderation-history > div,
+#report-history > div {
   border-bottom: 1px solid black;
   padding-bottom: 2px;
   margin-bottom: 2px;

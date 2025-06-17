@@ -99,13 +99,15 @@ function getHistory(bool $reports, int $page) {
     $offset = $page * 50;
 
     $sql = "(
-                ". getHistoryPosts() ."
+                ". getHistoryPosts($judgement) . "
+                WHERE mh.judgement < $judgement 
             ) UNION ALL (
-                ". getHistoryThreads() ."
+                ". getHistoryThreads($judgement) ."
+                WHERE mh.judgement < $judgement 
             ) UNION ALL (
-                ". getHistoryUsers() ."
+                ". getHistoryUsers($judgement) ."
+                WHERE mh.judgement < $judgement 
             )
-            WHERE judgement < $judgement
             ORDER BY created DESC
             LIMIT 50 OFFSET $offset";
     
