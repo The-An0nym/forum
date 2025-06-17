@@ -58,7 +58,8 @@ Report types
 - [ ] Change initial load (php) and subsequent loads (js) to match each other. (and maybe rethink system)
 - [ ] Change the /functions/require/posts.php to match the /function/require/threads.php and adjust accordingly in thread.php and api/getThreads.php
 - [ ] Make login or sign-up pop-up hide when sign-up/login is pressed respectively
-- [ ] Rework moderation history
+- [ ] Rethink moderation history UI
+- [ ] DO NOT delete threads upon account deletion (except if this option is explicitly selected -> FOR MODS ONLY)
 
 - [ ] Add ToS, Privacy Policy and cookies warning
 - [ ] Adress, full legal name, etc. (pattern)

@@ -125,7 +125,12 @@ include $path . '/profile/generateHTML.php' ;
                 // MODERATION
                 if($clearance > 0) {
                     echo '<div id="moderation-history">';
-                    getHistoryHTML(0, $clearance);
+                    getHistoryHTML(false, 0, $clearance);
+                    echo '</div>';
+                }
+                if($clearance > 0) {
+                    echo '<div id="reports-history">';
+                    getHistoryHTML(true, 0, $clearance);
                     echo '</div>';
                 }
                 ?>
