@@ -77,7 +77,7 @@ function getHistoryUsers() {
             JOIN users u ON u.user_id = mu.user_id";
 }
 
-function getHistory(bool $reports, int $page) {
+function getHistory(bool $reports, int $page, int $clearance) {
     $path = $_SERVER['DOCUMENT_ROOT'];
 
     if($reports) {
@@ -98,16 +98,35 @@ function getHistory(bool $reports, int $page) {
 
     $offset = $page * 50;
 
-    $sql = "(
-                ". getHistoryPosts($judgement) . "
-                WHERE mh.judgement < $judgement 
-            ) UNION ALL (
-                ". getHistoryThreads($judgement) ."
-                WHERE mh.judgement < $judgement 
-            ) UNION ALL (
-                ". getHistoryUsers($judgement) ."
-                WHERE mh.judgement < $judgement 
-            )
+    $sql = "(\n";
+
+    if(!$report) {
+        $sql .= "(
+            ". getHistoryPosts($judgement) . "
+            WHERE mh.judgement < $judgement 
+        ) UNION ALL (
+            ". getHistoryThreads($judgement) ."
+            WHERE mh.judgement < $judgement 
+        ) UNION ALL (
+            ". getHistoryUsers($judgement) ."
+            WHERE mh.judgement < $judgement 
+        )";
+    } else {
+        $sql .= getHistoryPosts($judgement) . "
+            WHERE mh.judgement < $judgement \n";
+        if($clearance > 1) {
+            $sql .= ") UNION ALL (
+            ". getHistoryThreads($judgement) ."
+            WHERE mh.judgement < $judgement \n";
+        }
+        if($clearance > 2) {
+            $sql .= ") UNION ALL (
+            ". getHistoryUsers($judgement) ."
+            WHERE mh.judgement < $judgement \n";
+        }
+    }
+
+    $sql .= ")
             ORDER BY created DESC
             LIMIT 50 OFFSET $offset";
     
@@ -121,7 +140,7 @@ function getHistory(bool $reports, int $page) {
 }
 
 function getHistoryHTML(bool $report, int $page, int $clearance) {
-    $data = getHistory($report, $page);
+    $data = getHistory($report, $page, $clearance);
     foreach($data as $row) {
         if($row["type"] == 0) {
             typePostHTML($row);
@@ -150,7 +169,13 @@ function typePostHTML($row) {
         </span>
         <span class="reason-history"> <?= $reason; ?></span>
         <span class="message-history"> <?= $row["message"]; ?></span>
-        <?php if($row["judgement"] !== 0) { echo '<button class="undo-history">Undo</span>';} ?>
+        <?php if($row["judgement"] > 1) { 
+            echo '<button class="undo-history">Undo</span>';
+        } else if($row["judgement"] === 0) {
+            echo '<button class="undo-history">Mark read</span>';
+        } else if($row["judgement"] === 1) {
+            echo '<button class="undo-history">Mark unread</span>';
+        } ?>
     </div>
 <?php
 }
@@ -172,7 +197,16 @@ function typeThreadHTML($row, $clearance) {
         </span>
         <span class="reason-history"> <?= $reason; ?></span>
         <span class="message-history"> <?= $row["message"]; ?></span>
-        <?php if($clearance > 1 && $row["judgement"] !== 0) { echo '<button class="undo-history">Undo</span>';} ?>
+        <?php if($clearance > 1) {
+            if($row["judgement"] > 1) { 
+                echo '<button class="undo-history">Undo</span>';
+            } else if($row["judgement"] === 0) {
+                echo '<button class="undo-history">Mark read</span>';
+            }  if($row["judgement"] === 1) {
+                echo '<button class="undo-history">Mark unread</span>';
+            }
+        }
+        ?>
     </div>
 <?php
 }
@@ -193,15 +227,21 @@ function typeUserHTML($row, $clearance) {
         </span>
         <span class="reason-history"> <?= $reason; ?></span>
         <span class="message-history"> <?= $row["message"]; ?></span>
-        <?php if((($clearance > 2 && $row["judgement"] < 3) || $clearance > 3) && $row["judgement"] !== 0) { 
-            echo '<button class="undo-history">Undo</span>';
+        <?php if((($clearance > 2 && $row["judgement"] < 3) || $clearance > 3)) { 
+            if($row["judgement"] > 1) { 
+                echo '<button class="undo-history">Undo</span>';
+            } else if($row["judgement"] === 0) {
+                echo '<button class="undo-history">Mark read</span>';
+            }  if($row["judgement"] === 1) {
+                echo '<button class="undo-history">Mark unread</span>';
+            }
         } ?>
     </div>
 <?php
 }
 
 function judge($i) {
-    return ["reported", "deleted", "restored", "demoted", "promoted"][$i];
+    return ["reported", "reported", "deleted", "restored", "demoted", "promoted"][$i];
 }
 
 function reason($i) {
