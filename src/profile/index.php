@@ -123,17 +123,17 @@ include $path . '/profile/generateHTML.php' ;
         </div>
                 <?php
                 // MODERATION
-                Moderation History
                 if($clearance > 0) {
+                    echo "Moderation History";
                     echo '<div id="moderation-history">';
                     getHistoryHTML(false, 0, $clearance);
                     echo '</div>';
-                }
-                Report History
-                if($clearance > 0) {
-                    echo '<div id="reports-history">';
+                    
+                    echo "Report History";
+                    echo '<div id="report-history">';
                     getHistoryHTML(true, 0, $clearance);
                     echo '</div>';
+                    echo '<script src="/scripts/moderation.js"></script>'
                 }
                 ?>
     </div>

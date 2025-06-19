@@ -2,6 +2,7 @@
 
 function getHistoryPosts() {
     return "SELECT 
+                mu.mod_id,
                 mh.username,
                 mh.handle,
                 mh.created, 
@@ -29,6 +30,7 @@ function getHistoryPosts() {
 
 function getHistoryThreads() {
     return "SELECT 
+                mu.mod_id,
                 mh.username, 
                 mh.handle,
                 mh.created, 
@@ -56,6 +58,7 @@ function getHistoryThreads() {
 
 function getHistoryUsers() {
     return "SELECT 
+                mu.mod_id,
                 mh.username, 
                 mh.handle,
                 mh.created, 
@@ -100,7 +103,7 @@ function getHistory(bool $reports, int $page, int $clearance) {
 
     $sql = "(\n";
 
-    if(!$report) {
+    if(!$reports) {
         $sql .= "(
             ". getHistoryPosts($judgement) . "
             WHERE mh.judgement < $judgement 
@@ -171,10 +174,10 @@ function typePostHTML($row) {
         <span class="message-history"> <?= $row["message"]; ?></span>
         <?php if($row["judgement"] > 1) { 
             echo '<button class="undo-history">Undo</span>';
-        } else if($row["judgement"] === 0) {
-            echo '<button class="undo-history">Mark read</span>';
-        } else if($row["judgement"] === 1) {
-            echo '<button class="undo-history">Mark unread</span>';
+        } else if($row["judgement"] == 0) {
+            buttonMarkRead($row["mod_id"]);
+        } else if($row["judgement"] == 1) {
+            buttonMarkUnread($row["mod_id"]);
         } ?>
     </div>
 <?php
@@ -200,10 +203,10 @@ function typeThreadHTML($row, $clearance) {
         <?php if($clearance > 1) {
             if($row["judgement"] > 1) { 
                 echo '<button class="undo-history">Undo</span>';
-            } else if($row["judgement"] === 0) {
-                echo '<button class="undo-history">Mark read</span>';
-            }  if($row["judgement"] === 1) {
-                echo '<button class="undo-history">Mark unread</span>';
+            } else if($row["judgement"] == 0) {
+                buttonMarkRead($row["mod_id"]);
+            } else if($row["judgement"] == 1) {
+                buttonMarkUnread($row["mod_id"]);
             }
         }
         ?>
@@ -230,10 +233,10 @@ function typeUserHTML($row, $clearance) {
         <?php if((($clearance > 2 && $row["judgement"] < 3) || $clearance > 3)) { 
             if($row["judgement"] > 1) { 
                 echo '<button class="undo-history">Undo</span>';
-            } else if($row["judgement"] === 0) {
-                echo '<button class="undo-history">Mark read</span>';
-            }  if($row["judgement"] === 1) {
-                echo '<button class="undo-history">Mark unread</span>';
+            } else if($row["judgement"] == 0) {
+                buttonMarkRead($row["mod_id"]);
+            } else if($row["judgement"] == 1) {
+                buttonMarkUnread($row["mod_id"]);
             }
         } ?>
     </div>
@@ -246,6 +249,14 @@ function judge($i) {
 
 function reason($i) {
     return ["Spam", "Inappropriate", "Copyright", "Other"][$i];
+}
+
+function buttonMarkRead($id) {
+    echo '<button onclick="markReportRead(\'' . $id . '\')">Mark read</button>';
+}
+
+function buttonMarkUnread($id) {
+    echo '<button onclick="markReportUnread(\'' . $id . '\')">Mark unread</button>';
 }
 
 /* UNCLEAN mysql statement for POSTS MOD HISTORY
