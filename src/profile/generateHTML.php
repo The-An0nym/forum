@@ -252,11 +252,11 @@ function reason($i) {
 }
 
 function buttonMarkRead($id) {
-    echo '<button onclick="markReportRead(\'' . $id . '\')">Mark read</button>';
+    echo '<button onclick="markReport(1, \'' . $id . '\')">Mark read</button>';
 }
 
 function buttonMarkUnread($id) {
-    echo '<button onclick="markReportUnread(\'' . $id . '\')">Mark unread</button>';
+    echo '<button onclick="markReport(0, \'' . $id . '\')">Mark unread</button>';
 }
 
 /* UNCLEAN mysql statement for POSTS MOD HISTORY

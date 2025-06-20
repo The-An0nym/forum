@@ -1,14 +1,27 @@
 async function getModerationHistory(page) {
-  // Fetch
-  console.log(page);
+  const response = await fetch("/api/moderation/getHistory.php");
+  const result = await response.text();
+
+  if (/\S/.test(result)) {
+    errorMessage(result);
+  } else {
+    // To do... (parse data)
+    console.log(result);
+  }
 }
 
-async function markReportRead(id) {
-  // Fetch
-  console.log(id);
-}
+async function markReport(as, id) {
+  if (as === undefined || isNaN(as) || id === undefined) return;
 
-async function markReportUnread(id) {
-  // Fetch
-  console.log(id);
+  const response = await fetch(
+    `/api/moderation/markReport.php?r=${as}&i=${id}`
+  );
+  const result = await response.text();
+
+  if (/\S/.test(result)) {
+    errorMessage(result);
+  } else {
+    // To do... (refresh reports)
+    console.log(result);
+  }
 }

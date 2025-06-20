@@ -59,6 +59,7 @@ Report types
 - [ ] Change the /functions/require/posts.php to match the /function/require/threads.php and adjust accordingly in thread.php and api/getThreads.php
 - [ ] Make login or sign-up pop-up hide when sign-up/login is pressed respectively
 - [ ] Rethink moderation history UI
+- [ ] RETHINK moderation system...
 - [ ] DO NOT delete threads upon account deletion (except if this option is explicitly selected -> FOR MODS ONLY)
 
 - [ ] Add ToS, Privacy Policy and cookies warning
