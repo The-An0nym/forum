@@ -133,7 +133,7 @@ include $path . '/profile/generateHTML.php' ;
                     echo '<div id="report-history">';
                     getHistoryHTML(true, 0, $clearance);
                     echo '</div>';
-                    echo '<script src="/scripts/moderation.js"></script>'
+                    echo '<script src="/scripts/moderation.js"></script>';
                 }
                 ?>
     </div>

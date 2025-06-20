@@ -2,7 +2,7 @@
 
 function getHistoryPosts() {
     return "SELECT 
-                mu.mod_id,
+                mh.mod_id,
                 mh.username,
                 mh.handle,
                 mh.created, 
@@ -30,7 +30,7 @@ function getHistoryPosts() {
 
 function getHistoryThreads() {
     return "SELECT 
-                mu.mod_id,
+                mh.mod_id,
                 mh.username, 
                 mh.handle,
                 mh.created, 
@@ -58,7 +58,7 @@ function getHistoryThreads() {
 
 function getHistoryUsers() {
     return "SELECT 
-                mu.mod_id,
+                mh.mod_id,
                 mh.username, 
                 mh.handle,
                 mh.created, 
@@ -83,12 +83,6 @@ function getHistoryUsers() {
 function getHistory(bool $reports, int $page, int $clearance) {
     $path = $_SERVER['DOCUMENT_ROOT'];
 
-    if($reports) {
-        $judgement = 1;
-    } else {
-        $judgement = 6;
-    }
-
     include $path . '/functions/.connect.php' ;
 
     // Get connection
@@ -105,27 +99,27 @@ function getHistory(bool $reports, int $page, int $clearance) {
 
     if(!$reports) {
         $sql .= "(
-            ". getHistoryPosts($judgement) . "
-            WHERE mh.judgement < $judgement 
+            ". getHistoryPosts() . "
+            WHERE mh.judgement >= 2
         ) UNION ALL (
-            ". getHistoryThreads($judgement) ."
-            WHERE mh.judgement < $judgement 
+            ". getHistoryThreads() ."
+            WHERE mh.judgement >= 2
         ) UNION ALL (
-            ". getHistoryUsers($judgement) ."
-            WHERE mh.judgement < $judgement 
+            ". getHistoryUsers() ."
+            WHERE mh.judgement >= 2
         )";
     } else {
-        $sql .= getHistoryPosts($judgement) . "
-            WHERE mh.judgement < $judgement \n";
+        $sql .= getHistoryPosts() . "
+            WHERE mh.judgement < 2 \n";
         if($clearance > 1) {
             $sql .= ") UNION ALL (
-            ". getHistoryThreads($judgement) ."
-            WHERE mh.judgement < $judgement \n";
+            ". getHistoryThreads() ."
+            WHERE mh.judgement < 2 \n";
         }
         if($clearance > 2) {
             $sql .= ") UNION ALL (
-            ". getHistoryUsers($judgement) ."
-            WHERE mh.judgement < $judgement \n";
+            ". getHistoryUsers() ."
+            WHERE mh.judgement < 2 \n";
         }
     }
 
@@ -159,8 +153,13 @@ function typePostHTML($row) {
     $judgement = judge($row["judgement"]);
     $reason = reason($row["reason"]);
 
+    $read = "";
+    if($judgement == 1) {
+        $read = " read";
+    }
+
     ?>
-    <div class="post-history">
+    <div class="post-history <?= $read; ?>">
         <span class="datetime-history"><?= $row["created"]; ?></span>
         <span class="creator-username">
             <a href="/user/<?= $row["sender_handle"]; ?>"><?= $row["sender_username"]; ?></a>
@@ -187,8 +186,13 @@ function typeThreadHTML($row, $clearance) {
     $judgement = judge($row["judgement"]);
     $reason = reason($row["reason"]);
 
+    $read = "";
+    if($judgement == 1) {
+        $read = " read";
+    }
+
     ?>
-    <div class="thread-history">
+    <div class="thread-history <?= $read; ?>">
         <span class="datetime-history"><?= $row["created"]; ?></span>
         <span class="creator-username">
             <a href="/user/<?= $row["sender_handle"]; ?>"><?= $row["sender_username"]; ?></a>
@@ -217,8 +221,14 @@ function typeThreadHTML($row, $clearance) {
 function typeUserHTML($row, $clearance) {
     $judgement = judge($row["judgement"]);
     $reason = reason($row["reason"]);
+
+    $read = "";
+    if($judgement == 1) {
+        $read = " read";
+    }
+
     ?>
-    <div class="user-history">
+    <div class="user-history <?= $read; ?>">
         <span class="datetime-history"><?= $row["created"]; ?></span>
         <span class="creator-username">
             <a href="/user/<?= $row["sender_handle"]; ?>"><?= $row["sender_username"]; ?></a>

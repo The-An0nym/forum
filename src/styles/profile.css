@@ -36,3 +36,7 @@
 .sender-username {
   font-weight: 600;
 }
+
+.read {
+  background-color: #ddd;
+}
