@@ -15,8 +15,7 @@ if(!session_id()) {
 }
 
 include $path . "/basic/menu.php";
-include $path . '/profile/generateHTML.php' ;
-
+include $path . '/functions/require/moderationHistory.php' ;
 
 ?>
 <!DOCTYPE html>
