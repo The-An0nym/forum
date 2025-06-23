@@ -40,39 +40,21 @@ if(include($path . "/functions/validateSession.php")) {
 
         $clearance = (int)$result->fetch_assoc()["clearance"];
 
-        if($clearance === 1) {
-            $sql = "SELECT mp.mod_id AS post FROM mod_history mh
-                    LEFT JOIN mod_history_posts mp ON mp.mod_id = mh.mod_id
-                    WHERE mh.mod_id = '$id' LIMIT 1";
-        } else if($clearance === 2) {
-            $sql = "SELECT mp.mod_id AS post, mt.mod_id AS thread FROM mod_history mh
-                    LEFT JOIN mod_history_posts mp ON mp.mod_id = mh.mod_id
-                    LEFT JOIN mod_history_threads mt ON mt.mod_id = mh.mod_id
-                    WHERE mh.mod_id = '$id' LIMIT 1";
-        } else if($clearance > 2) {
-            $sql = "SELECT mp.mod_id AS post, mt.mod_id AS thread, mu.mod_id AS user FROM mod_history mh
-                    LEFT JOIN mod_history_posts mp ON mp.mod_id = mh.mod_id
-                    LEFT JOIN mod_history_threads mt ON mt.mod_id = mh.mod_id
-                    LEFT JOIN mod_history_users mu ON mu.mod_id = mh.mod_id
-                    WHERE mh.mod_id = '$id' LIMIT 1";
-        }
-        
-        $result = $conn->query($sql);
+        $sql = "SELECT type FROM mod_history WHERE mod_id = '$id' LIMIT 1";
 
-        if($result->num_rows !== 1) {
-            echo "An error has occured MR1";
+        $result = $conn->query($sql);
+        $type = (int)$result->fetch_assoc()["type"];
+
+        if($type >= $clearance) {
+            "Insufficient authorization";
             die();
         }
 
-        $row = $result->fetch_assoc();
-
-        if(isset($row["post"]) || isset($row["thread"]) || isset($row["user"])) {
-            // Update
-            $sql = "UPDATE mod_history SET judgement = $as WHERE mod_id = '$id'";
-            if ($conn->query($sql) === FALSE) {
-                echo "An error has occured [MR2]";
-            } 
-        }    
+        // Update
+        $sql = "UPDATE mod_history SET judgement = $as WHERE mod_id = '$id'";
+        if ($conn->query($sql) === FALSE) {
+            echo "An error has occured [MR2]";
+        }   
         
     } else {
         echo "An error has occured MR3";

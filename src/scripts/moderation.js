@@ -5,18 +5,16 @@ async function getModerationHistory(page = 0, reports = false) {
     ? document.getElementById("report-history")
     : document.getElementById("moderation-history");
 
-  let url = `/api/moderation/getHistory.php?p=${page}`;
+  let url = `/api/moderation/getModerationHistory.php?p=${page}`;
   if (reports) url += "&r=1";
-  const response = await fetch(
-    `/api/moderation/getModerationHistory.php?p=${page}`
-  );
-  const text = response.text(); // For error handling
+  const response = await fetch(url);
+  const text = await response.text(); // For error handling
 
   // Naive test
-  if (text[0] === "<div") {
-    target.innerHTML(text);
-  } else if (/\S/.test(msg)) {
-    errorMessage(msg);
+  if (text[0] === "<") {
+    target.innerHTML = text;
+  } else if (/\S/.test(text)) {
+    errorMessage(text);
   }
 }
 
@@ -43,7 +41,6 @@ async function showContent(type, id) {
     display = await getThreadSlug(id);
     // Send user to that page?
   }
-  console.log(display);
 }
 
 async function getPostContent(id) {

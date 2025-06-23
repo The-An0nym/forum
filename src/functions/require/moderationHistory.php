@@ -105,9 +105,8 @@ function generateButton($mod_id, $culp_id, int $clearance, int $culp_clearance, 
 
     $user_id = $_SESSION["user_id"];
 
-    if($culp_id === $user_id) {
-        $button .= "disabled>undo";
-    } else if($judgement < 2) {
+    
+    if($judgement < 2) {
         $button .= 'onclick="markReport(';
         if($judgement === 0) {
             $button .= "1, '$mod_id')\">Mark read";
@@ -115,7 +114,9 @@ function generateButton($mod_id, $culp_id, int $clearance, int $culp_clearance, 
             $button .= "0, '$mod_id')\">Mark unread";
         }
     } else {
-        if($type === 0 || ($type === 1 && $clearance > 1)) {
+        if($culp_id === $user_id) {
+            $button .= "disabled>undo";
+        } else if($type === 0 || ($type === 1 && $clearance > 1)) {
             $button .= ">undo";
         } else if($type === 2) {
             // Deleted or restored

@@ -24,7 +24,7 @@ if(include($path . "/functions/validateSession.php")) {
     $report = false;
     if(isset($_GET["r"])) {
         if($_GET["r"] === "1") {
-            $reports = true;
+            $report = true;
         }
     }
 
@@ -46,7 +46,7 @@ if(include($path . "/functions/validateSession.php")) {
     }
 
     $data = getHistoryHTML($report, $page, $clearance);
-    echo $data;
+    echo trim($data);
 } else {
     echo "Please login";
 }
