@@ -25,3 +25,23 @@ async function markReport(as, id) {
     console.log(result);
   }
 }
+
+async function showContent(type, id) {
+  let display = "";
+  if (type === 0) {
+    display = await getPostContent(id);
+  } else if (type === 1) {
+    display = await getThreadSlug(id);
+  }
+  console.log(display);
+}
+
+async function getPostContent(id) {
+  const response = await fetch(`/api/moderation/getPostCont?i=${id}`);
+  return response.text();
+}
+
+async function getThreadSlug(id) {
+  const response = await fetch(`/api/moderation/getThreadSlug?i=${id}`);
+  return response.text();
+}

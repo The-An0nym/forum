@@ -1,85 +1,5 @@
 <?php
 
-function getHistoryPosts() {
-    return "SELECT 
-                mh.mod_id,
-                mh.username,
-                mh.handle,
-                mh.created, 
-                mh.judgement, 
-                mh.reason, 
-                mh.message,
-                0 AS type,
-                mp.post_id AS id,
-                p.content AS cont,
-                p.username AS sender_username,
-                p.handle AS sender_handle
-            FROM 
-                mod_history_posts mp
-            JOIN (
-                SELECT u.username, u.handle, mh.created, mh.judgement, mh.reason, mh.message, mh.mod_id FROM mod_history mh
-                JOIN users u ON u.user_id = mh.sender_id
-            ) mh
-            ON mp.mod_id = mh.mod_id
-            JOIN (
-                SELECT u.username, u.handle, p.content, p.post_id FROM posts p
-                JOIN users u ON u.user_id = p.user_id
-            ) p
-            ON p.post_id = mp.post_id";
-}
-
-function getHistoryThreads() {
-    return "SELECT 
-                mh.mod_id,
-                mh.username, 
-                mh.handle,
-                mh.created, 
-                mh.judgement, 
-                mh.reason, 
-                mh.message,
-                1 AS type,
-                mt.thread_id AS id,
-                t.name AS cont,
-                t.username AS sender_username,
-                t.handle AS sender_handle
-            FROM 
-                mod_history_threads mt
-            JOIN (
-                SELECT u.username, u.handle, mh.created, mh.judgement, mh.reason, mh.message, mh.mod_id FROM mod_history mh
-                JOIN users u ON u.user_id = mh.sender_id
-            ) mh
-            ON mt.mod_id = mh.mod_id
-            JOIN (
-                SELECT u.username, u.handle, t.name, t.id FROM threads t
-                JOIN users u ON u.user_id = t.user_id
-            ) t
-            ON t.id = mt.thread_id";
-}
-
-function getHistoryUsers() {
-    return "SELECT 
-                mh.mod_id,
-                mh.username, 
-                mh.handle,
-                mh.created, 
-                mh.judgement, 
-                mh.reason, 
-                mh.message,
-                2 AS type,
-                mu.user_id AS id,
-                u.username AS cont,
-                u.username AS sender_username,
-                u.handle AS sender_handle
-            FROM 
-                mod_history_users mu
-            JOIN (
-                SELECT u.username, u.handle, mh.created, mh.judgement, mh.reason, mh.message, mh.mod_id FROM mod_history mh
-                JOIN users u ON u.user_id = mh.sender_id
-            ) mh
-            ON mu.mod_id = mh.mod_id
-            JOIN users u ON u.user_id = mu.user_id";
-}
-
 function getHistory(bool $reports, int $page, int $clearance) {
     $path = $_SERVER['DOCUMENT_ROOT'];
 
@@ -95,36 +15,30 @@ function getHistory(bool $reports, int $page, int $clearance) {
 
     $offset = $page * 50;
 
-    $sql = "(\n";
+    $sql = "SELECT 
+                s.username AS sender_username,
+                s.handle AS sender_handle,
+                c.username AS culp_username,
+                c.handle AS culp_handle,
+                mh.id,
+                mh.type,
+                mh.judgement,
+                mh.summary,
+                mh.reason,
+                mh.message,
+                mh.created
+            FROM mod_history mh
+            JOIN users s ON s.user_id = mh.sender_id
+            JOIN users c ON c.user_id = mh.culp_id";
 
-    if(!$reports) {
-        $sql .= "(
-            ". getHistoryPosts() . "
-            WHERE mh.judgement >= 2
-        ) UNION ALL (
-            ". getHistoryThreads() ."
-            WHERE mh.judgement >= 2
-        ) UNION ALL (
-            ". getHistoryUsers() ."
-            WHERE mh.judgement >= 2
-        )";
+    if($report) {
+        $sql .= "WHERE mh.judgement < 2";
     } else {
-        $sql .= getHistoryPosts() . "
-            WHERE mh.judgement < 2 \n";
-        if($clearance > 1) {
-            $sql .= ") UNION ALL (
-            ". getHistoryThreads() ."
-            WHERE mh.judgement < 2 \n";
-        }
-        if($clearance > 2) {
-            $sql .= ") UNION ALL (
-            ". getHistoryUsers() ."
-            WHERE mh.judgement < 2 \n";
-        }
+        $sql .= "WHERE mh.judgement > 1";
     }
 
-    $sql .= ")
-            ORDER BY created DESC
+    $sql .= "WHERE mh.judgement > 1
+            ORDER BY mh.created DESC
             LIMIT 50 OFFSET $offset";
     
     $result = $conn->query($sql);
@@ -139,118 +53,45 @@ function getHistory(bool $reports, int $page, int $clearance) {
 function getHistoryHTML(bool $report, int $page, int $clearance) {
     $data = getHistory($report, $page, $clearance);
     foreach($data as $row) {
-        if($row["type"] == 0) {
-            typePostHTML($row);
-        } else if($row["type"] == 1) {
-            typeThreadHTML($row, $clearance);
-        } else if($row["type"] == 2) {
-            typeUserHTML($row, $clearance);
-        }
+        generateHTML($row, $clearance)
     }
 }
 
-function typePostHTML($row) {
+function generateHTML($row, $clearance) {
+    if($row["type"] == 0) {
+        $type = "post";
+    } else if($row["type"] == 1) {
+        $type = "thread";
+    } else if($row["type"] == 2) {
+        $type = "user";
+    }
+
     $judgement = judge($row["judgement"]);
     $reason = reason($row["reason"]);
 
+    // For reports
     $read = "";
     if($judgement == 1) {
         $read = " read";
     }
 
     ?>
-    <div class="post-history <?= $read; ?>">
+    <div class="history <?= $type; ?> <?= $read; ?>">
         <span class="datetime-history"><?= $row["created"]; ?></span>
         <span class="creator-username">
             <a href="/user/<?= $row["sender_handle"]; ?>"><?= $row["sender_username"]; ?></a>
+            <?= $judgement; ?>
+            <a href="/user/<?= $row["culp_handle"]; ?>"><?= $row["culp_username"]; ?></a>'s
+            <?= $type; ?>
         </span>
-        <span class="content-history"> <?= $row["cont"]; ?></span>
-        <span class="sender-username">
-            <?= $judgement; ?> by
-            <a href="/user/<?= $row["handle"]; ?>"><?= $row["username"]; ?></a>
-        </span>
-        <span class="reason-history"> <?= $reason; ?></span>
-        <span class="message-history"> <?= $row["message"]; ?></span>
-        <?php if($row["judgement"] > 1) { 
-            echo '<button class="undo-history">Undo</span>';
-        } else if($row["judgement"] == 0) {
-            buttonMarkRead($row["mod_id"]);
-        } else if($row["judgement"] == 1) {
-            buttonMarkUnread($row["mod_id"]);
-        } ?>
-    </div>
-<?php
-}
-
-function typeThreadHTML($row, $clearance) {
-    $judgement = judge($row["judgement"]);
-    $reason = reason($row["reason"]);
-
-    $read = "";
-    if($judgement == 1) {
-        $read = " read";
-    }
-
-    ?>
-    <div class="thread-history <?= $read; ?>">
-        <span class="datetime-history"><?= $row["created"]; ?></span>
-        <span class="creator-username">
-            <a href="/user/<?= $row["sender_handle"]; ?>"><?= $row["sender_username"]; ?></a>
-        </span>
-        <span class="thread-name"><?= $row["cont"] ?></span>
-        <span class="sender-username">
-            <?= $judgement; ?> by
-            <a href="/user/<?= $row["handle"]; ?>"><?= $row["username"]; ?></a>
+        <span class="history-summary" onclick="showContent(<?= $row['type']; ?>, '<?= $row['id']; ?>')"> 
+            <?= $row["summary"]; ?>
         </span>
         <span class="reason-history"> <?= $reason; ?></span>
         <span class="message-history"> <?= $row["message"]; ?></span>
-        <?php if($clearance > 1) {
-            if($row["judgement"] > 1) { 
-                echo '<button class="undo-history">Undo</span>';
-            } else if($row["judgement"] == 0) {
-                buttonMarkRead($row["mod_id"]);
-            } else if($row["judgement"] == 1) {
-                buttonMarkUnread($row["mod_id"]);
-            }
-        }
-        ?>
+        <button>To do...</button>
     </div>
-<?php
-}
-
-function typeUserHTML($row, $clearance) {
-    $judgement = judge($row["judgement"]);
-    $reason = reason($row["reason"]);
-
-    $read = "";
-    if($judgement == 1) {
-        $read = " read";
-    }
-
-    ?>
-    <div class="user-history <?= $read; ?>">
-        <span class="datetime-history"><?= $row["created"]; ?></span>
-        <span class="creator-username">
-            <a href="/user/<?= $row["sender_handle"]; ?>"><?= $row["sender_username"]; ?></a>
-        </span>
-        <span class="culprit-username"><?= $row["cont"]; ?></span>
-        <span class="sender-username">
-            <?= $judgement; ?> by
-            <a href="/user/<?= $row["handle"]; ?>"><?= $row["username"]; ?></a>
-        </span>
-        <span class="reason-history"> <?= $reason; ?></span>
-        <span class="message-history"> <?= $row["message"]; ?></span>
-        <?php if((($clearance > 2 && $row["judgement"] < 3) || $clearance > 3)) { 
-            if($row["judgement"] > 1) { 
-                echo '<button class="undo-history">Undo</span>';
-            } else if($row["judgement"] == 0) {
-                buttonMarkRead($row["mod_id"]);
-            } else if($row["judgement"] == 1) {
-                buttonMarkUnread($row["mod_id"]);
-            }
-        } ?>
-    </div>
-<?php
+    <?php
 }
 
 function judge($i) {
@@ -268,126 +109,3 @@ function buttonMarkRead($id) {
 function buttonMarkUnread($id) {
     echo '<button onclick="markReport(0, \'' . $id . '\')">Mark unread</button>';
 }
-
-/* UNCLEAN mysql statement for POSTS MOD HISTORY
-
-SELECT * FROM mod_history_posts mp
-JOIN (
-    SELECT u.username, mh.created, mh.judgement, mh.reason, mh.message, mh.mod_id FROM mod_history mh
-    JOIN users u ON u.user_id = mh.sender_id
-) mh
-ON mp.mod_id = mh.mod_id
-JOIN (
-    SELECT u.username, p.content, p.post_id FROM posts p
-    JOIN users u ON u.user_id = p.user_id
-) p
-ON p.post_id = mp.post_id
-
-*/
-
-/* UNCLEAN mysql statement for THREAD MOD HISTORY
-
-SELECT * FROM mod_history_threads mt
-JOIN (
-    SELECT u.username, mh.created, mh.judgement, mh.reason, mh.message, mh.mod_id FROM mod_history mh
-    JOIN users u ON u.user_id = mh.sender_id
-) mh
-ON mt.mod_id = mh.mod_id
-JOIN (
-    SELECT u.username, t.name, t.id FROM threads t
-    JOIN users u ON u.user_id = t.user_id
-) t
-ON t.id = mt.thread_id
-
-*/
-
-/* UNCLEAN mysql statement for USER MOD HISTORY
-
-SELECT * FROM mod_history_users mu
-JOIN (
-    SELECT u.username, mh.created, mh.judgement, mh.reason, mh.message, mh.mod_id FROM mod_history mh
-    JOIN users u ON u.user_id = mh.sender_id
-) mh
-ON mu.mod_id = mh.mod_id
-JOIN users u ON u.user_id = mu.user_id
-
-*/
-
-/* JOINED with UNION STATEMENTS
-
-(
-    SELECT 
-		mh.username,
-    	mh.handle,
-		mh.created, 
-		mh.judgement, 
-		mh.reason, 
-		mh.message,
-		0 AS type,
-		mp.post_id AS id,
-    	p.content AS cont,
-        p.username AS sender_username,
-    	p.handle AS sender_handle
-	FROM 
-		mod_history_posts mp
-    JOIN (
-        SELECT u.username, u.handle, mh.created, mh.judgement, mh.reason, mh.message, mh.mod_id FROM mod_history mh
-        JOIN users u ON u.user_id = mh.sender_id
-    ) mh
-    ON mp.mod_id = mh.mod_id
-    JOIN (
-        SELECT u.username, u.handle, p.content, p.post_id FROM posts p
-        JOIN users u ON u.user_id = p.user_id
-    ) p
-    ON p.post_id = mp.post_id
-) UNION ALL (
-    SELECT 
-		mh.username, 
-    	mh.handle,
-		mh.created, 
-		mh.judgement, 
-		mh.reason, 
-		mh.message,
-		1 AS type,
-		mt.thread_id AS id,
-    	t.name AS cont,
-    	t.username AS sender_username,
-    	t.handle AS sender_handle
-	FROM 
-		mod_history_threads mt
-    JOIN (
-        SELECT u.username, u.handle, mh.created, mh.judgement, mh.reason, mh.message, mh.mod_id FROM mod_history mh
-        JOIN users u ON u.user_id = mh.sender_id
-    ) mh
-    ON mt.mod_id = mh.mod_id
-    JOIN (
-        SELECT u.username, u.handle, t.name, t.id FROM threads t
-        JOIN users u ON u.user_id = t.user_id
-    ) t
-    ON t.id = mt.thread_id
-) UNION ALL (
-    SELECT 
-		mh.username, 
-    	mh.handle,
-		mh.created, 
-		mh.judgement, 
-		mh.reason, 
-		mh.message,
-		2 AS type,
-		mu.user_id AS id,
-    	u.username AS cont,
-    	u.username AS sender_username,
-    	u.handle AS sender_handle
-	FROM 
-		mod_history_users mu
-    JOIN (
-        SELECT u.username, u.handle, mh.created, mh.judgement, mh.reason, mh.message, mh.mod_id FROM mod_history mh
-        JOIN users u ON u.user_id = mh.sender_id
-    ) mh
-    ON mu.mod_id = mh.mod_id
-    JOIN users u ON u.user_id = mu.user_id
-)
-ORDER BY created DESC
-LIMIT 50 OFFSET 0
-
-*/

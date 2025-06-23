@@ -96,7 +96,7 @@ if(include($path . "/functions/validateSession.php")) {
 
                 // (Soft) delete posts
                 $dtime = date('Y-m-d H:i:s');
-                $sql = "UPDATE posts SET deleted = deleted | 3, deleted_datetime = '$dtime' WHERE thread_id = '$id'";
+                $sql = "UPDATE posts SET deleted = deleted | 4, deleted_datetime = '$dtime' WHERE thread_id = '$id'";
                 if ($conn->query($sql) === FALSE) {
                     echo "ERROR: Please try again later [DT4]";
                 }
