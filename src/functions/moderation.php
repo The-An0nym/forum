@@ -3,25 +3,28 @@
 function createHistory($conn, int $type, int $judgement, $id, $sender_id, int $reason, string $message) {
     $mod_id = uniqid(rand(), true);
 
+    $summary = "";
+    $culp_id = "";
+
     if($type === 0) {
-        $sql = "INSERT INTO mod_history_posts (post_id, mod_id)
-                VALUES ('$id', '$mod_id')";
+        $sql = "SELECT content, user_id FROM posts WHERE post_id = '$id'";
+        $result = $conn->query($sql);
+        $row = $result->fetch_assoc();
+        $summary = $row["content"];
+        $culp_id = $row["user_id"];
     } else if($type === 1) {
-        $sql = "INSERT INTO mod_history_threads (thread_id, mod_id)
-                VALUES ('$id', '$mod_id')";
+        $sql = "SELECT name, user_id FROM threads WHERE id = '$id'";
+        $row = $result->fetch_assoc();
+        $summary = $row["name"];
+        $culp_id = $row["user_id"];
     } else if($type === 2) {
-        $sql = "INSERT INTO mod_history_users (user_id, mod_id)
-                VALUES ('$id', '$mod_id')";
-    } else {
-        return;
+        $culp_id = $id;
     }
 
-    if ($conn->query($sql) === FALSE) {
-        echo "ERROR M0";
-    }
+    $summary = substr($summary, 0, 64);
 
-    $sql = "INSERT INTO mod_history (mod_id, judgement, sender_id, reason, message)
-            VALUES ('$mod_id', $judgement, '$sender_id', $reason, '$message')";
+    $sql = "INSERT INTO mod_history (mod_id, culp_id, id, summary, type, judgement, sender_id, reason, message)
+            VALUES ('$mod_id', '$culp_id', '$id', '$summary', $type, $judgement, '$sender_id', $reason, '$message')";
     if ($conn->query($sql) === FALSE) {
         echo "ERROR M1";
     }

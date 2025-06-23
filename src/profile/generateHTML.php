@@ -21,6 +21,7 @@ function getHistory(bool $report, int $page, int $clearance) {
                 c.username AS culp_username,
                 c.handle AS culp_handle,
                 c.clearance AS culp_clearance,
+                mh.culp_id,
                 mh.mod_id,
                 mh.id,
                 mh.type,
@@ -72,7 +73,7 @@ function generateHTML($row, $clearance) {
 
     // For reports
     $read = "";
-    if($judgement == 1) {
+    if($row["judgement"] === "1") {
         $read = " read";
     }
 
@@ -90,16 +91,24 @@ function generateHTML($row, $clearance) {
         </span>
         <span class="reason-history"> <?= $reason; ?></span>
         <span class="message-history"> <?= $row["message"]; ?></span>
-        <?= generateButton($row['mod_id'], $clearance, $row['culp_clearance'], $row['type'], $row['judgement']); ?>
+        <?= generateButton($row['mod_id'], $row['culp_id'], $clearance, $row['culp_clearance'], $row['type'], $row['judgement']); ?>
     </div>
     <?php
 }
 
-function generateButton($mod_id, int $clearance, int $culp_clearance, int $type, int $judgement) {
+function generateButton($mod_id, $culp_id, int $clearance, int $culp_clearance, int $type, int $judgement) {
+    if(!session_id()) {
+       session_start();
+    } 
+    
     $button = '<button ';
 
-    if($judgement < 2) {
-        $button .= 'markReport(';
+    $user_id = $_SESSION["user_id"];
+
+    if($culp_id === $user_id) {
+        $button .= "disabled>undo";
+    } else if($judgement < 2) {
+        $button .= 'onclick="markReport(';
         if($judgement === 0) {
             $button .= "1, '$mod_id')\">Mark read";
         } else {
