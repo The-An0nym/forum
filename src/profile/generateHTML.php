@@ -1,6 +1,6 @@
 <?php
 
-function getHistory(bool $reports, int $page, int $clearance) {
+function getHistory(bool $report, int $page, int $clearance) {
     $path = $_SERVER['DOCUMENT_ROOT'];
 
     include $path . '/functions/.connect.php' ;
@@ -20,6 +20,8 @@ function getHistory(bool $reports, int $page, int $clearance) {
                 s.handle AS sender_handle,
                 c.username AS culp_username,
                 c.handle AS culp_handle,
+                c.clearance AS culp_clearance,
+                mh.mod_id,
                 mh.id,
                 mh.type,
                 mh.judgement,
@@ -32,13 +34,12 @@ function getHistory(bool $reports, int $page, int $clearance) {
             JOIN users c ON c.user_id = mh.culp_id";
 
     if($report) {
-        $sql .= "WHERE mh.judgement < 2";
+        $sql .= "\nWHERE mh.judgement < 2 AND mh.type < $clearance";
     } else {
-        $sql .= "WHERE mh.judgement > 1";
+        $sql .= "\nWHERE mh.judgement > 1";
     }
 
-    $sql .= "WHERE mh.judgement > 1
-            ORDER BY mh.created DESC
+    $sql .= "\nORDER BY mh.created DESC
             LIMIT 50 OFFSET $offset";
     
     $result = $conn->query($sql);
@@ -53,7 +54,7 @@ function getHistory(bool $reports, int $page, int $clearance) {
 function getHistoryHTML(bool $report, int $page, int $clearance) {
     $data = getHistory($report, $page, $clearance);
     foreach($data as $row) {
-        generateHTML($row, $clearance)
+        generateHTML($row, $clearance);
     }
 }
 
@@ -89,9 +90,44 @@ function generateHTML($row, $clearance) {
         </span>
         <span class="reason-history"> <?= $reason; ?></span>
         <span class="message-history"> <?= $row["message"]; ?></span>
-        <button>To do...</button>
+        <?= generateButton($row['mod_id'], $clearance, $row['culp_clearance'], $row['type'], $row['judgement']); ?>
     </div>
     <?php
+}
+
+function generateButton($mod_id, int $clearance, int $culp_clearance, int $type, int $judgement) {
+    $button = '<button ';
+
+    if($judgement < 2) {
+        $button .= 'markReport(';
+        if($judgement === 0) {
+            $button .= "1, '$mod_id')\">Mark read";
+        } else {
+            $button .= "0, '$mod_id')\">Mark unread";
+        }
+    } else {
+        if($type === 0 || ($type === 1 && $clearance > 1)) {
+            $button .= ">undo";
+        } else if($type === 2) {
+            // Deleted or restored
+            if($judgement < 4 && $clearance > 2) {
+                $button .= ">undo";
+            // demotion
+            } else if($judgement === 4 && $culp_clearance < $clearance && $clearance > 3) {
+                $button .= ">undo";
+            // promotion
+            } else if($judgement === 5 && $culp_clearance + 1 < $clearance && $clearance > 3) {
+                $button .= ">undo";
+            } else {
+                $button .= "disabled>undo";
+            }
+        } else {
+            $button .= "disabled>undo";
+        }
+    }
+
+    $button .= '</button>';
+    return $button;
 }
 
 function judge($i) {

@@ -37,11 +37,11 @@ async function showContent(type, id) {
 }
 
 async function getPostContent(id) {
-  const response = await fetch(`/api/moderation/getPostCont?i=${id}`);
+  const response = await fetch(`/api/moderation/getPostCont.php?i=${id}`);
   return response.text();
 }
 
 async function getThreadSlug(id) {
-  const response = await fetch(`/api/moderation/getThreadSlug?i=${id}`);
+  const response = await fetch(`/api/moderation/getThreadSlug.php?i=${id}`);
   return response.text();
 }
