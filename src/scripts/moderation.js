@@ -1,26 +1,22 @@
 const getCache = {};
 
 async function getModerationHistory(page = 0, reports = false) {
+  const target = reports
+    ? document.getElementById("report-history")
+    : document.getElementById("moderation-history");
+
   let url = `/api/moderation/getHistory.php?p=${page}`;
   if (reports) url += "&r=1";
   const response = await fetch(
     `/api/moderation/getModerationHistory.php?p=${page}`
   );
-  const clone = response.clone(); // For error handling
+  const text = response.text(); // For error handling
 
-  try {
-    const dataJSON = await response.json();
-    console.log(dataJSON);
-  } catch {
-    const msg = await clone.text();
-    if (/\S/.test(msg)) {
-      errorMessage(msg);
-    } else {
-      const noResults = document.createElement("div");
-      noResults.textContent("There are no threads here yet...");
-
-      cont.appendChild(noResults);
-    }
+  // Naive test
+  if (text[0] === "<div") {
+    target.innerHTML(text);
+  } else if (/\S/.test(msg)) {
+    errorMessage(msg);
   }
 }
 
@@ -35,8 +31,7 @@ async function markReport(as, id) {
   if (/\S/.test(result)) {
     errorMessage(result);
   } else {
-    // To do... (refresh reports)
-    console.log(result);
+    getModerationHistory(0, true);
   }
 }
 
