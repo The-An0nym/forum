@@ -46,7 +46,25 @@ function getHistory(bool $report, int $page, int $clearance) {
     $result = $conn->query($sql);
 
     $data = [];
+    $cache = [];
     while($row = $result->fetch_assoc()) {
+        if(isset($cache[$row["id"]])) {
+            if($row["type"] === "2") {
+                if((int)$row["judgement"] > 3 && $cache[$row["id"]] > 3) {
+                    $row["repeat"] = true;
+                } else if((int)$row["judgement"] < 4 && $cache[$row["id"]] < 4) {
+                    $row["repeat"] = true;
+                } else {
+                    $cache[$row["id"]] = (int)$row["judgement"];
+                    $row["repeat"] = false;
+                }
+            } else {
+                $row["repeat"] = true;
+            }
+        } else {
+            $cache[$row["id"]] = (int)$row["judgement"];
+            $row["repeat"] = false;
+        }
         $data[] = $row;
     }
     return $data;
@@ -91,12 +109,12 @@ function generateHTML($row, $clearance) {
         </span>
         <span class="reason-history"> <?= $reason; ?></span>
         <span class="message-history"> <?= $row["message"]; ?></span>
-        <?= generateButton($row['mod_id'], $row['culp_id'], $clearance, $row['culp_clearance'], $row['type'], $row['judgement']); ?>
+        <?= generateButton($row['mod_id'], $row['culp_id'], $clearance, $row['culp_clearance'], $row['type'], $row['judgement'], $row['repeat']); ?>
     </div>
     <?php
 }
 
-function generateButton($mod_id, $culp_id, int $clearance, int $culp_clearance, int $type, int $judgement) {
+function generateButton($mod_id, $culp_id, int $clearance, int $culp_clearance, int $type, int $judgement, bool $repeat) {
     if(!session_id()) {
        session_start();
     } 
@@ -114,7 +132,7 @@ function generateButton($mod_id, $culp_id, int $clearance, int $culp_clearance, 
             $button .= "0, '$mod_id')\">Mark unread";
         }
     } else {
-        if($culp_id === $user_id) {
+        if($culp_id === $user_id || $repeat) {
             $button .= "disabled>undo";
         } else if($type === 0 || ($type === 1 && $clearance > 1)) {
             $button .= ">undo";

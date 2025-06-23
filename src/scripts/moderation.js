@@ -34,12 +34,12 @@ async function markReport(as, id) {
 }
 
 async function showContent(type, id) {
-  let display = "";
   if (type === 0) {
-    display = await getPostContent(id);
+    const resp = await getPostContent(id);
+    errorMessage(resp); // Temporary
   } else if (type === 1) {
-    display = await getThreadSlug(id);
-    // Send user to that page?
+    const slug = await getThreadSlug(id);
+    window.open(`/thread/${slug}`, "_blank").focus();
   }
 }
 
