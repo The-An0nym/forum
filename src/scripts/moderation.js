@@ -3,7 +3,9 @@ const getCache = {};
 async function getModerationHistory(page = 0, reports = false) {
   let url = `/api/moderation/getHistory.php?p=${page}`;
   if (reports) url += "&r=1";
-  const response = await fetch(`/api/moderation/getHistory.php?p=${page}`);
+  const response = await fetch(
+    `/api/moderation/getModerationHistory.php?p=${page}`
+  );
   const clone = response.clone(); // For error handling
 
   try {
