@@ -1,7 +1,7 @@
 .thread-wrapper {
   margin: 1%;
   padding: 1%;
-  border: 1px black solid;
+  border: 1px var(--border) solid;
   display: flex;
   justify-content: space-between;
 }
@@ -37,7 +37,7 @@
 
 .count {
   font-size: 1.2em;
-  border: 1px #eee solid;
+  border: 1px var(--border) solid;
   aspect-ratio: 1 / 1;
   align-content: center;
   text-align: center;

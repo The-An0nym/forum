@@ -1,14 +1,14 @@
 .post {
   margin: 1%;
   padding: 1%;
-  border: 1px black solid;
+  border: 1px var(--text) solid;
   display: flex;
   flex-direction: row;
 }
 
 .user-details {
   width: 16%;
-  border-right: 1px solid black;
+  border-right: 1px solid var(--text);
   overflow-wrap: break-word;
   font-size: 0.8em;
 }
@@ -35,10 +35,12 @@
 
 .created {
   font-size: 0.4em;
+  color: var(--text-muted);
 }
 
 .edited {
   font-size: 0.4em;
+  color: var(--text-muted);
 }
 
 .editTxt {

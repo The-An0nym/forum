@@ -9,7 +9,7 @@
   flex-direction: column;
   padding: 1%;
   margin: 1%;
-  border: 1px solid black;
+  border: 1px solid var(--border);
   text-align: center;
 }
 
@@ -38,14 +38,14 @@
   max-height: 30vh;
   overflow-y: scroll;
   overflow-x: hidden;
-  border: 1px solid black;
+  border: 1px solid var(--border);
   padding: 2%;
   display: flex;
   flex-direction: column;
 }
 
 .history-item {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid var(--border);
   padding-bottom: 5px;
   margin-bottom: 5px;
   display: flex;

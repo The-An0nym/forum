@@ -2,6 +2,7 @@
 $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
 include $path . '/functions/moderation.php' ;
+include $path . '/functions/statCount.php';
 
 // Get connection
 $conn = getConn();
@@ -75,6 +76,13 @@ if(include($path . "/functions/validateSession.php")) {
                     echo "ERROR: Please try again later [BU5]";
                 }
 
+                if($type === 1) {
+                    countForUser($id, false, false);
+                } else {
+                    // Delete all threads as well?
+                    countForUser($id, false, false);
+                }
+
                 if($del_threads) {
                     // Soft delete threads
                     $sql = "UPDATE threads SET deleted = deleted | 4, deleted_datetime = '$dtime' WHERE user_id = '$id'";
@@ -87,32 +95,6 @@ if(include($path . "/functions/validateSession.php")) {
                 $sql = "UPDATE posts SET deleted = deleted | 4, deleted_datetime = '$dtime' WHERE user_id = '$id'";
                 if ($conn->query($sql) === FALSE) {
                     echo "ERROR: Please try again later [BU7]";
-                }
-
-                // Update ALL threads (posts)
-                $sql = "UPDATE threads t
-                        JOIN (
-                            SELECT thread_id, COUNT(*) AS cnt
-                            FROM posts
-                            WHERE deleted = 0
-                            GROUP BY thread_id
-                        ) p ON t.id = p.thread_id
-                        SET t.posts = p.cnt";
-                if ($conn->query($sql) === FALSE) {
-                    echo "ERROR: Please try again later [BU1]";
-                }
-
-                // Update ALL category (threads and posts)
-                $sql = "UPDATE categories c
-                        JOIN (
-                            SELECT category_id, COUNT(*) AS cnt, SUM(posts) AS sum
-                            FROM threads
-                            WHERE deleted = 0
-                            GROUP BY category_id
-                        ) t ON c.id = t.category_id
-                        SET c.threads = t.cnt, c.posts = t.sum";
-                if ($conn->query($sql) === FALSE) {
-                    echo "ERROR: Please try again later [BU2]";
                 }
 
                 // delete session

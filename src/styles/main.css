@@ -1,8 +1,28 @@
+:root {
+  --bg-dark: hsl(0 0 80);
+  --bg: hsl(0 0 90);
+  --bg-light: hsl(0 0 100);
+  --text: hsl(0 0 5);
+  --text-muted: hsl(0 0 30);
+  --border: hsl(0 0 70);
+}
+
+body.dark {
+  --bg-dark: hsl(0 0 0);
+  --bg: hsl(0 0 10);
+  --bg-light: hsl(0 0 20);
+  --text: hsl(0 0 95);
+  --text-muted: hsl(0 0 70);
+  --border: hsl(0 0 30);
+}
+
 body {
   padding: 0;
   margin: 0;
   font-family: "arial";
   font-size: 1.5rem;
+  background-color: var(--bg-dark);
+  color: var(--text);
 }
 
 a {
@@ -33,7 +53,7 @@ a:hover {
   top: 50%;
   transform: translate(-50%, -50%);
   padding: 2%;
-  border: 1px solid black;
+  border: 1px solid var(--border);
   border-radius: 5px;
   z-index: 1;
   background-color: white;

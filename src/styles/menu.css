@@ -1,8 +1,8 @@
 .menu {
   display: flex;
   flex-direction: row;
-  background-color: #eee;
-  border-bottom: 1px black solid;
+  background-color: var(--bg);
+  border-bottom: 1px var(--border) solid;
   align-items: end;
   position: fixed;
   width: 100%;
@@ -11,11 +11,11 @@
 
 .menu > span {
   padding: 10px;
-  border-left: 1px black solid;
+  border-left: 1px var(--border) solid;
 }
 
 .menu-button:hover {
-  background-color: #ddd;
+  background-color: var(--bg-light);
   cursor: pointer;
 }
 

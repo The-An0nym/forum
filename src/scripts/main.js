@@ -1,3 +1,8 @@
+/* STYLE */
+function toggle() {
+  document.body.classList.toggle("dark");
+}
+
 /* OVERLAY */
 function createWrapperOverlay() {
   const wrapper = document.createElement("div");

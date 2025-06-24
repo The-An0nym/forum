@@ -2,6 +2,7 @@
 $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
 include $path . '/functions/moderation.php' ;
+include $path . '/functions/statCount.php';
 
 // Get connection
 $conn = getConn();
@@ -54,21 +55,7 @@ if(include($path . "/functions/validateSession.php")) {
             }
 
             if($post_user_id === $user_id || $clearance >= 1) {
-                // Decrement post count of user
-                $sql = "UPDATE users SET posts = posts -1 WHERE user_id = '$post_user_id'";
-                if ($conn->query($sql) === FALSE) {
-                    echo "An error has occured [DP0]";
-                }
-
-                // Decrement post count of category and thread
-                $sql = "UPDATE posts p
-                        INNER JOIN threads t ON p.thread_id = t.id
-                        INNER JOIN categories c ON t.category_id = c.id
-                        SET c.posts = c.posts -1, t.posts = t.posts -1 
-                        WHERE p.post_id = '$id'";
-                if ($conn->query($sql) === FALSE) {
-                    echo "An error has occured [DP1]";
-                }   
+                countForPost($post_user_id, false);
 
                 $type = 1;
 

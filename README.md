@@ -52,15 +52,14 @@ Report types
 
 # TODO:
 
-- [ ] Finalize profile settings page
+- [ ] Finalize profile settings page...
 - [ ] Make posting a new post focus on this post
 - [ ] There are still some mismatches between menu displaying you are logged in while having no posting privliges
-- [ ] Change initial load (php) and subsequent loads (js) to match each other. (and maybe rethink system)
+- [ ] Change initial load (php) and subsequent loads (js) to match each other. (and maybe rethink system :p)
 - [ ] Change the /functions/require/posts.php to match the /function/require/threads.php and adjust accordingly in thread.php and api/getThreads.php
 - [ ] Make login or sign-up pop-up hide when sign-up/login is pressed respectively
-- [ ] Rethink moderation history UI
-- [ ] RETHINK moderation system...
 - [ ] DO NOT delete threads upon account deletion (except if this option is explicitly selected -> FOR MODS ONLY)
+- [ ] Check whether thread is deleted before posting message.
 
 - [ ] Add ToS, Privacy Policy and cookies warning
 - [ ] Adress, full legal name, etc. (pattern)

@@ -20,7 +20,7 @@
 
 #moderation-history > div,
 #report-history > div {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid var(--border);
   padding-bottom: 2px;
   margin-bottom: 2px;
   display: flex;

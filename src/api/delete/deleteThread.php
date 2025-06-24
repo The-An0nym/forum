@@ -2,6 +2,7 @@
 $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
 include $path . '/functions/moderation.php' ;
+include $path . '/functions/statCount.php';
 
 // Get connection
 $conn = getConn();
@@ -48,41 +49,7 @@ if(include($path . "/functions/validateSession.php")) {
             $user_id === $_SESSION["user_id"];            
 
             if($clearance >= 1) {
-                // Get amount of posts (which are now hidden)
-                $sql = "SELECT 
-                            user_id
-                        FROM posts 
-                        WHERE thread_id = '$id'";
-                
-                $result = $conn->query($sql);
-                $post_count = 0;
-                // Decrement user posts
-                while($post = $result->fetch_assoc()) {
-                    $post_count++;
-                    $user_id = $post["user_id"];
-                    $sql = "UPDATE users SET posts = posts - 1 WHERE user_id = '$user_id'";
-                    if ($conn->query($sql) === FALSE) {
-                        echo "An error has occured [DT0]";
-                    }
-                }
-
-                // Decrement user thread count
-                $sql = "UPDATE users
-                        SET threads = threads - 1 
-                        WHERE user_id = '$creator_user_id'";
-                if ($conn->query($sql) === FALSE) {
-                    echo "An error has occured [DT1]";
-                }
-
-                // Decrement post and thread count of category
-                $sql = "UPDATE threads t
-                        INNER JOIN categories c ON t.category_id = c.id
-                        SET c.threads = c.threads -1,
-                            c.posts = c.posts - $post_count
-                        WHERE t.id = '$id'";
-                if ($conn->query($sql) === FALSE) {
-                    echo "An error has occured [DT2]";
-                }
+                countForThread($id, false);
 
                 // Push onto history
                 createHistory($conn, 1, 2, $id, $user_id, $reason, $message);
