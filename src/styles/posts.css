@@ -1,14 +1,15 @@
 .post {
   margin: 1%;
   padding: 1%;
-  border: 1px var(--text) solid;
+  border: 1px var(--border) solid;
   display: flex;
   flex-direction: row;
+  background-color: var(--bg);
 }
 
 .user-details {
   width: 16%;
-  border-right: 1px solid var(--text);
+  border-right: 1px solid var(--border);
   overflow-wrap: break-word;
   font-size: 0.8em;
 }

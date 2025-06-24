@@ -32,7 +32,7 @@ Threads that are deleted will follow the same logic. Posts under that thread wil
 id -> id of post, thread or user
 sender_id -> id of moderator
 type -> 0 = post, 1 = thread, 2 = user
-judgement -> 0 = reported (unread), 1 = reported (read) 2 = deleted, 3 = restored, 4 = demoted, 5 = promoted
+judgement -> 0 = reported (unread), 1 = reported (read) 2 = deleted, 3 = deleted w threads, 4 = restored , 5 = demoted, 6 = promoted
 created -> when
 
 ### Posts
@@ -58,7 +58,6 @@ Report types
 - [ ] Change initial load (php) and subsequent loads (js) to match each other. (and maybe rethink system :p)
 - [ ] Change the /functions/require/posts.php to match the /function/require/threads.php and adjust accordingly in thread.php and api/getThreads.php
 - [ ] Make login or sign-up pop-up hide when sign-up/login is pressed respectively
-- [ ] DO NOT delete threads upon account deletion (except if this option is explicitly selected -> FOR MODS ONLY)
 - [ ] Check whether thread is deleted before posting message.
 
 - [ ] Add ToS, Privacy Policy and cookies warning

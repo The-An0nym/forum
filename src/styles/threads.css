@@ -4,6 +4,7 @@
   border: 1px var(--border) solid;
   display: flex;
   justify-content: space-between;
+  background-color: var(--bg);
 }
 
 .thread-name {

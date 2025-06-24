@@ -25,7 +25,7 @@ if(include($path . "/functions/validateSession.php")) {
         $id = $decoded_params->i;
 
         if(isset($decoded_params->t)) {
-            $del_threads = settype($decoded_params->t, "boolean");
+            $del_threads = (bool)$decoded_params->t;
         } else {
             $del_threads = false;
         }
@@ -64,8 +64,14 @@ if(include($path . "/functions/validateSession.php")) {
                 $type = 1; // Self-deleted
                 if($id !== $user_id) {
                     // Push onto history
-                    createHistory($conn, 2, 2, $id, $user_id, $reason, $message);
+                    if($del_threads) {
+                        createHistory($conn, 2, 2, $id, $user_id, $reason, $message);
+                    } else {
+                        createHistory($conn, 2, 3, $id, $user_id, $reason, $message);
+                    }
                     $type = 4; // Banned
+                } else {
+                    $del_threads = false;
                 }
 
                 $dtime = date('Y-m-d H:i:s');
@@ -79,8 +85,7 @@ if(include($path . "/functions/validateSession.php")) {
                 if($type === 1) {
                     countForUser($id, false, false);
                 } else {
-                    // Delete all threads as well?
-                    countForUser($id, false, false);
+                    countForUser($id, false, $del_threads);
                 }
 
                 if($del_threads) {

@@ -138,13 +138,13 @@ function generateButton($mod_id, $culp_id, int $clearance, int $culp_clearance, 
             $button .= ">undo";
         } else if($type === 2) {
             // Deleted or restored
-            if($judgement < 4 && $clearance > 2) {
+            if($judgement < 5 && $clearance > 2) {
                 $button .= ">undo";
             // demotion
-            } else if($judgement === 4 && $culp_clearance < $clearance && $clearance > 3) {
+            } else if($judgement === 5 && $culp_clearance < $clearance && $clearance > 3) {
                 $button .= ">undo";
             // promotion
-            } else if($judgement === 5 && $culp_clearance + 1 < $clearance && $clearance > 3) {
+            } else if($judgement === 6 && $culp_clearance + 1 < $clearance && $clearance > 3) {
                 $button .= ">undo";
             } else {
                 $button .= "disabled>undo";
@@ -159,7 +159,7 @@ function generateButton($mod_id, $culp_id, int $clearance, int $culp_clearance, 
 }
 
 function judge($i) {
-    return ["reported", "reported", "deleted", "restored", "demoted", "promoted"][$i];
+    return ["reported", "reported", "deleted", "deleted w threads", "restored", "demoted", "promoted"][$i];
 }
 
 function reason($i) {
