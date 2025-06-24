@@ -135,17 +135,25 @@ function generateButton($mod_id, $culp_id, int $clearance, int $culp_clearance, 
         if($culp_id === $user_id || $repeat) {
             $button .= "disabled>undo";
         } else if($type === 0 || ($type === 1 && $clearance > 1)) {
-            $button .= ">undo";
+            if($judgement === 4) {
+                $button .= "onclick=\"undo('$id', false)\">undo";
+            } else {
+                $button .= "onclick=\"undo('$id')\">undo";
+            }
         } else if($type === 2) {
             // Deleted or restored
-            if($judgement < 5 && $clearance > 2) {
-                $button .= ">undo";
+            if($judgement < 6 && $clearance > 2) {
+                if($judgement === 4 || $judgement === 5) {
+                    $button .= "onclick=\"undo('$id', false)\">undo";
+                } else {
+                    $button .= "onclick=\"undo('$id')\">undo";
+                }
             // demotion
-            } else if($judgement === 5 && $culp_clearance < $clearance && $clearance > 3) {
-                $button .= ">undo";
+            } else if($judgement === 6 && $culp_clearance < $clearance && $clearance > 3) {
+                $button .= "onclick=\"undo('$id')\">undo";
             // promotion
-            } else if($judgement === 6 && $culp_clearance + 1 < $clearance && $clearance > 3) {
-                $button .= ">undo";
+            } else if($judgement === 7 && $culp_clearance + 1 < $clearance && $clearance > 3) {
+                $button .= "onclick=\"undo('$id')\">undo";
             } else {
                 $button .= "disabled>undo";
             }
@@ -159,11 +167,11 @@ function generateButton($mod_id, $culp_id, int $clearance, int $culp_clearance, 
 }
 
 function judge($i) {
-    return ["reported", "reported", "deleted", "deleted w threads", "restored", "demoted", "promoted"][$i];
+    return ["reported", "reported", "deleted", "deleted w threads", "restored", "restored w threads", "demoted", "promoted"][$i];
 }
 
 function reason($i) {
-    return ["Spam", "Inappropriate", "Copyright", "Other"][$i];
+    return ["Spam", "Inappropriate", "Copyright", "Other", "Restored"][$i];
 }
 
 function buttonMarkRead($id) {

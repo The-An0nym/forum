@@ -34,7 +34,7 @@ if(include($path . "/functions/validateSession.php")) {
         $user_id = $_SESSION['user_id'];
 
         // Check if already reported
-        createReport($conn, $type, $id, $user_id, $reason, $message);
+        createReport($type, $id, $user_id, $reason, $message);
         
     } else {
         echo "An error has occured R1";

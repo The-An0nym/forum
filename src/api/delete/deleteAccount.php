@@ -75,8 +75,7 @@ if(include($path . "/functions/validateSession.php")) {
                 }
 
                 countForUser($id, false, $del_threads);
-
-                deleteAccount($id, $type, $del_threads, false);
+                deleteAccount($id, false, $del_threads);
             } else {
                 echo "Clearance level too low";
             }

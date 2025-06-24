@@ -20,6 +20,10 @@
   display: block;
 }
 
+.description {
+  color: var(--text-muted);
+}
+
 .count {
   font-size: 1.2em;
   border: 1px var(--border) solid;

@@ -38,26 +38,12 @@ function createReport(int $type, $id, $user_id, int $reason, string $message) {
     $path = $_SERVER['DOCUMENT_ROOT'];
     include $path . '/functions/.connect.php' ;
     $conn = getConn();
-    
-    if($type === 0) {
-        $sql = "SELECT * FROM mod_history_posts mp
-                JOIN mod_history mh ON mh.mod_id = mp.mod_id
-                WHERE mp.post_id = '$id' AND mh.sender_id = '$user_id'";
-    } else if($type === 1) {
-        $sql = "SELECT * FROM mod_history_threads mt
-                JOIN mod_history mh ON mh.mod_id = mt.mod_id
-                WHERE mt.id = '$id' AND mh.sender_id = '$user_id'";
-    } else if($type === 2) {
-        $sql = "SELECT * FROM mod_history_users mu
-                JOIN mod_history mh ON mh.mod_id = mu.mod_id
-                WHERE mu.user_id = '$id' AND mh.sender_id = '$user_id'";
-    } else {
-        return;
-    }
+
+    $sql = "SELECT NULL FROM mod_history WHERE id = '$id' AND sender_id = '$user_id' AND judgement < 2";
 
     $result = $conn->query($sql);
     if($result->num_rows === 0) {
-        createHistory($conn, $type, 0, $id, $user_id, $reason, $message);
+        createHistory($type, 0, $id, $user_id, $reason, $message);
     } else {
         echo "You have already reported this item";
     }
@@ -110,7 +96,7 @@ function deleteThread($id, int $cause, bool $rest) {
     }
 }
 
-function deleteAccount($id, int $cause, bool $del_threads, bool $rest) {
+function deleteAccount($id, bool $rest, bool $del_threads) {
     $path = $_SERVER['DOCUMENT_ROOT'];
     include $path . '/functions/.connect.php' ;
     $conn = getConn();

@@ -32,8 +32,15 @@ Threads that are deleted will follow the same logic. Posts under that thread wil
 id -> id of post, thread or user
 sender_id -> id of moderator
 type -> 0 = post, 1 = thread, 2 = user
-judgement -> 0 = reported (unread), 1 = reported (read) 2 = deleted, 3 = deleted w threads, 4 = restored , 5 = demoted, 6 = promoted
+judgement -> 0 = reported (unread), 1 = reported (read) 2 = deleted, 3 = deleted w threads, 4 = restored , 5 = restored w threads, 6 = demoted, 7 = promoted
 created -> when
+message
+reason
+0 -> Spam
+1 -> Inappropriate
+2 -> Copyright
+3 -> Other
+4 -> Restored
 
 ### Posts
 
