@@ -48,11 +48,7 @@ async function getThreads() {
 
       threadWrapper.appendChild(mainWrapper);
 
-      // Details (Last user & last post + Posts)
-
-      const detailWrapper = document.createElement("span");
-      detailWrapper.className = "details-wrapper";
-
+      // Last user & last post)
       const lastWrapper = document.createElement("span");
       lastWrapper.className = "last-wrapper";
 
@@ -71,15 +67,14 @@ async function getThreads() {
       lastUser.appendChild(lastHandle);
       lastWrapper.appendChild(lastUser);
 
-      detailWrapper.appendChild(lastWrapper);
+      threadWrapper.appendChild(lastWrapper);
 
+      // Post count
       const postCount = document.createElement("span");
       postCount.className = "count";
       postCount.textContent = dataJSON[i].postCount;
-      detailWrapper.appendChild(postCount);
 
-      threadWrapper.appendChild(detailWrapper);
-      detailWrapper.appendChild(postCount);
+      threadWrapper.appendChild(postCount);
 
       if (dataJSON[i].deletable === 1) {
         const deleteButton = document.createElement("button");

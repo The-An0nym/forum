@@ -55,7 +55,7 @@ if(include($path . "/functions/validateSession.php")) {
             }
 
             if($post_user_id === $user_id || $clearance >= 1) {
-                countForPost($post_user_id, false);
+                countForPost($id, false);
 
                 $type = 1;
 
@@ -66,7 +66,7 @@ if(include($path . "/functions/validateSession.php")) {
                 }
 
                 // (Soft) delete post
-                deletePost($id, $type, false)                
+                deletePost($id, $type, false);             
             } else {
                 echo "Clearance level too low";
             }

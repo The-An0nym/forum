@@ -56,9 +56,9 @@ function countForPost($id, bool $rest) {
     $conn = getConn();
 
     if($rest) {
-        $op = '+ 1';
+        $op = '+';
     } else {
-        $op = '- 1';
+        $op = '-';
     }
 
     // User

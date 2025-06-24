@@ -73,7 +73,7 @@ function deletePost($id, int $cause, bool $rest) {
     if($rest) {
         $op = "& ~";
     } else {
-        $op = "|"
+        $op = "|";
     }
 
     $dtime = date('Y-m-d H:i:s');
@@ -92,7 +92,7 @@ function deleteThread($id, int $cause, bool $rest) {
     if($rest) {
         $op = "& ~";
     } else {
-        $op = "|"
+        $op = "|";
     }
 
     $dtime = date('Y-m-d H:i:s');
@@ -118,7 +118,7 @@ function deleteAccount($id, int $cause, bool $del_threads, bool $rest) {
     if($rest) {
         $op = "& ~";
     } else {
-        $op = "|"
+        $op = "|";
     }
 
     $dtime = date('Y-m-d H:i:s');

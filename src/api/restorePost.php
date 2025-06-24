@@ -1,6 +1,8 @@
 <?php
 $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
+include $path . '/functions/moderation.php';
+include $path . '/functions/statCount.php';
 
 // Get connection
 $conn = getConn();
@@ -35,21 +37,7 @@ if(include($path . "/functions/validateSession.php")) {
             $user_id === $_SESSION["user_id"];
 
             if($post_user_id === $user_id || $clearance >= 1) {
-                // Increment post count of user
-                $sql = "UPDATE users SET posts = posts +1 WHERE user_id = '$post_user_id'";
-                if ($conn->query($sql) === FALSE) {
-                    echo "An error has occured [RP0]";
-                }
-
-                // Increment post count of category and thread
-                $sql = "UPDATE posts p
-                        INNER JOIN threads t ON p.thread_id = t.id
-                        INNER JOIN categories c ON t.category_id = c.id
-                        SET c.posts = c.posts +1, t.posts = t.posts +1 
-                        WHERE p.post_id = '$id'";
-                if ($conn->query($sql) === FALSE) {
-                    echo "An error has occured [RP1]";
-                }   
+                countForPost($id, true);
 
                 $type = 1;
 
@@ -63,12 +51,7 @@ if(include($path . "/functions/validateSession.php")) {
                     }
                 }
 
-                // (Soft) restore post
-                $dtime = date('Y-m-d H:i:s');
-                $sql = "UPDATE posts SET deleted = deleted & ~$type WHERE post_id = '$id'";
-                if ($conn->query($sql) === FALSE) {
-                    echo "ERROR: Please try again later [RP3]";
-                }
+                deletePost($id, $type, true);
                 
             } else {
                 echo "Clearance level too low";
