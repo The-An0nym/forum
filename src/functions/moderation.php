@@ -1,6 +1,10 @@
 <?php
 
-function createHistory($conn, int $type, int $judgement, $id, $sender_id, int $reason, string $message) {
+function createHistory(int $type, int $judgement, $id, $sender_id, int $reason, string $message) {
+    $path = $_SERVER['DOCUMENT_ROOT'];
+    include $path . '/functions/.connect.php' ;
+    $conn = getConn();
+    
     $mod_id = uniqid(rand(), true);
 
     $summary = "";
@@ -30,7 +34,11 @@ function createHistory($conn, int $type, int $judgement, $id, $sender_id, int $r
     }
 }
 
-function createReport($conn, int $type, $id, $user_id, int $reason, string $message) {
+function createReport(int $type, $id, $user_id, int $reason, string $message) {
+    $path = $_SERVER['DOCUMENT_ROOT'];
+    include $path . '/functions/.connect.php' ;
+    $conn = getConn();
+    
     if($type === 0) {
         $sql = "SELECT * FROM mod_history_posts mp
                 JOIN mod_history mh ON mh.mod_id = mp.mod_id
@@ -52,5 +60,92 @@ function createReport($conn, int $type, $id, $user_id, int $reason, string $mess
         createHistory($conn, $type, 0, $id, $user_id, $reason, $message);
     } else {
         echo "You have already reported this item";
+    }
+}
+
+// DELETE THINGS
+
+function deletePost($id, int $cause, bool $rest) {
+    $path = $_SERVER['DOCUMENT_ROOT'];
+    include $path . '/functions/.connect.php' ;
+    $conn = getConn();
+
+    if($rest) {
+        $op = "& ~";
+    } else {
+        $op = "|"
+    }
+
+    $dtime = date('Y-m-d H:i:s');
+    // Soft delete post
+    $sql = "UPDATE posts SET deleted = deleted $op $cause, deleted_datetime = '$dtime' WHERE post_id = '$id'";
+    if ($conn->query($sql) === FALSE) {
+        echo "An error has occured while deleting this post";
+    }
+}
+
+function deleteThread($id, int $cause, bool $rest) {
+    $path = $_SERVER['DOCUMENT_ROOT'];
+    include $path . '/functions/.connect.php' ;
+    $conn = getConn();
+
+    if($rest) {
+        $op = "& ~";
+    } else {
+        $op = "|"
+    }
+
+    $dtime = date('Y-m-d H:i:s');
+
+    // (Soft) delete thread
+    $sql = "UPDATE threads SET deleted = deleted $op $cause, deleted_datetime = '$dtime' WHERE id = '$id'";
+    if ($conn->query($sql) === FALSE) {
+        echo "An error has occured while deleting this thread";
+    }
+
+    // (Soft) delete posts
+    $sql = "UPDATE posts SET deleted = deleted $op $cause, deleted_datetime = '$dtime' WHERE thread_id = '$id'";
+    if ($conn->query($sql) === FALSE) {
+        echo "An error has occured while deleting the posts of this thread";
+    }
+}
+
+function deleteAccount($id, int $cause, bool $del_threads, bool $rest) {
+    $path = $_SERVER['DOCUMENT_ROOT'];
+    include $path . '/functions/.connect.php' ;
+    $conn = getConn();
+
+    if($rest) {
+        $op = "& ~";
+    } else {
+        $op = "|"
+    }
+
+    $dtime = date('Y-m-d H:i:s');
+
+    // Flag user as banned or self-deleted
+    $sql = "UPDATE users SET deleted = deleted $op 8, deleted_datetime = '$dtime' WHERE user_id = '$id'";
+    if ($conn->query($sql) === FALSE) {
+        echo "An error has occured while deleting this account";
+    }
+
+    if($del_threads) {
+        // Soft delete threads
+        $sql = "UPDATE threads SET deleted = deleted $op 8, deleted_datetime = '$dtime' WHERE user_id = '$id'";
+        if ($conn->query($sql) === FALSE) {
+            echo "ERROR: Please try again later [BU6]";
+        }
+    }
+
+    // Soft delete posts
+    $sql = "UPDATE posts SET deleted = deleted $op 8, deleted_datetime = '$dtime' WHERE user_id = '$id'";
+    if ($conn->query($sql) === FALSE) {
+        echo "ERROR: Please try again later [BU7]";
+    }
+
+    // Delete session
+    $sql = "DELETE FROM sessions WHERE user_id = '$id'";
+    if ($conn->query($sql) === FALSE) {
+        echo "ERROR: Please try again later [BU8]";
     }
 }

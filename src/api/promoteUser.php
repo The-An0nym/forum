@@ -48,7 +48,7 @@ if(include($path . "/functions/validateSession.php")) {
 
             if($clearance >= 4 && $user_clearance < $clearance - 1) {
                 // Push onto history
-                createHistory($conn, 2, 6, $id, $user_id, $reason, $message);
+                createHistory(2, 6, $id, $user_id, $reason, $message);
                 
                 // Demote user
                 $sql = "UPDATE users SET clearance = clearance + 1 WHERE user_id = '$id'";

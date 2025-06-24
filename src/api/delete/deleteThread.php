@@ -52,21 +52,9 @@ if(include($path . "/functions/validateSession.php")) {
                 countForThread($id, false);
 
                 // Push onto history
-                createHistory($conn, 1, 2, $id, $user_id, $reason, $message);
-                
-                // (Soft) delete thread
-                $dtime = date('Y-m-d H:i:s');
-                $sql = "UPDATE threads SET deleted = deleted | 2, deleted_datetime = '$dtime' WHERE id = '$id'";
-                if ($conn->query($sql) === FALSE) {
-                    echo "ERROR: Please try again later [DT4]";
-                }
+                createHistory(1, 2, $id, $user_id, $reason, $message);
 
-                // (Soft) delete posts
-                $dtime = date('Y-m-d H:i:s');
-                $sql = "UPDATE posts SET deleted = deleted | 4, deleted_datetime = '$dtime' WHERE thread_id = '$id'";
-                if ($conn->query($sql) === FALSE) {
-                    echo "ERROR: Please try again later [DT4]";
-                }
+                deleteThread($id, 4, false);
             } else {
                 echo "Clearance level too low";
             }

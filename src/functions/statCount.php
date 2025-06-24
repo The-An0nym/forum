@@ -1,22 +1,8 @@
 <?php
-
-function connection() {
+function syncAll() {
     $path = $_SERVER['DOCUMENT_ROOT'];
     include $path . '/functions/.connect.php' ;
-
-    // Get connection
     $conn = getConn();
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    return $conn;
-}
-
-function syncAll() {
-    $conn = connection();
 
     // Update threads
     $sql = "UPDATE threads t
@@ -65,7 +51,9 @@ function syncAll() {
 }
 
 function countForPost($id, bool $rest) {
-    $conn = connection();
+    $path = $_SERVER['DOCUMENT_ROOT'];
+    include $path . '/functions/.connect.php' ;
+    $conn = getConn();
 
     if($rest) {
         $op = '+ 1';
@@ -86,7 +74,9 @@ function countForPost($id, bool $rest) {
 }
 
 function countForThread($id, bool $rest) {
-    $conn = connection();
+    $path = $_SERVER['DOCUMENT_ROOT'];
+    include $path . '/functions/.connect.php' ;
+    $conn = getConn();
 
     if($rest) {
         $op = '+';
@@ -122,7 +112,9 @@ function countForThread($id, bool $rest) {
 }
 
 function countForUser($id, bool $rest, bool $threads) {
-    $conn = connection();
+    $path = $_SERVER['DOCUMENT_ROOT'];
+    include $path . '/functions/.connect.php' ;
+    $conn = getConn();
 
     if($rest) {
         $op = '+';
@@ -153,7 +145,7 @@ function countForUser($id, bool $rest, bool $threads) {
                 GROUP BY t.category_id
                 ) p
             ON c.id = p.category_id
-            SET c.posts = c.posts $op p.psts"
+            SET c.posts = c.posts $op p.psts";
     if($conn->query($sql) === FALSE) {
         echo "An error has occured while updating the categories' post count";
     }

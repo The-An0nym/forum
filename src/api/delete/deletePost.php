@@ -40,7 +40,7 @@ if(include($path . "/functions/validateSession.php")) {
             $post_user_id = $row['user_id'];
             $user_id === $_SESSION["user_id"];
 
-            if($post_user_id !== $user_id || $clearance >= 1) {
+            if($post_user_id !== $user_id && $clearance >= 1) {
                 if(isset($decoded_params->m, $decoded_params->r)) {
                     $reason = (int)$decoded_params->r;
                     $message = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->m));
@@ -62,16 +62,11 @@ if(include($path . "/functions/validateSession.php")) {
                 if($post_user_id !== $user_id) {
                     $type = 2;
                     // Push onto history
-                    createHistory($conn, 0, 2, $id, $user_id, $reason, $message);
+                    createHistory(0, 2, $id, $user_id, $reason, $message);
                 }
 
                 // (Soft) delete post
-                $dtime = date('Y-m-d H:i:s');
-                $sql = "UPDATE posts SET deleted = deleted | $type, deleted_datetime = '$dtime' WHERE post_id = '$id'";
-                if ($conn->query($sql) === FALSE) {
-                    echo "ERROR: Please try again later [DP3]";
-                }
-                
+                deletePost($id, $type, false)                
             } else {
                 echo "Clearance level too low";
             }

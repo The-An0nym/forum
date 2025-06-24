@@ -65,48 +65,18 @@ if(include($path . "/functions/validateSession.php")) {
                 if($id !== $user_id) {
                     // Push onto history
                     if($del_threads) {
-                        createHistory($conn, 2, 2, $id, $user_id, $reason, $message);
+                        createHistory(2, 2, $id, $user_id, $reason, $message);
                     } else {
-                        createHistory($conn, 2, 3, $id, $user_id, $reason, $message);
+                        createHistory(2, 3, $id, $user_id, $reason, $message);
                     }
-                    $type = 4; // Banned
+                    $type = 8; // Banned
                 } else {
                     $del_threads = false;
                 }
 
-                $dtime = date('Y-m-d H:i:s');
+                countForUser($id, false, $del_threads);
 
-                // Flag user as banned or self-deleted
-                $sql = "UPDATE users SET deleted = deleted | $type, deleted_datetime = '$dtime' WHERE user_id = '$id'";
-                if ($conn->query($sql) === FALSE) {
-                    echo "ERROR: Please try again later [BU5]";
-                }
-
-                if($type === 1) {
-                    countForUser($id, false, false);
-                } else {
-                    countForUser($id, false, $del_threads);
-                }
-
-                if($del_threads) {
-                    // Soft delete threads
-                    $sql = "UPDATE threads SET deleted = deleted | 4, deleted_datetime = '$dtime' WHERE user_id = '$id'";
-                    if ($conn->query($sql) === FALSE) {
-                        echo "ERROR: Please try again later [BU6]";
-                    }
-                }
-
-                // Soft delete posts
-                $sql = "UPDATE posts SET deleted = deleted | 4, deleted_datetime = '$dtime' WHERE user_id = '$id'";
-                if ($conn->query($sql) === FALSE) {
-                    echo "ERROR: Please try again later [BU7]";
-                }
-
-                // delete session
-                $sql = "DELETE FROM sessions WHERE user_id = '$id'";
-                if ($conn->query($sql) === FALSE) {
-                    echo "ERROR: Please try again later [BU8]";
-                }
+                deleteAccount($id, $type, $del_threads, false);
             } else {
                 echo "Clearance level too low";
             }

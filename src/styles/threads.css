@@ -2,8 +2,8 @@
   margin: 1%;
   padding: 1%;
   border: 1px var(--border) solid;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 60% 20% 10% 8%;
   background-color: var(--bg);
 }
 
@@ -37,12 +37,12 @@
 }
 
 .count {
+  width: min-content;
   font-size: 1.2em;
   border: 1px var(--border) solid;
   aspect-ratio: 1 / 1;
   align-content: center;
   text-align: center;
-  margin: 0 4vw;
 }
 
 #post-content {
