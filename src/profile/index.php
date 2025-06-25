@@ -113,7 +113,7 @@ include $path . '/functions/require/moderationHistory.php' ;
                             </span>
                             <span class="deleted-content"><?= $post['content']; ?></span>
                             <button class="restore" onclick="restorePost('<?= $post['post_id']; ?>')">restore</button>
-                        <div>
+                        </div>
                 <?php }
                 } else {
                     echo "No deleted posts";
@@ -123,17 +123,34 @@ include $path . '/functions/require/moderationHistory.php' ;
                 <?php
                 // MODERATION
                 if($clearance > 0) {
-                    echo "Moderation History";
-                    echo '<div id="moderation-history">';
-                    getHistoryHTML(false, 0, $clearance);
-                    echo '</div>';
+                    ?>
+                    Moderation History
+                    <div id="moderation-header">
+                        <div>Date</div>
+                        <div>Action</div>
+                        <div>Summary</div>
+                        <div>Reason</div>
+                        <div>Message</div>
+                        <div>Action</div>
+                    </div>
+                    <div id="moderation-history">
+                    <?= getHistoryHTML(false, 0, $clearance); ?>
+                    </div>
                     
-                    echo "Report History";
-                    echo '<div id="report-history">';
-                    getHistoryHTML(true, 0, $clearance);
-                    echo '</div>';
-                    echo '<script src="/scripts/moderation.js"></script>';
-                }
+                    Report History
+                    <div id="report-header">
+                        <div>Date</div>
+                        <div>Action</div>
+                        <div>Summary</div>
+                        <div>Reason</div>
+                        <div>Message</div>
+                        <div>Action</div>
+                    </div>
+                    <div id="report-history">
+                    <?= getHistoryHTML(true, 0, $clearance); ?>
+                    </div>
+                    <script src="/scripts/moderation.js"></script>
+                <?php}
                 ?>
     </div>
                 <script>

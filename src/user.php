@@ -82,7 +82,7 @@ if($result->num_rows === 1) {
                 echo '<button class="moderation" onclick="createReport(2, \'' . $user_id . '\')">Report</button>';
             }
             if($clearance >= 3 && $user_clearance < $clearance) {
-                echo '<button class="moderation" onclick="createModeration(\'ban ' . $username . '\', banUser, \'' . $user_id .'\')">Ban</button>';
+                echo '<button class="moderation" onclick="setupBan(\'' . $user_id .'\')">Ban</button>';
             }
             if($clearance >= 4 && $user_clearance < $clearance && $user_clearance > 0) {
                 echo '<button class="moderation" onclick="createModeration(\'demote ' . $username . '\', demoteUser, \'' . $user_id .'\')">Demote User</button>';

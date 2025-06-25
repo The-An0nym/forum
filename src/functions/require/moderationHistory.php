@@ -136,24 +136,24 @@ function generateButton($mod_id, $culp_id, int $clearance, int $culp_clearance, 
             $button .= "disabled>undo";
         } else if($type === 0 || ($type === 1 && $clearance > 1)) {
             if($judgement === 4) {
-                $button .= "onclick=\"undo('$id', false)\">undo";
+                $button .= "onclick=\"undo('$mod_id')\">undo";
             } else {
-                $button .= "onclick=\"undo('$id')\">undo";
+                $button .= "onclick=\"undo('$mod_id', false)\">undo";
             }
         } else if($type === 2) {
             // Deleted or restored
             if($judgement < 6 && $clearance > 2) {
                 if($judgement === 4 || $judgement === 5) {
-                    $button .= "onclick=\"undo('$id', false)\">undo";
+                    $button .= "onclick=\"undo('$mod_id')\">undo";
                 } else {
-                    $button .= "onclick=\"undo('$id')\">undo";
+                    $button .= "onclick=\"undo('$mod_id', false)\">undo";
                 }
             // demotion
             } else if($judgement === 6 && $culp_clearance < $clearance && $clearance > 3) {
-                $button .= "onclick=\"undo('$id')\">undo";
+                $button .= "onclick=\"undo('$mod_id')\">undo";
             // promotion
             } else if($judgement === 7 && $culp_clearance + 1 < $clearance && $clearance > 3) {
-                $button .= "onclick=\"undo('$id')\">undo";
+                $button .= "onclick=\"undo('$mod_id')\">undo";
             } else {
                 $button .= "disabled>undo";
             }

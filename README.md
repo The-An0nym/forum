@@ -48,7 +48,7 @@ reason
 VAL BINARY Meaning
 0 -> 0000 -> Not deleted
 1 -> 0001 -> User deleted
-2 -> 0010 -> Mod deleted
+2 -> 0010 -> Mod deleted // Auto deleted (threads)
 4 -> 0100 -> Thread deleted
 8 -> 1000 -> Ban/account deleted
 
@@ -66,6 +66,8 @@ Report types
 - [ ] Change the /functions/require/posts.php to match the /function/require/threads.php and adjust accordingly in thread.php and api/getThreads.php
 - [ ] Make login or sign-up pop-up hide when sign-up/login is pressed respectively
 - [ ] Check whether thread is deleted before posting message.
+- [ ] Create pages for mod history
+- [ ] Disable button for all but last, even with filters and other pages
 
 - [ ] Add ToS, Privacy Policy and cookies warning
 - [ ] Adress, full legal name, etc. (pattern)

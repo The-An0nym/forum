@@ -60,7 +60,7 @@ if(include($path . "/functions/validateSession.php")) {
         $judgement = (int)$row["judgement"];
         $type = (int)$row["type"];
         $id = $row["id"];
-        $culp_autho = (int)$row["clearance"];
+        $culp_auth = (int)$row["clearance"];
         $culp_id = $row["culp_id"];
 
         if($clearance < $type) {
@@ -80,47 +80,49 @@ if(include($path . "/functions/validateSession.php")) {
 
         // Clearance of sender?
 
+        // CHECK IF IT WAS LATEST ACTION FOR THIS ID (& ~judgement)
+
         if($type === 0) {
             if($judgement === 2) {
                 createHistory(0, 4, $id, $user_id, 4, $message);
-                countForPost($id, true);
                 deletePost($id, 2, true);   
+                countForPost($id, true);
             } else if($judgement === 4) {
                 createHistory(0, 2, $id, $user_id, $reason, $message);
-                countForPost($id, false);
-                deletePost($id, 2, false);   
+                deletePost($id, 2, false);  
+                countForPost($id, false); 
             }
         } else if($type === 1) {
             if($judgement === 2) {
                 createHistory(1, 4, $id, $user_id, 4, $message);
-                countForThread($id, true);
                 deleteThread($id, 4, true);
+                countForThread($id, true);
             } else if($judgement === 4) {
                 createHistory(1, 2, $id, $user_id, $reason, $message);
-                countForThread($id, false);
                 deleteThread($id, 4, false);
+                countForThread($id, false);
             }
         } else if($type === 2) {
             if($judgement === 2) {
                 // Restore again w/o threads
                 createHistory(2, 4, $id, $user_id, $reason, $message);
+                deleteAccount($id, true, false);
                 countForUser($id, true, false);
-                deleteUser($id, true, false);
             } else if($judgement === 3) {
                 // Restore again w threads
                 createHistory(2, 5, $id, $user_id, $reason, $message);
+                deleteAccount($id, true, true);
                 countForUser($id, true, true);
-                deleteUser($id, true, true);
             } else if($judgement === 4) {
                 // Delete agin w/o threads
                 createHistory(2, 2, $id, $user_id, $reason, $message);
+                deleteAccount($id, false, false);
                 countForUser($id, false, false);
-                deleteUser($id, false, false);
             } else if($judgement === 5) {
                 // Delete again w threads
                 createHistory(2, 3, $id, $user_id, $reason, $message);
+                deleteAccount($id, false, true);
                 countForUser($id, false, true);
-                deleteUser($id, false, true);
             } else if($judgement === 6) {
                 // Promote again
                 if($clearance > $culp_auth + 1 && $clearance > 2) {

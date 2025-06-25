@@ -46,7 +46,7 @@ if(include($path . "/functions/validateSession.php")) {
             $clearance = $row['clearance'];
             $user_clearance = $row['user_clearance'];
 
-            if($post_user_id !== $user_id || $clearance >= 3) {
+            if($id !== $user_id || $clearance >= 3) {
                 if(isset($decoded_params->m, $decoded_params->r)) {
                     $reason = (int)$decoded_params->r;
                     $message = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->m));
@@ -65,9 +65,9 @@ if(include($path . "/functions/validateSession.php")) {
                 if($id !== $user_id) {
                     // Push onto history
                     if($del_threads) {
-                        createHistory(2, 2, $id, $user_id, $reason, $message);
-                    } else {
                         createHistory(2, 3, $id, $user_id, $reason, $message);
+                    } else {
+                        createHistory(2, 2, $id, $user_id, $reason, $message);
                     }
                     $type = 8; // Banned
                 } else {

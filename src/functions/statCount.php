@@ -71,6 +71,8 @@ function countForPost($id, bool $rest) {
     if($conn->query($sql) === FALSE) {
         echo "An error has occured while updating the post counts";
     }
+
+    checkEmptyThreads();
 }
 
 function countForThread($id, bool $rest) {
@@ -101,7 +103,7 @@ function countForThread($id, bool $rest) {
                         p.user_id, COUNT(*) AS psts
                     FROM 
                         posts p
-                    WHERE deleted = 0 AND p.thread_id = '$id'
+                    WHERE deleted = deleted & ~11 AND p.thread_id = '$id'
                     GROUP BY p.user_id
                 ) p
             ON u.user_id = p.user_id
@@ -131,6 +133,12 @@ function countForUser($id, bool $rest, bool $threads) {
                 ) p
             ON t.id = p.thread_id
             SET t.posts = t.posts $op p.psts";
+
+    // As this already gets taken care of in the deleteThreads function
+    if($threads) {
+        $sql .= "\nWHERE t.user_id != '$id'";
+    }
+    
     if($conn->query($sql) === FALSE) {
         echo "An error has occured while updating the threads' post count";
     }
@@ -141,15 +149,43 @@ function countForUser($id, bool $rest, bool $threads) {
             JOIN (
                 SELECT t.category_id, COUNT(*) AS psts FROM posts p
                 JOIN threads t ON t.id = p.thread_id
-                WHERE p.user_id = '$id' AND p.deleted = p.deleted & ~7
-                GROUP BY t.category_id
+                WHERE p.user_id = '$id' AND p.deleted = p.deleted & ~7";
+
+    // As this already gets taken care of in the deleteThreads function
+    if($threads) {
+        $sql .= " AND t.user_id != '$id'";
+    }
+    
+    $sql .= "\nGROUP BY t.category_id
                 ) p
             ON c.id = p.category_id
             SET c.posts = c.posts $op p.psts";
     if($conn->query($sql) === FALSE) {
         echo "An error has occured while updating the categories' post count";
     }
+    
 
+    // User post count
+    $sql = "UPDATE 
+                users u
+            JOIN (
+                SELECT p.user_id, COUNT(*) AS psts FROM posts p";
+
+    if($threads) {
+        // Will be decremented with threads anyway
+        $sql .= "\nJOIN threads t ON t.id = p.thread_id
+                WHERE p.user_id = '$id' AND t.user_id != '$id'";
+    } else {
+        $sql .= "\nWHERE p.user_id = '$id'";
+    }
+
+    $sql .=     "\n) p ON p.user_id = u.user_id
+            SET u.posts = u.posts $op p.psts";
+    if($conn->query($sql) === FALSE) {
+        echo "An error has occured while updating the users' post count";
+    }
+
+    checkEmptyThreads();
 
     if(!$threads) {
         return;
@@ -166,4 +202,14 @@ function countForUser($id, bool $rest, bool $threads) {
     while($row = $result->fetch_assoc()) {
         countForThread($row["id"], $rest);
     }
+}
+
+function checkEmptyThreads() {
+    $sql = "UPDATE categories c, threads t, users u
+            SET c.threads = c.threads - 1, u.threads = u.threads - 1, t.deleted = t.deleted | 2
+            WHERE t.posts = 0 AND t.category_id = c.id AND t.user_id = u.user_id";
+
+if($conn->query($sql) === FALSE) {
+    echo "An error has occured while trying to remove empty threads";
+}
 }

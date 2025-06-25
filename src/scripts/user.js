@@ -64,7 +64,7 @@ async function banUser(id, deleteThreads, reason, message) {
   obj.m = message;
 
   // Request
-  const response = await fetch("/api/delete/deleteUser.php", {
+  const response = await fetch("/api/delete/deleteAccount.php", {
     method: "POST",
     headers: {
       "Content-type": "application/json; charset=utf-8",

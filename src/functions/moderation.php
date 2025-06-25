@@ -18,6 +18,7 @@ function createHistory(int $type, int $judgement, $id, $sender_id, int $reason, 
         $culp_id = $row["user_id"];
     } else if($type === 1) {
         $sql = "SELECT name, user_id FROM threads WHERE id = '$id'";
+        $result = $conn->query($sql);
         $row = $result->fetch_assoc();
         $summary = $row["name"];
         $culp_id = $row["user_id"];
