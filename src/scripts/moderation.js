@@ -4,15 +4,28 @@ async function getModerationHistory(page = 0, reports = false) {
   const target = reports
     ? document.getElementById("report-history")
     : document.getElementById("moderation-history");
+  const targetNumb = reports
+    ? document.getElementById("report-result")
+    : document.getElementById("mod-result");
 
   let url = `/api/moderation/getModerationHistory.php?p=${page}`;
   if (reports) url += "&r=1";
+  if (reports) {
+    url += getReportParams();
+  } else {
+    getModParams();
+  }
+
   const response = await fetch(url);
-  const text = await response.text(); // For error handling
+  const respText = await response.text(); // For error handling
 
   // Naive test
-  if (text.trim()[0] === "<") {
-    target.innerHTML = text;
+  const text = respText.trim();
+  if (text[0] === "#" && text.includes("§")) {
+    const index = text.indexOf("§");
+    // Store result number somewhere
+    targetNumb.textContent = text.slice(1, index);
+    target.innerHTML = text.slice(index + 1);
   } else if (/\S/.test(text)) {
     errorMessage(text);
   }
@@ -31,6 +44,47 @@ async function markReport(as, id) {
   } else {
     getModerationHistory(0, true);
   }
+}
+
+function getReportParams() {
+  params = "";
+  return params;
+}
+
+function getModParams() {
+  params = "";
+
+  const sender = document.getElementById("mod-sender").value;
+  if (sender !== "") {
+    if (checkHandle(sender)) params += `&s=${sender}`;
+  }
+
+  const culp = document.getElementById("mod-culp").value;
+  if (sender !== "") {
+    if (checkHandle(culp)) params += `&c=${sender}`;
+  }
+
+  const id = document.getElementById("mod-id").value;
+  if (sender !== "") {
+    if (i.length === 33) params += `&i=${id}`;
+    else errorMessage("Invalid ID");
+  }
+
+  const type = document.getElementById("mod-type").value;
+  if (type !== "") {
+    if (!isNaN(type)) {
+      if (type >= 0 && type <= 3) params += `&t=${parseInt(type)}`;
+      else errorMessage("Invalid type");
+    } else {
+      errorMessage("Type not a number");
+    }
+  }
+
+  if (document.getElementById("mod-sort").checked) {
+    params += "&rev=true";
+  }
+
+  return params;
 }
 
 function undo(id, selection = true) {

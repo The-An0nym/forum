@@ -28,6 +28,22 @@ if(include($path . "/functions/validateSession.php")) {
         }
     }
 
+    $params = []
+    if(isset($_GET["c"])) {
+        $params["culp_handle"] = $_GET["c"];
+    }
+    if(isset($_GET["s"])) {
+        $params["sender_handle"] = $_GET["s"];
+    }
+    if(isset($_GET["t"])) {
+        $params["type"] = (int)$_GET["t"];
+    }
+    if(isset($_GET["i"])) {
+        $params["id"] = $_GET["i"];
+    }
+    if(isset($_GET["rev"])) {
+        $params["reverse"] = $_GET["rev"];
+    }
 
     $conn = getConn();
         
@@ -45,7 +61,9 @@ if(include($path . "/functions/validateSession.php")) {
         die();
     }
 
-    $data = getHistoryHTML($report, $page, $clearance);
+
+    $data = getModHistoryHTML($report, $page, $clearance, $params);
+
     echo trim($data);
 } else {
     echo "Please login";

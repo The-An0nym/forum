@@ -125,6 +125,20 @@ include $path . '/functions/require/moderationHistory.php' ;
                 if($clearance > 0) {
                     ?>
                     Moderation History
+                    <div id="mod-filter">
+                        <input id="mod-sender">
+                        <input id="mod-culp">
+                        <input id="mod-id">
+                        <select id="mod-type">
+                            <option value="0">Post</option>
+                            <option value="1">Thread</option>
+                            <option value="2">User</option>
+                        </select>
+                        <label for="mod-sort">Reverse Order</label>
+                        <input id="mod-sort" type="checkbox">
+                        <button onclick="getModerationHistory()">Filter</button>
+                        <span id="mod-result">##</span> results
+                    </div>
                     <div id="moderation-header">
                         <div>Date</div>
                         <div>Action</div>
@@ -134,10 +148,13 @@ include $path . '/functions/require/moderationHistory.php' ;
                         <div>Action</div>
                     </div>
                     <div id="moderation-history">
-                    <?= getHistoryHTML(false, 0, $clearance); ?>
+                    <?= getHistoryHTML(false, 0, $clearance, []); ?>
                     </div>
                     
                     Report History
+                    <input id="report-search">
+                    <label for="report-sort">Reverse?</label>
+                    <input id="report-sort" type="checkbox">
                     <div id="report-header">
                         <div>Date</div>
                         <div>Action</div>
@@ -147,11 +164,10 @@ include $path . '/functions/require/moderationHistory.php' ;
                         <div>Action</div>
                     </div>
                     <div id="report-history">
-                    <?= getHistoryHTML(true, 0, $clearance); ?>
+                    <?= getHistoryHTML(true, 0, $clearance, []); ?>
                     </div>
                     <script src="/scripts/moderation.js"></script>
-                <?php}
-                ?>
+                <?php } ?>
     </div>
                 <script>
                     const username = "<?= $username; ?>";

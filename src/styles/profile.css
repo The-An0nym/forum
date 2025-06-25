@@ -33,8 +33,23 @@
   grid-template-columns: 5% 35% 15% 10% 20% auto;
 }
 
-.datetime-history {
+.datetime-history,
+.datetime-deleted,
+.datetime-created {
   font-size: 0.5em;
+}
+
+.deleted-posts {
+  background-color: var(--bg);
+}
+
+.deleted-post {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 2px;
+  margin-bottom: 2px;
+  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 10% 10% 30% 40% 10%;
 }
 
 .creator-username,

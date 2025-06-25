@@ -1,6 +1,6 @@
 <?php
 
-function getHistory(bool $report, int $page, int $clearance) {
+function getModHistory(int $page, array $params) {
     $path = $_SERVER['DOCUMENT_ROOT'];
 
     include $path . '/functions/.connect.php' ;
@@ -8,10 +8,94 @@ function getHistory(bool $report, int $page, int $clearance) {
     // Get connection
     $conn = getConn();
 
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+    $offset = $page * 50;
+
+    $sql = "SELECT
+                s.username AS sender_username,
+                s.handle AS sender_handle,
+                c.username AS culp_username,
+                c.handle AS culp_handle,
+                c.clearance AS culp_clearance,
+                mh.culp_id,
+                mh.mod_id,
+                mh.id,
+                mh.type,
+                mh.judgement,
+                mh.summary,
+                mh.reason,
+                mh.message,
+                mh.created,
+                IF(
+                    mh.created = sub.max_created,
+                    1,
+                    0
+                ) AS is_latest
+            FROM
+                mod_history mh
+            JOIN users s ON
+                s.user_id = mh.sender_id
+            JOIN users c ON
+                c.user_id = mh.culp_id
+            LEFT JOIN(
+                SELECT id,
+                    TYPE,
+                    MAX(created) AS max_created
+                FROM
+                    mod_history
+                WHERE
+                    judgement >= 2
+                GROUP BY
+                    id,
+                    TYPE
+            ) sub
+            ON
+                sub.id = mh.id AND sub.type = mh.type AND mh.created = sub.max_created
+            WHERE judgement > 1";
+
+    if(isset($params["culp_handle"])) {
+        $culp_handle = $params['culp_handle'];
+        $sql .= " AND c.handle = '$culp_handle'";
     }
+    if(isset($params["sender_handle"])) {
+        $sender_handle = $params['sender_handle'];
+        $sql .= " AND c.handle = '$sender_handle'";
+    }
+    if(isset($params["type"])) {
+        $type = (int)$params['type'];
+        $sql .= " AND c.handle = $type";
+    }
+    if(isset($params["id"])) {
+        $id = $params['id'];
+        $sql .= " AND c.handle = '$id'";
+    }    
+
+    $sort = "DESC";
+    if(isset($params["reverse"])) {
+        if((bool)$params["reverse"]) {
+            $sort = "ASC";
+        }
+    }
+
+    $sql .= "\nORDER BY mh.created $sort
+            LIMIT 50 OFFSET $offset";
+
+    $result = $conn->query($sql);
+
+    $data = [];
+    while($row = $result->fetch_assoc()) {
+        $data[] = $row;
+        
+    }
+    return $data;
+}
+
+function getReportHistory(int $page, int $clearance, array $params) {
+    $path = $_SERVER['DOCUMENT_ROOT'];
+
+    include $path . '/functions/.connect.php' ;
+
+    // Get connection
+    $conn = getConn();
 
     $offset = $page * 50;
 
@@ -32,52 +116,33 @@ function getHistory(bool $report, int $page, int $clearance) {
                 mh.created
             FROM mod_history mh
             JOIN users s ON s.user_id = mh.sender_id
-            JOIN users c ON c.user_id = mh.culp_id";
-
-    if($report) {
-        $sql .= "\nWHERE mh.judgement < 2 AND mh.type < $clearance";
-    } else {
-        $sql .= "\nWHERE mh.judgement > 1";
-    }
-
-    $sql .= "\nORDER BY mh.created DESC
+            JOIN users c ON c.user_id = mh.culp_id
+            WHERE mh.judgement < 2 AND mh.type < $clearance
+            ORDER BY mh.created DESC
             LIMIT 50 OFFSET $offset";
     
     $result = $conn->query($sql);
 
     $data = [];
-    $cache = [];
     while($row = $result->fetch_assoc()) {
-        if(isset($cache[$row["id"]])) {
-            if($row["type"] === "2") {
-                if((int)$row["judgement"] > 3 && $cache[$row["id"]] > 3) {
-                    $row["repeat"] = true;
-                } else if((int)$row["judgement"] < 4 && $cache[$row["id"]] < 4) {
-                    $row["repeat"] = true;
-                } else {
-                    $cache[$row["id"]] = (int)$row["judgement"];
-                    $row["repeat"] = false;
-                }
-            } else {
-                $row["repeat"] = true;
-            }
-        } else {
-            $cache[$row["id"]] = (int)$row["judgement"];
-            $row["repeat"] = false;
-        }
         $data[] = $row;
+        
     }
     return $data;
 }
 
-function getHistoryHTML(bool $report, int $page, int $clearance) {
-    $data = getHistory($report, $page, $clearance);
+function getHistoryHTML(bool $report, int $page, int $clearance, array $params) {
+    if($report) {
+        $data = getReportHistory($page, $clearance);
+    } else {
+        $data = getModHistory($page, $params);
+    }
     foreach($data as $row) {
-        generateHTML($row, $clearance);
+        generateHTML($row, $clearance, $report);
     }
 }
 
-function generateHTML($row, $clearance) {
+function generateHTML($row, int $clearance, bool $report) {
     if($row["type"] == 0) {
         $type = "post";
     } else if($row["type"] == 1) {
@@ -95,6 +160,16 @@ function generateHTML($row, $clearance) {
         $read = " read";
     }
 
+    if(!$report) {
+        if($row["is_latest"] === "1") {
+            $is_latest = true;
+        } else {
+            $is_latest = false;
+        }
+    } else {
+        $is_latest = false;
+    }
+
     ?>
     <div class="history <?= $type; ?> <?= $read; ?>">
         <span class="datetime-history"><?= $row["created"]; ?></span>
@@ -109,12 +184,12 @@ function generateHTML($row, $clearance) {
         </span>
         <span class="reason-history"> <?= $reason; ?></span>
         <span class="message-history"> <?= $row["message"]; ?></span>
-        <?= generateButton($row['mod_id'], $row['culp_id'], $clearance, $row['culp_clearance'], $row['type'], $row['judgement'], $row['repeat']); ?>
+        <?= generateButton($row['mod_id'], $row['culp_id'], $clearance, $row['culp_clearance'], $row['type'], $row['judgement'], $is_latest); ?>
     </div>
     <?php
 }
 
-function generateButton($mod_id, $culp_id, int $clearance, int $culp_clearance, int $type, int $judgement, bool $repeat) {
+function generateButton($mod_id, $culp_id, int $clearance, int $culp_clearance, int $type, int $judgement, bool $is_latest) {
     if(!session_id()) {
        session_start();
     } 
@@ -132,7 +207,7 @@ function generateButton($mod_id, $culp_id, int $clearance, int $culp_clearance, 
             $button .= "0, '$mod_id')\">Mark unread";
         }
     } else {
-        if($culp_id === $user_id || $repeat) {
+        if($culp_id === $user_id || !$is_latest) {
             $button .= "disabled>undo";
         } else if($type === 0 || ($type === 1 && $clearance > 1)) {
             if($judgement === 4) {
@@ -142,7 +217,7 @@ function generateButton($mod_id, $culp_id, int $clearance, int $culp_clearance, 
             }
         } else if($type === 2) {
             // Deleted or restored
-            if($judgement < 6 && $clearance > 2) {
+            if($judgement < 6 && $clearance > 3) {
                 if($judgement === 4 || $judgement === 5) {
                     $button .= "onclick=\"undo('$mod_id')\">undo";
                 } else {
