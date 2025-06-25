@@ -25,13 +25,18 @@ async function getModerationHistory(page = 0, reports = false) {
     let index = text.indexOf("§");
     // Store result number somewhere
     targetNumb.textContent = text.slice(1, index);
-    if (!reports && textincludes("§", index + 1)) {
+    if (reports && text.includes("§", index + 1)) {
       const preIndex = index;
       index = text.indexOf("§", index + 1);
       document.getElementById("report-unread").textContent = text.slice(
         preIndex + 1,
         index
       );
+      reportTotalPage = parseInt(text.slice(1, preIndex));
+      reportPage = page;
+    } else {
+      modTotalPage = parseInt(text.slice(1, index));
+      modPage = page;
     }
     target.innerHTML = text.slice(index + 1);
   } else if (/\S/.test(text)) {
@@ -227,4 +232,46 @@ async function getThreadSlug(id) {
   const txt = response.text();
   getCache[id] = txt;
   return txt;
+}
+
+function generateButton(report, earlier) {
+  let text = "";
+  let page = 0;
+  if (earlier) {
+    text = "Load previous";
+    page = report ? reportPage - 1 : modPage - 1;
+  } else {
+    text = "Load next";
+    page = report ? reportPage + 1 : modPage + 1;
+  }
+
+  const button = document.createElement("button");
+  button.textContent = earlier ? "Load previous" : "Load next";
+  button.setAttribute("onclick", `getModerationHistory(${page}, ${report})`);
+
+  const id = report ? "report-history" : "mod-history";
+
+  if (earlier) {
+    document.getElementById(id).prepend(button);
+  } else {
+    document.getElementById(id).appendChild(button);
+  }
+}
+
+function paginateMod() {
+  if (modPage !== 0) {
+    generateButton(false, true);
+  }
+  if (modPage * 50 + 50 < modTotalPage) {
+    generateButton(false, true);
+  }
+}
+
+function paginateReport() {
+  if (reportPage !== 0) {
+    generateButton(true, true);
+  }
+  if (reportPage * 50 + 50 < reportTotalPage) {
+    generateButton(true, true);
+  }
 }

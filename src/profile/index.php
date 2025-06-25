@@ -123,6 +123,8 @@ include $path . '/functions/require/moderationHistory.php' ;
                 <?php
                 // MODERATION
                 if($clearance > 0) {
+                    $totalMod = (int)countModHistory();
+                    $totalReport = (int)countReportHistory(false, $clearance);
                     ?>
                     Moderation History
                     <div id="mod-filter">
@@ -130,6 +132,7 @@ include $path . '/functions/require/moderationHistory.php' ;
                         <input id="mod-culp" placeholder="culprit handle">
                         <input id="mod-id" placeholder="id">
                         <select id="mod-type">
+                            <option value="">All</option>
                             <option value="0">Post</option>
                             <option value="1">Thread</option>
                             <option value="2">User</option>
@@ -137,7 +140,7 @@ include $path . '/functions/require/moderationHistory.php' ;
                         <label for="mod-sort">Reverse Order</label>
                         <input id="mod-sort" type="checkbox">
                         <button onclick="getModerationHistory()">Filter</button>
-                        <span id="mod-result"><?= countModHistory(0); ?></span> results
+                        <span id="mod-result"><?= $totalMod; ?></span> results
                     </div>
                     <div id="moderation-header">
                         <div>Date</div>
@@ -157,6 +160,7 @@ include $path . '/functions/require/moderationHistory.php' ;
                         <input id="report-culp" placeholder="culprit handle">
                         <input id="report-id" placeholder="id">
                         <select id="report-type">
+                            <option value="">All</option>
                             <option value="0">Post</option>
                             <option value="1">Thread</option>
                             <option value="2">User</option>
@@ -164,8 +168,8 @@ include $path . '/functions/require/moderationHistory.php' ;
                         <label for="report-sort">Reverse Order</label>
                         <input id="report-sort" type="checkbox">
                         <button onclick="getModerationHistory(0, true)">Filter</button>
-                        <span id="report-result"><?= countModHistory(1); ?></span> results
-                        <span id="report-unread"><?= countModHistory(2); ?></span> results
+                        <span id="report-result"><?= $totalReport; ?></span> results
+                        <span id="report-unread"><?= countReportHistory(true, $clearance); ?></span> unread
                     </div>
                     <div id="report-header">
                         <div>Date</div>
@@ -179,6 +183,14 @@ include $path . '/functions/require/moderationHistory.php' ;
                     <?= getHistoryHTML(true, 0, $clearance, []); ?>
                     </div>
                     <script src="/scripts/moderation.js"></script>
+                    <script>
+                        let modTotalPage = <?= $totalMod; ?>;
+                        let modPage = 0;
+                        let reportTotalPage = <?= $totalReport; ?>;
+                        let reportPage = 0;
+                        paginateMod();
+                        paginateReport()
+                    </script>
                 <?php } ?>
     </div>
                 <script>

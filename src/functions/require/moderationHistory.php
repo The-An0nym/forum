@@ -52,22 +52,7 @@ function getModHistory(int $page, array $params) {
                 sub.id = mh.id AND sub.type = mh.type AND mh.created = sub.max_created
             WHERE judgement > 1";
 
-    if(isset($params["culp_handle"])) {
-        $culp_handle = $params['culp_handle'];
-        $sql .= " AND c.handle = '$culp_handle'";
-    }
-    if(isset($params["sender_handle"])) {
-        $sender_handle = $params['sender_handle'];
-        $sql .= " AND s.handle = '$sender_handle'";
-    }
-    if(isset($params["type"])) {
-        $type = (int)$params['type'];
-        $sql .= " AND mh.type = $type";
-    }
-    if(isset($params["id"])) {
-        $id = $params['id'];
-        $sql .= " AND mh.id = '$id'";
-    }    
+    $sql .= filter($params);
 
     $sort = "DESC";
     if(isset($params["reverse"])) {
@@ -120,22 +105,7 @@ function getReportHistory(int $page, int $clearance, array $params) {
             JOIN users c ON c.user_id = mh.culp_id
             WHERE mh.judgement < 2 AND mh.type < $clearance";
 
-    if(isset($params["culp_handle"])) {
-        $culp_handle = $params['culp_handle'];
-        $sql .= " AND c.handle = '$culp_handle'";
-    }
-    if(isset($params["sender_handle"])) {
-        $sender_handle = $params['sender_handle'];
-        $sql .= " AND s.handle = '$sender_handle'";
-    }
-    if(isset($params["type"])) {
-        $type = (int)$params['type'];
-        $sql .= " AND mh.type = $type";
-    }
-    if(isset($params["id"])) {
-        $id = $params['id'];
-        $sql .= " AND mh.id = '$id'";
-    }    
+    $sql .= filter($params);
 
     $sort = "DESC";
     if(isset($params["reverse"])) {
@@ -144,7 +114,7 @@ function getReportHistory(int $page, int $clearance, array $params) {
         }
     }
 
-    $sql .= "ORDER BY mh.created $sort
+    $sql .= "\nORDER BY mh.created $sort
             LIMIT 50 OFFSET $offset";
     
     $result = $conn->query($sql);
@@ -158,22 +128,59 @@ function getReportHistory(int $page, int $clearance, array $params) {
     return $data;
 }
 
-function countModHistory(int $type = 0) {
+function countModHistory(array $params = []) {
     $conn = getConn();
 
-    if($type === 0) {
-        $symbol = ">"
-    } else if($type === 1) {
-        $symbol = ">="
-    } else if($type === 2) {
-        $symbol = "=";
-    } else {
-        return 0;
-    }
+    $sql = "SELECT COUNT(*) AS count FROM mod_history mh
+            JOIN users s ON s.user_id = mh.sender_id
+            JOIN users c ON c.user_id = mh.culp_id
+            WHERE judgement > 1";
 
-    $sql = "SELECT COUNT(*) AS count FROM mod_history WHERE judgement $symbol 1";
+    $sql .= filter($params);
+
     $result = $conn->query($sql);
     return (int)$result->fetch_assoc()["count"];
+}
+
+function countReportHistory(bool $unread = false, int $clearance = 0, array $params = []) {
+    $conn = getConn();
+
+    if($unread) {
+        $symbol = "<";
+    } else {
+        $symbol = "<=";
+    }
+
+    $sql = "SELECT COUNT(*) AS count FROM mod_history mh
+            JOIN users s ON s.user_id = mh.sender_id
+            JOIN users c ON c.user_id = mh.culp_id
+            WHERE judgement $symbol 1 AND type < $clearance";
+
+    $sql .= filter($params);
+    
+    $result = $conn->query($sql);
+    return (int)$result->fetch_assoc()["count"];
+}
+
+function filter(array $params = []) {
+    $filt = "";
+    if(isset($params["culp_handle"])) {
+        $culp_handle = $params['culp_handle'];
+        $filt .= " AND c.handle = '$culp_handle'";
+    }
+    if(isset($params["sender_handle"])) {
+        $sender_handle = $params['sender_handle'];
+        $filt .= " AND s.handle = '$sender_handle'";
+    }
+    if(isset($params["type"])) {
+        $type = (int)$params['type'];
+        $filt .= " AND mh.type = $type";
+    }
+    if(isset($params["id"])) {
+        $id = $params['id'];
+        $filt .= " AND mh.id = '$id'";
+    }   
+    return $filt; 
 }
 
 function getHistoryHTML(bool $report, int $page, int $clearance, array $params, bool $inclQuant = false) {
@@ -187,7 +194,7 @@ function getHistoryHTML(bool $report, int $page, int $clearance, array $params, 
     if($inclQuant) {
         echo "#" . $quantity . "§";
         if($report) {
-            echo countModHistory(2) . "§";
+            echo countReportHistory(true, $clearance, $params) . "§";
         }
     }
 
