@@ -32,13 +32,19 @@ async function getModerationHistory(page = 0, reports = false) {
         preIndex + 1,
         index
       );
+    }
+
+    target.innerHTML = text.slice(index + 1);
+
+    if (reports) {
       reportTotalPage = parseInt(text.slice(1, preIndex));
       reportPage = page;
+      paginateReport();
     } else {
       modTotalPage = parseInt(text.slice(1, index));
       modPage = page;
+      paginateMod();
     }
-    target.innerHTML = text.slice(index + 1);
   } else if (/\S/.test(text)) {
     errorMessage(text);
   }
@@ -249,7 +255,7 @@ function generateButton(report, earlier) {
   button.textContent = earlier ? "Load previous" : "Load next";
   button.setAttribute("onclick", `getModerationHistory(${page}, ${report})`);
 
-  const id = report ? "report-history" : "mod-history";
+  const id = report ? "report-history" : "moderation-history";
 
   if (earlier) {
     document.getElementById(id).prepend(button);
@@ -263,7 +269,7 @@ function paginateMod() {
     generateButton(false, true);
   }
   if (modPage * 50 + 50 < modTotalPage) {
-    generateButton(false, true);
+    generateButton(false, false);
   }
 }
 
@@ -272,6 +278,6 @@ function paginateReport() {
     generateButton(true, true);
   }
   if (reportPage * 50 + 50 < reportTotalPage) {
-    generateButton(true, true);
+    generateButton(true, false);
   }
 }

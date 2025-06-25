@@ -67,10 +67,8 @@ function getModHistory(int $page, array $params) {
     $result = $conn->query($sql);
 
     $data = [];
-    $data[] = $result->num_rows;
     while($row = $result->fetch_assoc()) {
         $data[] = $row;
-        
     }
     return $data;
 }
@@ -120,7 +118,6 @@ function getReportHistory(int $page, int $clearance, array $params) {
     $result = $conn->query($sql);
 
     $data = [];
-    $data[] = $result->num_rows;
     while($row = $result->fetch_assoc()) {
         $data[] = $row;
         
@@ -190,11 +187,13 @@ function getHistoryHTML(bool $report, int $page, int $clearance, array $params, 
         $data = getModHistory($page, $params);
     }
 
-    $quantity = (int)array_shift($data);
     if($inclQuant) {
-        echo "#" . $quantity . "§";
+        echo "#";
         if($report) {
+            echo countReportHistory(false, $clearance, $params) . "§";
             echo countReportHistory(true, $clearance, $params) . "§";
+        } else {
+            echo countModHistory($params) . "§";
         }
     }
 

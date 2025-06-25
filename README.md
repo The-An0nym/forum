@@ -66,8 +66,8 @@ Report types
 - [ ] Change the /functions/require/posts.php to match the /function/require/threads.php and adjust accordingly in thread.php and api/getThreads.php
 - [ ] Make login or sign-up pop-up hide when sign-up/login is pressed respectively
 - [ ] Check whether thread is deleted before posting message.
-- [ ] Create pages for mod history and filtering/searching capabilities
-- [ ] Disable button for all but last, even with filters and other pages
+- [ ] Make it scroll up upon going to next page (mod/report history)
+- [ ] Add manual sync button for mod 5
 
 - [ ] Add ToS, Privacy Policy and cookies warning
 - [ ] Adress, full legal name, etc. (pattern)

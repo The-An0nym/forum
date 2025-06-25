@@ -205,11 +205,23 @@ function countForUser($id, bool $rest, bool $threads) {
 }
 
 function checkEmptyThreads() {
+    $path = $_SERVER['DOCUMENT_ROOT'];
+    include $path . '/functions/.connect.php' ;
+    $conn = getConn();
+
     $sql = "UPDATE categories c, threads t, users u
             SET c.threads = c.threads - 1, u.threads = u.threads - 1, t.deleted = t.deleted | 2
-            WHERE t.posts = 0 AND t.category_id = c.id AND t.user_id = u.user_id";
+            WHERE t.posts = 0 AND t.category_id = c.id AND t.user_id = u.user_id AND t.deleted = 0";
 
-if($conn->query($sql) === FALSE) {
-    echo "An error has occured while trying to remove empty threads";
-}
+    if($conn->query($sql) === FALSE) {
+        echo "An error has occured while trying to remove empty threads";
+    }
+
+    $sql = "UPDATE categories c, threads t, users u
+            SET c.threads = c.threads + 1, u.threads = u.threads + 1, t.deleted = t.deleted & ~2
+            WHERE t.posts != 0 AND t.category_id = c.id AND t.user_id = u.user_id AND t.deleted = 2";
+
+    if($conn->query($sql) === FALSE) {
+        echo "An error has occured while trying to restore non-empty threads";
+    }
 }
