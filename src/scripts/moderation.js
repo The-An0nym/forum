@@ -13,7 +13,7 @@ async function getModerationHistory(page = 0, reports = false) {
   if (reports) {
     url += getReportParams();
   } else {
-    getModParams();
+    url += getModParams();
   }
 
   const response = await fetch(url);
@@ -22,9 +22,17 @@ async function getModerationHistory(page = 0, reports = false) {
   // Naive test
   const text = respText.trim();
   if (text[0] === "#" && text.includes("§")) {
-    const index = text.indexOf("§");
+    let index = text.indexOf("§");
     // Store result number somewhere
     targetNumb.textContent = text.slice(1, index);
+    if (!reports && textincludes("§", index + 1)) {
+      const preIndex = index;
+      index = text.indexOf("§", index + 1);
+      document.getElementById("report-unread").textContent = text.slice(
+        preIndex + 1,
+        index
+      );
+    }
     target.innerHTML = text.slice(index + 1);
   } else if (/\S/.test(text)) {
     errorMessage(text);
@@ -48,6 +56,37 @@ async function markReport(as, id) {
 
 function getReportParams() {
   params = "";
+
+  const sender = document.getElementById("report-sender").value;
+  if (sender !== "") {
+    if (checkHandle(sender)) params += `&s=${sender}`;
+  }
+
+  const culp = document.getElementById("report-culp").value;
+  if (culp !== "") {
+    if (checkHandle(culp)) params += `&c=${culp}`;
+  }
+
+  const id = document.getElementById("report-id").value;
+  if (id !== "") {
+    if (id.length === 33) params += `&i=${id}`;
+    else errorMessage("Invalid ID");
+  }
+
+  const type = document.getElementById("report-type").value;
+  if (type !== "") {
+    if (!isNaN(type)) {
+      if (type >= 0 && type <= 3) params += `&t=${parseInt(type)}`;
+      else errorMessage("Invalid type");
+    } else {
+      errorMessage("Type not a number");
+    }
+  }
+
+  if (document.getElementById("mod-sort").checked) {
+    params += "&rev=true";
+  }
+
   return params;
 }
 
@@ -60,13 +99,13 @@ function getModParams() {
   }
 
   const culp = document.getElementById("mod-culp").value;
-  if (sender !== "") {
-    if (checkHandle(culp)) params += `&c=${sender}`;
+  if (culp !== "") {
+    if (checkHandle(culp)) params += `&c=${culp}`;
   }
 
   const id = document.getElementById("mod-id").value;
-  if (sender !== "") {
-    if (i.length === 33) params += `&i=${id}`;
+  if (id !== "") {
+    if (id.length === 33) params += `&i=${id}`;
     else errorMessage("Invalid ID");
   }
 

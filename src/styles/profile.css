@@ -34,8 +34,8 @@
 }
 
 .datetime-history,
-.datetime-deleted,
-.datetime-created {
+.deleted-datetime,
+.deleted-created {
   font-size: 0.5em;
 }
 

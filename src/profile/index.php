@@ -126,9 +126,9 @@ include $path . '/functions/require/moderationHistory.php' ;
                     ?>
                     Moderation History
                     <div id="mod-filter">
-                        <input id="mod-sender">
-                        <input id="mod-culp">
-                        <input id="mod-id">
+                        <input id="mod-sender" placeholder="sender handle">
+                        <input id="mod-culp" placeholder="culprit handle">
+                        <input id="mod-id" placeholder="id">
                         <select id="mod-type">
                             <option value="0">Post</option>
                             <option value="1">Thread</option>
@@ -137,7 +137,7 @@ include $path . '/functions/require/moderationHistory.php' ;
                         <label for="mod-sort">Reverse Order</label>
                         <input id="mod-sort" type="checkbox">
                         <button onclick="getModerationHistory()">Filter</button>
-                        <span id="mod-result">##</span> results
+                        <span id="mod-result"><?= countModHistory(0); ?></span> results
                     </div>
                     <div id="moderation-header">
                         <div>Date</div>
@@ -152,9 +152,21 @@ include $path . '/functions/require/moderationHistory.php' ;
                     </div>
                     
                     Report History
-                    <input id="report-search">
-                    <label for="report-sort">Reverse?</label>
-                    <input id="report-sort" type="checkbox">
+                    <div id="report-filter">
+                        <input id="report-sender" placeholder="sender handle">
+                        <input id="report-culp" placeholder="culprit handle">
+                        <input id="report-id" placeholder="id">
+                        <select id="report-type">
+                            <option value="0">Post</option>
+                            <option value="1">Thread</option>
+                            <option value="2">User</option>
+                        </select>
+                        <label for="report-sort">Reverse Order</label>
+                        <input id="report-sort" type="checkbox">
+                        <button onclick="getModerationHistory(0, true)">Filter</button>
+                        <span id="report-result"><?= countModHistory(1); ?></span> results
+                        <span id="report-unread"><?= countModHistory(2); ?></span> results
+                    </div>
                     <div id="report-header">
                         <div>Date</div>
                         <div>Action</div>

@@ -28,7 +28,7 @@ if(include($path . "/functions/validateSession.php")) {
         }
     }
 
-    $params = []
+    $params = [];
     if(isset($_GET["c"])) {
         $params["culp_handle"] = $_GET["c"];
     }
@@ -61,8 +61,7 @@ if(include($path . "/functions/validateSession.php")) {
         die();
     }
 
-
-    $data = getModHistoryHTML($report, $page, $clearance, $params);
+    $data = getHistoryHTML($report, $page, $clearance, $params, true);
 
     echo trim($data);
 } else {
