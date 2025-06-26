@@ -255,3 +255,14 @@ async function deletePost(id, reason, message) {
     getPosts();
   }
 }
+
+async function unSubscribe(type = true) {
+  const response = await fetch(`/api/unSubscribe.php?t=${slug}&s=${type}`);
+  const result = await response.text();
+
+  if (/\S/.test(result)) {
+    errorMessage(result);
+  } else {
+    // Update subscribe button
+  }
+}
