@@ -57,3 +57,8 @@
 #subscribe {
   position: absolute;
 }
+
+.editTxt {
+  width: 710px;
+  height: 80%;
+}

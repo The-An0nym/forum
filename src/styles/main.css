@@ -34,6 +34,33 @@ a:hover {
   text-decoration: underline;
 }
 
+input,
+button,
+textarea,
+.button {
+  background-color: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 4px;
+  border-radius: 4px;
+  font-size: 0.6em;
+}
+
+input:hover,
+button:hover,
+.button:hover {
+  background-color: var(--bg-light);
+  color: var(--text);
+}
+
+input::placeholder {
+  color: var(--text-muted);
+}
+
+textarea {
+  resize: vertical;
+}
+
 .error-message {
   border-radius: 5px;
   position: fixed;

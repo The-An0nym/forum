@@ -47,6 +47,7 @@ include $path . '/functions/require/moderationHistory.php' ;
 
             ?>  
             <div class="profile-picture">
+            <label for="pfp"><span class="button">Change pfp...</span></label>
                 <input onchange="loadPreview()" type="file" id="pfp" name="avatar" accept="image/png, image/jpeg, image/jpg" />
                 <div class="button-container" id="imageButtons">
                     <button class="save button" onclick="uploadImage()">Save</button>

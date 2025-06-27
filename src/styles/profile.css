@@ -61,3 +61,7 @@
   background-color: var(--bg-dark);
   color: var(--text-muted);
 }
+
+#pfp {
+  display: none;
+}

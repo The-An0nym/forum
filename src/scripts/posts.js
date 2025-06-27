@@ -226,6 +226,9 @@ async function sendPost() {
   } else {
     txt.value = "";
     getPosts();
+    if (autoSub) {
+      unSubscribe();
+    }
   }
 }
 
@@ -263,6 +266,8 @@ async function unSubscribe(type = 1) {
   if (/\S/.test(result)) {
     errorMessage(result);
   } else {
-    // Update subscribe button
+    const button = document.getElementById("subscribe");
+    button.textContent = type === 1 ? "Subscribe" : "Unsubscribe";
+    button.setAttribute("onclick", `unSubscribe(${type === 1 ? 0 : 1})`);
   }
 }

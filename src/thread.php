@@ -41,6 +41,8 @@ if(!isset($totalPosts)) {
 <body>
     <?php generateMenu(getPathNames($slug));
 
+    $autoSub = "false";
+
     if(isset($_SESSION["user_id"])) {
         $user_id = $_SESSION["user_id"];
 
@@ -61,6 +63,7 @@ if(!isset($totalPosts)) {
             }
         } else { 
             echo '<button id="subscribe" onclick="unSubscribe()">Subscribe</button>';
+            $autoSub = "true";
         }
     }
     
@@ -115,8 +118,10 @@ if(!isset($totalPosts)) {
     <script> 
         const slug = "<?= $slug ?>";
         const page = <?= $page ?>;
+        <?php if(isset($_SESSION['user_id'])) {
+            echo "const autoSub = $autoSub";
+        } ?>
         createPageMenu("thread", slug, page, <?= $totalPosts?>);
-
     </script>
     <script src="/scripts/posts.js"></script>
     <?php include $path . "/basic/footer.php"; ?>

@@ -11,6 +11,17 @@ function generateMenu($paths) {
     if(!session_id()) {
         session_start();
     }
+
+    if(isset($_SESSION['user_id'])) {
+        include $_SERVER['DOCUMENT_ROOT'] . '/functions/.connect.php';
+        $conn = getConn();
+
+        $user_id = $_SESSION['user_id'];
+        $sql = "SELECT darkmode, handle WHERE user_id = '$user_id'";
+        $result = $conn->query($sql);
+
+        $info = $result->fetch_assoc();
+    }
     
     ?>
     <link rel="stylesheet" href="/styles/menu.css">
@@ -18,9 +29,13 @@ function generateMenu($paths) {
         <?php
         if(isset($_SESSION['user_id'])) {
             ?>
-            <span class="profile menu-button"><a href="/profile/">profile</a></span>
+            <span class="profile menu-button"><a href="/profile/"><?= $info["handle"]; ?></a></span>
             <span class="logout menu-button"><a href="/logout/">logout</a></span>
             <span class="menu-path"><?= $HTMLpath ?></span>
+            <span class="mode" onclick="toggle()">Toggle Mode</span>
+            <script> 
+                toggel(<?= $info["darkmode"]; ?>);
+            </script>
             <?php
         } else {
             ?>

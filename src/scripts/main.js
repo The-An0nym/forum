@@ -1,6 +1,18 @@
 /* STYLE */
-function toggle() {
-  document.body.classList.toggle("dark");
+async function toggle(to) {
+  if (to === undefined) {
+    const set = document.body.classList.toggle("dark");
+    const response = await fetch(`/api/setMode.php?m=${set ? 1 : 0}`);
+    const txt = await response.text();
+    if (/\S/.test(txt)) {
+      errorMessage(txt);
+    }
+  } else if (
+    (to === 0 && document.body.classList.value === "dark") ||
+    (to === 1 && document.body.classList.value === "")
+  ) {
+    document.body.classList.toggle("dark");
+  }
 }
 
 /* OVERLAY */
