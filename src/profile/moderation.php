@@ -172,6 +172,5 @@ include $path . '/functions/require/moderationHistory.php' ;
     <?php include $path . "/basic/footer.php"; ?>
 
     <script src="/scripts/profile.js"></script>
-    <script src="/scripts/main.js"></script>
 </body>
 </html>

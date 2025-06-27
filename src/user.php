@@ -161,7 +161,6 @@ if($result->num_rows === 1) {
     </script>
     <script src="/scripts/user.js"></script>
     <?php } ?>
-    <script src="/scripts/main.js"></script>
 
     <?php include $path . "/basic/footer.php"; ?>
 </body>

@@ -37,6 +37,7 @@ a:hover {
 input,
 button,
 textarea,
+select,
 .button {
   background-color: var(--bg);
   color: var(--text);
@@ -48,6 +49,8 @@ textarea,
 
 input:hover,
 button:hover,
+textarea:hover,
+select:hover,
 .button:hover {
   background-color: var(--bg-light);
   color: var(--text);

@@ -17,7 +17,7 @@ function generateMenu($paths) {
         $conn = getConn();
 
         $user_id = $_SESSION['user_id'];
-        $sql = "SELECT darkmode, handle WHERE user_id = '$user_id'";
+        $sql = "SELECT darkmode, handle FROM users WHERE user_id = '$user_id'";
         $result = $conn->query($sql);
 
         $info = $result->fetch_assoc();
@@ -25,6 +25,7 @@ function generateMenu($paths) {
     
     ?>
     <link rel="stylesheet" href="/styles/menu.css">
+    <script src="/scripts/main.js"></script>
     <div class="menu">
         <?php
         if(isset($_SESSION['user_id'])) {
@@ -34,7 +35,7 @@ function generateMenu($paths) {
             <span class="menu-path"><?= $HTMLpath ?></span>
             <span class="mode" onclick="toggle()">Toggle Mode</span>
             <script> 
-                toggel(<?= $info["darkmode"]; ?>);
+                toggle(<?= $info["darkmode"]; ?>);
             </script>
             <?php
         } else {

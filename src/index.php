@@ -55,8 +55,6 @@ if ($conn->connect_error) {
       ?>
     </div>
 
-    <script src="/scripts/main.js"></script>
-
     <?php include $path . "/basic/footer.php"; ?>
 </body>
 </html>

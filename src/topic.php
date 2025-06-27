@@ -46,7 +46,6 @@ if(isset($_GET["p"])) {
         <button onclick="createThread()">Submit</button>
     <?php } ?>
 
-    <script src="/scripts/main.js"></script>
     <script> 
         const slug = "<?= $slug; ?>";
         const page = <?= $page; ?>;
