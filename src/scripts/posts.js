@@ -12,7 +12,8 @@ async function getPosts() {
 
     if (!dataJSON[1]) return;
 
-    createPageMenu("thread", slug, page, dataJSON[0]);
+    totalPosts = dataJSON[0];
+    createPageMenu("thread", slug, page, totalPosts);
 
     for (let i = 1; i < dataJSON.length; i++) {
       const post = document.createElement("div");
@@ -225,6 +226,11 @@ async function sendPost() {
     errorMessage(result);
   } else {
     txt.value = "";
+    totalPosts++;
+    page = Math.floor(totalPosts / 20);
+    if (page !== 0)
+      history.pushState({}, null, `https://quir.free.nf/threads/${page}`);
+
     getPosts();
     if (autoSub) {
       unSubscribe();
@@ -255,7 +261,7 @@ async function deletePost(id, reason, message) {
   if (/\S/.test(result)) {
     errorMessage(result);
   } else {
-    getPosts();
+    if (page) getPosts();
   }
 }
 

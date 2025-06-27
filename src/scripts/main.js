@@ -43,14 +43,14 @@ function createPageMenu(dir, slug, page, items) {
 
   pageMenu.innerHTML = "";
 
-  if (!(page <= 0)) {
+  if (page > 0) {
     const prev = document.createElement("a");
     prev.className = "prev-button";
     prev.textContent = "PREV";
     prev.setAttribute("href", `/${dir}/${slug}/${page - 1}`);
     pageMenu.appendChild(prev);
   }
-  if (!(pages - page <= 0)) {
+  if (pages - page > 0) {
     const next = document.createElement("a");
     next.className = "next-button";
     next.textContent = "NEXT";

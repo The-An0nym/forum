@@ -116,11 +116,12 @@ if(!isset($totalPosts)) {
 
     <script> 
         const slug = "<?= $slug ?>";
-        const page = <?= $page ?>;
+        let page = <?= $page ?>;
         <?php if(isset($_SESSION['user_id'])) {
             echo "const autoSub = $autoSub;\n";
         } ?>
-        createPageMenu("thread", slug, page, <?= $totalPosts?>);
+        let totalPosts = <?= $totalPosts; ?>
+        createPageMenu("thread", slug, page, totalPosts);
     </script>
     <script src="/scripts/posts.js"></script>
     <?php include $path . "/basic/footer.php"; ?>

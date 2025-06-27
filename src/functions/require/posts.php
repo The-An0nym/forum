@@ -12,10 +12,9 @@ function getPosts(string $slug, int $page) :array {
     }   
 
     // Total posts
-    $sql = "SELECT COUNT(*) AS total_posts
-                FROM posts p
-                JOIN threads t ON t.id = p.thread_id
-                WHERE t.slug = '$slug'";
+    $sql = "SELECT posts AS total_posts
+            FROM threads t
+            WHERE t.slug = '$slug' AND t.deleted = 0";
     
     $result = $conn->query($sql);
     $total_posts = $result->fetch_assoc()["total_posts"];

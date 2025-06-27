@@ -33,7 +33,7 @@ function generateMenu($paths) {
             <span class="profile menu-button"><a href="/profile/"><?= $info["handle"]; ?></a></span>
             <span class="logout menu-button"><a href="/logout/">logout</a></span>
             <span class="menu-path"><?= $HTMLpath ?></span>
-            <span class="mode" onclick="toggle()">Toggle Mode</span>
+            <span class="mode menu-button" onclick="toggle()">Toggle Mode</span>
             <script> 
                 toggle(<?= $info["darkmode"]; ?>);
             </script>

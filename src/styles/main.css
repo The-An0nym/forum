@@ -54,6 +54,7 @@ select:hover,
 .button:hover {
   background-color: var(--bg-light);
   color: var(--text);
+  cursor: pointer;
 }
 
 input::placeholder {
