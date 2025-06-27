@@ -15,12 +15,13 @@ if(!session_id()) {
 } 
 
 if(include($path . '/functions/validateSession.php')) {
-    if (!isset($_GET["t"])) {
+    $sub = "1";
+    if (isset($_GET["t"])) {
         $thread_slug = $_GET["t"];
-        if (!isset($_GET["s"])) {
-            $sub = (bool)$_GET["s"];
-        } else {
-            $sub = true;
+        if (isset($_GET["s"])) {
+            if($_GET["s"] == 0 || $_GET["s"] == 1) {
+                $sub = $_GET["s"];
+            }
         }
     } else {
         echo "Thread id not given";
@@ -38,10 +39,13 @@ if(include($path . '/functions/validateSession.php')) {
 
     $thread_id = $result->fetch_assoc()["id"];
 
-    $sql = "SELECT thread_id from subscribed WHERE thread_id = '$thread_id' AND user_id = '$user_id'";
+    $sql = "SELECT thread_id FROM subscribed WHERE thread_id = '$thread_id' AND user_id = '$user_id'";
     $result = $conn->query($sql);
     if($result->num_rows === 1) {
-        $sql = "UPDATE subscribed SET subscribed = $sub WHERE thread_id = '$thread_id' AND user_id = '$user_id'"
+        $sql = "UPDATE subscribed SET subscribed = $sub WHERE thread_id = '$thread_id' AND user_id = '$user_id'";
+        if($conn->query($sql) === FALSE) {
+            echo "An error has occured while trying to update subscription entry";
+        }
         die();
     }
 
@@ -49,7 +53,7 @@ if(include($path . '/functions/validateSession.php')) {
     if($result->num_rows > 1) {
         $sql = "DELETE subscribed WHERE thread_id = '$thread_id' AND user_id = '$user_id'";
         if($conn->query($sql) === FALSE) {
-            echo "An error has occured trying to delete duplicate subscription entires";
+            echo "An error has occured while trying to delete duplicate subscription entires";
         }
     }
 

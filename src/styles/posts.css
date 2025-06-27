@@ -53,3 +53,7 @@
   min-height: 20vh;
   margin-left: 20px;
 }
+
+#subscribe {
+  position: absolute;
+}

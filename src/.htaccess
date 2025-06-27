@@ -10,7 +10,7 @@ RedirectMatch 404 /\..
 RedirectMatch 404 /functions/.
 
 ErrorDocument 403 https://errors.infinityfree.net/errors/403/
-ErrorDocument 404 https://errors.infinityfree.net/errors/404/
+ErrorDocument 404 /500.html
 ErrorDocument 500 /500.html
 
 RewriteEngine On
@@ -20,9 +20,19 @@ RewriteEngine On
 RewriteCond %{SERVER_PORT} !^443$
 RewriteRule (.\*) https://%{HTTP_HOST}/$1 [R=301,L]
 
-# / -> ?
+# profile
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^profile/(settings|moderation|notifications) /profile/$1.php [L]
+
+RewriteRule ^profile/$ /profile/settings.php [L]
+
+# / -> ?
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^([a-zA-Z\_]+)/([a-zA-Z0-9-_!?().,]+)$ $1.php?s=$2 [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^([a-zA-Z_]+)/([a-zA-Z0-9-_!?().,]+)/([0-9]+)$ $1.php?s=$2&p=$3 [L]

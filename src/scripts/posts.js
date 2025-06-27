@@ -256,7 +256,7 @@ async function deletePost(id, reason, message) {
   }
 }
 
-async function unSubscribe(type = true) {
+async function unSubscribe(type = 1) {
   const response = await fetch(`/api/unSubscribe.php?t=${slug}&s=${type}`);
   const result = await response.text();
 

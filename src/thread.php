@@ -39,9 +39,15 @@ if(!isset($totalPosts)) {
     <link rel="stylesheet" href="/styles/posts.css" />
 </head>
 <body>
-    <?php generateMenu(getPathNames($slug)) 
+    <?php generateMenu(getPathNames($slug));
 
     if(isset($_SESSION["user_id"])) {
+        $user_id = $_SESSION["user_id"];
+
+        include $path . "/functions/.connect.php";
+
+        $conn = getConn();
+
         $sql = "SELECT s.subscribed FROM subscribed s
                 JOIN threads t ON t.id = s.thread_id
                 WHERE t.slug = '$slug' AND s.user_id = '$user_id' AND t.deleted = 0";
@@ -49,12 +55,12 @@ if(!isset($totalPosts)) {
         $result = $conn->query($sql);
         if($result->num_rows > 0) {
             if($result->fetch_assoc()["subscribed"] == 0) {
-                echo '<button onclick="unSubscribe()">Subscribe</button>';
+                echo '<button id="subscribe" onclick="unSubscribe()">Subscribe</button>';
             } else {
-                echo '<button onclick="unSubscribe(false)">Unsubscribe</button>';
+                echo '<button id="subscribe" onclick="unSubscribe(0)">Unsubscribe</button>';
             }
         } else { 
-            echo '<button onclick="unSubscribe()">Subscribe</button>';
+            echo '<button id="subscribe" onclick="unSubscribe()">Subscribe</button>';
         }
     }
     
