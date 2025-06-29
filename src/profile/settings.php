@@ -29,6 +29,7 @@ include $path . '/functions/require/moderationHistory.php' ;
 </head>
 <body>
     <?php generateMenu([]) ?>
+    <?php generateProfileMenu() ?>
 
     <div class="container">
     <?php
@@ -56,6 +57,7 @@ include $path . '/functions/require/moderationHistory.php' ;
                 <img id="preview" src="/images/profiles/<?= $image_dir; ?>">
             </div>
             <div class="username">
+                <label for="username">Change username</label>
                 <input oninput="usernameChange()" id="username" value="<?= $username; ?>" placeholder="Change username..." />
                 <div class="button-container" id="usernameButtons">
                     <button class="save button" onclick="changeUsername()">Save</button>
@@ -63,6 +65,7 @@ include $path . '/functions/require/moderationHistory.php' ;
                 </div>
             </div>
             <div class="handle">
+                <label for="handle">Change handle</label>
                 <input oninput="handleChange()" id="handle" value="<?= $handle; ?>" placeholder="Change handle..." />
                 <div class="button-container" id="handleButtons">
                     <button class="save button" onclick="changeHandle()">Save</button>
@@ -70,6 +73,7 @@ include $path . '/functions/require/moderationHistory.php' ;
                 </div>
             </div>
             <div class="password">
+                <label for="currPassword">Change password</label>
                 <input oninput="passwordChange()" type="password" id="currPassword" placeholder="Current password...">
                 <input oninput="passwordChange()" type="password" id="newPassword" placeholder="New password...">
                 <input oninput="passwordChange()" type="password" id="confPassword" placeholder="Confirm password...">

@@ -29,6 +29,7 @@ include $path . '/functions/require/moderationHistory.php' ;
 </head>
 <body>
     <?php generateMenu([]) ?>
+    <?php generateProfileMenu() ?>
 
     <div class="container">
     <?php

@@ -12,7 +12,7 @@ if ($conn->connect_error) {
 
 if(!session_id()) {
   session_start();
-} 
+}
 
 if(include($path . '/functions/validateSession.php')) {
 

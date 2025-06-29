@@ -63,11 +63,11 @@ Report types
 - [ ] Make posting a new post focus on this post
 - [ ] There are still some mismatches between menu displaying you are logged in while having no posting privliges
 - [ ] Change initial load (php) and subsequent loads (js) to match each other. (and maybe rethink system :p)
-- [ ] Change the /functions/require/posts.php to match the /function/require/threads.php and adjust accordingly in thread.php and api/getThreads.php
 - [ ] Make login or sign-up pop-up hide when sign-up/login is pressed respectively
 - [ ] Check whether thread is deleted before posting message.
 - [ ] Make it scroll up upon going to next page (mod/report history)
 - [ ] Add manual sync button for mod 5
+- [ ] Make delete account require password
 
 - [ ] Add ToS, Privacy Policy and cookies warning
 - [ ] Adress, full legal name, etc. (pattern)

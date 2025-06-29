@@ -47,7 +47,6 @@ select,
   font-size: 0.6em;
 }
 
-input:hover,
 button:hover,
 textarea:hover,
 select:hover,
@@ -55,6 +54,12 @@ select:hover,
   background-color: var(--bg-light);
   color: var(--text);
   cursor: pointer;
+}
+
+input:hover {
+  background-color: var(--bg-light);
+  color: var(--text);
+  cursor: text;
 }
 
 input::placeholder {
@@ -97,8 +102,4 @@ textarea {
   position: fixed;
   width: 100vw;
   top: 0;
-}
-
-.container {
-  margin-top: 60px;
 }

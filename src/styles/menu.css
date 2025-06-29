@@ -9,20 +9,25 @@
   top: 0;
 }
 
-.menu > span {
+.menu-button {
   padding: 10px;
   border-left: 1px var(--border) solid;
 }
 
-.menu-button {
-  text-decoration: none;
-}
-
 .menu-button:hover {
+  text-decoration: none;
   background-color: var(--bg-light);
   cursor: pointer;
 }
 
 .login {
   margin-left: auto;
+}
+
+#menu-buffer {
+  height: 60px;
+}
+
+.profile-menu {
+  background-color: var(--bg);
 }

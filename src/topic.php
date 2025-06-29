@@ -14,12 +14,13 @@ if(isset($_GET["s"])) {
     $slug = "";
 }
 
+$threadCount = getThreadCount($slug);
+
 if(isset($_GET["p"])) {
-    $page = $_GET["p"];
+    $page = min((int)$_GET["p"], floor($threadCount / 20));
 } else {
     $page = 0;
 }
-
 
 ?>
 <!DOCTYPE html>
@@ -48,8 +49,9 @@ if(isset($_GET["p"])) {
 
     <script> 
         const slug = "<?= $slug; ?>";
-        const page = <?= $page; ?>;
-        createPageMenu("topic", slug, page, <?= getThreadCount($slug); ?>);
+        let page = <?= $page; ?>;
+        let threadCount = <?= $threadCount ?>;
+        createPageMenu("topic", slug, page, threadCount);
     </script>
     <script src="/scripts/threads.js"></script>
 

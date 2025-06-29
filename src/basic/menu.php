@@ -48,6 +48,7 @@ function generateMenu($paths) {
         } 
         ?>
     </div>
+    <div id="menu-buffer"></div>
 <?php }
 
 function getCategory(string $slug) {
@@ -69,4 +70,14 @@ function getCategory(string $slug) {
 
     $result = $conn->query($sql);
     $total_posts = $result->fetch_assoc()["total_posts"];
+}
+
+function generateProfileMenu() {
+    ?>
+    <div class="profile-menu">
+        <a class="menu-button" href="/profile/settings">Settings</a>
+        <a class="menu-button" href="/profile/moderation">Moderation</a>
+        <a class="menu-button" href="/profile/notifications">Notifications</a>
+    </div>
+    <?php
 }

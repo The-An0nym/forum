@@ -27,6 +27,8 @@ function getThreads(string $slug, int $page) {
         $myClearance = 0;
     }
 
+    $offset = $page * 20;
+
     $sql = "SELECT 
                 t.name,
                 t.id, 
@@ -70,7 +72,7 @@ function getThreads(string $slug, int $page) {
                 c.slug = '$slug' AND t.deleted = 0
             ORDER BY 
                 lp.created DESC
-            LIMIT 20 OFFSET $page";
+            LIMIT 20 OFFSET $offset";
 
     $result = $conn->query($sql);
 
@@ -92,7 +94,7 @@ function getThreads(string $slug, int $page) {
 }
 
 function generateHTMLFromThreads(string $slug, int $page) {
-    $threads = getThreads($slug, $page * 20);
+    $threads = getThreads($slug, $page);
 
     foreach($threads as $thread) {?>
         <div class="thread-wrapper">
@@ -132,7 +134,7 @@ function getThreadCount(string $slug) {
     $result = $conn->query($sql);
 
     if ($result->num_rows === 1) {
-        return $result->fetch_assoc()["threads"];
+        return (int)$result->fetch_assoc()["threads"];
     } else {
         return 0;
     }
