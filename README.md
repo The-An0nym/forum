@@ -17,7 +17,7 @@ This is a personal project of mine to learn PHP. It is to be expected that:
 # Overview
 
 [Pages](#Pages)  
-[Database Architecture](#Database%20Architecture)
+[Database Architecture](#user-content-database-architecture)
 
 # Pages
 
