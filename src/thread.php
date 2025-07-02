@@ -70,7 +70,7 @@ if(isset($_GET["p"])) {
 
     <div id="pageMenu"></div>
 
-    <?php if(isset($_SESSION['user_id']) && $posts !== []) { ?>
+    <?php if(isset($_SESSION['user_id']) && $postCount !== 0) { ?>
         <textarea id="post-content" placeholder="Type your post here..."></textarea>
         <button onclick="sendPost()">Submit</button>
     <?php } ?>

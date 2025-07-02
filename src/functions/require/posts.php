@@ -107,7 +107,11 @@ function getPostCount(string $slug) {
         return 0;
     }
 
-    $conn = getDBConnection();
+    $path = $_SERVER['DOCUMENT_ROOT'];
+    include $path . '/functions/.connect.php' ;
+
+    // Get connection
+    $conn = getConn();
 
     $sql = "SELECT posts FROM threads WHERE slug = '$slug'";
     $result = $conn->query($sql);

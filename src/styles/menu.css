@@ -9,9 +9,11 @@
   top: 0;
 }
 
-.menu-button {
+.menu-button,
+.menu-path {
   padding: 10px;
   border-left: 1px var(--border) solid;
+  display: inline-block;
 }
 
 .menu-button:hover {
@@ -29,5 +31,9 @@
 }
 
 .profile-menu {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   background-color: var(--bg);
+  margin-bottom: 10px;
 }

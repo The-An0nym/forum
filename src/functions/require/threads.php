@@ -1,22 +1,11 @@
 <?php
-function getDBConnection() : mysqli {
+
+function getThreads(string $slug, int $page) {
     $path = $_SERVER['DOCUMENT_ROOT'];
     include $path . '/functions/.connect.php' ;
 
     // Get connection
     $conn = getConn();
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    return $conn;
-}
-
-function getThreads(string $slug, int $page) {
-    $path = $_SERVER['DOCUMENT_ROOT'];
-    $conn = getDBConnection();
 
     if(include($path . '/functions/validateSession.php')) {
         $user_id = $_SESSION['user_id'];
@@ -128,7 +117,11 @@ function getThreadCount(string $slug) {
         return 0;
     }
 
-    $conn = getDBConnection();
+    $path = $_SERVER['DOCUMENT_ROOT'];
+    include $path . '/functions/.connect.php' ;
+
+    // Get connection
+    $conn = getConn();
 
     $sql = "SELECT threads FROM categories WHERE slug = '$slug'";
     $result = $conn->query($sql);
