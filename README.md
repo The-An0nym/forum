@@ -14,6 +14,8 @@ This is a personal project of mine to learn PHP. It is to be expected that:
 - It is unsafe
 - There can be massive changes at any point
 
+This project is currently under heavy development.
+
 # Overview
 
 [Pages](#Pages)  
