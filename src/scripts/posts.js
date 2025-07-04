@@ -13,7 +13,7 @@ async function getPosts() {
     if (!dataJSON[1]) return;
 
     totalPosts = dataJSON[0];
-    createPageMenu("thread", slug, page, totalPosts);
+    createPageMenu("gotoThreadPage", page, totalPosts);
 
     for (let i = 1; i < dataJSON.length; i++) {
       const post = document.createElement("div");
@@ -227,11 +227,8 @@ async function sendPost() {
   } else {
     txt.value = "";
     totalPosts++;
-    page = Math.floor(totalPosts / 20);
-    if (page !== 0)
-      history.pushState({}, null, `https://quir.free.nf/threads/${page}`);
+    gotoThreadPage(Math.floor(totalPosts / 20));
 
-    getPosts();
     if (autoSub) {
       unSubscribe();
     }
@@ -276,4 +273,15 @@ async function unSubscribe(type = 1) {
     button.textContent = type === 1 ? "Subscribe" : "Unsubscribe";
     button.setAttribute("onclick", `unSubscribe(${type === 1 ? 0 : 1})`);
   }
+}
+
+function gotoThreadPage(p) {
+  page = p;
+  let url;
+  if (page !== 0) url = `https://quir.free.nf/thread/${page}`;
+  else url = "https://quir.free.nf/thread/";
+
+  history.pushState({}, null, url);
+
+  getPosts();
 }

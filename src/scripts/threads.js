@@ -9,7 +9,8 @@ async function getThreads() {
   try {
     const dataJSON = await response.json();
 
-    createPageMenu("topic", slug, page, dataJSON[0]);
+    threadCount = dataJSON[0];
+    createPageMenu("gotoTopicPage", page, threadCount);
 
     cont.innerHTML = "";
 
@@ -137,7 +138,7 @@ async function createThread() {
   } else {
     threadName.value = "";
     content.value = "";
-    getThreads();
+    gotoTopicPage(0);
   }
 }
 
@@ -164,4 +165,15 @@ async function deleteThread(id, reason, message) {
   } else {
     getThreads();
   }
+}
+
+function gotoTopicPage(p) {
+  page = p;
+  let url;
+  if (page !== 0) url = `https://quir.free.nf/topic/${page}`;
+  else url = "https://quir.free.nf/topic/";
+
+  history.pushState({}, null, url);
+
+  getThreads();
 }

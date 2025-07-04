@@ -37,26 +37,36 @@ function errorMessage(msg) {
   setTimeout(() => errorMsg.remove(), 5000);
 }
 
-function createPageMenu(dir, slug, page, items) {
+function createPageMenu(funcName, p, items) {
   const pageMenu = document.getElementById("pageMenu");
   const pages = Math.ceil(items / 20) - 1;
 
   pageMenu.innerHTML = "";
 
-  if (page > 0) {
-    const prev = document.createElement("a");
-    prev.className = "prev-button";
-    prev.textContent = "PREV";
-    prev.setAttribute("href", `/${dir}/${slug}/${page - 1}`);
-    pageMenu.appendChild(prev);
+  if (p > 1) {
+    addPageButton(funcName, p - 2);
   }
-  if (pages - page > 0) {
-    const next = document.createElement("a");
-    next.className = "next-button";
-    next.textContent = "NEXT";
-    next.setAttribute("href", `/${dir}/${slug}/${page + 1}`);
-    pageMenu.appendChild(next);
+  if (p > 0) {
+    addPageButton(funcName, p - 1);
   }
+  addPageButton(funcName, p, true);
+  if (pages - p > 0) {
+    addPageButton(funcName, p + 1);
+  }
+  if (pages - p > 1) {
+    addPageButton(funcName, p + 2);
+  }
+}
+
+function addPageButton(funcName, p, selected = false) {
+  const button = document.createElement("button");
+  button.textContent = p;
+  button.setAttribute("onclick", `${funcName}(${p})`);
+
+  if (selected) button.className = "page-menu-button selected-page";
+  else button.className = "page-menu-button";
+
+  pageMenu.appendChild(button);
 }
 
 /* USER INPUT VALIDATION */

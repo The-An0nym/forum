@@ -8,6 +8,7 @@
 - [ ] Rethink: Does using Javascript for all subsequent loads make sense?
 - [ ] Implement permanent deletion (after 60 days)
 - [ ] Redesign http error pages
+- [ ] Implement languages
 
 ## Profile/
 
