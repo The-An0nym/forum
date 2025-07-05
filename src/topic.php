@@ -8,6 +8,7 @@ if(!session_id()) {
 include $path . "/basic/menu.php";
 
 include $path . "/functions/require/threads.php";
+
 if(isset($_GET["s"])) {
     $slug = $_GET["s"];
 } else {

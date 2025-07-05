@@ -16,7 +16,7 @@ if(!session_id()) {
 
 include $path . "/basic/menu.php";
 include $path . '/functions/require/moderationHistory.php' ;
-include($path . '/functions/validateSession.php')
+include $path . '/functions/validateSession.php';
 
 ?>
 <!DOCTYPE html>

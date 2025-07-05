@@ -3,7 +3,7 @@
 function getThreads(string $slug, int $page) {
     $path = $_SERVER['DOCUMENT_ROOT'];
     include $path . '/functions/.connect.php' ;
-    include($path . '/functions/validateSession.php')
+    include $path . '/functions/validateSession.php';;
 
     // Get connection
     $conn = getConn();

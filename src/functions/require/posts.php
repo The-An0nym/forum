@@ -2,7 +2,7 @@
 function getPosts(string $slug, int $page) :array {   
     $path = $_SERVER['DOCUMENT_ROOT'];
     include $path . '/functions/.connect.php' ;
-    include($path . '/functions/validateSession.php')
+    include $path . '/functions/validateSession.php';;
 
     // Get connection
     $conn = getConn();
