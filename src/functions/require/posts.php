@@ -21,7 +21,7 @@ function getPosts(string $slug, int $page) :array {
         $myClearance = 0;
     }
 
-    $offset = max($page, 1) - 1 * 20;
+    $offset = (max($page, 1) - 1) * 20;
 
     $sql = "SELECT 
                 u.username, 

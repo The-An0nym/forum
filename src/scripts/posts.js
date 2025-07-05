@@ -227,7 +227,7 @@ async function sendPost() {
   } else {
     txt.value = "";
     totalPosts++;
-    gotoThreadPage(Math.floor(totalPosts / 20));
+    gotoThreadPage(Math.ceil(totalPosts / 20));
 
     if (autoSub) {
       unSubscribe();

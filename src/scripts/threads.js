@@ -138,7 +138,7 @@ async function createThread() {
   } else {
     threadName.value = "";
     content.value = "";
-    gotoTopicPage(0);
+    gotoTopicPage(1);
   }
 }
 

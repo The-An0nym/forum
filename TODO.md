@@ -10,6 +10,8 @@
 - [ ] Implement permanent deletion (after 60 days)
 - [ ] Redesign http error pages
 - [ ] Implement languages
+- [ ] Format time more nicely
+- [ ] Save ms in time (currently, although unlikely, errors can happen while sorting by date)
 
 ## Profile/
 

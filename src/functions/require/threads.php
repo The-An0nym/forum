@@ -17,7 +17,7 @@ function getThreads(string $slug, int $page) {
         $myClearance = 0;
     }
 
-    $offset = max($page, 1) - 1 * 20;
+    $offset = (max($page, 1) - 1) * 20;
 
     $sql = "SELECT 
                 t.name,

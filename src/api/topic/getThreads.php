@@ -20,18 +20,18 @@ function response() {
         session_start();
     }
 
-    $threadCount = (int)getThreadCount($slug);
+    $thread_count = (int)getThreadCount($slug);
 
-    if($threadCount === 0) {
+    if($thread_count === 0) {
         return "This thread is empty";
     }
 
-    $page = min($page, floor($threadCount / 20));
+    $page = min($page, ceil($thread_count / 20));
 
     $threads = getThreads($slug, $page);
 
     $data = [];
-    $data[] = $thread_count
+    $data[] = $thread_count;
 
     // output data of each thread
     foreach($threads as $thread) {

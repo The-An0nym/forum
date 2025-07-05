@@ -16,17 +16,17 @@ function response() {
         session_start();
     }
 
-    $postCount = getPostCount($slug);
+    $post_count = getPostCount($slug);
 
-    if($postCount === 0) { 
+    if($post_count === 0) { 
         return "This thread is empty...";
     }
 
-    $page = min($page, floor($postCount / 20));
+    $page = min($page, ceil($post_count / 20));
 
     $posts = getPosts($slug, $page);
     $data = [];
-    $data[] = $postCount;
+    $data[] = $post_count;
 
     // output data of each post
     foreach($posts as $post) {

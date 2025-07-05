@@ -18,9 +18,9 @@ This project is currently under heavy development.
 
 # Overview
 
-[Pages](#Pages)
-[Config file](#config-file)
-[Database Architecture](#user-content-database-architecture)
+- [Pages](#Pages)
+- [Config file](#config-file)
+- [Database Architecture](#user-content-database-architecture)
 
 # Pages
 

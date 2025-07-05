@@ -18,7 +18,7 @@ if(isset($_GET["s"])) {
 $postCount = getPostCount($slug);
 
 if(isset($_GET["p"])) {
-    $page = min((int)$_GET["p"], floor($postCount / 20));
+    $page = min((int)$_GET["p"], ceil($postCount / 20));
 } else {
     $page = 1;
 }
