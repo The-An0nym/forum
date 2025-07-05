@@ -34,7 +34,7 @@ function validateSession() {
                         return true;
                     }
                 } else {
-                    $r = rand(0, 100)
+                    $r = rand(0, 100);
                     if($r === 0) {
                         include('functions/clearSession.php');
                     }

@@ -3,16 +3,16 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
 include $path . '/functions/validateSession.php';
 
-// Get connection
-$conn = getConn();
-
-if(!session_id()) {
-  session_start();
-} 
-
 echo response();
 
 function response() {
+    // Get connection
+    $conn = getConn();
+
+    if(!session_id()) {
+    session_start();
+    }
+
     if(!validateSession()) { 
         return "Please Login to edit posts";
     }
