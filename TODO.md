@@ -3,7 +3,8 @@
 ## General
 
 - [ ] Cleanup
-- [ ] PHP guard clauses using die()
+- [ ] PHP (api) guard clauses using return (put everything in a function) (files within profile)
+- [ ] Global error handling
 - [ ] Styling
 - [ ] Rethink: Does using Javascript for all subsequent loads make sense?
 - [ ] Implement permanent deletion (after 60 days)

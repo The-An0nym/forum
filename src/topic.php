@@ -20,7 +20,7 @@ $threadCount = getThreadCount($slug);
 if(isset($_GET["p"])) {
     $page = min((int)$_GET["p"], floor($threadCount / 20));
 } else {
-    $page = 0;
+    $page = 1;
 }
 
 ?>

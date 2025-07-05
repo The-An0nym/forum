@@ -4,17 +4,23 @@ include $path . '/functions/.connect.php' ;
 include $path . '/functions/statCount.php';
 include $path . '/functions/validateSession.php';
 
-// Get connection
-$conn = getConn();
+echo response();
 
-if(!session_id()) {
-  session_start();
-} 
+function response() {
 
-if(validateSession()) {
+    // Get connection
+    $conn = getConn();
+
+    if(!session_id()) {
+        session_start();
+    } 
+
     if(!isset($_GET["m"])) {
-        echo "missing argument(s)";
-        die();
+        return "missing argument(s)";
+    }
+
+    if(!validateSession()) {
+        return "Please login";
     }
 
     $mode = (int)$_GET["m"];
@@ -23,9 +29,6 @@ if(validateSession()) {
 
     $sql = "UPDATE users SET darkmode = $mode WHERE user_id = '$user_id'";
     if($conn->query($sql) === FALSE) {
-        echo "An error has occured while trying to update UI mode";
+        return "An error has occured while trying to update UI mode";
     }
-
-} else {
-    echo "Please login";
 }

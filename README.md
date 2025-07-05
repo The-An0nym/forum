@@ -18,7 +18,8 @@ This project is currently under heavy development.
 
 # Overview
 
-[Pages](#Pages)  
+[Pages](#Pages)
+[Config file](#config-file)
 [Database Architecture](#user-content-database-architecture)
 
 # Pages
@@ -42,6 +43,20 @@ This is `user.php` - Every user has a public user profile page displaying their 
 ## Profile
 
 Located in `profile/`, these are 3 pages: `settings.php`, `notifications.php` and `moderation.php`.
+
+# Config file
+
+The `.config.php` file is not included for obvious reasons. This file has to be manually added and shall contain all relevant information to connect to the database. Here the pattern used in my project:
+
+```php
+<?php
+return array(
+    "servername" => "{servername}",
+    "username" => "{username}",
+    "password" => "{password}",
+    "dbname" => "{dbname}",
+);
+```
 
 # Database Architecture
 

@@ -20,7 +20,7 @@ $postCount = getPostCount($slug);
 if(isset($_GET["p"])) {
     $page = min((int)$_GET["p"], floor($postCount / 20));
 } else {
-    $page = 0;
+    $page = 1;
 }
 
 ?>

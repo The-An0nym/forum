@@ -10,7 +10,7 @@ function response() {
     $conn = getConn();
 
     if(!session_id()) {
-    session_start();
+        session_start();
     }
 
     if(!validateSession()) { 
@@ -22,6 +22,8 @@ function response() {
     if (strlen($json_params) === 0 || !json_validate($json_params)) {
         return "Invalid argument(s)";
     }
+
+    $decoded_params = json_decode($json_params);
 
     // Escaping content and trimming whitespace
     $cont = nl2br(preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->c))); // idk about mysql_real_escape_string ??

@@ -38,29 +38,39 @@ function errorMessage(msg) {
 }
 
 function createPageMenu(funcName, p, items) {
-  const pages = Math.ceil(items / 20) - 1;
+  const pages = Math.ceil(items / 20)
 
   document.getElementById("page-menu").innerHTML = "";
 
-  if (p > 1) {
-    addPageButton(funcName, p - 2);
+  if (p > 4) {
+    addPageButton(funcName, 1);
+    addPageButton("selectPage", "...");
+  } else {
+    if (p > 3) addPageButton(funcName, p - 3)
+    if(p > 2) addPageButton(funcName, p - 2)
   }
-  if (p > 0) {
-    addPageButton(funcName, p - 1);
-  }
-  addPageButton(funcName, p, true);
-  if (pages - p > 0) {
-    addPageButton(funcName, p + 1);
-  }
-  if (pages - p > 1) {
-    addPageButton(funcName, p + 2);
+
+  if (p > 1) addPageButton(funcName, p - 1); // Previous
+
+  addPageButton(funcName, p, true); // Current page
+
+  if (pages - p > 0) addPageButton(funcName, p + 1); // Next
+  
+  if (pages - p > 3) {
+    addPageButton("selectPage", "...");
+    addPageButton(funcName, pages);
+  } else {
+    if (pages - p > 1) addPageButton(funcName, p + 2);
+    if(pages - p > 2) addPageButton(funcName, p + 3);
   }
 }
 
 function addPageButton(funcName, p, selected = false) {
   const button = document.createElement("button");
   button.textContent = p;
-  button.setAttribute("onclick", `${funcName}(${p})`);
+
+  if (isNaN(p)) button.setAttribute("onclick", `${funcName}()`);
+  else button.setAttribute("onclick", `${funcName}(${p})`);
 
   if (selected) button.className = "page-menu-button selected-page";
   else button.className = "page-menu-button";

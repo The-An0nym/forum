@@ -170,7 +170,7 @@ async function deleteThread(id, reason, message) {
 function gotoTopicPage(p) {
   page = p;
   let url;
-  if (page !== 0) url = `https://quir.free.nf/topic/${slug}/${page}`;
+  if (page !== 1) url = `https://quir.free.nf/topic/${slug}/${page}`;
   else url = `https://quir.free.nf/topic/${slug}`;
 
   history.pushState({}, null, url);
