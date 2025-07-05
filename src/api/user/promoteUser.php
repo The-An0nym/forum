@@ -2,20 +2,17 @@
 $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
 include $path . '/functions/moderation.php' ;
+include($path . '/functions/validateSession.php')
+
 
 // Get connection
 $conn = getConn();
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
 
 if(!session_id()) {
   session_start();
 } 
 
-if(include($path . "/functions/validateSession.php")) {
+if(validateSession()) {
     $json_params = file_get_contents("php://input");
 
     if (strlen($json_params) > 0 && json_validate($json_params)) {
@@ -46,23 +43,23 @@ if(include($path . "/functions/validateSession.php")) {
             $clearance = $row['clearance'];
             $user_clearance = $row['user_clearance'];
 
-            if($clearance >= 4 && $user_clearance < $clearance) {
+            if($clearance >= 4 && $user_clearance < $clearance - 1) {
                 // Push onto history
-                createHistory(2, 6, $id, $user_id, $reason, $message);
+                createHistory(2, 7, $id, $user_id, $reason, $message);
                 
                 // Demote user
-                $sql = "UPDATE users SET clearance = clearance - 1 WHERE user_id = '$id'";
+                $sql = "UPDATE users SET clearance = clearance + 1 WHERE user_id = '$id'";
                 if ($conn->query($sql) === FALSE) {
-                    echo "ERROR: Please try again later [DU1]";
+                    echo "ERROR: Please try again later [PU1]";
                 }
             } else {
                 echo "Clearance level too low";
             }
         } else {
-            echo "An error has occured DU2";
+            echo "An error has occured PU2";
         }
     } else {
-        echo "An error has occured DU3";
+        echo "An error has occured PU3";
     }
 
 } else {

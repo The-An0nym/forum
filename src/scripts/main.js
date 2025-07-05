@@ -2,7 +2,7 @@
 async function toggle(to) {
   if (to === undefined) {
     const set = document.body.classList.toggle("dark");
-    const response = await fetch(`/api/setMode.php?m=${set ? 1 : 0}`);
+    const response = await fetch(`/api/menu/setMode.php?m=${set ? 1 : 0}`);
     const txt = await response.text();
     if (/\S/.test(txt)) {
       errorMessage(txt);
@@ -38,10 +38,9 @@ function errorMessage(msg) {
 }
 
 function createPageMenu(funcName, p, items) {
-  const pageMenu = document.getElementById("pageMenu");
   const pages = Math.ceil(items / 20) - 1;
 
-  pageMenu.innerHTML = "";
+  document.getElementById("page-menu").innerHTML = "";
 
   if (p > 1) {
     addPageButton(funcName, p - 2);
@@ -66,7 +65,7 @@ function addPageButton(funcName, p, selected = false) {
   if (selected) button.className = "page-menu-button selected-page";
   else button.className = "page-menu-button";
 
-  pageMenu.appendChild(button);
+  document.getElementById("page-menu").appendChild(button);
 }
 
 /* USER INPUT VALIDATION */

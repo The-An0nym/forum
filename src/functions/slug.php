@@ -31,7 +31,7 @@ function slugify($text) {
     $text = preg_replace('~[^\pL\d]+~u', '-', $text); // Replace non-letter or digits by hyphens
     $text = iconv('UTF-8', 'ASCII//TRANSLIT', $text); // Transliterate > convert to ASCII
     $text = preg_replace('~[^-\w]+~', '', $text); // Remove unwanted characters
-    $text = trim($text, '-'); // Trim
+    $text = trim($text, '-'); // Trim whitespace
     $text = preg_replace('~-+~', '-', $text); // Remove duplicate hyphens
     $text = strtolower($text); // Lowercase
     return $text ?: 'n-a'; // n-a as fallback

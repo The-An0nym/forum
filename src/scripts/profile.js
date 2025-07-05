@@ -12,7 +12,7 @@ async function uploadImage() {
   const form_data = new FormData();
   form_data.append("i", img);
 
-  const response = await fetch("/api/changePFP.php", {
+  const response = await fetch("/api/profile/settings/changePFP.php", {
     method: "POST",
     body: form_data,
   });
@@ -50,7 +50,7 @@ async function changeUsername() {
   if (!checkUsername(val)) return;
 
   // Check username restrictions
-  const response = await fetch("/api/changeUsername.php", {
+  const response = await fetch("/api/profile/settings/changeUsername.php", {
     method: "POST",
     headers: {
       "Content-type": "application/x-www-form-urlencoded",
@@ -75,7 +75,7 @@ async function changeHandle() {
   if (!checkHandle(val)) return;
 
   // Check username restrictions
-  const response = await fetch("/api/changeHandle.php", {
+  const response = await fetch("/api/profile/settings/changeHandle.php", {
     method: "POST",
     headers: {
       "Content-type": "application/json; charset=utf-8",
@@ -110,7 +110,7 @@ async function changePassword() {
   }
 
   // Check password restrictions
-  const response = await fetch("/api/changePassword.php", {
+  const response = await fetch("/api/profile/settings/changePassword.php", {
     method: "POST",
     headers: {
       "Content-type": "application/x-www-form-urlencoded",
@@ -233,7 +233,7 @@ function revertPassword() {
 
 // Restoring post
 async function restorePost(id) {
-  const response = await fetch("/api/restorePost.php", {
+  const response = await fetch("/api/profile/settings/restorePost.php", {
     method: "POST",
     headers: {
       "Content-type": "application/x-www-form-urlencoded",

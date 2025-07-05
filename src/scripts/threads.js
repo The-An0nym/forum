@@ -4,7 +4,7 @@ async function getThreads() {
   // VAR
   const cont = document.getElementById("thread-container");
   // Request
-  const response = await fetch(`/api/getThreads.php?s=${slug}&p=${page}`);
+  const response = await fetch(`/api/topic/getThreads.php?s=${slug}&p=${page}`);
   const clone = response.clone(); // For error handling
   try {
     const dataJSON = await response.json();
@@ -119,7 +119,7 @@ async function createThread() {
   const threadName = document.getElementById("thread-name");
   const content = document.getElementById("post-content");
   // Request
-  const response = await fetch("/api/createThread.php", {
+  const response = await fetch("/api/topic/createThread.php", {
     method: "POST",
     headers: {
       "Content-type": "application/json; charset=utf-8",
@@ -170,8 +170,8 @@ async function deleteThread(id, reason, message) {
 function gotoTopicPage(p) {
   page = p;
   let url;
-  if (page !== 0) url = `https://quir.free.nf/topic/${page}`;
-  else url = "https://quir.free.nf/topic/";
+  if (page !== 0) url = `https://quir.free.nf/topic/${slug}/${page}`;
+  else url = `https://quir.free.nf/topic/${slug}`;
 
   history.pushState({}, null, url);
 

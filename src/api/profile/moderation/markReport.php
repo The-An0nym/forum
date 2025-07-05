@@ -1,6 +1,7 @@
 <?php
 $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
+include($path . '/functions/validateSession.php')
 
 // Get connection
 $conn = getConn();
@@ -14,7 +15,7 @@ if(!session_id()) {
   session_start();
 } 
 
-if(include($path . "/functions/validateSession.php")) {
+if(validateSession()) {
     if (isset($_GET["r"], $_GET["i"])) {
 
         $id = $_GET["i"];

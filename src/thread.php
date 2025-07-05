@@ -3,7 +3,7 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 
 if(!session_id()) {
     session_start();
-} 
+}
 
 include $path . "/basic/menu.php";
 
@@ -68,7 +68,7 @@ if(isset($_GET["p"])) {
         <?= generateHTMLFromPosts($slug, $page); ?>
     </div>
 
-    <div id="pageMenu"></div>
+    <div id="page-menu"></div>
 
     <?php if(isset($_SESSION['user_id']) && $postCount !== 0) { ?>
         <textarea id="post-content" placeholder="Type your post here..."></textarea>
@@ -82,7 +82,7 @@ if(isset($_GET["p"])) {
             echo "const autoSub = $autoSub;\n";
         } ?>
         let totalPosts = <?= $postCount; ?>;
-        createPageMenu("thread", slug, page, totalPosts);
+        createPageMenu("gotoThreadPage", page, totalPosts);
     </script>
     <script src="/scripts/posts.js"></script>
     <?php include $path . "/basic/footer.php"; ?>

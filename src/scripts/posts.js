@@ -4,7 +4,7 @@ async function getPosts() {
   // VAR
   const cont = document.getElementById("post-container");
   // Request
-  const response = await fetch(`/api/getPosts.php?s=${slug}&p=${page}`);
+  const response = await fetch(`/api/thread/getPosts.php?s=${slug}&p=${page}`);
   const clone = response.clone(); // For error handling
   try {
     const dataJSON = await response.json();
@@ -182,7 +182,7 @@ async function sendEdit(id) {
   // VAR
   const editTxt = document.getElementById("editTxt");
   // Requests
-  const response = await fetch("/api/sendEdit.php", {
+  const response = await fetch("/api/thread/sendEdit.php", {
     method: "POST",
     headers: {
       "Content-type": "application/json; charset=utf-8",
@@ -209,7 +209,7 @@ async function sendPost() {
   // VAR
   const txt = document.getElementById("post-content");
   // Request
-  const response = await fetch("/api/sendPost.php", {
+  const response = await fetch("/api/thread/sendPost.php", {
     method: "POST",
     headers: {
       "Content-type": "application/json; charset=utf-8",
@@ -263,7 +263,9 @@ async function deletePost(id, reason, message) {
 }
 
 async function unSubscribe(type = 1) {
-  const response = await fetch(`/api/unSubscribe.php?t=${slug}&s=${type}`);
+  const response = await fetch(
+    `/api/thread/unSubscribe.php?t=${slug}&s=${type}`
+  );
   const result = await response.text();
 
   if (/\S/.test(result)) {
@@ -278,8 +280,8 @@ async function unSubscribe(type = 1) {
 function gotoThreadPage(p) {
   page = p;
   let url;
-  if (page !== 0) url = `https://quir.free.nf/thread/${page}`;
-  else url = "https://quir.free.nf/thread/";
+  if (page !== 0) url = `https://quir.free.nf/thread/${slug}/${page}`;
+  else url = `https://quir.free.nf/thread/${slug}`;
 
   history.pushState({}, null, url);
 

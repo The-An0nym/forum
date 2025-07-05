@@ -89,7 +89,7 @@ async function demoteUser(id, reason, message) {
   obj.m = message;
 
   // Request
-  const response = await fetch("/api/demoteUser.php", {
+  const response = await fetch("/api/user/demoteUser.php", {
     method: "POST",
     headers: {
       "Content-type": "application/json; charset=utf-8",
@@ -114,7 +114,7 @@ async function promoteUser(id, reason, message) {
   obj.m = message;
 
   // Request
-  const response = await fetch("/api/promoteUser.php", {
+  const response = await fetch("/api/user/promoteUser.php", {
     method: "POST",
     headers: {
       "Content-type": "application/json; charset=utf-8",

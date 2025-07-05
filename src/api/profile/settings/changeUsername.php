@@ -1,19 +1,15 @@
 <?php
 $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
+include($path . '/functions/validateSession.php')
 
 // Get connection
 $conn = getConn();
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
-
 if(!session_id()) {
   session_start();
 } 
-if(include($path . '/functions/validateSession.php')) {
+if(validateSession()) {
  
     if (isset($_POST['u'])) {
         $username = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($_POST['u']));

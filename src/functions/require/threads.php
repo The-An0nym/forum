@@ -3,11 +3,12 @@
 function getThreads(string $slug, int $page) {
     $path = $_SERVER['DOCUMENT_ROOT'];
     include $path . '/functions/.connect.php' ;
+    include($path . '/functions/validateSession.php')
 
     // Get connection
     $conn = getConn();
 
-    if(include($path . '/functions/validateSession.php')) {
+    if(validateSession()) {
         $user_id = $_SESSION['user_id'];
         $sql = "SELECT clearance FROM users WHERE user_id = '$user_id'";
         $result = $conn->query($sql);

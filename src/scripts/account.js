@@ -56,7 +56,7 @@ async function signUp() {
   }
 
   // Sign up
-  const response = await fetch("/api/signUp.php", {
+  const response = await fetch("/api/menu/signUp.php", {
     method: "POST",
     headers: {
       "Content-type": "application/json; charset=utf-8",
@@ -116,7 +116,7 @@ async function login() {
   if (!checkPassword(pswd)) return;
 
   // Login
-  const response = await fetch("/api/login.php", {
+  const response = await fetch("/api/menu/login.php", {
     method: "POST",
     headers: {
       "Content-type": "application/x-www-form-urlencoded",

@@ -2,7 +2,7 @@
 if (!function_exists('getConn')) {
     function getConn () {
         static $conn;
-        if ($conn===NULL){ 
+        if ($conn === NULL){ 
             $path = $_SERVER['DOCUMENT_ROOT'];
             $configs = include($path . '/functions/.config.php');
             extract($configs);
@@ -11,7 +11,7 @@ if (!function_exists('getConn')) {
 
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
-        }        
+        }    
         return $conn;
     }
 }

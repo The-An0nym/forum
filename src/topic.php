@@ -39,7 +39,7 @@ if(isset($_GET["p"])) {
         <?php generateHTMLFromThreads($slug, $page) ?>
     </div>
 
-    <div id="pageMenu"></div>
+    <div id="page-menu"></div>
 
     <?php if(isset($_SESSION['user_id'])) { ?>
         <input id="thread-name" placeholder="Thread title..."></input>
@@ -51,7 +51,7 @@ if(isset($_GET["p"])) {
         const slug = "<?= $slug; ?>";
         let page = <?= $page; ?>;
         let threadCount = <?= $threadCount ?>;
-        createPageMenu("topic", slug, page, threadCount);
+        createPageMenu("gotoTopicPage", page, threadCount);
     </script>
     <script src="/scripts/threads.js"></script>
 

@@ -16,6 +16,7 @@ if(!session_id()) {
 
 include $path . "/basic/menu.php";
 include $path . '/functions/require/moderationHistory.php' ;
+include($path . '/functions/validateSession.php')
 
 ?>
 <!DOCTYPE html>
@@ -33,7 +34,7 @@ include $path . '/functions/require/moderationHistory.php' ;
 
     <div class="container">
     <?php
-        if(include($path . '/functions/validateSession.php')) {
+        if(validateSession()) {
             $user_id = $_SESSION["user_id"];
 
             $sql = "SELECT username, handle, image_dir, posts, threads, clearance FROM users WHERE user_id = '$user_id' LIMIT 1";

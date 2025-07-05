@@ -1,6 +1,7 @@
 <?php
 $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
+include($path . '/functions/validateSession.php')
 include $path . '/functions/require/moderationHistory.php' ;
 
 // Get connection
@@ -15,7 +16,7 @@ if(!session_id()) {
   session_start();
 } 
 
-if(include($path . "/functions/validateSession.php")) {
+if(validateSession()) {
     $page = 0;
     if (isset($_GET["p"])) {
         $page = (int)$_GET["p"];

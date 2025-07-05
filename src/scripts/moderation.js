@@ -8,7 +8,7 @@ async function getModerationHistory(page = 0, reports = false) {
     ? document.getElementById("report-result")
     : document.getElementById("mod-result");
 
-  let url = `/api/moderation/getModerationHistory.php?p=${page}`;
+  let url = `/api/profile/moderation/getModerationHistory.php?p=${page}`;
   if (reports) url += "&r=1";
   if (reports) {
     url += getReportParams();
@@ -54,7 +54,7 @@ async function markReport(as, id) {
   if (as === undefined || isNaN(as) || id === undefined) return;
 
   const response = await fetch(
-    `/api/moderation/markReport.php?r=${as}&i=${id}`
+    `/api/profile/moderation/markReport.php?r=${as}&i=${id}`
   );
   const result = await response.text();
 
@@ -193,7 +193,7 @@ async function undoRequest(id, reason = 0, message) {
   obj.m = message;
 
   // Request
-  const response = await fetch("/api/moderation/undo.php", {
+  const response = await fetch("/api/profile/moderation/undo.php", {
     method: "POST",
     headers: {
       "Content-type": "application/json; charset=utf-8",
@@ -224,7 +224,9 @@ async function getPostContent(id) {
   if (getCache[id]) {
     return getCache[id];
   }
-  const response = await fetch(`/api/moderation/getPostCont.php?i=${id}`);
+  const response = await fetch(
+    `/api/profile/moderation/getPostCont.php?i=${id}`
+  );
   const txt = response.text();
   getCache[id] = txt;
   return txt;
@@ -234,7 +236,9 @@ async function getThreadSlug(id) {
   if (getCache[id]) {
     return getCache[id];
   }
-  const response = await fetch(`/api/moderation/getThreadSlug.php?i=${id}`);
+  const response = await fetch(
+    `/api/profile/moderation/getThreadSlug.php?i=${id}`
+  );
   const txt = response.text();
   getCache[id] = txt;
   return txt;
