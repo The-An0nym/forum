@@ -4,31 +4,26 @@ include $path . '/functions/.connect.php' ;
 include $path . '/functions/validateSession.php';
 include $path . '/functions/moderation.php' ;
 include $path . '/functions/statCount.php';
+include $path . '/functions/errors.php' ;
 
 echo response();
 
 function response() {
-
     // Get connection
     $conn = getConn();
 
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    } 
-
     if(!session_id()) {
-    session_start();
+        session_start();
     } 
 
     if(!validateSession()) {
-        return "Please login to continue";
+        return getError("login");
     }
 
     $json_params = file_get_contents("php://input");
 
     if (strlen($json_params) === 0 || !json_validate($json_params)) {
-        return "Invalid or missing argument(s)";
+        return getError("args");
     }
 
     $decoded_params = json_decode($json_params);
@@ -38,7 +33,7 @@ function response() {
 
     $message = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->m));
     if(strlen($message) < 20 || strlen($message) > 200) {
-        return "Message needs to be between 20 to 200 chars";
+        return getError("msgMinMax");
     }
         
     $user_id = $_SESSION['user_id'];
@@ -48,7 +43,7 @@ function response() {
 
     $result = $conn->query($sql);
     if($result->num_rows !== 1) {
-        return "User not found";
+        return getError("404user");
     }
 
     $clearance = (int)$result->fetch_assoc()["clearance"];
@@ -60,7 +55,7 @@ function response() {
         
     $result = $conn->query($sql);
     if($result->num_rows === 0) {
-        return "Invalid ID";
+        return getError("404mod");
     }
 
     $row = $result->fetch_assoc();
@@ -71,15 +66,15 @@ function response() {
     $culp_id = $row["culp_id"];
 
     if($clearance < $type) {
-        return "Insufficient clearance";
+        return getError("auth");
     }
 
     if($judgement < 2) {
-        return "Cannot undo report";
+        return getError("undoRepo");
     }
 
     if($culp_id === $user_id) {
-       return "Cannot undo as affectee";
+        return getError("undoOwn");
     }
 
     // Clearance of sender?
@@ -134,10 +129,10 @@ function response() {
                 // PROMOTE
                 $sql = "UPDATE users SET clearance = clearance + 1 WHERE user_id = '$culp_id'";
                 if ($conn->query($sql) === FALSE) {
-                    return "An error has occured trying to re-promote this user";
+                    return getError() . " [U0]";
                 }
             } else {
-                return "Insufficient Authorization";
+                return getError("auth");
             }
         } else if($judgement === 7) {
             // Demote again
@@ -146,10 +141,10 @@ function response() {
                 // DEMOTE
                 $sql = "UPDATE users SET clearance = clearance - 1 WHERE user_id = '$culp_id'";
                 if ($conn->query($sql) === FALSE) {
-                    return "An error has occured trying to re-demote this user";
+                    return getError() . " [U1]";
                 }
             } else {
-                return "Insufficient Authorization";
+                return getError("auth");
             }
         }
     }        

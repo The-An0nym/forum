@@ -81,40 +81,24 @@ async function banUser(id, deleteThreads, reason, message) {
   }
 }
 
-/* Demoting user */
-async function demoteUser(id, reason, message) {
-  obj = {};
-  obj.i = id;
-  obj.r = reason;
-  obj.m = message;
-
-  // Request
-  const response = await fetch("/api/user/demoteUser.php", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json; charset=utf-8",
-    },
-    body: JSON.stringify(obj),
-  });
-
-  const result = await response.text();
-
-  if (/\S/.test(result)) {
-    errorMessage(result);
-  } else {
-    location.reload();
-  }
+/* User demotion and promotion */
+function demoteUser(id, reason, message) {
+  changeUserAuth(id, reason, message, false);
 }
 
-/* Promoting user */
-async function promoteUser(id, reason, message) {
+function promoteUser(id, reason, message) {
+  changeUserAuth(id, reason, message, true);
+}
+
+async function changeUserAuth(id, reason, message, promote) {
   obj = {};
   obj.i = id;
   obj.r = reason;
   obj.m = message;
+  obj.p = promote;
 
   // Request
-  const response = await fetch("/api/user/promoteUser.php", {
+  const response = await fetch("/api/changeUserAuth.php", {
     method: "POST",
     headers: {
       "Content-type": "application/json; charset=utf-8",

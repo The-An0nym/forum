@@ -3,6 +3,7 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
 include $path . '/functions/moderation.php' ;
 include $path . '/functions/validateSession.php';
+include $path . '/functions/errors.php' ;
 
 echo response();
 
@@ -11,26 +12,28 @@ function response() {
     $conn = getConn();
 
     if(!session_id()) {
-    session_start();
-    } 
+        session_start();
+    }
 
     if(!validateSession()) {
-        return "Please login";
+        return getError("login");
     }
 
     $json_params = file_get_contents("php://input");
 
     if (strlen($json_params) === 0 || !json_validate($json_params)) {
-        return "Invalid or missing argument(s)";
+        return getError("args");
     }
+
     $decoded_params = json_decode($json_params);
 
     $id = $decoded_params->i;
     $reason = (int)$decoded_params->r;
+    $promote = (bool)$decoded_params->p;
 
     $message = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->m));
     if(strlen($message) < 20 || strlen($message) > 200) {
-        return "Message needs to be between 20 to 200 chars";
+        return getError("msgMinMax");
     }
 
     $conn = getConn();
@@ -45,23 +48,35 @@ function response() {
     $result = $conn->query($sql);
 
     if($result->num_rows !== 1) {
-        return "User(s) not found";
+        return getError("404user");
     }
 
     $row = $result->fetch_assoc();
     $clearance = $row['clearance'];
     $user_clearance = $row['user_clearance'];
 
-    if($clearance >= 4 && $user_clearance < $clearance - 1) {
+    // To make sure you cannot promote to your own auth level
+    $const = 0;
+    if($promote) {
+        $const = 1;
+    }
+
+    if($clearance >= 4 && $user_clearance < $clearance - $const) {
         // Push onto history
-        createHistory(2, 7, $id, $user_id, $reason, $message);
+        createHistory(2, 6 + $const, $id, $user_id, $reason, $message);
         
+        if($promote) {
+            $sy = "+";
+        } else {
+            $sy = "-";
+        }
+
         // Demote user
-        $sql = "UPDATE users SET clearance = clearance + 1 WHERE user_id = '$id'";
+        $sql = "UPDATE users SET clearance = clearance $sy 1 WHERE user_id = '$id'";
         if ($conn->query($sql) === FALSE) {
-            return "ERROR: Please try again later [PU1]";
+            return getError() . " [CUA0]";
         }
     } else {
-        return "Clearance level too low";
+        return getError("auth");
     }
 }

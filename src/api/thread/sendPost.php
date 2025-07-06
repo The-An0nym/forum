@@ -2,6 +2,7 @@
 $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
 include $path . '/functions/validateSession.php';
+include $path . '/functions/errors.php' ;
 
 echo response();
 
@@ -10,17 +11,17 @@ function response() {
     $conn = getConn();
 
     if(!session_id()) {
-    session_start();
+        session_start();
     }
 
     if(!validateSession()) { 
-        return "Please Login to post";
+        return getError("login");
     }
 
     $json_params = file_get_contents("php://input");
 
     if (strlen($json_params) === 0 || !json_validate($json_params)) {
-        return "Invalid argument(s)";
+        return getError("args");
     }
     
     $decoded_params = json_decode($json_params);
@@ -31,7 +32,7 @@ function response() {
         
     $result = $conn->query($sql);
     if ($result->num_rows === 0) {
-        return "This thread does not exist";
+        return getError("404thrd");
     }
     
     $thread_id = $result->fetch_assoc()["id"];
@@ -46,13 +47,13 @@ function response() {
         $sql = "INSERT INTO posts (user_id, post_id, content, created, edited, thread_id)
         VALUES ('$user_id', '$post_id', '$cont', '$dtime', 'false', '$thread_id')";
         if ($conn->query($sql) === FALSE) {
-            return "An error has occured [SP0]";
+            return getError() . " [SP0]";
         }
 
         // Increment post count of user
         $sql = "UPDATE users SET posts = posts +1 WHERE user_id = '$user_id'";
         if ($conn->query($sql) === FALSE) {
-            return "An error has occured [SP1]";
+            return getError() . " [SP1]";
         }
 
         // Increment post count of category and thread
@@ -61,11 +62,11 @@ function response() {
                 SET c.posts = c.posts +1, t.posts = t.posts +1 
                 WHERE t.id = '$thread_id'";
         if ($conn->query($sql) === FALSE) {
-            return "An error has occured [SP2]";
+            return getError() . " [SP2]";
         }
     } else if(strlen($cont) === 0) {
-        return "No content";
+        return getError("contMin");
     } else if(strlen($cont) > 2000) {
-        return "2000 character limit surpassed";
+        return getError("contMax");
     }
 }

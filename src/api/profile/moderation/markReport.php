@@ -2,6 +2,7 @@
 $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
 include $path . '/functions/validateSession.php';
+include $path . '/functions/errors.php' ;
 
 echo response();
 
@@ -9,28 +10,23 @@ function response() {
     // Get connection
     $conn = getConn();
 
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    } 
-
     if(!session_id()) {
-    session_start();
+        session_start();
     } 
 
     if(!validateSession()) {
-        return "Please login to continue";
+        return getError("login");
     }
 
     if (!isset($_GET["r"], $_GET["i"])) {
-        return "Invalid or missing argument(s)";
+        return getError("args");
     }
 
     $id = $_GET["i"];
     $as = (int)$_GET["r"];
 
     if($as !== 0 && $as !== 1) {
-        return "'AS' not valid";
+        return getError("args");
     }
 
     $conn = getConn();
@@ -41,7 +37,7 @@ function response() {
 
     $result = $conn->query($sql);
     if($result->num_rows !== 1) {
-        return "User not found";
+        return getError("404user");
     }
 
     $clearance = (int)$result->fetch_assoc()["clearance"];
@@ -52,12 +48,12 @@ function response() {
     $type = (int)$result->fetch_assoc()["type"];
 
     if($type >= $clearance) {
-        return "Insufficient authorization";
+        return getError("auth");
     }
 
     // Update
     $sql = "UPDATE mod_history SET judgement = $as WHERE mod_id = '$id'";
     if ($conn->query($sql) === FALSE) {
-        return "An error has occured while updating the report";
+        return getError() . " [MR0]";
     }
 }

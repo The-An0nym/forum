@@ -4,6 +4,7 @@ include $path . '/functions/.connect.php' ;
 include $path . '/functions/moderation.php';
 include $path . '/functions/statCount.php';
 include $path . '/functions/validateSession.php';
+include $path . '/functions/errors.php' ;
 
 echo response();
 
@@ -16,11 +17,11 @@ function response() {
     }
 
     if(!validateSession()) {
-        return "Please login to continue";
+        return getError("login");
     }
 
     if(!isset($_POST['i'])) {
-        return "Invalid or missing argument(s)";
+        return getError("args");
     }
         
     $id = $_POST['i'];
@@ -36,7 +37,7 @@ function response() {
 
     $result = $conn->query($sql);
     if($result->num_rows !== 1) {
-        return "User(s) not found";
+        return getError("404user");
     }
 
     $row = $result->fetch_assoc();
@@ -45,7 +46,7 @@ function response() {
     $user_id === $_SESSION["user_id"];
 
     if($post_user_id !== $user_id && $clearance < 1) {
-        return "Insufficient Authorization";
+        return getError("auth");
     }
     
     countForPost($id, true);
@@ -58,7 +59,7 @@ function response() {
         $sql = "INSERT INTO history (id, type, judgement, sender_id)
         VALUES ('$id', 0, 1, '$user_id')";
         if ($conn->query($sql) === FALSE) {
-            return "Error while pushing onto history";
+            return getError() . " [RP0]";
         }
     }
 

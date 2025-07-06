@@ -5,7 +5,7 @@ include $path . '/functions/errors.php' ;
 
 echo response();
 
-function reponse() {
+function response() {
 
     // Get connection
     $conn = getConn();

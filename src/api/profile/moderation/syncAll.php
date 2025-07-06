@@ -3,6 +3,7 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
 include $path . '/functions/statCount.php';
 include $path . '/functions/validateSession.php';
+include $path . '/functions/errors.php' ;
 
 echo response();
 
@@ -16,7 +17,7 @@ function response() {
     } 
 
     if(!validateSession()) {
-        return "Please login to continue";
+        return getError("login");
     }
 
     $conn = getConn();
@@ -28,7 +29,7 @@ function response() {
     $result = $conn->query($sql);
 
     if($result->num_rows !== 1) {
-        return "User(s) not found";
+        return getError("404user");
     }
         
     $row = $result->fetch_assoc();
@@ -37,6 +38,6 @@ function response() {
     if($clearance == 5) {
         syncAll();
     } else {
-        return "Clearance level too low";
+        return getError("auth");
     }
 }

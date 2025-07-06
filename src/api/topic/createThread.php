@@ -3,6 +3,7 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
 include $path . '/functions/validateSession.php';
 include($path . '/functions/slug.php');
+include $path . '/functions/errors.php' ;
 
 echo response();
 
@@ -12,17 +13,17 @@ function response() {
     $conn = getConn();
 
     if(!session_id()) {
-    session_start();
+        session_start();
     }
 
-    if(validateSession()) {
-        return "Please Login to post";
+    if(!validateSession()) {
+        return getError("login");
     }
 
     $json_params = file_get_contents("php://input");
 
     if (strlen($json_params) === 0 || !json_validate($json_params)) {
-        return "Invalid or missing argument(s)";
+        return getError("args");
     }
         
     $decoded_params = json_decode($json_params);
@@ -33,7 +34,7 @@ function response() {
 
     $result = $conn->query($sql);
     if ($result->num_rows !== 1) {
-        return "Invalid category";
+        return getError("404cat");
     }
     
     $thread_slug = generateSlug($decoded_params->t);
@@ -45,13 +46,13 @@ function response() {
     $cont = nl2br(preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->c))); // mysql_real_escape_string ??
 
     if(strlen($cont) === 0) {
-        return "No content";
+        return getError("contMin");
     } else if(strlen($cont) > 2000) {
-        return "2000 character limit surpassed";
+        return getError("contMax");
     } else if(strlen($threadName) > 64) {
-        return "Max. 64 chars allowed for thread names";
+        return getError("thrdMax");
     } else if(strlen($threadName) < 8) {
-        return "A minimum of 8 chars are required for thread name";
+        return getError("thrdMin");
     }
 
     $user_id = $_SESSION["user_id"];
@@ -62,7 +63,7 @@ function response() {
     $sql = "INSERT INTO threads (name, slug, id, category_id, created, user_id, posts)
     VALUES ('$threadName', '$thread_slug', '$thread_id', '$category_id', '$dtime', '$user_id', 1)";
     if ($conn->query($sql) === FALSE) {
-        return "An error has occured [CT0]";
+        return getError() . " [CT0]";
     }
 
     // Create Post
@@ -70,13 +71,13 @@ function response() {
     $sql = "INSERT INTO posts (user_id, post_id, content, created, edited, thread_id)
     VALUES ('$user_id', '$post_id', '$cont', '$dtime', 'false', '$thread_id')";
     if ($conn->query($sql) === FALSE) {
-        return "An error has occured [CT1]";
+        return getError() . " [CT1]";
     }
 
     // Increment post and thread count of user and category
     $sql = "UPDATE users SET posts = posts +1, threads = threads +1 WHERE user_id = '$user_id'";
     if ($conn->query($sql) === FALSE) {
-        return "An error has occured [CT2]";
+        return getError() . " [CT2]";
     }
 
     // Increment post count of category
@@ -84,6 +85,6 @@ function response() {
             SET posts = posts +1, threads = threads +1 
             WHERE id = '$category_id'";
     if ($conn->query($sql) === FALSE) {
-        return "An error has occured [CT3]";
+        return getError() . " [CT3]";
     }
 }

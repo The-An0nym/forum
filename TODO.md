@@ -54,5 +54,5 @@
 - [ ] In /profile/moderation/undo.php, check if it was the last action (only last actions can be undone)
 - [ ] For calls to /functions/statCount.php, make it return any error messages (and handle those accordingly)
 - [ ] Organize and clean up
-- [ ] Join promotion & demotion
 - [ ] Global error handling (already attempted for files within /api/menu)
+- [ ] Check isset() for all JSON parameters that are read and handle errors accordingly

@@ -1,12 +1,13 @@
 <?php
 $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/require/threads.php';
+include $path . '/functions/errors.php' ;
 
 echo response();
 
 function response() {
     if(!isset($_GET['s'])) {
-        return "Invalid or missing argument(s)";
+        return getError("args");
     }
     $slug = $_GET['s'];
 
@@ -23,7 +24,7 @@ function response() {
     $thread_count = (int)getThreadCount($slug);
 
     if($thread_count === 0) {
-        return "This thread is empty";
+        return getError("emptyCat");
     }
 
     $page = min($page, ceil($thread_count / 20));

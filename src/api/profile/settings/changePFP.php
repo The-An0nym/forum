@@ -3,6 +3,7 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
 include $path . '/functions/validateSession.php';
 include($path . '/functions/slug.php');
+include $path . '/functions/errors.php' ;
 
 echo response();
 
@@ -11,15 +12,15 @@ function response() {
     $conn = getConn();
 
     if(!session_id()) {
-    session_start();
+        session_start();
     }
 
     if(!validateSession()) {
-        return "Please login to continue";
+        return getError("login");
     }
 
     if(!isset($_FILES['i'])) {
-        return "Invalid or missing arguments";
+        return getError("args")
     }
 
     $target_dir = $path . "/images/profiles/";
@@ -31,17 +32,17 @@ function response() {
     // Check if image file is a actual image or fake image
     $check = getimagesize($_FILES["i"]["tmp_name"]);
     if($check === false) {
-        return "File is not an image.";
+        return getError("imgType");
     }
 
         // Check if file already exists
         if (file_exists($target_file)) {
-            return "This file already exists.";
+            return getError("tImg");
         }
 
         // Check file size
         if ($_FILES["i"]["size"] > 1024 * 1024) {
-            return "Image must be less than 1MB";
+            return getError("imgMaxMB");
         }
 
         // Check file type
@@ -50,17 +51,17 @@ function response() {
         } else if($imageFileType == "jpg" || $imageFileType == "jpeg") {
             $image = imageCreateFromJpeg($_FILES["i"]["tmp_name"]);
         } else {
-            return "Image must be jpg or png";
+            return getError("imgType");
         }
 
         list($width, $height, $type, $attr) = $check;
 
         // Check resolution
         if($width > 1024 || $height > 1024) {
-            return "Image size must be below or equal to 1024 x 1024px";
+            return getError("imgMax");
         }
         if($width < 128 || $height < 128) {
-            return "Image size must be bigger or equal to than 128 x 128px";
+            return getError("imgMax");
         }
 
         // Crop to square
@@ -98,6 +99,6 @@ function response() {
         // Update image path
         $sql = "UPDATE users SET image_dir = '$image_dir' WHERE user_id = '$user_id'";
         if ($conn->query($sql) === FALSE) {
-            return "An error has occured while trying to update your profile picture";
+            return getError() . " [CPF0]";
         }
 }

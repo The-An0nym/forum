@@ -2,6 +2,7 @@
 $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
 include $path . '/functions/validateSession.php';
+include $path . '/functions/errors.php' ;
 
 echo response();
 
@@ -10,23 +11,23 @@ function response() {
     $conn = getConn();
 
     if(!session_id()) {
-    session_start();
+        session_start();
     } 
 
     if(!validateSession()) {
-        return "Please log in to continue";
+        return getError("login");
     }
  
     if (!isset($_POST['u'])) {
-        return "Invalid or missing argument(s)";
+        return getError("args");
     }
         
     $username = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($_POST['u']));
     
     if(strlen($username) > 24) {
-        return "Max 24. chars allowed for username";
+        return getError("userMax");
     } else if(strlen($username) < 4) {
-        return "Min. 4 chars needed for username";
+        return getError("userMin");
     }
             
     $sql = "SELECT * FROM users WHERE username='$username'";
@@ -35,12 +36,12 @@ function response() {
     $user_id = $_SESSION["user_id"];
 
     if ($result->num_rows !== 0) {
-        return "Username is already taken!"
+        return getError("tUser");
     }
 
     $sql = "UPDATE users SET username = '$username' WHERE user_id = '$user_id'";
 
     if ($conn->query($sql) === FALSE) {
-        return "An error has occured while trying to change your username";
+        return getError() . " CU0";
     }
 }

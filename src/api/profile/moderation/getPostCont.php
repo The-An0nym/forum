@@ -2,6 +2,7 @@
 $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
 include $path . '/functions/validateSession.php';
+include $path . '/functions/errors.php' ;
 
 echo response();
 
@@ -14,11 +15,11 @@ function response() {
     } 
 
     if(!validateSession()) {
-        return "Please login to continue";
+        return getError("login");
     }
 
     if (!isset($_GET["i"])) {
-        return "Invalid or missing argument(s)";
+        return getError("args");
     }
 
     $id = $_GET["i"];
@@ -32,23 +33,23 @@ function response() {
 
     $result = $conn->query($sql);
     if($result->num_rows !== 1) {
-        return "An error has occured MR0";
+        return getError() . " [GPC0]";
     }
 
     $clearance = (int)$result->fetch_assoc()["clearance"];
 
     if($clearance < 1) {
-        return "Authorization not high enough";
+        return getError("auth");
     }
 
     $sql = "SELECT content FROM posts WHERE post_id = '$id'";
         
     $result = $conn->query($sql);
     if($result->num_rows !== 1) {
-        return "An error has occured MR1";
+        return getError() . " [GPC1]";
     }
 
     $cont = $result->fetch_assoc()["content"];
 
-    return $cont; 
+    return $cont;
 }

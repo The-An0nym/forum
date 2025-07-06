@@ -3,6 +3,7 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
 include $path . '/functions/validateSession.php';
 include $path . '/functions/require/moderationHistory.php' ;
+include $path . '/functions/errors.php' ;
 
 echo response();
 
@@ -16,7 +17,7 @@ function response() {
     } 
 
     if(!validateSession()) {
-        return "Please login";
+        return getError("login");
     }
 
     $page = 0;
@@ -60,7 +61,7 @@ function response() {
     $clearance = $result->fetch_assoc()["clearance"];
 
     if($clearance < 1) {
-        return "Insufficient authority";
+        return getError("auth");
     }
 
     $data = getHistoryHTML($report, $page, $clearance, $params, true);

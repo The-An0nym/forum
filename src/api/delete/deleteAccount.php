@@ -4,6 +4,7 @@ include $path . '/functions/.connect.php' ;
 include $path . '/functions/validateSession.php';
 include $path . '/functions/moderation.php' ;
 include $path . '/functions/statCount.php';
+include $path . '/functions/errors.php' ;
 
 // Get connection
 $conn = getConn();
@@ -16,13 +17,13 @@ echo response();
 
 function response() {
     if(!validateSession()) {
-        return "Please login to continue";
+        return getError("login");
     }
         
     $json_params = file_get_contents("php://input");
 
     if (strlen($json_params) === 0 || !json_validate($json_params)) {
-        return "Invalid argument(s)";
+        return getError("args");
     }
 
     $decoded_params = json_decode($json_params);
@@ -47,7 +48,7 @@ function response() {
     $result = $conn->query($sql);
 
     if($result->num_rows === 0) {
-        return "An error has occured BU8";
+        return getError("404user");
     }
         
     $row = $result->fetch_assoc();
@@ -56,14 +57,13 @@ function response() {
 
     if($id !== $user_id || $clearance >= 3) {
         if(!isset($decoded_params->m, $decoded_params->r)) {
-            return "Message and reason required";
-
+            return getError("args");
         }
 
         $reason = (int)$decoded_params->r;
         $message = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->m));
         if(strlen($message) < 20 || strlen($message) > 200) {
-            return "Message needs to be between 20 to 200 chars";
+            return getError("msgMinMax");
         }
     }
 
@@ -84,7 +84,7 @@ function response() {
         countForUser($id, false, $del_threads);
         deleteAccount($id, false, $del_threads);
     } else {
-        return "Clearance level too low";
+        return getError("auth");
     }
 
 }

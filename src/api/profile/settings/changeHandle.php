@@ -2,6 +2,7 @@
 $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
 include $path . '/functions/validateSession.php';
+include $path . '/functions/errors.php' ;
 
 echo response();
 
@@ -14,13 +15,13 @@ function response() {
     }
 
     if(!validateSession()) {
-        return "Please login to continue";
+        return getError("login");
     }
 
     $json_params = file_get_contents("php://input");
 
     if (strlen($json_params) === 0 && !json_validate($json_params)) {
-        return "Invalid or missing argument(s)";
+        return getError("args");
     }
         
     $decoded_params = json_decode($json_params);
@@ -28,18 +29,18 @@ function response() {
     $handle = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->h));
     
     if(preg_match('/^[A-z0-9.\-+]*$/i', $handle) !== 1) {
-        return "Only characters <b>a-Z 0-9 + - _ .</b> are allowed";
+        return getError("handReg");
     } else if(strlen($handle) > 16) {
-        return "Max 16. chars allowed for the handle";
+        return getError("handMax");
     } else if(strlen($handle) < 4) {
-        return "Min. 4 chars needed for the handle";
+        return getError("handMin");
     }
 
     $sql = "SELECT * FROM users WHERE handle='$handle' LIMIT 1";
     $result = $conn->query($sql);
 
     if ($result->num_rows !== 0) {
-        return "This handle is already taken!";
+        return getError("tHand");
     }
     
     $user_id = $_SESSION["user_id"];
@@ -47,6 +48,6 @@ function response() {
     $sql = "UPDATE users SET handle = '$handle' WHERE user_id = '$user_id'";
 
     if ($conn->query($sql) === FALSE) {
-        return "Failed to update handle";
+        return getError() . " [CH0]";
     }
 }

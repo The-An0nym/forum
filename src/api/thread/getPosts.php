@@ -1,12 +1,13 @@
 <?php
 $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/require/posts.php';
+include $path . '/functions/errors.php' ;
 
 echo response();
 
 function response() {
     if(!isset($_GET['s'], $_GET['p'])) {
-        return "Invalid argument(s)";
+        return getError("args");
     }
 
     $slug = $_GET['s'];
@@ -19,7 +20,7 @@ function response() {
     $post_count = getPostCount($slug);
 
     if($post_count === 0) { 
-        return "This thread is empty...";
+        return getError("emptyThrd");
     }
 
     $page = min($page, ceil($post_count / 20));

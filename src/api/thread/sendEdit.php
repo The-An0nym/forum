@@ -2,6 +2,7 @@
 $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
 include $path . '/functions/validateSession.php';
+include $path . '/functions/errors.php' ;
 
 echo response();
 
@@ -14,13 +15,13 @@ function response() {
     }
 
     if(!validateSession()) { 
-        return "Please Login to edit posts";
+        return getError("login");
     }
 
     $json_params = file_get_contents("php://input");
 
     if (strlen($json_params) === 0 || !json_validate($json_params)) {
-        return "Invalid argument(s)";
+        return getError("args");
     }
 
     $decoded_params = json_decode($json_params);
@@ -35,13 +36,13 @@ function response() {
                 SET content = '$cont', edited = '1'
                 WHERE post_id = '$post_id' AND user_id = '$user_id'";
         if ($conn->query($sql) === FALSE) {
-            return "An error has occured [SE0]";
+            return getError() . " [SE0]";
         } 
     } else if(strlen($cont) === 0) {
-        return "No content";
+        return getError("contMin");
     } else if(strlen($cont) > 2000) {
-        return "2000 character limit surpassed";
+        return getError("contMax");
     } else {
-        return "An error has occured";
+        return getError() . " [SE1]";
     }
 }
