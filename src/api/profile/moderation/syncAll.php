@@ -4,14 +4,21 @@ include $path . '/functions/.connect.php' ;
 include $path . '/functions/statCount.php';
 include $path . '/functions/validateSession.php';
 
-// Get connection
-$conn = getConn(); 
+echo response();
 
-if(!session_id()) {
-  session_start();
-} 
+function response() {
 
-if(validateSession()) {
+    // Get connection
+    $conn = getConn(); 
+
+    if(!session_id()) {
+        session_start();
+    } 
+
+    if(!validateSession()) {
+        return "Please login to continue";
+    }
+
     $conn = getConn();
     $user_id = $_SESSION['user_id'];
     $sql = "SELECT clearance FROM users 
@@ -20,19 +27,16 @@ if(validateSession()) {
 
     $result = $conn->query($sql);
 
-    if($result->num_rows === 1) {
-        $row = $result->fetch_assoc();
-        $clearance = $row['clearance'];
-
-        if($clearance == 5) {
-            syncAll();
-        } else {
-            echo "Clearance level too low";
-        }
-    } else {
-        echo "An error has occured SN2";
+    if($result->num_rows !== 1) {
+        return "User(s) not found";
     }
+        
+    $row = $result->fetch_assoc();
+    $clearance = $row['clearance'];
 
-} else {
-    echo "Please login";
+    if($clearance == 5) {
+        syncAll();
+    } else {
+        return "Clearance level too low";
+    }
 }

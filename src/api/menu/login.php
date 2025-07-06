@@ -2,6 +2,7 @@
 
 $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
+include $path . '/functions/errors.php' ;
 
 echo response();
 
@@ -10,8 +11,8 @@ function response() {
     // Get connection
     $conn = getConn();
         
-    if(isset($_POST["h"], $_POST["p"])) {
-        return "Invalid argument(s)";
+    if(!isset($_POST["h"], $_POST["p"])) {
+        return getError("args");
     }
 
     $handle = htmlspecialchars($_POST["h"]);
@@ -21,7 +22,7 @@ function response() {
     $result = $conn->query($sql);
 
     if ($result->num_rows !== 1) {
-        return "This account does not exist! Try signing up instead?";
+        return getError("acc");
     }
 
     $res = $result->fetch_assoc();
@@ -29,7 +30,7 @@ function response() {
     $user_id = $res["user_id"];
 
     if(!password_verify($password, $hashedPassword)) {
-        return "Incorrect password or handle";
+        return getError("logPswd");
     }
 
     $ip = $_SERVER['REMOTE_ADDR'];
@@ -44,6 +45,6 @@ function response() {
         $_SESSION['user_id'] = $user_id;
         $_SESSION['session_id'] = $session_id;
     } else {
-      return "Login failed: Please try again later";
+      return getError();
     }
 }

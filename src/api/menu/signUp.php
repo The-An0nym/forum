@@ -1,6 +1,7 @@
 <?php
 $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
+include $path . '/functions/errors.php' ;
 
 echo response();
 
@@ -10,13 +11,13 @@ function reponse() {
     $conn = getConn();
 
     if(!session_id()) {
-    session_start();
+        session_start();
     }
 
     $json_params = file_get_contents("php://input");
 
     if (strlen($json_params) === 0 || !json_validate($json_params)) {
-        return "Sign-up failed: Please try again later";
+        return getError("args");
     }
 
     $decoded_params = json_decode($json_params);
@@ -26,19 +27,19 @@ function reponse() {
     $password = $decoded_params->p;
 
     if(preg_match('/^[A-z0-9.\-_]*$/i', $handle) !== 1) {
-        return "Only characters <b>a-Z 0-9 - _ .</b> are allowed for the handle";
+        return getErr("handReg");
     } else if(strlen($username) > 24) {
-        return "Max 24. chars allowed for username";
+        return getError("userMax");
     } else if(strlen($username) < 4) {
-        return "Min. 4 chars needed for username";
+        return getError("userMin");
     } else if(strlen($handle) > 16) {
-        return "Max 16. chars allowed for handle";
+        return getError("handMax");
     } else if(strlen($handle) < 4) {
-        return "Min. 4 chars needed for handle";
+        return getError("handMin");
     } else if(strlen($password) > 64) {
-        return "Max 64. chars allowed for your password";
+        return getError("pswdMax");
     } else if(strlen($password) < 8) {
-        return "Min. 8 chars needed for password";
+        return getError("pswdMin");
     }
             
     $sql = "SELECT username, handle FROM users WHERE username='$username' OR handle='$handle' LIMIT 1";
@@ -47,11 +48,11 @@ function reponse() {
     if ($result->num_rows !== 0) {
         $row = $result->fetch_assoc();
         if($row["username"] === $username) {
-            return "Username is already taken!";
+            return getError("tUser");
         } else if($row["handle"] === $handle) {
-            return "Handle is already taken!";
+            return getError("tHand");
         } else {
-            return "An error has occured.";
+            return getError();
         }
     }
 
@@ -64,7 +65,7 @@ function reponse() {
     VALUES ('$user_id', '_default.png', '$username', '$handle', '$pswrd', '$dtime')";
 
     if ($conn->query($sql) === FALSE) {
-        return "Sign-up failed: Please try again later";
+        return getError("sigFail");
     }
 
     /* SESSION */
@@ -80,6 +81,6 @@ function reponse() {
         $_SESSION['session_id'] = $session_id;
         include($path . '/functions/deleteExpiredSessions.php');
     } else {
-        return "Sign-up failed: Please try again later";
+        return getError("sigFail");
     }
 }

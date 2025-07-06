@@ -3,6 +3,7 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
 include $path . '/functions/statCount.php';
 include $path . '/functions/validateSession.php';
+include $path . '/functions/errors.php' ;
 
 echo response();
 
@@ -16,11 +17,11 @@ function response() {
     } 
 
     if(!isset($_GET["m"])) {
-        return "missing argument(s)";
+        return getError("args");
     }
 
     if(!validateSession()) {
-        return "Please login";
+        return getError("login");
     }
 
     $mode = (int)$_GET["m"];
@@ -29,6 +30,6 @@ function response() {
 
     $sql = "UPDATE users SET darkmode = $mode WHERE user_id = '$user_id'";
     if($conn->query($sql) === FALSE) {
-        return "An error has occured while trying to update UI mode";
+        return getError("mode");
     }
 }

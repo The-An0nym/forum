@@ -3,8 +3,6 @@
 ## General
 
 - [ ] Cleanup
-- [ ] PHP (api) guard clauses using return (put everything in a function) (files within profile)
-- [ ] Global error handling
 - [ ] Styling
 - [ ] Rethink: Does using Javascript for all subsequent loads make sense?
 - [ ] Implement permanent deletion (after 60 days)
@@ -12,6 +10,7 @@
 - [ ] Implement languages
 - [ ] Format time more nicely
 - [ ] Save ms in time (currently, although unlikely, errors can happen while sorting by date)
+- [ ] Customizable language support
 
 ## Profile/
 
@@ -32,6 +31,8 @@
 - [ ] Implement simple thread search
 - [ ] Scroll up the thread/threads list when moving from one page to another
 - [ ] Separate location from Menu (Home -> Topic -> Thread)
+- [ ] Formatting and URL support (and maaaayybbeee external images)
+- [ ] Ability to pin and lock threads
 
 ## Account / Menu / Footer
 
@@ -47,3 +48,11 @@
 - [ ] Delete expired sessions by chance (e.g. 1/100 chance)
 - [ ] Decide: Include clearance in the session?
 - [ ] Refactor the way it is authenticated
+
+## API
+
+- [ ] In /profile/moderation/undo.php, check if it was the last action (only last actions can be undone)
+- [ ] For calls to /functions/statCount.php, make it return any error messages (and handle those accordingly)
+- [ ] Organize and clean up
+- [ ] Join promotion & demotion
+- [ ] Global error handling (already attempted for files within /api/menu)

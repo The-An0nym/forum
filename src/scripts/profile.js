@@ -233,7 +233,7 @@ function revertPassword() {
 
 // Restoring post
 async function restorePost(id) {
-  const response = await fetch("/api/profile/settings/restorePost.php", {
+  const response = await fetch("/api/profile/moderation/restorePost.php", {
     method: "POST",
     headers: {
       "Content-type": "application/x-www-form-urlencoded",

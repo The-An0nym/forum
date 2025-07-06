@@ -4,19 +4,21 @@ include $path . '/functions/.connect.php' ;
 include $path . '/functions/validateSession.php';
 include $path . '/functions/require/moderationHistory.php' ;
 
-// Get connection
-$conn = getConn();
+echo response();
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
+function response() {
 
-if(!session_id()) {
-  session_start();
-} 
+    // Get connection
+    $conn = getConn();
 
-if(validateSession()) {
+    if(!session_id()) {
+        session_start();
+    } 
+
+    if(!validateSession()) {
+        return "Please login";
+    }
+
     $page = 0;
     if (isset($_GET["p"])) {
         $page = (int)$_GET["p"];
@@ -58,13 +60,10 @@ if(validateSession()) {
     $clearance = $result->fetch_assoc()["clearance"];
 
     if($clearance < 1) {
-        echo "Insufficient authority";
-        die();
+        return "Insufficient authority";
     }
 
     $data = getHistoryHTML($report, $page, $clearance, $params, true);
 
-    echo trim($data);
-} else {
-    echo "Please login";
+    return trim($data);
 }
