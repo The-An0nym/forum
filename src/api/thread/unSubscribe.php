@@ -6,7 +6,7 @@ include $path . '/functions/errors.php' ;
 
 echo response();
 
-function repsonse() {
+function response() {
     // Get connection
     $conn = getConn();
 
@@ -14,7 +14,7 @@ function repsonse() {
         session_start();
     }
 
-    if(validateSession()) {
+    if(!validateSession()) {
         return getError("login");
     }
 

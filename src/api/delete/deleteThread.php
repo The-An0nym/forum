@@ -15,7 +15,7 @@ function response() {
     session_start();
     } 
 
-    if(validateSession()) {
+    if(!validateSession()) {
         return getError("login");
     }
 

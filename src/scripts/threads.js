@@ -98,6 +98,9 @@ async function getThreads() {
       }
 
       cont.appendChild(threadWrapper);
+
+      // Scroll
+      window.scrollTo(0, document.body);
     }
   } catch {
     const msg = await clone.text();

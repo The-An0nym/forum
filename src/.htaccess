@@ -1,6 +1,6 @@
 php_value display_errors On
 php_value mbstring.http_input auto
-php_value date.timezone America/New_York
+php_value date.timezone UTC
 
 DirectoryIndex index.php index.html index.htm index2.html
 

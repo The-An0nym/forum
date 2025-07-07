@@ -79,7 +79,6 @@ function response() {
     if ($conn->query($sql) === TRUE) {
         $_SESSION['user_id'] = $user_id;
         $_SESSION['session_id'] = $session_id;
-        include($path . '/functions/deleteExpiredSessions.php');
     } else {
         return getError("sigFail");
     }

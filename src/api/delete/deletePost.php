@@ -56,7 +56,7 @@ function response() {
                 return getError("msgMinMax");
             }
         } else {
-            return getError("args")
+            return getError("args");
         }
     }
 

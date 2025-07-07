@@ -31,7 +31,7 @@ function generateMenu($paths) {
         if(isset($_SESSION['user_id'])) {
             ?>
             <a class="menu-button" href="/profile/"><?= $info["handle"]; ?></a>
-            <a class="menu-button" href="/logout/">logout</a>
+            <span class="menu-button" onclick="logout()">logout</span>
             <span class="menu-path"><?= $HTMLpath ?></span>
             <span class="mode menu-button" onclick="toggle()">Toggle Mode</span>
             <script> 

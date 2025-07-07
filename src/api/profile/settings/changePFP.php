@@ -2,12 +2,14 @@
 $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
 include $path . '/functions/validateSession.php';
-include($path . '/functions/slug.php');
+include $path . '/functions/slug.php' ;
 include $path . '/functions/errors.php' ;
 
 echo response();
 
 function response() {
+    $path = $_SERVER['DOCUMENT_ROOT'];
+
     // Get connection
     $conn = getConn();
 
@@ -20,7 +22,7 @@ function response() {
     }
 
     if(!isset($_FILES['i'])) {
-        return getError("args")
+        return getError("args");
     }
 
     $target_dir = $path . "/images/profiles/";

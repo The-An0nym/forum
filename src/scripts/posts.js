@@ -1,6 +1,6 @@
 /* GETTING POSTS */
 
-async function getPosts() {
+async function getPosts(scrollBottom = false) {
   // VAR
   const cont = document.getElementById("post-container");
   // Request
@@ -117,6 +117,10 @@ async function getPosts() {
       post.appendChild(postData);
 
       cont.appendChild(post);
+
+      // Scroll
+      if (scrollBottom) window.scrollTo(0, document.body.scrollHeight);
+      else window.scrollTo(0, document.body);
     }
   } catch {
     const msg = await clone.text();
@@ -227,7 +231,7 @@ async function sendPost() {
   } else {
     txt.value = "";
     totalPosts++;
-    gotoThreadPage(Math.ceil(totalPosts / 20));
+    gotoThreadPage(Math.ceil(totalPosts / 20), true);
 
     if (autoSub) {
       unSubscribe();
@@ -277,7 +281,7 @@ async function unSubscribe(type = 1) {
   }
 }
 
-function gotoThreadPage(p) {
+function gotoThreadPage(p, scrollBottom = false) {
   page = p;
   let url;
   if (page !== 1) url = `https://quir.free.nf/thread/${slug}/${page}`;
@@ -285,5 +289,5 @@ function gotoThreadPage(p) {
 
   history.pushState({}, null, url);
 
-  getPosts();
+  getPosts(scrollBottom);
 }

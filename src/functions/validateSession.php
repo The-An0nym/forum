@@ -3,6 +3,7 @@
 function validateSession() {
     $path = $_SERVER['DOCUMENT_ROOT'];
     include $path . '/functions/.connect.php' ;
+    include $path . '/functions/sessionUpdates.php';
 
     // Get connection
     $conn = getConn();
@@ -26,17 +27,22 @@ function validateSession() {
 
             if($_SESSION['user_id'] === $db_user_id && $_SERVER['REMOTE_ADDR'] === $db_ip && $_SERVER['HTTP_USER_AGENT'] === $db_user_agent) {
                 $diff = time() - strtotime($db_datetime);
-                // Sessions is valid for max. 20h
-                if($diff <= 60 * 60 * 20) {
-                    $dtime = date('Y-m-d H:i:s');
-                    $sql = "UPDATE sessions SET datetime='$dtime' WHERE session_id = '$session_id'";
-                    if ($conn->query($sql) === TRUE) {
+                // Sessions is valid for max. 5 days
+                if($diff <= 60 * 60 * 24 * 5) {
+                    $r = rand(0, 19); // 1 in 20 chance to update session time
+                    if($r === 0) {
+                        $dtime = date('Y-m-d H:i:s');
+                        $sql = "UPDATE sessions SET datetime='$dtime' WHERE session_id = '$session_id'";
+                        if ($conn->query($sql) === TRUE) {
+                            return true;
+                        }
+                    } else {
                         return true;
                     }
                 } else {
-                    $r = rand(0, 100);
+                    $r = rand(0, 99); // 1 in 100 chance to clear expired sessions
                     if($r === 0) {
-                        include('functions/clearSession.php');
+                        deleteExpiredSessions();
                     }
                 }
             }
