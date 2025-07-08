@@ -25,12 +25,16 @@ function response() {
         return getError("args");
     }
 
-    $decoded_params = json_decode($json_params);
+    $json_obj = json_decode($json_params);
+    
+    if(!isset($json_obj->i, $json_obj->r, $json_obj->m)) {
+        return getError("args");
+    }
 
-    $id = $decoded_params->i;
-    $reason = (int)$decoded_params->r;
+    $id = $json_obj->i;
+    $reason = (int)$json_obj->r;
 
-    $message = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->m));
+    $message = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($json_obj->m));
     
     if(strlen($message) < 20 || strlen($message) > 200) {
         return getError("msgMinMax");

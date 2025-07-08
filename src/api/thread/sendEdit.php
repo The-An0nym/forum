@@ -24,14 +24,18 @@ function response() {
         return getError("args");
     }
 
-    $decoded_params = json_decode($json_params);
+    $json_obj = json_decode($json_params);
+
+    if(!isset($json_obj->c, $json_obj->i)) {
+        return getError("args");
+    }
 
     // Escaping content and trimming whitespace
-    $cont = nl2br(preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->c))); // idk about mysql_real_escape_string ??
+    $cont = nl2br(preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($json_obj->c))); // idk about mysql_real_escape_string ??
             
     if(strlen($cont) !== 0 && strlen($cont) <= 2000) {
         $user_id = $_SESSION["user_id"];
-        $post_id = $decoded_params->i;
+        $post_id = $json_obj->i;
         $sql = "UPDATE posts
                 SET content = '$cont', edited = '1'
                 WHERE post_id = '$post_id' AND user_id = '$user_id'";

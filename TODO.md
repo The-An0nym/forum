@@ -11,6 +11,7 @@
 - [ ] Format time more nicely -> Maybe format with XXX Ago and in final state the date instead of converting to client's time? Or store in cookie//Session
 - [ ] Save ms in datetime !NOT easily implementable or recommended... so maybe not?
 - [ ] Customizable language support
+- [ ] Notification system
 
 ## Profile/
 
@@ -39,20 +40,18 @@
 
 - [ ] Make login or sign-up pop-up hide when sign-up/login is pressed respectively
 - [ ] Adress, full legal name, etc. (pattern)
-- [ ] Make notification system
+- [ ] Make notification system (badge)
 - [ ] Redesign footer and menu
+- [ ] Add subscribe button to path menu (for /thread/ pages)
 
 ## Authentication / Sessions
 
-- [ ] Refactor file to be a function
-- [ ] Delete expired sessions by chance (e.g. 1/100 chance)
 - [ ] Decide: Include clearance in the session?
-- [ ] Refactor the way it is authenticated
+- [ ] Refactor the way it is authenticated (generally speaking)
 
 ## API
 
 - [ ] In /profile/moderation/undo.php, check if it was the last action (only last actions can be undone)
 - [ ] For calls to /functions/statCount.php, make it return any error messages (and handle those accordingly)
 - [ ] Organize and clean up
-- [ ] Global error handling (already attempted for files within /api/menu)
-- [ ] Check isset() for all JSON parameters that are read and handle errors accordingly
+- [ ] Rewrite to be 100% JSON outputs/responses

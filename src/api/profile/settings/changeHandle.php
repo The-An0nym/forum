@@ -24,9 +24,13 @@ function response() {
         return getError("args");
     }
         
-    $decoded_params = json_decode($json_params);
+    $json_obj = json_decode($json_params);
 
-    $handle = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->h));
+    if(!isset($json_obj->h)) {
+        return getError("args");
+    }
+
+    $handle = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($json_obj->h));
     
     if(preg_match('/^[A-z0-9.\-+]*$/i', $handle) !== 1) {
         return getError("handReg");

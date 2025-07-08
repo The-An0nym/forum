@@ -26,9 +26,13 @@ function response() {
         return getError("args");
     }
         
-    $decoded_params = json_decode($json_params);
+    $json_obj = json_decode($json_params);
 
-    $slug = $decoded_params->s;
+    if(!isset($json_obj->s, $json_obj->t, $json_obj->c)) {
+        return getError("args");
+    }
+
+    $slug = $json_obj->s;
 
     $sql = "SELECT id FROM categories WHERE slug = '$slug'";
 
@@ -37,13 +41,13 @@ function response() {
         return getError("404cat");
     }
     
-    $thread_slug = generateSlug($decoded_params->t);
+    $thread_slug = generateSlug($json_obj->t);
 
     // Escaping content and trimming whitespace
-    $threadName = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->t)); // idk about mysql_real_escape_string ??
+    $threadName = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($json_obj->t)); // idk about mysql_real_escape_string ??
     $category_id = $result->fetch_assoc()["id"];
     // Escaping content and trimming whitespace
-    $cont = nl2br(preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->c))); // mysql_real_escape_string ??
+    $cont = nl2br(preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($json_obj->c))); // mysql_real_escape_string ??
 
     if(strlen($cont) === 0) {
         return getError("contMin");

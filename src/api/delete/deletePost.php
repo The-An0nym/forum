@@ -25,9 +25,13 @@ function response() {
         return getError("args");
     }
         
-    $decoded_params = json_decode($json_params);
+    $json_obj = json_decode($json_params);
 
-    $id = $decoded_params->i;
+    if(!isset($json_obj->i)) {
+        return getError("args");
+    }
+
+    $id = $json_obj->i;
 
     $conn = getConn();
     $user_id = $_SESSION['user_id'];
@@ -49,9 +53,9 @@ function response() {
     $user_id === $_SESSION["user_id"];
 
     if($post_user_id !== $user_id && $clearance >= 1) {
-        if(isset($decoded_params->m, $decoded_params->r)) {
-            $reason = (int)$decoded_params->r;
-            $message = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->m));
+        if(isset($json_obj->m, $json_obj->r)) {
+            $reason = (int)$json_obj->r;
+            $message = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($json_obj->m));
             if(strlen($message) < 20 || strlen($message) > 200) {
                 return getError("msgMinMax");
             }

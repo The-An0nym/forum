@@ -1,9 +1,8 @@
 <?php
+include $_SERVER['DOCUMENT_ROOT'] . '/functions/.connect.php';
 
 function getThreads(string $slug, int $page) {
-    $path = $_SERVER['DOCUMENT_ROOT'];
-    include $path . '/functions/.connect.php' ;
-    include $path . '/functions/validateSession.php';;
+    include $_SERVER['DOCUMENT_ROOT'] . '/functions/validateSession.php';;
 
     // Get connection
     $conn = getConn();
@@ -118,9 +117,6 @@ function getThreadCount(string $slug) {
         return 0;
     }
 
-    $path = $_SERVER['DOCUMENT_ROOT'];
-    include $path . '/functions/.connect.php' ;
-
     // Get connection
     $conn = getConn();
 
@@ -132,29 +128,4 @@ function getThreadCount(string $slug) {
     } else {
         return 0;
     }
-}
-
-function getPathName(string $slug) {
-    $path = $_SERVER['DOCUMENT_ROOT'];
-    include $path . '/functions/.connect.php' ;
-
-    // Get connection
-    $conn = getConn();
-
-    // Check connection
-    if ($conn->connect_error) {
-        return [];
-    }
-
-    // Category
-    $sql = "SELECT c.name
-    FROM categories c
-    WHERE c.slug = '$slug'";
-
-    $result = $conn->query($sql);
-    if ($result->num_rows === 1) {
-        return [["topic/" . $slug, $result->fetch_assoc()["name"]]];
-    }
-
-    return [];
 }

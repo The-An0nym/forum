@@ -20,11 +20,15 @@ function response() {
         return getError("args");
     }
 
-    $decoded_params = json_decode($json_params);
+    $json_obj = json_decode($json_params);
 
-    $username = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->u));
-    $handle = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->h));
-    $password = $decoded_params->p;
+    if(!isset($json_obj->u, $json_obj->h, $json_obj->p)) {
+        return getError("args");
+    }
+
+    $username = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($json_obj->u));
+    $handle = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($json_obj->h));
+    $password = $json_obj->p;
 
     if(preg_match('/^[A-z0-9.\-_]*$/i', $handle) !== 1) {
         return getErr("handReg");

@@ -1,19 +1,13 @@
 <?php
+include $_SERVER['DOCUMENT_ROOT'] . '/functions/.connect.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/functions/lang.php';
 
-function generateMenu($paths) {
-    $HTMLpath = '<a href="/">home</a>';
-    foreach($paths as $path) {
-        $HTMLpath .= ' > ';
-        $HTMLpath .= '<a href=/' . $path[0];
-        $HTMLpath .= '>' . $path[1] . '</a>';
-    }
-
+function generateMenu() {
     if(!session_id()) {
         session_start();
     }
 
     if(isset($_SESSION['user_id'])) {
-        include $_SERVER['DOCUMENT_ROOT'] . '/functions/.connect.php';
         $conn = getConn();
 
         $user_id = $_SESSION['user_id'];
@@ -31,9 +25,9 @@ function generateMenu($paths) {
         if(isset($_SESSION['user_id'])) {
             ?>
             <a class="menu-button" href="/profile/"><?= $info["handle"]; ?></a>
-            <span class="menu-button" onclick="logout()">logout</span>
-            <span class="menu-path"><?= $HTMLpath ?></span>
-            <span class="mode menu-button" onclick="toggle()">Toggle Mode</span>
+            <span class="menu-button" onclick="logout()"><?= getLang("logout") ?></span>
+            <a class="menu-button home" href="/"><?= getLang("home") ?></a>
+            <span class="mode menu-button" onclick="toggle()"><?= getLang("togMode") ?></span>
             <script> 
                 toggle(<?= $info["darkmode"]; ?>);
             </script>
@@ -41,9 +35,9 @@ function generateMenu($paths) {
         } else {
             ?>
             <script src="/scripts/account.js"></script>
-            <span class="menu-path"><?= $HTMLpath ?></span>
-            <span class="login menu-button" onclick="createLogin()">login</span>
-            <span class="sign-up menu-button" onclick="createSignUp()">sign up</span>
+            <a class="menu-button home" href="/">Home</a>
+            <span class="login menu-button" onclick="createLogin()"><?= getLang("login") ?></span>
+            <span class="sign-up menu-button" onclick="createSignUp()"><?= getLang("signUp") ?></span>
             <?php 
         } 
         ?>
@@ -52,9 +46,6 @@ function generateMenu($paths) {
 <?php }
 
 function getCategory(string $slug) {
-    $path = $_SERVER['DOCUMENT_ROOT'];
-    include $path . '/functions/.connect.php';
-
     // Get connection
     $conn = getConn();
 
@@ -81,3 +72,72 @@ function generateProfileMenu() {
     </div>
     <?php
 }
+
+function generateMenuPath(int $type = 0, string $slug = "") : string {
+    // 0 home, 1 topic, 2 thread
+
+    $out = '<a href="/">Home</a>'
+
+    if(0) {
+        return $out;
+    }
+
+    if($slug === "") {
+        return "";
+    }
+
+    if($type === 1) {
+        $name = getTopicPathName($slug);
+        if($name === "") {
+            return "";
+        }
+        $out .= ' > <a onclick="getThreads()">' . $name . '</a>';
+        return $out;
+    } else if($type === 2) {
+        $pathArr = getThreadPathName($slug);
+        if(count($pathArr) !== 3) {
+            return "";
+        }
+        $out .= ' > <a href="' . $pathArr[0] . '">' . $pathArr[1] . '</a>';
+        $out .= ' > <a onclick="getPosts()">' . $pathArr[2] . '</a>';
+        return $out;
+    }
+
+    return "";
+}
+
+function getTopicPathName(string $slug) : string {
+    // Get connection
+    $conn = getConn();
+
+    // Category
+    $sql = "SELECT c.name
+    FROM categories c
+    WHERE c.slug = '$slug'";
+
+    $result = $conn->query($sql);
+    if ($result->num_rows === 1) {
+        return $result->fetch_assoc()["name"];
+    }
+
+    return "";
+}
+
+function getThreadPathName(string $slug) : array {
+    // Get connection
+    $conn = getConn();
+
+    // Category
+    $sql = "SELECT c.slug AS c_slug, c.name AS c_name, t.name AS t_name
+    FROM categories c
+    JOIN threads t ON t.category_id = c.id
+    WHERE t.slug = '$slug' AND t.deleted = 0";
+
+    $result = $conn->query($sql);
+    if ($result->num_rows === 1) {
+        $row = $result->fetch_assoc();
+        return ["topic/" . $row["c_slug"], $row["c_name"], $row["t_name"]];
+    } 
+    return [];
+}
+

@@ -26,12 +26,16 @@ function response() {
         return getError("args");
     }
 
-    $decoded_params = json_decode($json_params);
+    $json_obj = json_decode($json_params);
 
-    $id = $decoded_params->i;
+    if(!isset($json_obj->i)) {
+        return getError("args");
+    }
 
-    if(isset($decoded_params->t)) {
-        $del_threads = (bool)$decoded_params->t;
+    $id = $json_obj->i;
+
+    if(isset($json_obj->t)) {
+        $del_threads = (bool)$json_obj->t;
     } else {
         $del_threads = false;
     }
@@ -56,12 +60,12 @@ function response() {
     $user_clearance = $row['user_clearance'];
 
     if($id !== $user_id || $clearance >= 3) {
-        if(!isset($decoded_params->m, $decoded_params->r)) {
+        if(!isset($json_obj->m, $json_obj->r)) {
             return getError("args");
         }
 
-        $reason = (int)$decoded_params->r;
-        $message = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($decoded_params->m));
+        $reason = (int)$json_obj->r;
+        $message = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($json_obj->m));
         if(strlen($message) < 20 || strlen($message) > 200) {
             return getError("msgMinMax");
         }

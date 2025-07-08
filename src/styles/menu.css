@@ -37,3 +37,11 @@
   background-color: var(--bg);
   margin-bottom: 10px;
 }
+
+#menu-path {
+  margin-left: 10px;
+  font-size: 0.8em;
+  background-color: var(--bg);
+  padding: 4px;
+  border: 1px solid var(--border);
+}

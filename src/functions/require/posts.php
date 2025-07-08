@@ -1,8 +1,8 @@
 <?php
+include $_SERVER['DOCUMENT_ROOT'] . '/functions/.connect.php';
+
 function getPosts(string $slug, int $page) :array {   
-    $path = $_SERVER['DOCUMENT_ROOT'];
-    include $path . '/functions/.connect.php' ;
-    include $path . '/functions/validateSession.php';;
+    include $_SERVER['DOCUMENT_ROOT'] . '/functions/validateSession.php';;
 
     // Get connection
     $conn = getConn();
@@ -108,9 +108,6 @@ function getPostCount(string $slug) {
         return 0;
     }
 
-    $path = $_SERVER['DOCUMENT_ROOT'];
-    include $path . '/functions/.connect.php' ;
-
     // Get connection
     $conn = getConn();
 
@@ -122,30 +119,4 @@ function getPostCount(string $slug) {
     } else {
         return 0;
     }
-}
-
-function getPathNames(string $slug) {
-    $path = $_SERVER['DOCUMENT_ROOT'];
-    include $path . '/functions/.connect.php' ;
-
-    // Get connection
-    $conn = getConn();
-
-    // Check connection
-    if ($conn->connect_error) {
-        return [];
-    }
-
-    // Category
-    $sql = "SELECT c.slug AS c_slug, c.name AS c_name, t.name AS t_name
-    FROM categories c
-    JOIN threads t ON t.category_id = c.id
-    WHERE t.slug = '$slug' AND t.deleted = 0";
-
-    $result = $conn->query($sql);
-    if ($result->num_rows === 1) {
-        $row = $result->fetch_assoc();
-        return [["topic/" . $row["c_slug"], $row["c_name"]], ["thread/" . $slug, $row["t_name"]]];
-    } 
-    return [];
 }

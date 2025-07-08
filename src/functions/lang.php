@@ -5,17 +5,19 @@ function getArr(string $lang = "en") : array {
         "en" => [
             "post" => "post",
             "home" => "home",
+            "togMode" => "toggle mode",
             "save" => "save",
             "cancel" => "cancel",
             "login" => "login",
-            "signup" => "signup",
+            "logout" => "logout",
+            "signUp" => "signup",
             "username" => "username",
             "handle" => "handle",
             "password" => "password,"
             "pfp" => "profile picture",
             "posts" => "posts",
             "threads" => "threads",
-            "delete account" => "delete account",
+            "delAccount" => "delete account",
             /* And so on... */
             ]
     ];
