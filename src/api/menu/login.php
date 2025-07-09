@@ -12,7 +12,7 @@ function response() {
     $conn = getConn();
         
     if(!isset($_POST["h"], $_POST["p"])) {
-        return getError("args");
+        return jsonErr("args");
     }
 
     $handle = htmlspecialchars($_POST["h"]);
@@ -22,7 +22,7 @@ function response() {
     $result = $conn->query($sql);
 
     if ($result->num_rows !== 1) {
-        return getError("acc");
+        return jsonErr("acc");
     }
 
     $res = $result->fetch_assoc();
@@ -30,7 +30,7 @@ function response() {
     $user_id = $res["user_id"];
 
     if(!password_verify($password, $hashedPassword)) {
-        return getError("logPswd");
+        return jsonErr("logPswd");
     }
 
     $ip = $_SERVER['REMOTE_ADDR'];
@@ -40,11 +40,13 @@ function response() {
     $sql = "INSERT INTO sessions (user_id, ip, user_agent, session_id, datetime)
     VALUES ('$user_id', '$ip', '$user_agent', '$session_id', '$dtime')";
 
-    if ($conn->query($sql) === TRUE) {
-        session_start();
-        $_SESSION['user_id'] = $user_id;
-        $_SESSION['session_id'] = $session_id;
-    } else {
-      return getError();
+    if ($conn->query($sql) === FALSE) {
+        return jsonErr();
+
     }
+
+    session_start();
+    $_SESSION['user_id'] = $user_id;
+    $_SESSION['session_id'] = $session_id;
+    return pass();
 }

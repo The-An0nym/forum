@@ -1,6 +1,8 @@
 <?php
 
-function getArr(string $lang = "en") : array {
+if(!function_exists('getErrorArr')) {
+
+function getErrorArr(string $lang = "en") : array {
     $errorLangArr = [
         "en" => [
             "generic" => "An error has occured. Please try again later", 
@@ -60,7 +62,7 @@ function getError(string $id = "generic") : string {
         $lang = "en";
     }
 
-    $arr = getArr($lang);
+    $arr = getErrorArr($lang);
 
     if(isset($arr[$id])) {
         $err = $arr[$id];
@@ -69,4 +71,21 @@ function getError(string $id = "generic") : string {
     }
 
     return $err;
+}
+
+function jsonErr(string $id = "generic", string $addMsg = "") {
+    $errMsg = getError($id)
+    if($addMsg !== "") {
+        $errMsg .= " " . $addMsg
+    }
+    return json_encode(array(
+        "status" => "fail", 
+        "msg" => $errMsg
+    ));
+}
+
+function pass() {
+    return json_encode(array("status" => "pass"));
+}
+
 }

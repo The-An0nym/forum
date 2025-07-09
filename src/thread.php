@@ -30,7 +30,7 @@ if(isset($_GET["p"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quir | Thread</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/styles/main.css" />
     <link rel="stylesheet" href="/styles/posts.css" />
 </head>
@@ -39,7 +39,6 @@ if(isset($_GET["p"])) {
 
     <div id="menu-path">
         <?= generateMenuPath(2, $slug); ?>
-    </div>
 
     <?php
     $autoSub = "false";
@@ -69,6 +68,8 @@ if(isset($_GET["p"])) {
     }
     
     ?>
+    
+    </div>
 
     <div id="post-container" class="container">
         <?= generateHTMLFromPosts($slug, $page); ?>

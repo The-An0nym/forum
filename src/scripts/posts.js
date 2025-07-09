@@ -281,13 +281,13 @@ async function unSubscribe(type = 1) {
   }
 }
 
-function gotoThreadPage(p, scrollBottom = false) {
+async function gotoThreadPage(p, scrollBottom = false) {
   page = p;
+  await getPosts(scrollBottom);
+
   let url;
   if (page !== 1) url = `https://quir.free.nf/thread/${slug}/${page}`;
   else url = `https://quir.free.nf/thread/${slug}`;
 
   history.pushState({}, null, url);
-
-  getPosts(scrollBottom);
 }

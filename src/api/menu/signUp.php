@@ -17,13 +17,13 @@ function response() {
     $json_params = file_get_contents("php://input");
 
     if (strlen($json_params) === 0 || !json_validate($json_params)) {
-        return getError("args");
+        return jsonErr("args");
     }
 
     $json_obj = json_decode($json_params);
 
     if(!isset($json_obj->u, $json_obj->h, $json_obj->p)) {
-        return getError("args");
+        return jsonErr("args");
     }
 
     $username = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($json_obj->u));
@@ -33,17 +33,17 @@ function response() {
     if(preg_match('/^[A-z0-9.\-_]*$/i', $handle) !== 1) {
         return getErr("handReg");
     } else if(strlen($username) > 24) {
-        return getError("userMax");
+        return jsonErr("userMax");
     } else if(strlen($username) < 4) {
-        return getError("userMin");
+        return jsonErr("userMin");
     } else if(strlen($handle) > 16) {
-        return getError("handMax");
+        return jsonErr("handMax");
     } else if(strlen($handle) < 4) {
-        return getError("handMin");
+        return jsonErr("handMin");
     } else if(strlen($password) > 64) {
-        return getError("pswdMax");
+        return jsonErr("pswdMax");
     } else if(strlen($password) < 8) {
-        return getError("pswdMin");
+        return jsonErr("pswdMin");
     }
             
     $sql = "SELECT username, handle FROM users WHERE username='$username' OR handle='$handle' LIMIT 1";
@@ -52,11 +52,11 @@ function response() {
     if ($result->num_rows !== 0) {
         $row = $result->fetch_assoc();
         if($row["username"] === $username) {
-            return getError("tUser");
+            return jsonErr("tUser");
         } else if($row["handle"] === $handle) {
-            return getError("tHand");
+            return jsonErr("tHand");
         } else {
-            return getError();
+            return jsonErr();
         }
     }
 
@@ -69,7 +69,7 @@ function response() {
     VALUES ('$user_id', '_default.png', '$username', '$handle', '$pswrd', '$dtime')";
 
     if ($conn->query($sql) === FALSE) {
-        return getError("sigFail");
+        return jsonErr("sigFail");
     }
 
     /* SESSION */
@@ -80,10 +80,11 @@ function response() {
     $sql = "INSERT INTO sessions (user_id, ip, user_agent, session_id, datetime)
     VALUES ('$user_id', '$ip', '$user_agent', '$session_id', '$dtime')";
 
-    if ($conn->query($sql) === TRUE) {
-        $_SESSION['user_id'] = $user_id;
-        $_SESSION['session_id'] = $session_id;
-    } else {
-        return getError("sigFail");
+    if ($conn->query($sql) === FALSE) {
+        return jsonErr("sigFail");
     }
+
+    $_SESSION['user_id'] = $user_id;
+    $_SESSION['session_id'] = $session_id;
+    return pass();
 }

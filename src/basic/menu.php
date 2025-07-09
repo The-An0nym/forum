@@ -76,9 +76,9 @@ function generateProfileMenu() {
 function generateMenuPath(int $type = 0, string $slug = "") : string {
     // 0 home, 1 topic, 2 thread
 
-    $out = '<a href="/">Home</a>'
+    $out = '<a href="/">Home</a>';
 
-    if(0) {
+    if($type === 0) {
         return $out;
     }
 
@@ -136,7 +136,7 @@ function getThreadPathName(string $slug) : array {
     $result = $conn->query($sql);
     if ($result->num_rows === 1) {
         $row = $result->fetch_assoc();
-        return ["topic/" . $row["c_slug"], $row["c_name"], $row["t_name"]];
+        return ["/topic/" . $row["c_slug"], $row["c_name"], $row["t_name"]];
     } 
     return [];
 }

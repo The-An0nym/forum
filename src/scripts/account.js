@@ -67,12 +67,26 @@ async function signUp() {
       p: pswd,
     }),
   });
-  const result = await response.text();
-  if (/\S/.test(result)) {
-    errorMessage(result);
-  } else {
-    loginCont.remove();
-    location.reload();
+
+  try {
+    const result = await response.json();
+
+    const e = new Error("e");
+
+    if (!result.status) throw e;
+
+    if (result.status === "pass") {
+      loginCont.remove();
+      location.reload();
+    } else if (result.status === "fail") {
+      if (!result.msg) throw e;
+      if (!/\S/.test(result.msg)) throw e;
+      errorMessage(result.msg);
+    } else {
+      throw e;
+    }
+  } catch (e) {
+    errorMessage("An error has occured");
   }
 }
 
@@ -123,12 +137,26 @@ async function login() {
     },
     body: `h=${encodeURIComponent(handle)}&p=${encodeURIComponent(pswd)}`,
   });
-  const result = await response.text();
-  if (/\S/.test(result)) {
-    errorMessage(result);
-  } else {
-    loginCont.remove();
-    location.reload();
+
+  try {
+    const result = await response.json();
+
+    const e = new Error("e");
+
+    if (!result.status) throw e;
+
+    if (result.status === "pass") {
+      loginCont.remove();
+      location.reload();
+    } else if (result.status === "fail") {
+      if (!result.msg) throw e;
+      if (!/\S/.test(result.msg)) throw e;
+      errorMessage(result.msg);
+    } else {
+      throw e;
+    }
+  } catch (e) {
+    errorMessage("An error has occured");
   }
 }
 

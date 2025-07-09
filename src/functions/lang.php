@@ -1,6 +1,8 @@
 <?php
 
-function getArr(string $lang = "en") : array {
+if(!function_exists('getLangArr')) {
+
+function getLangArr(string $lang = "en") : array {
     $langArr = [
         "en" => [
             "post" => "post",
@@ -13,7 +15,7 @@ function getArr(string $lang = "en") : array {
             "signUp" => "signup",
             "username" => "username",
             "handle" => "handle",
-            "password" => "password,"
+            "password" => "password,",
             "pfp" => "profile picture",
             "posts" => "posts",
             "threads" => "threads",
@@ -22,10 +24,10 @@ function getArr(string $lang = "en") : array {
             ]
     ];
 
-    if(isset($errorLangArr[$lang])) {
-        return $errorLangArr[$lang];
+    if(isset($langArr[$lang])) {
+        return $langArr[$lang];
     } else {
-        return $errorLangArr["en"];
+        return $langArr["en"];
     }
 }
 
@@ -44,7 +46,7 @@ function getLang(string $id) : string {
         $lang = "en";
     }
 
-    $arr = getArr($lang);
+    $arr = getLangArr($lang);
 
     if(isset($arr[$id])) {
         $txt = $arr[$id];
@@ -53,4 +55,6 @@ function getLang(string $id) : string {
     }
 
     return $txt;
+}
+
 }

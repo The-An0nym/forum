@@ -17,11 +17,11 @@ function response() {
     } 
 
     if(!isset($_GET["m"])) {
-        return getError("args");
+        return jsonErr("args");
     }
 
     if(!validateSession()) {
-        return getError("login");
+        return jsonErr("login");
     }
 
     $mode = (int)$_GET["m"];
@@ -30,6 +30,7 @@ function response() {
 
     $sql = "UPDATE users SET darkmode = $mode WHERE user_id = '$user_id'";
     if($conn->query($sql) === FALSE) {
-        return getError("mode");
+        return jsonErr("mode");
     }
+    return pass();
 }

@@ -30,7 +30,7 @@ if(isset($_GET["p"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quir | Threads</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/styles/main.css" />
     <link rel="stylesheet" href="/styles/threads.css" />
 </head>
@@ -40,7 +40,7 @@ if(isset($_GET["p"])) {
     <div id="menu-path">
         <?= generateMenuPath(1, $slug) ?>
     </div>
-    
+
     <div id="thread-container" class="container">
         <?php generateHTMLFromThreads($slug, $page) ?>
     </div>
