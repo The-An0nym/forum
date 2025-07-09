@@ -15,12 +15,12 @@ function response() {
     }
 
     if(!validateSession()) {
-        return getError("login");
+        return jsonErr("login");
     }
 
     $sub = "1";
     if (!isset($_GET["t"])) {
-        return getError("args");
+        return jsonErr("args");
     }
 
     $thread_slug = $_GET["t"];
@@ -35,7 +35,7 @@ function response() {
     $sql = "SELECT id FROM threads WHERE slug = '$thread_slug' AND deleted = 0";
     $result = $conn->query($sql);
     if($result->num_rows === 0) {
-        return getError("404thrds");
+        return jsonErr("404thrds");
     }
 
     $thread_id = $result->fetch_assoc()["id"];
@@ -45,21 +45,23 @@ function response() {
     if($result->num_rows === 1) {
         $sql = "UPDATE subscribed SET subscribed = $sub WHERE thread_id = '$thread_id' AND user_id = '$user_id'";
         if($conn->query($sql) === FALSE) {
-            return getError() . " [US0]";
+            return jsonErr("US0");
         }
-        return; // Pass
+        return pass();
     }
 
     if($result->num_rows > 1) {
         $sql = "DELETE subscribed WHERE thread_id = '$thread_id' AND user_id = '$user_id'";
         if($conn->query($sql) === FALSE) {
-            return getError() . " [US1]";
+            return jsonErr("US1");
         }
     }
 
     $sql = "INSERT INTO subscribed (thread_id, user_id, subscribed)
             VALUES ('$thread_id', '$user_id', $sub)";
     if($conn->query($sql) === FALSE) {
-        return getError() . " [US2]";
+        return jsonErr("US2");
     }
+
+    return pass();
 }

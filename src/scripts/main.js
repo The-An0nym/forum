@@ -3,10 +3,7 @@ async function toggle(to) {
   if (to === undefined) {
     const set = document.body.classList.toggle("dark");
     const response = await fetch(`/api/menu/setMode.php?m=${set ? 1 : 0}`);
-    const txt = await response.text();
-    if (/\S/.test(txt)) {
-      errorMessage(txt);
-    }
+    parseResponse(response);
   } else if (
     (to === 0 && document.body.classList.value === "dark") ||
     (to === 1 && document.body.classList.value === "")
@@ -38,7 +35,7 @@ function errorMessage(msg) {
 }
 
 function createPageMenu(funcName, p, items) {
-  const pages = Math.ceil(items / 20)
+  const pages = Math.ceil(items / 20);
 
   document.getElementById("page-menu").innerHTML = "";
 
@@ -46,8 +43,8 @@ function createPageMenu(funcName, p, items) {
     addPageButton(funcName, 1);
     addPageButton("selectPage", "...");
   } else {
-    if (p > 3) addPageButton(funcName, p - 3)
-    if(p > 2) addPageButton(funcName, p - 2)
+    if (p > 3) addPageButton(funcName, p - 3);
+    if (p > 2) addPageButton(funcName, p - 2);
   }
 
   if (p > 1) addPageButton(funcName, p - 1); // Previous
@@ -55,13 +52,13 @@ function createPageMenu(funcName, p, items) {
   addPageButton(funcName, p, true); // Current page
 
   if (pages - p > 0) addPageButton(funcName, p + 1); // Next
-  
+
   if (pages - p > 3) {
     addPageButton("selectPage", "...");
     addPageButton(funcName, pages);
   } else {
     if (pages - p > 1) addPageButton(funcName, p + 2);
-    if(pages - p > 2) addPageButton(funcName, p + 3);
+    if (pages - p > 2) addPageButton(funcName, p + 3);
   }
 }
 
@@ -273,5 +270,33 @@ async function sendReport(type, id, reason, message) {
     errorMessage(result);
   } else {
     location.reload();
+  }
+}
+
+/* Reading API responses */
+
+async function parseResponse(resp, autoLog = true) {
+  try {
+    const result = await resp.json();
+
+    const e = new Error("e");
+
+    if (!result.status) throw e;
+
+    if (result.status === "pass") {
+      if (!result.data) return [true, {}];
+      return [true, result.data];
+    } else if (result.status === "fail") {
+      if (!result.msg) throw e;
+      if (!/\S/.test(result.msg)) throw e;
+
+      if (autoLog) errorMessage(result.msg);
+      return [false, result.msg];
+    } else {
+      throw e;
+    }
+  } catch (e) {
+    if (autoLog) errorMessage("An error has occured"); // Todo: language support
+    return [false, ""];
   }
 }

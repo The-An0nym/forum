@@ -20,6 +20,7 @@ function generateMenu() {
     ?>
     <link rel="stylesheet" href="/styles/menu.css">
     <script src="/scripts/main.js"></script>
+    <script src="/scripts/account.js"></script>
     <div class="menu">
         <?php
         if(isset($_SESSION['user_id'])) {
@@ -34,7 +35,6 @@ function generateMenu() {
             <?php
         } else {
             ?>
-            <script src="/scripts/account.js"></script>
             <a class="menu-button home" href="/">Home</a>
             <span class="login menu-button" onclick="createLogin()"><?= getLang("login") ?></span>
             <span class="sign-up menu-button" onclick="createSignUp()"><?= getLang("signUp") ?></span>

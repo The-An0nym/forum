@@ -15,19 +15,19 @@ function response() {
     }
 
     if(!validateSession()) { 
-        return getError("login");
+        return jsonErr("login");
     }
 
     $json_params = file_get_contents("php://input");
 
     if (strlen($json_params) === 0 || !json_validate($json_params)) {
-        return getError("args");
+        return jsonErr("args");
     }
     
     $json_obj = json_decode($json_params);
 
     if(!isset($json_obj->s, $json_obj->c)) {
-        return getError("args");
+        return jsonErr("args");
     }
 
     $slug = $json_obj->s;
@@ -36,7 +36,7 @@ function response() {
         
     $result = $conn->query($sql);
     if ($result->num_rows === 0) {
-        return getError("404thrd");
+        return jsonErr("404thrd");
     }
     
     $thread_id = $result->fetch_assoc()["id"];
@@ -51,13 +51,13 @@ function response() {
         $sql = "INSERT INTO posts (user_id, post_id, content, created, edited, thread_id)
         VALUES ('$user_id', '$post_id', '$cont', '$dtime', 'false', '$thread_id')";
         if ($conn->query($sql) === FALSE) {
-            return getError() . " [SP0]";
+            return jsonErr("[SP0]");
         }
 
         // Increment post count of user
         $sql = "UPDATE users SET posts = posts +1 WHERE user_id = '$user_id'";
         if ($conn->query($sql) === FALSE) {
-            return getError() . " [SP1]";
+            return jsonErr("[SP1]");
         }
 
         // Increment post count of category and thread
@@ -66,11 +66,12 @@ function response() {
                 SET c.posts = c.posts +1, t.posts = t.posts +1 
                 WHERE t.id = '$thread_id'";
         if ($conn->query($sql) === FALSE) {
-            return getError() . " [SP2]";
+            return jsonErr("[SP2]");
         }
     } else if(strlen($cont) === 0) {
-        return getError("contMin");
+        return jsonErr("contMin");
     } else if(strlen($cont) > 2000) {
-        return getError("contMax");
+        return jsonErr("contMax");
     }
+    return pass();
 }

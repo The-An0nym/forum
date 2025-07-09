@@ -15,19 +15,19 @@ function response() {
     }
 
     if(!validateSession()) { 
-        return getError("login");
+        return jsonErr("login");
     }
 
     $json_params = file_get_contents("php://input");
 
     if (strlen($json_params) === 0 || !json_validate($json_params)) {
-        return getError("args");
+        return jsonErr("args");
     }
 
     $json_obj = json_decode($json_params);
 
     if(!isset($json_obj->c, $json_obj->i)) {
-        return getError("args");
+        return jsonErr("args");
     }
 
     // Escaping content and trimming whitespace
@@ -40,13 +40,14 @@ function response() {
                 SET content = '$cont', edited = '1'
                 WHERE post_id = '$post_id' AND user_id = '$user_id'";
         if ($conn->query($sql) === FALSE) {
-            return getError() . " [SE0]";
+            return jsonErr("[SE0]");
         } 
     } else if(strlen($cont) === 0) {
-        return getError("contMin");
+        return jsonErr("contMin");
     } else if(strlen($cont) > 2000) {
-        return getError("contMax");
+        return jsonErr("contMax");
     } else {
-        return getError() . " [SE1]";
+        return jsonErr("[SE1]");
     }
+    return pass();
 }

@@ -5,114 +5,105 @@ async function getThreads() {
   const cont = document.getElementById("thread-container");
   // Request
   const response = await fetch(`/api/topic/getThreads.php?s=${slug}&p=${page}`);
-  const clone = response.clone(); // For error handling
-  try {
-    const dataJSON = await response.json();
 
-    threadCount = dataJSON[0];
-    createPageMenu("gotoTopicPage", page, threadCount);
+  const bod = await parseResponse(response);
 
-    cont.innerHTML = "";
+  if (!bod[0]) return;
 
-    for (let i = 1; i < dataJSON.length; i++) {
-      const threadWrapper = document.createElement("div");
-      threadWrapper.className = "thread-wrapper";
+  const threadData = bod[1].threads;
 
-      // Main (Title + Created)
-      const mainWrapper = document.createElement("span");
-      mainWrapper.className = "main-wrapper";
+  threadCount = bod[1].amount;
+  createPageMenu("gotoTopicPage", page, threadCount);
 
-      const name = document.createElement("span");
-      name.className = "thread-name";
+  cont.innerHTML = "";
 
-      const threadHref = document.createElement("a");
-      threadHref.setAttribute("href", `/thread/${dataJSON[i].slug}`);
-      threadHref.innerHTML = dataJSON[i].name;
+  for (let i = 0; i < threadData.length; i++) {
+    const threadWrapper = document.createElement("div");
+    threadWrapper.className = "thread-wrapper";
 
-      name.appendChild(threadHref);
-      mainWrapper.appendChild(name);
+    // Main (Title + Created)
+    const mainWrapper = document.createElement("span");
+    mainWrapper.className = "main-wrapper";
 
-      const creator = document.createElement("span");
-      creator.className = "thread-creator";
+    const name = document.createElement("span");
+    name.className = "thread-name";
 
-      const creatorHandle = document.createElement("a");
-      creatorHandle.innerHTML = dataJSON[i].creator;
-      creatorHandle.href = "/user/" + dataJSON[i].creatorHandle;
+    const threadHref = document.createElement("a");
+    threadHref.setAttribute("href", `/thread/${threadData[i].slug}`);
+    threadHref.innerHTML = threadData[i].name;
 
-      creator.appendChild(creatorHandle);
-      mainWrapper.appendChild(creator);
+    name.appendChild(threadHref);
+    mainWrapper.appendChild(name);
 
-      const created = document.createElement("span");
-      created.className = "created";
-      created.textContent = dataJSON[i].created;
-      mainWrapper.appendChild(created);
+    const creator = document.createElement("span");
+    creator.className = "thread-creator";
 
-      threadWrapper.appendChild(mainWrapper);
+    const creatorHandle = document.createElement("a");
+    creatorHandle.innerHTML = threadData[i].creator;
+    creatorHandle.href = "/user/" + threadData[i].creatorHandle;
 
-      // Last user & last post)
-      const lastWrapper = document.createElement("span");
-      lastWrapper.className = "last-wrapper";
+    creator.appendChild(creatorHandle);
+    mainWrapper.appendChild(creator);
 
-      const lastPost = document.createElement("span");
-      lastPost.className = "last-post";
-      lastPost.textContent = dataJSON[i].lastPost;
-      lastWrapper.appendChild(lastPost);
+    const created = document.createElement("span");
+    created.className = "created";
+    created.textContent = threadData[i].created;
+    mainWrapper.appendChild(created);
 
-      const lastUser = document.createElement("span");
-      lastUser.className = "last-user";
+    threadWrapper.appendChild(mainWrapper);
 
-      const lastHandle = document.createElement("a");
-      lastHandle.textContent = dataJSON[i].lastUser;
-      lastHandle.href = "/user/" + dataJSON[i].lastHandle;
+    // Last user & last post)
+    const lastWrapper = document.createElement("span");
+    lastWrapper.className = "last-wrapper";
 
-      lastUser.appendChild(lastHandle);
-      lastWrapper.appendChild(lastUser);
+    const lastPost = document.createElement("span");
+    lastPost.className = "last-post";
+    lastPost.textContent = threadData[i].lastPost;
+    lastWrapper.appendChild(lastPost);
 
-      threadWrapper.appendChild(lastWrapper);
+    const lastUser = document.createElement("span");
+    lastUser.className = "last-user";
 
-      // Post count
-      const postCount = document.createElement("span");
-      postCount.className = "count";
-      postCount.textContent = dataJSON[i].postCount;
+    const lastHandle = document.createElement("a");
+    lastHandle.textContent = threadData[i].lastUser;
+    lastHandle.href = "/user/" + threadData[i].lastHandle;
 
-      threadWrapper.appendChild(postCount);
+    lastUser.appendChild(lastHandle);
+    lastWrapper.appendChild(lastUser);
 
-      if (dataJSON[i].deletable === 1) {
-        const deleteButton = document.createElement("button");
-        deleteButton.className = "delete-button";
-        deleteButton.textContent = "delete";
-        deleteButton.setAttribute(
-          "onclick",
-          `createConfirmation('delete ${dataJSON[i].username}\\\'s post', '', deleteThread, '${dataJSON[i].id}')`
-        );
+    threadWrapper.appendChild(lastWrapper);
 
-        threadWrapper.appendChild(deleteButton);
-      } else {
-        const deletable = document.createElement("button");
-        deletable.className = "report-button";
-        deletable.textContent = "report";
-        deletable.setAttribute(
-          "onclick",
-          `createReport(1, '${dataJSON[i].id}')`
-        );
-      }
+    // Post count
+    const postCount = document.createElement("span");
+    postCount.className = "count";
+    postCount.textContent = threadData[i].postCount;
 
-      cont.appendChild(threadWrapper);
+    threadWrapper.appendChild(postCount);
 
-      // Scroll
-      window.scrollTo(0, document.body);
-    }
-  } catch {
-    const msg = await clone.text();
-    if (/\S/.test(msg)) {
-      errorMessage(msg);
+    if (threadData[i].deletable === 1) {
+      const deleteButton = document.createElement("button");
+      deleteButton.className = "delete-button";
+      deleteButton.textContent = "delete";
+      deleteButton.setAttribute(
+        "onclick",
+        `createConfirmation('delete ${threadData[i].username}\\\'s post', '', deleteThread, '${threadData[i].id}')`
+      );
+
+      threadWrapper.appendChild(deleteButton);
     } else {
-      const noResults = document.createElement("div");
-      noResults.textContent("There are no threads here yet...");
-
-      cont.appendChild(noResults);
+      const deletable = document.createElement("button");
+      deletable.className = "report-button";
+      deletable.textContent = "report";
+      deletable.setAttribute(
+        "onclick",
+        `createReport(1, '${threadData[i].id}')`
+      );
     }
+
+    cont.appendChild(threadWrapper);
   }
+  // Scroll
+  window.scrollTo(0, document.body);
 }
 
 /* CREATE THREADS */
@@ -134,11 +125,9 @@ async function createThread() {
     }),
   });
 
-  const result = await response.text();
+  const bod = await parseResponse(response);
 
-  if (/\S/.test(result)) {
-    errorMessage(result);
-  } else {
+  if (bod[0]) {
     threadName.value = "";
     content.value = "";
     gotoTopicPage(1);

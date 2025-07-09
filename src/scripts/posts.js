@@ -5,134 +5,120 @@ async function getPosts(scrollBottom = false) {
   const cont = document.getElementById("post-container");
   // Request
   const response = await fetch(`/api/thread/getPosts.php?s=${slug}&p=${page}`);
-  const clone = response.clone(); // For error handling
-  try {
-    const dataJSON = await response.json();
-    cont.innerHTML = "";
 
-    if (!dataJSON[1]) return;
+  const bod = parseResponse(response);
 
-    totalPosts = dataJSON[0];
-    createPageMenu("gotoThreadPage", page, totalPosts);
+  if (!bod[0]) return; // Status: fail
 
-    for (let i = 1; i < dataJSON.length; i++) {
-      const post = document.createElement("div");
-      post.className = "post";
-      post.id = dataJSON[i].id;
+  const postData = bod[1].posts;
+  cont.innerHTML = "";
 
-      /* USER INFO */
+  totalPosts = bod[1].amount;
+  createPageMenu("gotoThreadPage", page, totalPosts);
 
-      const userDetails = document.createElement("span");
-      userDetails.className = "user-details";
+  for (let i = 0; i < postData.length; i++) {
+    const post = document.createElement("div");
+    post.className = "post";
+    post.id = postData[i].id;
 
-      const profilePicture = document.createElement("img");
-      profilePicture.className = "profile-picture";
-      profilePicture.setAttribute(
-        "src",
-        `/images/profiles/${dataJSON[i].imageSrc}`
-      );
-      userDetails.appendChild(profilePicture);
+    /* USER INFO */
 
-      const username = document.createElement("span");
-      username.className = "username";
+    const userDetails = document.createElement("span");
+    userDetails.className = "user-details";
 
-      const handle = document.createElement("a");
-      handle.textContent = dataJSON[i].username;
-      handle.href = "/user/" + dataJSON[i].handle;
+    const profilePicture = document.createElement("img");
+    profilePicture.className = "profile-picture";
+    profilePicture.setAttribute(
+      "src",
+      `/images/profiles/${postData[i].imageSrc}`
+    );
+    userDetails.appendChild(profilePicture);
 
-      username.appendChild(handle);
-      userDetails.appendChild(username);
+    const username = document.createElement("span");
+    username.className = "username";
 
-      const userPostCount = document.createElement("span");
-      userPostCount.className = "user-post-count";
-      userPostCount.textContent = dataJSON[i].userPostCount;
-      userDetails.appendChild(userPostCount);
+    const handle = document.createElement("a");
+    handle.textContent = postData[i].username;
+    handle.href = "/user/" + postData[i].handle;
 
-      post.appendChild(userDetails);
+    username.appendChild(handle);
+    userDetails.appendChild(username);
 
-      /* REST OF THE POST */
+    const userPostCount = document.createElement("span");
+    userPostCount.className = "user-post-count";
+    userPostCount.textContent = postData[i].userPostCount;
+    userDetails.appendChild(userPostCount);
 
-      const postData = document.createElement("span");
-      postData.className = "post-data";
+    post.appendChild(userDetails);
 
-      const content = document.createElement("span");
-      content.className = "content";
-      content.innerHTML = dataJSON[i].content;
-      postData.appendChild(content);
+    /* REST OF THE POST */
 
-      /* META */
+    const postData = document.createElement("span");
+    postData.className = "post-data";
 
-      const postMeta = document.createElement("span");
-      postMeta.className = "post-metadata";
+    const content = document.createElement("span");
+    content.className = "content";
+    content.innerHTML = postData[i].content;
+    postData.appendChild(content);
 
-      const created = document.createElement("span");
-      created.className = "created";
-      created.textContent = dataJSON[i].created;
-      postMeta.appendChild(created);
+    /* META */
 
-      if (dataJSON[i].edited === "1") {
-        const edited = document.createElement("span");
-        edited.className = "edited";
-        edited.textContent = "edited";
-        postMeta.appendChild(edited);
-      }
+    const postMeta = document.createElement("span");
+    postMeta.className = "post-metadata";
 
-      if (dataJSON[i].editable) {
-        const editable = document.createElement("button");
-        editable.className = "edit-button";
-        editable.textContent = "edit";
-        editable.setAttribute("onclick", `editPost('${dataJSON[i].id}')`);
-        postMeta.appendChild(editable);
-      }
+    const created = document.createElement("span");
+    created.className = "created";
+    created.textContent = postData[i].created;
+    postMeta.appendChild(created);
 
-      if (dataJSON[i].deletable === 1 || dataJSON[i].editable) {
-        const deletable = document.createElement("button");
-        deletable.className = "delete-button";
-        deletable.textContent = "delete";
-        if (dataJSON[i].editable) {
-          deletable.setAttribute(
-            "onclick",
-            `createConfirmation('delete ${dataJSON[i].username}\\\'s post', '', deletePost, '${dataJSON[i].id}')`
-          );
-        } else {
-          deletable.setAttribute(
-            "onclick",
-            `createModeration('deleting ${dataJSON[i].username}\\\'s post', deletePost, '${dataJSON[i].id}')`
-          );
-        }
-        postMeta.appendChild(deletable);
-      }
+    if (postData[i].edited === "1") {
+      const edited = document.createElement("span");
+      edited.className = "edited";
+      edited.textContent = "edited";
+      postMeta.appendChild(edited);
+    }
 
-      if (!dataJSON[i].deletable === 1 && !dataJSON[i].deletable) {
-        const deletable = document.createElement("button");
-        deletable.className = "report-button";
-        deletable.textContent = "report";
+    if (postData[i].editable) {
+      const editable = document.createElement("button");
+      editable.className = "edit-button";
+      editable.textContent = "edit";
+      editable.setAttribute("onclick", `editPost('${postData[i].id}')`);
+      postMeta.appendChild(editable);
+    }
+
+    if (postData[i].deletable === 1 || postData[i].editable) {
+      const deletable = document.createElement("button");
+      deletable.className = "delete-button";
+      deletable.textContent = "delete";
+      if (postData[i].editable) {
         deletable.setAttribute(
           "onclick",
-          `createReport(0, '${dataJSON[i].id}')`
+          `createConfirmation('delete ${postData[i].username}\\\'s post', '', deletePost, '${postData[i].id}')`
+        );
+      } else {
+        deletable.setAttribute(
+          "onclick",
+          `createModeration('deleting ${postData[i].username}\\\'s post', deletePost, '${postData[i].id}')`
         );
       }
-
-      postData.appendChild(postMeta);
-      post.appendChild(postData);
-
-      cont.appendChild(post);
-
-      // Scroll
-      if (scrollBottom) window.scrollTo(0, document.body.scrollHeight);
-      else window.scrollTo(0, document.body);
+      postMeta.appendChild(deletable);
     }
-  } catch {
-    const msg = await clone.text();
-    if (/\S/.test(msg)) {
-      errorMessage(msg);
-    } else {
-      const noResults = document.createElement("div");
-      noResults.textContent("There are no threads here yet...");
 
-      cont.appendChild(noResults);
+    if (!dataJSON[i].deletable === 1 && !postData[i].deletable) {
+      const deletable = document.createElement("button");
+      deletable.className = "report-button";
+      deletable.textContent = "report";
+      deletable.setAttribute("onclick", `createReport(0, '${postData[i].id}')`);
     }
+
+    postData.appendChild(postMeta);
+    post.appendChild(postData);
+
+    cont.appendChild(post);
   }
+  // Scroll
+  if (scrollBottom) window.scrollTo(0, document.body.scrollHeight);
+  else window.scrollTo(0, document.body);
 }
 
 /* EDITING POSTS */
@@ -197,11 +183,9 @@ async function sendEdit(id) {
     }),
   });
 
-  const result = await response.text();
+  const bod = parseResponse(response);
 
-  if (/\S/.test(result)) {
-    errorMessage(result);
-  } else {
+  if (bod[0]) {
     editTxt.value = "";
     getPosts();
   }
@@ -224,11 +208,9 @@ async function sendPost() {
     }),
   });
 
-  const result = await response.text();
+  const bod = parseResponse(response);
 
-  if (/\S/.test(result)) {
-    errorMessage(result);
-  } else {
+  if (bod[0]) {
     txt.value = "";
     totalPosts++;
     gotoThreadPage(Math.ceil(totalPosts / 20), true);
@@ -257,12 +239,11 @@ async function deletePost(id, reason, message) {
     body: JSON.stringify(obj),
   });
 
-  const result = await response.text();
+  const bod = await parseResponse(response);
 
-  if (/\S/.test(result)) {
-    errorMessage(result);
-  } else {
-    if (page) getPosts();
+  if (bod[0]) {
+    // if (page) // What was the idea behind this?? -> test
+    getPosts();
   }
 }
 
@@ -270,15 +251,7 @@ async function unSubscribe(type = 1) {
   const response = await fetch(
     `/api/thread/unSubscribe.php?t=${slug}&s=${type}`
   );
-  const result = await response.text();
-
-  if (/\S/.test(result)) {
-    errorMessage(result);
-  } else {
-    const button = document.getElementById("subscribe");
-    button.textContent = type === 1 ? "Subscribe" : "Unsubscribe";
-    button.setAttribute("onclick", `unSubscribe(${type === 1 ? 0 : 1})`);
-  }
+  parseResponse(response);
 }
 
 async function gotoThreadPage(p, scrollBottom = false) {

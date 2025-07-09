@@ -68,25 +68,11 @@ async function signUp() {
     }),
   });
 
-  try {
-    const result = await response.json();
+  const bod = await parseResponse(response);
 
-    const e = new Error("e");
-
-    if (!result.status) throw e;
-
-    if (result.status === "pass") {
-      loginCont.remove();
-      location.reload();
-    } else if (result.status === "fail") {
-      if (!result.msg) throw e;
-      if (!/\S/.test(result.msg)) throw e;
-      errorMessage(result.msg);
-    } else {
-      throw e;
-    }
-  } catch (e) {
-    errorMessage("An error has occured");
+  if (bod[0]) {
+    loginCont.remove();
+    location.reload();
   }
 }
 
@@ -138,25 +124,11 @@ async function login() {
     body: `h=${encodeURIComponent(handle)}&p=${encodeURIComponent(pswd)}`,
   });
 
-  try {
-    const result = await response.json();
+  const bod = await parseResponse(response);
 
-    const e = new Error("e");
-
-    if (!result.status) throw e;
-
-    if (result.status === "pass") {
-      loginCont.remove();
-      location.reload();
-    } else if (result.status === "fail") {
-      if (!result.msg) throw e;
-      if (!/\S/.test(result.msg)) throw e;
-      errorMessage(result.msg);
-    } else {
-      throw e;
-    }
-  } catch (e) {
-    errorMessage("An error has occured");
+  if (bod[0]) {
+    loginCont.remove();
+    location.reload();
   }
 }
 

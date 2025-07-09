@@ -73,10 +73,10 @@ function getError(string $id = "generic") : string {
     return $err;
 }
 
-function jsonErr(string $id = "generic", string $addMsg = "") {
-    $errMsg = getError($id)
+function jsonErr(string $id = "generic", string $addMsg = "") : string {
+    $errMsg = getError($id);
     if($addMsg !== "") {
-        $errMsg .= " " . $addMsg
+        $errMsg .= " " . $addMsg;
     }
     return json_encode(array(
         "status" => "fail", 
@@ -84,7 +84,7 @@ function jsonErr(string $id = "generic", string $addMsg = "") {
     ));
 }
 
-function pass() {
+function pass() : string {
     return json_encode(array("status" => "pass"));
 }
 

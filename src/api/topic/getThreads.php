@@ -7,7 +7,7 @@ echo response();
 
 function response() {
     if(!isset($_GET['s'])) {
-        return getError("args");
+        return jsonErr("args");
     }
     $slug = $_GET['s'];
 
@@ -24,7 +24,7 @@ function response() {
     $thread_count = (int)getThreadCount($slug);
 
     if($thread_count === 0) {
-        return getError("emptyCat");
+        return jsonErr("emptyCat");
     }
 
     $page = min($page, ceil($thread_count / 20));
@@ -32,7 +32,6 @@ function response() {
     $threads = getThreads($slug, $page);
 
     $data = [];
-    $data[] = $thread_count;
 
     // output data of each thread
     foreach($threads as $thread) {
@@ -51,6 +50,14 @@ function response() {
         $data[] = $t;
     }
 
-    $dataJSON = json_encode($data);
+    $dataJSON = json_encode(
+        array(
+            "status" => "pass",
+            "data" => array(
+                "threads" => $data,
+                "amount" => $thread_count
+            )
+        )
+    );
     return $dataJSON;
 }

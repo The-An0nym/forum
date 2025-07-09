@@ -7,7 +7,7 @@ echo response();
 
 function response() {
     if(!isset($_GET['s'], $_GET['p'])) {
-        return getError("args");
+        return jsonErr("args");
     }
 
     $slug = $_GET['s'];
@@ -20,14 +20,13 @@ function response() {
     $post_count = getPostCount($slug);
 
     if($post_count === 0) { 
-        return getError("emptyThrd");
+        return jsonErr("emptyThrd");
     }
 
     $page = min($page, ceil($post_count / 20));
 
     $posts = getPosts($slug, $page);
     $data = [];
-    $data[] = $post_count;
 
     // output data of each post
     foreach($posts as $post) {
@@ -53,6 +52,14 @@ function response() {
         $data[] = $p;
     }
 
-    $dataJSON = json_encode($data);
+    $dataJSON = json_encode(
+        array(
+            "status" => "pass",
+            "data" => array(
+                "posts" => $data,
+                "amount" => $post_count;
+            )
+        )
+    );
     return $dataJSON;
 }
