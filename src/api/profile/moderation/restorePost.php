@@ -17,11 +17,11 @@ function response() {
     }
 
     if(!validateSession()) {
-        return getError("login");
+        return jsonErr("login");
     }
 
     if(!isset($_POST['i'])) {
-        return getError("args");
+        return jsonErr("args");
     }
         
     $id = $_POST['i'];
@@ -37,7 +37,7 @@ function response() {
 
     $result = $conn->query($sql);
     if($result->num_rows !== 1) {
-        return getError("404user");
+        return jsonErr("404user");
     }
 
     $row = $result->fetch_assoc();
@@ -46,10 +46,10 @@ function response() {
     $user_id === $_SESSION["user_id"];
 
     if($post_user_id !== $user_id && $clearance < 1) {
-        return getError("auth");
+        return jsonErr("auth");
     }
     
-    countForPost($id, true);
+    countForPost($id, true); // CATCH ERRORS !
 
     $type = 1;
 
@@ -59,9 +59,11 @@ function response() {
         $sql = "INSERT INTO history (id, type, judgement, sender_id)
         VALUES ('$id', 0, 1, '$user_id')";
         if ($conn->query($sql) === FALSE) {
-            return getError() . " [RP0]";
+            return jsonErr("", "[RP0]");
         }
     }
 
-    deletePost($id, $type, true);
+    deletePost($id, $type, true); // CATCH ERRORS!
+
+    return pass();
 }

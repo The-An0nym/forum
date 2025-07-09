@@ -18,11 +18,11 @@ function response() {
     }
 
     if(!validateSession()) {
-        return getError("login");
+        return jsonErr("login");
     }
 
     if(!isset($_FILES['i'])) {
-        return getError("args");
+        return jsonErr("args");
     }
 
     $target_dir = $path . "/images/profiles/";
@@ -34,17 +34,17 @@ function response() {
     // Check if image file is a actual image or fake image
     $check = getimagesize($_FILES["i"]["tmp_name"]);
     if($check === false) {
-        return getError("imgType");
+        return jsonErr("imgType");
     }
 
         // Check if file already exists
         if (file_exists($target_file)) {
-            return getError("tImg");
+            return jsonErr("tImg");
         }
 
         // Check file size
         if ($_FILES["i"]["size"] > 1024 * 1024) {
-            return getError("imgMaxMB");
+            return jsonErr("imgMaxMB");
         }
 
         // Check file type
@@ -53,17 +53,17 @@ function response() {
         } else if($imageFileType == "jpg" || $imageFileType == "jpeg") {
             $image = imageCreateFromJpeg($_FILES["i"]["tmp_name"]);
         } else {
-            return getError("imgType");
+            return jsonErr("imgType");
         }
 
         list($width, $height, $type, $attr) = $check;
 
         // Check resolution
         if($width > 1024 || $height > 1024) {
-            return getError("imgMax");
+            return jsonErr("imgMax");
         }
         if($width < 128 || $height < 128) {
-            return getError("imgMax");
+            return jsonErr("imgMax");
         }
 
         // Crop to square
@@ -101,6 +101,8 @@ function response() {
         // Update image path
         $sql = "UPDATE users SET image_dir = '$image_dir' WHERE user_id = '$user_id'";
         if ($conn->query($sql) === FALSE) {
-            return getError() . " [CPF0]";
+            return jsonErr("", "[CPF0]");
         }
+
+        return pass();
 }

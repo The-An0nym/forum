@@ -17,36 +17,23 @@ async function getModerationHistory(page = 0, reports = false) {
   }
 
   const response = await fetch(url);
-  const respText = await response.text(); // For error handling
 
-  // Naive test
-  const text = respText.trim();
-  if (text[0] === "#" && text.includes("§")) {
-    let index = text.indexOf("§");
-    // Store result number somewhere
-    targetNumb.textContent = text.slice(1, index);
-    if (reports && text.includes("§", index + 1)) {
-      const preIndex = index;
-      index = text.indexOf("§", index + 1);
-      document.getElementById("report-unread").textContent = text.slice(
-        preIndex + 1,
-        index
-      );
-    }
+  const bod = await parseResponse(response);
 
-    target.innerHTML = text.slice(index + 1);
+  if (bod[1]) return;
 
-    if (reports) {
-      reportTotalPage = parseInt(text.slice(1, preIndex));
-      reportPage = page;
-      paginateReport();
-    } else {
-      modTotalPage = parseInt(text.slice(1, index));
-      modPage = page;
-      paginateMod();
-    }
-  } else if (/\S/.test(text)) {
-    errorMessage(text);
+  target.innerHTML = bod[1].html;
+  targetNumb.textContent = bod[1].amount;
+
+  if (reports) {
+    document.getElementById("reports-unread").textContent = bod[1].unread;
+    reportTotalPage = parseInt(bod[1].amount);
+    reportPage = page;
+    paginateReport();
+  } else {
+    modTotalPage = parseInt(bod[1].amount);
+    modPage = page;
+    paginateMod();
   }
 }
 
@@ -56,13 +43,9 @@ async function markReport(as, id) {
   const response = await fetch(
     `/api/profile/moderation/markReport.php?r=${as}&i=${id}`
   );
-  const result = await response.text();
+  const bod = await parseResponse(response);
 
-  if (/\S/.test(result)) {
-    errorMessage(result);
-  } else {
-    getModerationHistory(0, true);
-  }
+  if (bod[0]) getModerationHistory(0, true);
 }
 
 function getReportParams() {
@@ -227,9 +210,10 @@ async function getPostContent(id) {
   const response = await fetch(
     `/api/profile/moderation/getPostCont.php?i=${id}`
   );
-  const txt = response.text();
-  getCache[id] = txt;
-  return txt;
+  const bod = await parseResponse(response);
+
+  if (bod[0]) return bod[1].cont + bod[1].dt + bod[1].edited;
+  return "";
 }
 
 async function getThreadSlug(id) {
@@ -239,9 +223,10 @@ async function getThreadSlug(id) {
   const response = await fetch(
     `/api/profile/moderation/getThreadSlug.php?i=${id}`
   );
-  const txt = response.text();
-  getCache[id] = txt;
-  return txt;
+  const bod = parseResponse(response);
+
+  if (bod[0]) return bod[1].slug;
+  return "";
 }
 
 function generateButton(report, earlier) {

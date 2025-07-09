@@ -17,18 +17,18 @@ function response() {
     } 
 
     if(!validateSession()) {
-        return getError("login");
+        return jsonErr("login");
     }
     $json_params = file_get_contents("php://input");
 
     if (strlen($json_params) === 0 || !json_validate($json_params)) {
-        return getError("args");
+        return jsonErr("args");
     }
         
     $json_obj = json_decode($json_params);
 
     if(!isset($json_obj->i)) {
-        return getError("args");
+        return jsonErr("args");
     }
 
     $id = $json_obj->i;
@@ -44,7 +44,7 @@ function response() {
 
     $result = $conn->query($sql);
     if($result->num_rows !== 1) {
-        return getError("404user");
+        return jsonErr("404user");
     }
 
     $row = $result->fetch_assoc();
@@ -57,10 +57,10 @@ function response() {
             $reason = (int)$json_obj->r;
             $message = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($json_obj->m));
             if(strlen($message) < 20 || strlen($message) > 200) {
-                return getError("msgMinMax");
+                return jsonErr("msgMinMax");
             }
         } else {
-            return getError("args");
+            return jsonErr("args");
         }
     }
 
@@ -72,12 +72,14 @@ function response() {
         if($post_user_id !== $user_id) {
             $type = 2;
             // Push onto history
-            createHistory(0, 2, $id, $user_id, $reason, $message);
+            createHistory(0, 2, $id, $user_id, $reason, $message); // CATCH ERRORS!
         }
 
         // (Soft) delete post
-        deletePost($id, $type, false);             
+        deletePost($id, $type, false); // CATCH ERRORS!         
     } else {
-        return getError("auth");
+        return jsonErr("auth");
     }
+
+    return pass();
 }

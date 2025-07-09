@@ -15,18 +15,18 @@ function response() {
     } 
 
     if(!validateSession()) {
-        return getError("login");
+        return jsonErr("login");
     }
 
     if (!isset($_GET["r"], $_GET["i"])) {
-        return getError("args");
+        return jsonErr("args");
     }
 
     $id = $_GET["i"];
     $as = (int)$_GET["r"];
 
     if($as !== 0 && $as !== 1) {
-        return getError("args");
+        return jsonErr("args");
     }
 
     $conn = getConn();
@@ -37,7 +37,7 @@ function response() {
 
     $result = $conn->query($sql);
     if($result->num_rows !== 1) {
-        return getError("404user");
+        return jsonErr("404user");
     }
 
     $clearance = (int)$result->fetch_assoc()["clearance"];
@@ -48,12 +48,14 @@ function response() {
     $type = (int)$result->fetch_assoc()["type"];
 
     if($type >= $clearance) {
-        return getError("auth");
+        return jsonErr("auth");
     }
 
     // Update
     $sql = "UPDATE mod_history SET judgement = $as WHERE mod_id = '$id'";
     if ($conn->query($sql) === FALSE) {
-        return getError() . " [MR0]";
+        return jsonErr("", "[MR0]");
     }
+
+    return pass();
 }

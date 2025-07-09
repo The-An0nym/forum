@@ -74,6 +74,10 @@ function getError(string $id = "generic") : string {
 }
 
 function jsonErr(string $id = "generic", string $addMsg = "") : string {
+    if($id === "") {
+        $id = "generic";
+    }
+    
     $errMsg = getError($id);
     if($addMsg !== "") {
         $errMsg .= " " . $addMsg;

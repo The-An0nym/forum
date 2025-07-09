@@ -15,36 +15,36 @@ function response() {
     }
 
     if(!validateSession()) {
-        return getError("login");
+        return jsonErr("login");
     }
 
     $json_params = file_get_contents("php://input");
 
     if (strlen($json_params) === 0 && !json_validate($json_params)) {
-        return getError("args");
+        return jsonErr("args");
     }
         
     $json_obj = json_decode($json_params);
 
     if(!isset($json_obj->h)) {
-        return getError("args");
+        return jsonErr("args");
     }
 
     $handle = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($json_obj->h));
     
     if(preg_match('/^[A-z0-9.\-+]*$/i', $handle) !== 1) {
-        return getError("handReg");
+        return jsonErr("handReg");
     } else if(strlen($handle) > 16) {
-        return getError("handMax");
+        return jsonErr("handMax");
     } else if(strlen($handle) < 4) {
-        return getError("handMin");
+        return jsonErr("handMin");
     }
 
     $sql = "SELECT * FROM users WHERE handle='$handle' LIMIT 1";
     $result = $conn->query($sql);
 
     if ($result->num_rows !== 0) {
-        return getError("tHand");
+        return jsonErr("tHand");
     }
     
     $user_id = $_SESSION["user_id"];
@@ -52,6 +52,8 @@ function response() {
     $sql = "UPDATE users SET handle = '$handle' WHERE user_id = '$user_id'";
 
     if ($conn->query($sql) === FALSE) {
-        return getError() . " [CH0]";
+        return jsonErr("", "[CH0]");
     }
+    
+    return pass();
 }

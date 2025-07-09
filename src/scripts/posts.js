@@ -6,20 +6,20 @@ async function getPosts(scrollBottom = false) {
   // Request
   const response = await fetch(`/api/thread/getPosts.php?s=${slug}&p=${page}`);
 
-  const bod = parseResponse(response);
+  const bod = await parseResponse(response);
 
   if (!bod[0]) return; // Status: fail
 
-  const postData = bod[1].posts;
+  const jsonData = bod[1].posts;
   cont.innerHTML = "";
 
   totalPosts = bod[1].amount;
   createPageMenu("gotoThreadPage", page, totalPosts);
 
-  for (let i = 0; i < postData.length; i++) {
+  for (let i = 0; i < jsonData.length; i++) {
     const post = document.createElement("div");
     post.className = "post";
-    post.id = postData[i].id;
+    post.id = jsonData[i].id;
 
     /* USER INFO */
 
@@ -30,7 +30,7 @@ async function getPosts(scrollBottom = false) {
     profilePicture.className = "profile-picture";
     profilePicture.setAttribute(
       "src",
-      `/images/profiles/${postData[i].imageSrc}`
+      `/images/profiles/${jsonData[i].imageSrc}`
     );
     userDetails.appendChild(profilePicture);
 
@@ -38,15 +38,15 @@ async function getPosts(scrollBottom = false) {
     username.className = "username";
 
     const handle = document.createElement("a");
-    handle.textContent = postData[i].username;
-    handle.href = "/user/" + postData[i].handle;
+    handle.textContent = jsonData[i].username;
+    handle.href = "/user/" + jsonData[i].handle;
 
     username.appendChild(handle);
     userDetails.appendChild(username);
 
     const userPostCount = document.createElement("span");
     userPostCount.className = "user-post-count";
-    userPostCount.textContent = postData[i].userPostCount;
+    userPostCount.textContent = jsonData[i].userPostCount;
     userDetails.appendChild(userPostCount);
 
     post.appendChild(userDetails);
@@ -58,7 +58,7 @@ async function getPosts(scrollBottom = false) {
 
     const content = document.createElement("span");
     content.className = "content";
-    content.innerHTML = postData[i].content;
+    content.innerHTML = jsonData[i].content;
     postData.appendChild(content);
 
     /* META */
@@ -68,47 +68,47 @@ async function getPosts(scrollBottom = false) {
 
     const created = document.createElement("span");
     created.className = "created";
-    created.textContent = postData[i].created;
+    created.textContent = jsonData[i].created;
     postMeta.appendChild(created);
 
-    if (postData[i].edited === "1") {
+    if (jsonData[i].edited === "1") {
       const edited = document.createElement("span");
       edited.className = "edited";
       edited.textContent = "edited";
       postMeta.appendChild(edited);
     }
 
-    if (postData[i].editable) {
+    if (jsonData[i].editable) {
       const editable = document.createElement("button");
       editable.className = "edit-button";
       editable.textContent = "edit";
-      editable.setAttribute("onclick", `editPost('${postData[i].id}')`);
+      editable.setAttribute("onclick", `editPost('${jsonData[i].id}')`);
       postMeta.appendChild(editable);
     }
 
-    if (postData[i].deletable === 1 || postData[i].editable) {
+    if (jsonData[i].deletable === 1 || jsonData[i].editable) {
       const deletable = document.createElement("button");
       deletable.className = "delete-button";
       deletable.textContent = "delete";
-      if (postData[i].editable) {
+      if (jsonData[i].editable) {
         deletable.setAttribute(
           "onclick",
-          `createConfirmation('delete ${postData[i].username}\\\'s post', '', deletePost, '${postData[i].id}')`
+          `createConfirmation('delete ${jsonData[i].username}\\\'s post', '', deletePost, '${jsonData[i].id}')`
         );
       } else {
         deletable.setAttribute(
           "onclick",
-          `createModeration('deleting ${postData[i].username}\\\'s post', deletePost, '${postData[i].id}')`
+          `createModeration('deleting ${jsonData[i].username}\\\'s post', deletePost, '${jsonData[i].id}')`
         );
       }
       postMeta.appendChild(deletable);
     }
 
-    if (!dataJSON[i].deletable === 1 && !postData[i].deletable) {
+    if (!jsonData[i].deletable === 1 && !jsonData[i].deletable) {
       const deletable = document.createElement("button");
       deletable.className = "report-button";
       deletable.textContent = "report";
-      deletable.setAttribute("onclick", `createReport(0, '${postData[i].id}')`);
+      deletable.setAttribute("onclick", `createReport(0, '${jsonData[i].id}')`);
     }
 
     postData.appendChild(postMeta);
@@ -183,7 +183,7 @@ async function sendEdit(id) {
     }),
   });
 
-  const bod = parseResponse(response);
+  const bod = await parseResponse(response);
 
   if (bod[0]) {
     editTxt.value = "";
@@ -208,7 +208,7 @@ async function sendPost() {
     }),
   });
 
-  const bod = parseResponse(response);
+  const bod = await parseResponse(response);
 
   if (bod[0]) {
     txt.value = "";

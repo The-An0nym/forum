@@ -15,11 +15,11 @@ function response() {
     } 
 
     if(!validateSession()) {
-        return getError("login");
+        return jsonErr("login");
     }
 
     if (!isset($_GET["i"])) {
-        return getError("args");
+        return jsonErr("args");
     }
 
     $id = $_GET["i"];
@@ -33,21 +33,28 @@ function response() {
 
     $result = $conn->query($sql);
     if($result->num_rows !== 1) {
-        return getError() . " [GTS0]";
+        return jsonErr("", "[GTS0]");
     }
 
     $clearance = (int)$result->fetch_assoc()["clearance"];
     if($clearance < 1) {
-        return getError("auth");
+        return jsonErr("auth");
     }
 
     $sql = "SELECT slug FROM threads WHERE id = '$id'";
         
     $result = $conn->query($sql);
     if($result->num_rows !== 1) {
-        return getError("404thread");
+        return jsonErr("404thread");
     }
 
     $cont = $result->fetch_assoc()["slug"];
-    return $cont;
+    return json_encode(
+        array(
+            "status" => "pass",
+            "data" => array(
+                "cont" => $cont
+            )
+        )
+    );
 }

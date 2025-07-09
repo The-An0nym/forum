@@ -40,14 +40,14 @@ function response() {
                 SET content = '$cont', edited = '1'
                 WHERE post_id = '$post_id' AND user_id = '$user_id'";
         if ($conn->query($sql) === FALSE) {
-            return jsonErr("[SE0]");
+            return jsonErr("", "[SE0]");
         } 
     } else if(strlen($cont) === 0) {
         return jsonErr("contMin");
     } else if(strlen($cont) > 2000) {
         return jsonErr("contMax");
     } else {
-        return jsonErr("[SE1]");
+        return jsonErr("", "[SE1]");
     }
     return pass();
 }

@@ -17,19 +17,19 @@ function response() {
     } 
 
     if(!validateSession()) {
-        return getError("login");
+        return jsonErr("login");
     }
 
     $json_params = file_get_contents("php://input");
 
     if (strlen($json_params) === 0 || !json_validate($json_params)) {
-        return getError("args");
+        return jsonErr("args");
     }
 
     $json_obj = json_decode($json_params);
 
     if(!isset($json_obj->i, $json_obj->r, $json_obj->m)) {
-        return getError("args");
+        return jsonErr("args");
     }
 
     $mod_id = $json_obj->i;
@@ -37,7 +37,7 @@ function response() {
 
     $message = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($json_obj->m));
     if(strlen($message) < 20 || strlen($message) > 200) {
-        return getError("msgMinMax");
+        return jsonErr("msgMinMax");
     }
         
     $user_id = $_SESSION['user_id'];
@@ -47,7 +47,7 @@ function response() {
 
     $result = $conn->query($sql);
     if($result->num_rows !== 1) {
-        return getError("404user");
+        return jsonErr("404user");
     }
 
     $clearance = (int)$result->fetch_assoc()["clearance"];
@@ -59,7 +59,7 @@ function response() {
         
     $result = $conn->query($sql);
     if($result->num_rows === 0) {
-        return getError("404mod");
+        return jsonErr("404mod");
     }
 
     $row = $result->fetch_assoc();
@@ -70,25 +70,28 @@ function response() {
     $culp_id = $row["culp_id"];
 
     if($clearance < $type) {
-        return getError("auth");
+        return jsonErr("auth");
     }
 
     if($judgement < 2) {
-        return getError("undoRepo");
+        return jsonErr("undoRepo");
     }
 
     if($culp_id === $user_id) {
-        return getError("undoOwn");
+        return jsonErr("undoOwn");
     }
 
     // Clearance of sender?
 
     // CHECK IF IT WAS LATEST ACTION FOR THIS ID (& ~judgement)
 
+    // ....
+    // CATCH ERRORS FOR ALL OF THESE FUNCTIONS
+
     if($type === 0) {
         if($judgement === 2) {
             createHistory(0, 4, $id, $user_id, 4, $message);
-            deletePost($id, 2, true);   
+            deletePost($id, 2, true);
             countForPost($id, true);
         } else if($judgement === 4) {
             createHistory(0, 2, $id, $user_id, $reason, $message);
@@ -133,10 +136,10 @@ function response() {
                 // PROMOTE
                 $sql = "UPDATE users SET clearance = clearance + 1 WHERE user_id = '$culp_id'";
                 if ($conn->query($sql) === FALSE) {
-                    return getError() . " [U0]";
+                    return jsonErr("", "[U0]");
                 }
             } else {
-                return getError("auth");
+                return jsonErr("auth");
             }
         } else if($judgement === 7) {
             // Demote again
@@ -145,11 +148,13 @@ function response() {
                 // DEMOTE
                 $sql = "UPDATE users SET clearance = clearance - 1 WHERE user_id = '$culp_id'";
                 if ($conn->query($sql) === FALSE) {
-                    return getError() . " [U1]";
+                    return jsonErr("", "[U1]");
                 }
             } else {
-                return getError("auth");
+                return jsonErr("auth");
             }
         }
-    }        
+    }
+    
+    return pass();
 }

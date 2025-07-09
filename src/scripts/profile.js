@@ -16,14 +16,12 @@ async function uploadImage() {
     method: "POST",
     body: form_data,
   });
-  const result = await response.text();
 
-  file.value = "";
+  const bod = await parseResponse(response);
 
-  if (/\S/.test(result)) {
-    errorMessage(result);
-  } else {
-    // Refresh?
+  if (bod[0]) {
+    file.value = "";
+    location.reload();
   }
 }
 
@@ -58,12 +56,9 @@ async function changeUsername() {
     body: `u=${val}`,
   });
 
-  const result = await response.text();
-  if (/\S/.test(result)) {
-    errorMessage(result);
-  } else {
-    location.reload();
-  }
+  const bod = await parseResponse(response);
+
+  if (bod[0]) location.reload();
 }
 
 /* CHANGING THE HANDLE */
@@ -85,12 +80,9 @@ async function changeHandle() {
     }),
   });
 
-  const result = await response.text();
-  if (/\S/.test(result)) {
-    errorMessage(result);
-  } else {
-    location.reload();
-  }
+  const bod = await parseResponse(response);
+
+  if (bod[0]) location.reload();
 }
 
 /* CHANGING THE PASSWORD */
@@ -118,12 +110,9 @@ async function changePassword() {
     body: `p=${currPswd}&np=${newPswd}`,
   });
 
-  const result = await response.text();
-  if (/\S/.test(result)) {
-    errorMessage(result);
-  } else {
-    location.reload();
-  }
+  const bod = await parseResponse(response);
+
+  if (bod[0]) location.reload();
 }
 
 // Deleting account
@@ -144,13 +133,9 @@ async function deleteAccount(id, reason, message) {
     body: JSON.stringify(obj),
   });
 
-  const result = await response.text();
+  const bod = await parseResponse(response);
 
-  if (/\S/.test(result)) {
-    errorMessage(result);
-  } else {
-    location.reload();
-  }
+  if (bod[0]) location.reload();
 }
 
 /* SAVE BUTTONS */
@@ -241,10 +226,7 @@ async function restorePost(id) {
     body: `i=${id}`,
   });
 
-  const result = await response.text();
-  if (/\S/.test(result)) {
-    errorMessage(result);
-  } else {
-    location.reload();
-  }
+  const bod = await parseResponse(response);
+
+  if (bod[0]) location.reload();
 }

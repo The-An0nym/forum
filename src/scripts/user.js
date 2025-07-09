@@ -72,13 +72,9 @@ async function banUser(id, deleteThreads, reason, message) {
     body: JSON.stringify(obj),
   });
 
-  const result = await response.text();
+  const bod = await parseResponse(response);
 
-  if (/\S/.test(result)) {
-    errorMessage(result);
-  } else {
-    location.reload();
-  }
+  if (bod[0]) location.reload();
 }
 
 /* User demotion and promotion */
@@ -106,11 +102,7 @@ async function changeUserAuth(id, reason, message, promote) {
     body: JSON.stringify(obj),
   });
 
-  const result = await response.text();
+  const bod = await parseResponse(response);
 
-  if (/\S/.test(result)) {
-    errorMessage(result);
-  } else {
-    location.reload();
-  }
+  if (bod[0]) location.reload();
 }

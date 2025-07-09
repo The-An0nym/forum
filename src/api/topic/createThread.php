@@ -67,7 +67,7 @@ function response() {
     $sql = "INSERT INTO threads (name, slug, id, category_id, created, user_id, posts)
     VALUES ('$threadName', '$thread_slug', '$thread_id', '$category_id', '$dtime', '$user_id', 1)";
     if ($conn->query($sql) === FALSE) {
-        return jsonErr("[CT0]");
+        return jsonErr("", "[CT0]");
     }
 
     // Create Post
@@ -75,13 +75,13 @@ function response() {
     $sql = "INSERT INTO posts (user_id, post_id, content, created, edited, thread_id)
     VALUES ('$user_id', '$post_id', '$cont', '$dtime', 'false', '$thread_id')";
     if ($conn->query($sql) === FALSE) {
-        return jsonErr("[CT1]");
+        return jsonErr("", "[CT1]");
     }
 
     // Increment post and thread count of user and category
     $sql = "UPDATE users SET posts = posts +1, threads = threads +1 WHERE user_id = '$user_id'";
     if ($conn->query($sql) === FALSE) {
-        return jsonErr("[CT2]");
+        return jsonErr("", "[CT2]");
     }
 
     // Increment post count of category
@@ -89,7 +89,7 @@ function response() {
             SET posts = posts +1, threads = threads +1 
             WHERE id = '$category_id'";
     if ($conn->query($sql) === FALSE) {
-        return jsonErr("[CT3]");
+        return jsonErr("", "[CT3]");
     }
 
     return pass();

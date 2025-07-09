@@ -180,21 +180,11 @@ function filter(array $params = []) {
     return $filt; 
 }
 
-function getHistoryHTML(bool $report, int $page, int $clearance, array $params, bool $inclQuant = false) {
+function getHistoryHTML(bool $report, int $page, int $clearance, array $params) {
     if($report) {
         $data = getReportHistory($page, $clearance, $params);
     } else {
         $data = getModHistory($page, $params);
-    }
-
-    if($inclQuant) {
-        echo "#";
-        if($report) {
-            echo countReportHistory(false, $clearance, $params) . "§";
-            echo countReportHistory(true, $clearance, $params) . "§";
-        } else {
-            echo countModHistory($params) . "§";
-        }
     }
 
     foreach($data as $row) {

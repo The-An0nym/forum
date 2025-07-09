@@ -15,11 +15,11 @@ function response() {
     } 
 
     if(!validateSession()) {
-        return getError("login");
+        return jsonErr("login");
     }
 
     if (!isset($_POST['p'], $_POST['np'])) {
-        return getError("args");
+        return jsonErr("args");
     }
 
     $password = htmlspecialchars($_POST["p"]);
@@ -27,23 +27,23 @@ function response() {
     $user_id = $_SESSION["user_id"];
 
     if(strlen($password) > 50 || strlen($newPassword) > 50) {
-        return getError("pswdMax");
+        return jsonErr("pswdMax");
     } else if(strlen($password) < 8 || strlen($newPassword) < 8) {
-        return getError("pswdMin");
+        return jsonErr("pswdMin");
     }
 
     $sql = "SELECT password FROM users WHERE user_id='$user_id'";
     $result = $conn->query($sql);
 
     if ($result->num_rows !== 1) {
-        return getError("404user");
+        return jsonErr("404user");
     }
 
     $res = $result->fetch_assoc();
     $hashedPassword = $res["password"];
 
     if(!password_verify($password, $hashedPassword)) {
-        return getError("pswdFail");
+        return jsonErr("pswdFail");
     }
     
     $newHashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
@@ -51,6 +51,8 @@ function response() {
     $sql = "UPDATE users SET password = '$newHashedPassword' WHERE user_id='$user_id'";
 
     if ($conn->query($sql) === FALSE) {
-        return getError() . " [CP0]";
+        return jsonErr("", "[CP0]");
     }
+
+    return pass();
 }

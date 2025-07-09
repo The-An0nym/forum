@@ -16,18 +16,18 @@ function response() {
     } 
 
     if(!validateSession()) {
-        return getError("login");
+        return jsonErr("login");
     }
     $json_params = file_get_contents("php://input");
 
     if (strlen($json_params) === 0 || !json_validate($json_params)) {
-        return getError("args");
+        return jsonErr("args");
     }
-    
+
     $json_obj = json_decode($json_params);
 
     if(!isset($json_obj->t, $json_obj->i, $json_obj->r, $json_obj->m)) {
-        return getError("args");
+        return jsonErr("args");
     }
 
     $type = (int)$json_obj->t;
@@ -36,11 +36,14 @@ function response() {
 
     $message = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($json_obj->m));
     if(strlen($message) < 20 || strlen($message) > 200) {
-        return getError("msgMinMax");
+        return jsonErr("msgMinMax");
     }
 
     $user_id = $_SESSION['user_id'];
 
     // Check if already reported
-    createReport($type, $id, $user_id, $reason, $message);
+    
+    createReport($type, $id, $user_id, $reason, $message); // HANDLE ERROR
+
+    return pass();
 }

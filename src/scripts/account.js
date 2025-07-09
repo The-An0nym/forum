@@ -134,11 +134,6 @@ async function login() {
 
 async function logout() {
   const response = await fetch("/api/menu/logout.php");
-
-  const result = await response.text();
-  if (/\S/.test(result)) {
-    errorMessage(result);
-  } else {
-    location.reload();
-  }
+  const bod = await parseResponse(response);
+  if (bod[0]) location.reload();
 }

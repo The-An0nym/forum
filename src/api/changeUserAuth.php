@@ -16,19 +16,19 @@ function response() {
     }
 
     if(!validateSession()) {
-        return getError("login");
+        return jsonErr("login");
     }
 
     $json_params = file_get_contents("php://input");
 
     if (strlen($json_params) === 0 || !json_validate($json_params)) {
-        return getError("args");
+        return jsonErr("args");
     }
 
     $json_obj = json_decode($json_params);
 
     if(!isset($json_obj->i, $json_obj->p, $json_obj->r, $json_obj->m)) {
-        return getError("args");
+        return jsonErr("args");
     }
 
     $id = $json_obj->i;
@@ -37,7 +37,7 @@ function response() {
 
     $message = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($json_obj->m));
     if(strlen($message) < 20 || strlen($message) > 200) {
-        return getError("msgMinMax");
+        return jsonErr("msgMinMax");
     }
 
     $conn = getConn();
@@ -52,7 +52,7 @@ function response() {
     $result = $conn->query($sql);
 
     if($result->num_rows !== 1) {
-        return getError("404user");
+        return jsonErr("404user");
     }
 
     $row = $result->fetch_assoc();
@@ -78,9 +78,10 @@ function response() {
         // Demote user
         $sql = "UPDATE users SET clearance = clearance $sy 1 WHERE user_id = '$id'";
         if ($conn->query($sql) === FALSE) {
-            return getError() . " [CUA0]";
+            return jsonErr("", "[CUA0]");
         }
     } else {
-        return getError("auth");
+        return jsonErr("auth");
     }
+    return pass();
 }

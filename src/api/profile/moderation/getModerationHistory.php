@@ -17,7 +17,7 @@ function response() {
     } 
 
     if(!validateSession()) {
-        return getError("login");
+        return jsonErr("login");
     }
 
     $page = 0;
@@ -61,10 +61,23 @@ function response() {
     $clearance = $result->fetch_assoc()["clearance"];
 
     if($clearance < 1) {
-        return getError("auth");
+        return jsonErr("auth");
     }
 
-    $data = getHistoryHTML($report, $page, $clearance, $params, true);
+    $data = getHistoryHTML($report, $page, $clearance, $params);
+    if($report) {
+        $reports = countReportHistory(false, $clearance, $params);
+        $unread = countReportHistory(true, $clearance, $params);
+    }
 
-    return trim($data);
+    return json_encode(
+        array(
+            "status" => "pass",
+            "data" => array(
+                "html" => trim($data),
+                "amount" => $reports,
+                "unread" => $unread
+            )
+        )
+    )
 }

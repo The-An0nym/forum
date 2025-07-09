@@ -51,13 +51,13 @@ function response() {
         $sql = "INSERT INTO posts (user_id, post_id, content, created, edited, thread_id)
         VALUES ('$user_id', '$post_id', '$cont', '$dtime', 'false', '$thread_id')";
         if ($conn->query($sql) === FALSE) {
-            return jsonErr("[SP0]");
+            return jsonErr("", "[SP0]");
         }
 
         // Increment post count of user
         $sql = "UPDATE users SET posts = posts +1 WHERE user_id = '$user_id'";
         if ($conn->query($sql) === FALSE) {
-            return jsonErr("[SP1]");
+            return jsonErr("", "[SP1]");
         }
 
         // Increment post count of category and thread
@@ -66,7 +66,7 @@ function response() {
                 SET c.posts = c.posts +1, t.posts = t.posts +1 
                 WHERE t.id = '$thread_id'";
         if ($conn->query($sql) === FALSE) {
-            return jsonErr("[SP2]");
+            return jsonErr("", "[SP2]");
         }
     } else if(strlen($cont) === 0) {
         return jsonErr("contMin");

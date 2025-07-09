@@ -17,7 +17,7 @@ function response() {
     } 
 
     if(!validateSession()) {
-        return getError("login");
+        return jsonErr("login");
     }
 
     $conn = getConn();
@@ -29,15 +29,16 @@ function response() {
     $result = $conn->query($sql);
 
     if($result->num_rows !== 1) {
-        return getError("404user");
+        return jsonErr("404user");
     }
         
     $row = $result->fetch_assoc();
     $clearance = $row['clearance'];
 
-    if($clearance == 5) {
-        syncAll();
-    } else {
-        return getError("auth");
+    if($clearance != 5) {
+        return jsonErr("auth");
     }
+    
+    syncAll(); // Catch errors!
+    return pass();
 }

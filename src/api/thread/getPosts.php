@@ -57,7 +57,7 @@ function response() {
             "status" => "pass",
             "data" => array(
                 "posts" => $data,
-                "amount" => $post_count;
+                "amount" => $post_count
             )
         )
     );

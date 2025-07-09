@@ -264,13 +264,9 @@ async function sendReport(type, id, reason, message) {
     body: JSON.stringify(obj),
   });
 
-  const result = await response.text();
+  const bod = await parseResponse(response);
 
-  if (/\S/.test(result)) {
-    errorMessage(result);
-  } else {
-    location.reload();
-  }
+  if (bod[0]) location.reload();
 }
 
 /* Reading API responses */

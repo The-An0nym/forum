@@ -16,6 +16,8 @@ function response() {
 
     $res = clearCurrSession();
     if($res !== "") {
-        return $res;
+        return jsonErr($res);
     }
+    
+    return pass();
 }

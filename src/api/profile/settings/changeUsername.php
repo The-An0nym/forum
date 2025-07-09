@@ -15,19 +15,19 @@ function response() {
     } 
 
     if(!validateSession()) {
-        return getError("login");
+        return jsonErr("login");
     }
  
     if (!isset($_POST['u'])) {
-        return getError("args");
+        return jsonErr("args");
     }
         
     $username = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($_POST['u']));
     
     if(strlen($username) > 24) {
-        return getError("userMax");
+        return jsonErr("userMax");
     } else if(strlen($username) < 4) {
-        return getError("userMin");
+        return jsonErr("userMin");
     }
             
     $sql = "SELECT * FROM users WHERE username='$username'";
@@ -36,12 +36,14 @@ function response() {
     $user_id = $_SESSION["user_id"];
 
     if ($result->num_rows !== 0) {
-        return getError("tUser");
+        return jsonErr("tUser");
     }
 
     $sql = "UPDATE users SET username = '$username' WHERE user_id = '$user_id'";
 
     if ($conn->query($sql) === FALSE) {
-        return getError() . " CU0";
+        return jsonErr("", "[CU0]");
     }
+
+    return pass();
 }

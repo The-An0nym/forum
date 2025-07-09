@@ -15,11 +15,11 @@ function response() {
     } 
 
     if(!validateSession()) {
-        return getError("login");
+        return jsonErr("login");
     }
 
     if (!isset($_GET["i"])) {
-        return getError("args");
+        return jsonErr("args");
     }
 
     $id = $_GET["i"];
@@ -33,23 +33,32 @@ function response() {
 
     $result = $conn->query($sql);
     if($result->num_rows !== 1) {
-        return getError() . " [GPC0]";
+        return jsonErr("[GPC0]");
     }
 
     $clearance = (int)$result->fetch_assoc()["clearance"];
 
     if($clearance < 1) {
-        return getError("auth");
+        return jsonErr("auth");
     }
 
-    $sql = "SELECT content FROM posts WHERE post_id = '$id'";
+    $sql = "SELECT content, created, edited FROM posts WHERE post_id = '$id'";
         
     $result = $conn->query($sql);
     if($result->num_rows !== 1) {
-        return getError() . " [GPC1]";
+        return jsonErr("[GPC1]");
     }
 
-    $cont = $result->fetch_assoc()["content"];
+    $row = $result->fetch_assoc();    
 
-    return $cont;
+    return json_encode(
+        array(
+            "status" => "pass",
+            "data" => array(
+                "cont" => $row["content"],
+                "dt" => $row["created"],
+                "edited" => $row["edited"]
+            )
+        )
+    );
 }

@@ -150,13 +150,9 @@ async function deleteThread(id, reason, message) {
     body: JSON.stringify(obj),
   });
 
-  const result = await response.text();
+  const bod = await parseResponse(response);
 
-  if (/\S/.test(result)) {
-    errorMessage(result);
-  } else {
-    getThreads();
-  }
+  if (bod[0]) getThreads();
 }
 
 async function gotoTopicPage(p) {
