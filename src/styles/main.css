@@ -70,6 +70,12 @@ textarea {
   resize: vertical;
 }
 
+button:disabled {
+  background-color: var(--bg-dark);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
 .error-message {
   border-radius: 5px;
   position: fixed;
@@ -124,4 +130,13 @@ textarea {
 }
 .selected-page:hover {
   background-color: var(--saturated-blue);
+}
+
+/* Progress bad */
+#progress-bar {
+  position: absolute;
+  height: 5px;
+  width: 0%;
+  background-color: #faa;
+  z-index: 10;
 }

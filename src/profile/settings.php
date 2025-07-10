@@ -30,7 +30,7 @@ include $path . '/functions/validateSession.php';
     <link rel="stylesheet" href="/styles/profile.css"/>
 </head>
 <body>
-    <?php generateMenu([]) ?>
+    <?php generateMenu() ?>
     <?php generateProfileMenu() ?>
 
     <div class="container">

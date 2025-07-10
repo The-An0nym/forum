@@ -67,7 +67,7 @@ if($result->num_rows === 1) {
     <link rel="stylesheet" href="/styles/user.css" />
 </head>
 <body>
-    <?php generateMenu([]) ?>
+    <?php generateMenu() ?>
 
     <?php if($load) {?>
 

@@ -184,12 +184,9 @@ async function undoRequest(id, reason = 0, message) {
     body: JSON.stringify(obj),
   });
 
-  const result = await response.text();
-
-  if (/\S/.test(result)) {
-    errorMessage(result);
-  } else {
-    location.reload();
+  const bod = await parseResponse(response);
+  if (bod[0]) {
+    location.reload(); // Maybe just getHistory() ?
   }
 }
 

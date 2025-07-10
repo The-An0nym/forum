@@ -1,12 +1,18 @@
 /* GETTING POSTS */
 
 async function getPosts(scrollBottom = false) {
+  progress(20);
+
   // VAR
   const cont = document.getElementById("post-container");
   // Request
   const response = await fetch(`/api/thread/getPosts.php?s=${slug}&p=${page}`);
 
+  progress(40);
+
   const bod = await parseResponse(response);
+
+  progress(0);
 
   if (!bod[0]) return; // Status: fail
 
@@ -169,6 +175,7 @@ function cancelEdit(id) {
 /* SENDING EDITED POST */
 
 async function sendEdit(id) {
+  progress(10);
   // VAR
   const editTxt = document.getElementById("editTxt");
   // Requests
@@ -194,6 +201,8 @@ async function sendEdit(id) {
 /* SENDING NEW POST */
 
 async function sendPost() {
+  progress(10);
+
   // VAR
   const txt = document.getElementById("post-content");
   // Request

@@ -296,3 +296,9 @@ async function parseResponse(resp, autoLog = true) {
     return [false, ""];
   }
 }
+
+/* Progress bad */
+function progress(per) {
+  const ele = document.getElementById("progress-bar");
+  ele.style.width = per + "%";
+}

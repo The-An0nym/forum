@@ -90,7 +90,11 @@ function jsonErr(string $id = "generic", string $addMsg = "") : string {
     ));
 }
 
-function jsonEncodeErrors(array $errs = []) : string {
+function jsonEncodeErrors(array $err = []) : string {
+    if(count($err) === 0) {
+        return jsonErr();
+    }
+    
     if($err[0] === "pass") {
         return "";
     }

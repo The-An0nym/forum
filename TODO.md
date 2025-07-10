@@ -49,9 +49,15 @@
 - [ ] Decide: Include clearance in the session?
 - [ ] Refactor the way it is authenticated (generally speaking)
 
+# Scripts
+
+- [ ] Cleanup
+- [ ] Check if location.refresh() is necessary
+
 ## API
 
 - [ ] In /profile/moderation/undo.php, check if it was the last action (only last actions can be undone)
 - [ ] For calls to /functions/statCount.php, make it return any error messages (and handle those accordingly)
 - [ ] Organize and clean up
 - [ ] Re-organize order of functions for deleting/undoing things and standardize them (first count, then history, then soft delete?)
+- [ ] Cannot delete threads of already deleted accounts -> FIX THIS (thread count issue)
