@@ -42,8 +42,11 @@ function response() {
     $user_id = $_SESSION['user_id'];
 
     // Check if already reported
-    
-    createReport($type, $id, $user_id, $reason, $message); // HANDLE ERROR
+
+    $err = jsonEncodeErrors(createReport($type, $id, $user_id, $reason, $message)); // HANDLE ERROR
+    if($err !== "") {
+        return $err
+    }
 
     return pass();
 }

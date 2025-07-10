@@ -187,9 +187,13 @@ function getHistoryHTML(bool $report, int $page, int $clearance, array $params) 
         $data = getModHistory($page, $params);
     }
 
+    $html = "";
+
     foreach($data as $row) {
-        generateHTML($row, $clearance, $report);
+        $html .= generateHTML($row, $clearance, $report);
     }
+
+    return $html;
 }
 
 function generateHTML($row, int $clearance, bool $report) {
@@ -220,23 +224,25 @@ function generateHTML($row, int $clearance, bool $report) {
         $is_latest = false;
     }
 
-    ?>
-    <div class="history <?= $type; ?> <?= $read; ?>">
-        <span class="datetime-history"><?= $row["created"]; ?></span>
+    $button = generateButton($row['mod_id'], $row['culp_id'], $clearance, $row['culp_clearance'], $row['type'], $row['judgement'], $is_latest);
+
+    return <<<HTML
+    <div class="history {$type} {$read}">
+        <span class="datetime-history">{$row["created"]}</span>
         <span class="creator-username">
-            <a href="/user/<?= $row["sender_handle"]; ?>"><?= $row["sender_username"]; ?></a>
-            <?= $judgement; ?>
-            <a href="/user/<?= $row["culp_handle"]; ?>"><?= $row["culp_username"]; ?></a>'s
-            <?= $type; ?>
+            <a href="/user/{row['sender_handle']}">{$row["sender_username"]}</a>
+            {$judgement}
+            <a href="/user/{$row['culp_handle']}">{$row["culp_username"]}</a>'s
+            {$type}
         </span>
-        <span class="history-summary" onclick="showContent(<?= $row['type']; ?>, '<?= $row['id']; ?>')"> 
-            <?= $row["summary"]; ?>
+        <span class="history-summary" onclick="showContent({$row['type']}, {$row['id']}')"> 
+            {$row["summary"]}
         </span>
-        <span class="reason-history"> <?= $reason; ?></span>
-        <span class="message-history"> <?= $row["message"]; ?></span>
-        <?= generateButton($row['mod_id'], $row['culp_id'], $clearance, $row['culp_clearance'], $row['type'], $row['judgement'], $is_latest); ?>
+        <span class="reason-history"> {$reason}</span>
+        <span class="message-history"> {$row["message"]}</span>
+        {$button}
     </div>
-    <?php
+HTML; // No whitespace allowed
 }
 
 function generateButton($mod_id, $culp_id, int $clearance, int $culp_clearance, int $type, int $judgement, bool $is_latest) {

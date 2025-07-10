@@ -54,5 +54,4 @@
 - [ ] In /profile/moderation/undo.php, check if it was the last action (only last actions can be undone)
 - [ ] For calls to /functions/statCount.php, make it return any error messages (and handle those accordingly)
 - [ ] Organize and clean up
-- [ ] Rewrite to be 100% JSON outputs/responses
-- [ ] Handle error from function on report.php, as well as in /delete/, undo.php and others (search for "catch errors" or function names/file inclusions)
+- [ ] Re-organize order of functions for deleting/undoing things and standardize them (first count, then history, then soft delete?)

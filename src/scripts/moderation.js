@@ -20,13 +20,13 @@ async function getModerationHistory(page = 0, reports = false) {
 
   const bod = await parseResponse(response);
 
-  if (bod[1]) return;
+  if (!bod[0]) return;
 
   target.innerHTML = bod[1].html;
   targetNumb.textContent = bod[1].amount;
 
   if (reports) {
-    document.getElementById("reports-unread").textContent = bod[1].unread;
+    document.getElementById("report-unread").textContent = bod[1].unread;
     reportTotalPage = parseInt(bod[1].amount);
     reportPage = page;
     paginateReport();

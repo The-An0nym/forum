@@ -85,54 +85,104 @@ function response() {
 
     // CHECK IF IT WAS LATEST ACTION FOR THIS ID (& ~judgement)
 
-    // ....
-    // CATCH ERRORS FOR ALL OF THESE FUNCTIONS
-
     if($type === 0) {
+        // POSTS
         if($judgement === 2) {
-            createHistory(0, 4, $id, $user_id, 4, $message);
-            deletePost($id, 2, true);
-            countForPost($id, true);
+            $dec = 4;
+            $restore = true;
+            $reason = 4;
         } else if($judgement === 4) {
-            createHistory(0, 2, $id, $user_id, $reason, $message);
-            deletePost($id, 2, false);  
-            countForPost($id, false); 
+            $dec = 2;
+            $restore = false; 
+        }
+        
+        $err = jsonEncodeErrors(createHistory(0, $dec, $id, $user_id, $reason, $message));
+        if($err !== "") {
+            return $err;
+        }
+
+        $err = jsonEncodeErrors(deletePost($id, 2, $restore));
+        if($err !== "") {
+            return $err;
+        }
+
+        $err = jsonEncodeErrors(countForPost($id, $restore));
+        if($err !== "") {
+            return $err;
         }
     } else if($type === 1) {
+        // THREADS
         if($judgement === 2) {
-            createHistory(1, 4, $id, $user_id, 4, $message);
-            deleteThread($id, 4, true);
-            countForThread($id, true);
+            $dec = 4;
+            $restore = true;
+            $reason = 4;
         } else if($judgement === 4) {
-            createHistory(1, 2, $id, $user_id, $reason, $message);
-            deleteThread($id, 4, false);
-            countForThread($id, false);
+            $dec = 2;
+            $restore = false;
         }
-    } else if($type === 2) {
+
+        $err = jsonEncodeErrors(createHistory(1, $dec, $id, $user_id, $reason, $message));
+        if($err !== "") {
+            return $err;
+        }
+
+        $err = jsonEncodeErrors(deleteThread($id, 4, $restore));
+        if($err !== "") {
+            return $err;
+        }
+
+        $err = jsonEncodeErrors(countForThread($id, $restore));
+        if($err !== "") {
+            return $err;
+        }
+    } else if($type === 2 && $judgement < 6) {
+        // USERS
         if($judgement === 2) {
             // Restore again w/o threads
-            createHistory(2, 4, $id, $user_id, $reason, $message);
-            deleteAccount($id, true, false);
-            countForUser($id, true, false);
+            $dec = 4;
+            $restore = true;
+            $rThreads = false;
         } else if($judgement === 3) {
             // Restore again w threads
-            createHistory(2, 5, $id, $user_id, $reason, $message);
-            deleteAccount($id, true, true);
-            countForUser($id, true, true);
+            $dec = 5;
+            $restore = true;
+            $rThreads = true;
         } else if($judgement === 4) {
             // Delete agin w/o threads
-            createHistory(2, 2, $id, $user_id, $reason, $message);
-            deleteAccount($id, false, false);
-            countForUser($id, false, false);
+            $dec = 2;
+            $restore = false;
+            $rThreads = false;
         } else if($judgement === 5) {
             // Delete again w threads
-            createHistory(2, 3, $id, $user_id, $reason, $message);
-            deleteAccount($id, false, true);
-            countForUser($id, false, true);
-        } else if($judgement === 6) {
+            $dec = 3;
+            $restore = false;
+            $rThreads = true;
+        }
+
+        $err = jsonEncodeErrors(createHistory(2, $dec, $id, $user_id, $reason, $message));
+        if($err !== "") {
+            return $err;
+        }
+
+        $err = jsonEncodeErrors(countForUser($id, $restore, $rThreads));
+        if($err !== "") {
+            return $err;
+        }
+
+        $err = jsonEncodeErrors(deleteAccount($id, $restore, $rThreads));
+        if($err !== "") {
+            return $err;
+        }
+
+    } else if($type === 2 && $judgement >= 6) {
+        if($judgement === 6) {
             // Promote again
             if($clearance > $culp_auth + 1 && $clearance > 2) {
-                createHistory(2, 7, $id, $user_id, $reason, $message);
+                $err = jsonEncodeErrors(createHistory(2, 7, $id, $user_id, $reason, $message));
+                if($err !== "") {
+                    return $err;
+                }
+
                 // PROMOTE
                 $sql = "UPDATE users SET clearance = clearance + 1 WHERE user_id = '$culp_id'";
                 if ($conn->query($sql) === FALSE) {
@@ -144,7 +194,11 @@ function response() {
         } else if($judgement === 7) {
             // Demote again
             if($clearance > $culp_auth && $clearance > 2) {
-                createHistory(2, 6, $id, $user_id, $reason, $message);
+                $err = jsonEncodeErrors(createHistory(2, 6, $id, $user_id, $reason, $message));
+                if($err !== "") {
+                    return $err;
+                }
+
                 // DEMOTE
                 $sql = "UPDATE users SET clearance = clearance - 1 WHERE user_id = '$culp_id'";
                 if ($conn->query($sql) === FALSE) {

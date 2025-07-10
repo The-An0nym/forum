@@ -76,17 +76,29 @@ function response() {
         if($id !== $user_id) {
             // Push onto history
             if($del_threads) {
-                createHistory(2, 3, $id, $user_id, $reason, $message);
+                $err = jsonEncodeErrors(createHistory(2, 3, $id, $user_id, $reason, $message));
             } else {
-                createHistory(2, 2, $id, $user_id, $reason, $message);
+                $err = jsonEncodeErrors(createHistory(2, 2, $id, $user_id, $reason, $message));
             }
+
+            if($err !== "") {
+                return $err;
+            }
+
             $type = 8; // Banned
         } else {
             $del_threads = false;
         }
 
-        countForUser($id, false, $del_threads);
-        deleteAccount($id, false, $del_threads);
+        $err = jsonEncodeErrors(countForUser($id, false, $del_threads));
+        if($err !== "") {
+            return $err;
+        }
+
+        $err = jsonEncodeErrors(deleteAccount($id, false, $del_threads));
+        if($err !== "") {
+            return $err;
+        }
     } else {
         return jsonErr("auth");
     }

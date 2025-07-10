@@ -49,7 +49,10 @@ function response() {
         return jsonErr("auth");
     }
     
-    countForPost($id, true); // CATCH ERRORS !
+    $err = jsonEncodeErrors(countForPost($id, true));
+    if($err !== "") {
+        return $err;
+    }
 
     $type = 1;
 
@@ -63,7 +66,10 @@ function response() {
         }
     }
 
-    deletePost($id, $type, true); // CATCH ERRORS!
+    $err = jsonEncodeErrors(deletePost($id, $type, true));
+    if($err !== "") {
+        return $err;
+    }
 
     return pass();
 }

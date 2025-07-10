@@ -67,7 +67,10 @@ function response() {
 
     if($clearance >= 4 && $user_clearance < $clearance - $const) {
         // Push onto history
-        createHistory(2, 6 + $const, $id, $user_id, $reason, $message);
+        $err = jsonEncodeErrors(createHistory(2, 6 + $const, $id, $user_id, $reason, $message));
+        if($err !== "") {
+            return $err;
+        }
         
         if($promote) {
             $sy = "+";

@@ -65,18 +65,27 @@ function response() {
     }
 
     if($post_user_id === $user_id || $clearance >= 1) {
-        countForPost($id, false);
+        $err = jsonEncodeErrors(countForPost($id, false));
+        if($err !== "") {
+            return $err;
+        }
 
         $type = 1;
 
         if($post_user_id !== $user_id) {
             $type = 2;
             // Push onto history
-            createHistory(0, 2, $id, $user_id, $reason, $message); // CATCH ERRORS!
+            $err = jsonEncodeErrors(createHistory(0, 2, $id, $user_id, $reason, $message));
+            if($err !== "") {
+                return $err;
+            }
         }
 
         // (Soft) delete post
-        deletePost($id, $type, false); // CATCH ERRORS!         
+        $err = jsonEncodeErrors(deletePost($id, $type, false));
+        if($err !== "") {
+            return $err;
+        }     
     } else {
         return jsonErr("auth");
     }

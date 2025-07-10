@@ -66,18 +66,30 @@ function response() {
 
     $data = getHistoryHTML($report, $page, $clearance, $params);
     if($report) {
-        $reports = countReportHistory(false, $clearance, $params);
+        $amount = countReportHistory(false, $clearance, $params);
         $unread = countReportHistory(true, $clearance, $params);
-    }
 
-    return json_encode(
-        array(
-            "status" => "pass",
-            "data" => array(
-                "html" => trim($data),
-                "amount" => $reports,
-                "unread" => $unread
+        return json_encode(
+            array(
+                "status" => "pass",
+                "data" => array(
+                    "html" => trim($data),
+                    "amount" => $amount,
+                    "unread" => $unread
+                )
             )
-        )
-    )
+        );
+    } else {
+        $amount = countModHistory($params);
+
+        return json_encode(
+            array(
+                "status" => "pass",
+                "data" => array(
+                    "html" => trim($data),
+                    "amount" => $amount,
+                )
+            )
+        );
+    }
 }

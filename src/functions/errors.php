@@ -3,6 +3,7 @@
 if(!function_exists('getErrorArr')) {
 
 function getErrorArr(string $lang = "en") : array {
+    // "pass" is reserved and cannot be used as key! 
     $errorLangArr = [
         "en" => [
             "generic" => "An error has occured. Please try again later", 
@@ -16,6 +17,7 @@ function getErrorArr(string $lang = "en") : array {
             "pswdFail" => "Incorrect password",
             "tUser" => "Username is already taken",
             "tHand" => "Handle is already taken",
+            "tReport" => "You have already reported this item",
             "tImg" => "This image already exists",
             "imgType" => "Image must be a valid jpg or png image",
             "imgMaxMB" => "Image must be less than 1MB",
@@ -77,7 +79,7 @@ function jsonErr(string $id = "generic", string $addMsg = "") : string {
     if($id === "") {
         $id = "generic";
     }
-    
+
     $errMsg = getError($id);
     if($addMsg !== "") {
         $errMsg .= " " . $addMsg;
@@ -86,6 +88,19 @@ function jsonErr(string $id = "generic", string $addMsg = "") : string {
         "status" => "fail", 
         "msg" => $errMsg
     ));
+}
+
+function jsonEncodeErrors(array $errs = []) : string {
+    if($err[0] === "pass") {
+        return "";
+    }
+    if(count($err) === 2) {
+        return jsonErr($err[0], $err[1]);
+    }
+    if(count($err) === 1) {
+        return jsonErr($err[0]);
+    }
+    return jsonErr();
 }
 
 function pass() : string {

@@ -61,12 +61,21 @@ function response() {
     $user_id === $_SESSION["user_id"];            
 
     if($clearance >= 1) {
-        countForThread($id, false); // CATCH ERRORS!
+        $err = jsonEncodeErrors(countForThread($id, false));
+        if($err !== "") {
+            return $err;
+        }
 
         // Push onto history
-        createHistory(1, 2, $id, $user_id, $reason, $message); // CATCH ERRORS!
+        $err = jsonEncodeErrors(createHistory(1, 2, $id, $user_id, $reason, $message));
+        if($err !== "") {
+            return $err;
+        }
 
-        deleteThread($id, 4, false); // CATCH ERRORS!
+        $err = jsonEncodeErrors(deleteThread($id, 4, false));
+        if($err !== "") {
+            return $err;
+        }
     } else {
         return jsonErr("auth");
     }

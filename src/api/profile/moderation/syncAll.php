@@ -38,7 +38,11 @@ function response() {
     if($clearance != 5) {
         return jsonErr("auth");
     }
+
+    $err = jsonEncodeErrors(syncAll());
+    if($err !== "") {
+        return $err;
+    }
     
-    syncAll(); // Catch errors!
     return pass();
 }

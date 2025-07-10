@@ -1,5 +1,5 @@
 <?php
-function syncAll() {
+function syncAll() : array {
     $path = $_SERVER['DOCUMENT_ROOT'];
     include $path . '/functions/.connect.php' ;
     $conn = getConn();
@@ -14,7 +14,7 @@ function syncAll() {
             ) p ON t.id = p.thread_id
             SET t.posts = p.cnt";
     if ($conn->query($sql) === FALSE) {
-        echo "An error has occured while syncing threads";
+        return ["", "SC0"];
     }
 
     // Update category
@@ -27,7 +27,7 @@ function syncAll() {
             ) t ON c.id = t.category_id
             SET c.threads = t.cnt, c.posts = t.sum";
     if ($conn->query($sql) === FALSE) {
-        echo "An error has occured while syncing categories";
+        return ["", "SC1"];
     }
 
     // Update user post count
@@ -46,11 +46,13 @@ function syncAll() {
             ) t ON u.user_id = t.user_id
             SET u.posts = p.cnt, u.threads = t.cnt";
     if ($conn->query($sql) === FALSE) {
-        echo "An error has occured while syncing user post count";
+        return ["", "SC2"];
     }
+
+    return ["pass"];
 }
 
-function countForPost($id, bool $rest) {
+function countForPost($id, bool $rest) : array {
     $path = $_SERVER['DOCUMENT_ROOT'];
     include $path . '/functions/.connect.php' ;
     $conn = getConn();
@@ -69,13 +71,18 @@ function countForPost($id, bool $rest) {
             WHERE p.post_id = '$id' AND p.user_id = u.user_id AND t.id = p.thread_id AND c.id = t.category_id";
     
     if($conn->query($sql) === FALSE) {
-        echo "An error has occured while updating the post counts";
+        return ["", "SC3"];
     }
 
-    checkEmptyThreads();
+    $err = checkEmptyThreads();
+    if($err[0] !== "pass") {
+        return $err;
+    }
+
+    return ["pass"];
 }
 
-function countForThread($id, bool $rest) {
+function countForThread($id, bool $rest) : array {
     $path = $_SERVER['DOCUMENT_ROOT'];
     include $path . '/functions/.connect.php' ;
     $conn = getConn();
@@ -93,7 +100,7 @@ function countForThread($id, bool $rest) {
                 u.threads = u.threads $op 1
             WHERE t.id = '$id' AND t.category_id = c.id AND t.user_id = u.user_id";
     if($conn->query($sql) === FALSE) {
-        echo "An error has occured while updating the thread count";
+        return ["", "SC4"];
     }
 
     // All user post counts
@@ -109,11 +116,13 @@ function countForThread($id, bool $rest) {
             ON u.user_id = p.user_id
             SET u.posts = u.posts $op p.psts";
     if($conn->query($sql) === FALSE) {
-        echo "An error has occured while updating the users' post count";
+        return ["", "SC5"];
     }
+
+    return ["pass"];
 }
 
-function countForUser($id, bool $rest, bool $threads) {
+function countForUser($id, bool $rest, bool $threads) : array {
     $path = $_SERVER['DOCUMENT_ROOT'];
     include $path . '/functions/.connect.php' ;
     $conn = getConn();
@@ -140,7 +149,7 @@ function countForUser($id, bool $rest, bool $threads) {
     }
     
     if($conn->query($sql) === FALSE) {
-        echo "An error has occured while updating the threads' post count";
+        return ["", "SC6"];
     }
 
     // Categories post count
@@ -161,7 +170,7 @@ function countForUser($id, bool $rest, bool $threads) {
             ON c.id = p.category_id
             SET c.posts = c.posts $op p.psts";
     if($conn->query($sql) === FALSE) {
-        echo "An error has occured while updating the categories' post count";
+        return ["", "SC7"];
     }
     
 
@@ -182,29 +191,37 @@ function countForUser($id, bool $rest, bool $threads) {
     $sql .=     "\n) p ON p.user_id = u.user_id
             SET u.posts = u.posts $op p.psts";
     if($conn->query($sql) === FALSE) {
-        echo "An error has occured while updating the users' post count";
+        return ["", "SC8"];
     }
 
-    checkEmptyThreads();
+    $err = checkEmptyThreads();
+    if($err[0] !== "pass") {
+        return $err;
+    }
 
     if(!$threads) {
-        return;
+        return ["pass"];
     }
 
     $sql = "SELECT id FROM threads WHERE user_id = '$id'";
 
     $result = $conn->query($sql);
     if($result->num_rows === 0) {
-        return;
+        return ["pass"];
     }
 
     // Update counts for each deleted or restored thread
     while($row = $result->fetch_assoc()) {
-        countForThread($row["id"], $rest);
+        $err = countForThread($row["id"], $rest);
+        if($err[0] !== "pass") {
+            return $err;
+        }
     }
+
+    return ["pass"];
 }
 
-function checkEmptyThreads() {
+function checkEmptyThreads() : array {
     $path = $_SERVER['DOCUMENT_ROOT'];
     include $path . '/functions/.connect.php' ;
     $conn = getConn();
@@ -214,7 +231,7 @@ function checkEmptyThreads() {
             WHERE t.posts = 0 AND t.category_id = c.id AND t.user_id = u.user_id AND t.deleted = 0";
 
     if($conn->query($sql) === FALSE) {
-        echo "An error has occured while trying to remove empty threads";
+        return ["", "SC9"];
     }
 
     $sql = "UPDATE categories c, threads t, users u
@@ -222,6 +239,8 @@ function checkEmptyThreads() {
             WHERE t.posts != 0 AND t.category_id = c.id AND t.user_id = u.user_id AND t.deleted = 2";
 
     if($conn->query($sql) === FALSE) {
-        echo "An error has occured while trying to restore non-empty threads";
+        return ["", "SC10"];
     }
+
+    return ["pass"];
 }
