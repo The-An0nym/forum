@@ -16,9 +16,7 @@ async function getModerationHistory(page = 0, reports = false) {
     url += getModParams();
   }
 
-  const response = await fetch(url);
-
-  const bod = await parseResponse(response);
+  const bod = await getData(url);
 
   if (!bod[0]) return;
 
@@ -40,10 +38,9 @@ async function getModerationHistory(page = 0, reports = false) {
 async function markReport(as, id) {
   if (as === undefined || isNaN(as) || id === undefined) return;
 
-  const response = await fetch(
-    `/api/profile/moderation/markReport.php?r=${as}&i=${id}`
-  );
-  const bod = await parseResponse(response);
+  const body = `r=${as}&i=${id}`;
+
+  const bod = await postData("/api/profile/moderation/markReport.php", body);
 
   if (bod[0]) getModerationHistory(0, true);
 }
@@ -175,16 +172,7 @@ async function undoRequest(id, reason = 0, message) {
   obj.r = reason;
   obj.m = message;
 
-  // Request
-  const response = await fetch("/api/profile/moderation/undo.php", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json; charset=utf-8",
-    },
-    body: JSON.stringify(obj),
-  });
-
-  const bod = await parseResponse(response);
+  const bod = await postJson("/api/profile/moderation/undo.php", obj);
   if (bod[0]) {
     location.reload(); // Maybe just getHistory() ?
   }
@@ -204,10 +192,10 @@ async function getPostContent(id) {
   if (getCache[id]) {
     return getCache[id];
   }
-  const response = await fetch(
-    `/api/profile/moderation/getPostCont.php?i=${id}`
-  );
-  const bod = await parseResponse(response);
+
+  const body = `i=${id}`;
+
+  const bod = await postData("/api/profile/moderation/getPostCont.php", body);
 
   if (bod[0]) return bod[1].cont + bod[1].dt + bod[1].edited;
   return "";
@@ -217,10 +205,10 @@ async function getThreadSlug(id) {
   if (getCache[id]) {
     return getCache[id];
   }
-  const response = await fetch(
-    `/api/profile/moderation/getThreadSlug.php?i=${id}`
-  );
-  const bod = parseResponse(response);
+
+  const body = `i=${id}`;
+
+  const bod = await postData("/api/profile/moderation/getThreadSlug.php", body);
 
   if (bod[0]) return bod[1].slug;
   return "";

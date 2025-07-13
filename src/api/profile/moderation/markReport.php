@@ -18,12 +18,12 @@ function response() {
         return jsonErr("login");
     }
 
-    if (!isset($_GET["r"], $_GET["i"])) {
+    if (!isset($_POST["r"], $_POST["i"])) {
         return jsonErr("args");
     }
 
-    $id = $_GET["i"];
-    $as = (int)$_GET["r"];
+    $id = $_POST["i"];
+    $as = (int)$_POST["r"];
 
     if($as !== 0 && $as !== 1) {
         return jsonErr("args");

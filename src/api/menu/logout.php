@@ -14,9 +14,9 @@ function response() {
         session_start();
     }
 
-    $res = clearCurrSession();
-    if($res !== "") {
-        return jsonErr($res);
+    $err = jsonEncodeErrors(clearCurrSession());
+    if($err !== "") {
+        return $err;
     }
     
     return pass();

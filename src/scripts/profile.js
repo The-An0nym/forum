@@ -47,16 +47,9 @@ async function changeUsername() {
   if (username === val) return;
   if (!checkUsername(val)) return;
 
-  // Check username restrictions
-  const response = await fetch("/api/profile/settings/changeUsername.php", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/x-www-form-urlencoded",
-    },
-    body: `u=${val}`,
-  });
+  const body = `u=${val}`;
 
-  const bod = await parseResponse(response);
+  const bod = await postData("/api/profile/settings/changeUsername.php", body);
 
   if (bod[0]) location.reload();
 }
@@ -69,18 +62,10 @@ async function changeHandle() {
   if (handle === val) return;
   if (!checkHandle(val)) return;
 
-  // Check username restrictions
-  const response = await fetch("/api/profile/settings/changeHandle.php", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json; charset=utf-8",
-    },
-    body: JSON.stringify({
-      h: val,
-    }),
-  });
+  const obj = {};
+  obj.h = val;
 
-  const bod = await parseResponse(response);
+  const bod = await postJson("/api/profile/settings/changeHandle.php", obj);
 
   if (bod[0]) location.reload();
 }
@@ -101,16 +86,9 @@ async function changePassword() {
     return;
   }
 
-  // Check password restrictions
-  const response = await fetch("/api/profile/settings/changePassword.php", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/x-www-form-urlencoded",
-    },
-    body: `p=${currPswd}&np=${newPswd}`,
-  });
+  const body = `p=${currPswd}&np=${newPswd}`;
 
-  const bod = await parseResponse(response);
+  const bod = await postData("/api/profile/settings/changePassword.php", body);
 
   if (bod[0]) location.reload();
 }
@@ -124,16 +102,7 @@ async function deleteAccount(id, reason, message) {
     obj.m = message;
   }
 
-  // Request
-  const response = await fetch("/api/delete/deleteAccount.php", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json; charset=utf-8",
-    },
-    body: JSON.stringify(obj),
-  });
-
-  const bod = await parseResponse(response);
+  const bod = await postJson("/api/delete/deleteAccount.php", obj);
 
   if (bod[0]) location.reload();
 }
@@ -218,15 +187,9 @@ function revertPassword() {
 
 // Restoring post
 async function restorePost(id) {
-  const response = await fetch("/api/profile/moderation/restorePost.php", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/x-www-form-urlencoded",
-    },
-    body: `i=${id}`,
-  });
+  const body = `i=${id}`;
 
-  const bod = await parseResponse(response);
+  const bod = await postData("/api/profile/moderation/restorePost.php", body);
 
   if (bod[0]) location.reload();
 }

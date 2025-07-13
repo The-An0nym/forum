@@ -18,11 +18,11 @@ function response() {
         return jsonErr("login");
     }
 
-    if (!isset($_GET["i"])) {
+    if (!isset($_POST["i"])) {
         return jsonErr("args");
     }
 
-    $id = $_GET["i"];
+    $id = $_POST["i"];
 
     $conn = getConn();
         

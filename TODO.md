@@ -53,6 +53,7 @@
 
 - [ ] Cleanup
 - [ ] Check if location.refresh() is necessary
+- [ ] Centralize fetch requests (paramaterized)
 
 ## API
 

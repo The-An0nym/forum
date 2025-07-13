@@ -2,8 +2,7 @@
 async function toggle(to) {
   if (to === undefined) {
     const set = document.body.classList.toggle("dark");
-    const response = await fetch(`/api/menu/setMode.php?m=${set ? 1 : 0}`);
-    parseResponse(response);
+    await postData("/api/menu/setMode.php", `m=${set ? 1 : 0}`);
   } else if (
     (to === 0 && document.body.classList.value === "dark") ||
     (to === 1 && document.body.classList.value === "")
@@ -255,16 +254,7 @@ async function sendReport(type, id, reason, message) {
   obj.r = reason;
   obj.m = message;
 
-  // Request
-  const response = await fetch("/api/report.php", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json; charset=utf-8",
-    },
-    body: JSON.stringify(obj),
-  });
-
-  const bod = await parseResponse(response);
+  const bod = await postJson("/api/report.php", obj);
 
   if (bod[0]) location.reload();
 }
@@ -301,4 +291,66 @@ async function parseResponse(resp, autoLog = true) {
 function progress(per) {
   const ele = document.getElementById("progress-bar");
   ele.style.width = per + "%";
+}
+
+/* Fetch */
+
+async function postJson(URL, jsonData = {}) {
+  if (!URL) return [false];
+
+  progress(20);
+
+  const response = await fetch(URL, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify(jsonData),
+  });
+
+  progress(100);
+
+  const bod = await parseResponse(response);
+
+  progress(0);
+
+  return bod;
+}
+
+async function postData(URL, data = "") {
+  if (!URL) return [false];
+
+  progress(20);
+
+  const reponse = await fetch(URL, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/x-www-form-urlencoded",
+    },
+    body: data,
+  });
+
+  progress(100);
+
+  const bod = await parseResponse(reponse);
+
+  progress(0);
+
+  return bod;
+}
+
+async function getData(URL) {
+  if (!URL) return [false];
+
+  progress(20);
+
+  const reponse = await fetch(URL);
+
+  progress(100);
+
+  const bod = await parseResponse(reponse);
+
+  progress(0);
+
+  return bod;
 }

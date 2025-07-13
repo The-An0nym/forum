@@ -63,16 +63,7 @@ async function banUser(id, deleteThreads, reason, message) {
   obj.r = reason;
   obj.m = message;
 
-  // Request
-  const response = await fetch("/api/delete/deleteAccount.php", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json; charset=utf-8",
-    },
-    body: JSON.stringify(obj),
-  });
-
-  const bod = await parseResponse(response);
+  const bod = await postJson("/api/delete/deleteAccount.php", obj);
 
   if (bod[0]) location.reload();
 }
@@ -93,16 +84,7 @@ async function changeUserAuth(id, reason, message, promote) {
   obj.m = message;
   obj.p = promote;
 
-  // Request
-  const response = await fetch("/api/changeUserAuth.php", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json; charset=utf-8",
-    },
-    body: JSON.stringify(obj),
-  });
-
-  const bod = await parseResponse(response);
+  const bod = await postJson("/api/changeUserAuth.php", obj);
 
   if (bod[0]) location.reload();
 }

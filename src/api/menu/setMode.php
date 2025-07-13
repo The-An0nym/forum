@@ -16,7 +16,7 @@ function response() {
         session_start();
     } 
 
-    if(!isset($_GET["m"])) {
+    if(!isset($_POST["m"])) {
         return jsonErr("args");
     }
 
@@ -24,7 +24,7 @@ function response() {
         return jsonErr("login");
     }
 
-    $mode = (int)$_GET["m"];
+    $mode = (int)$_POST["m"];
 
     $user_id = $_SESSION["user_id"];
 

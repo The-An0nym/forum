@@ -42,7 +42,7 @@ function validateSession() {
                 } else {
                     $r = rand(0, 99); // 1 in 100 chance to clear expired sessions
                     if($r === 0) {
-                        deleteExpiredSessions();
+                        deleteExpiredSessions(); // Any errors are ignored
                     }
                 }
             }

@@ -21,6 +21,7 @@ function generateMenu() {
     <link rel="stylesheet" href="/styles/menu.css">
     <script src="/scripts/main.js"></script>
     <script src="/scripts/account.js"></script>
+    <div id="progress-bar"></div>
     <div class="menu">
         <?php
         if(isset($_SESSION['user_id'])) {

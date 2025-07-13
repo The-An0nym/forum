@@ -1,12 +1,9 @@
 /* GET THREADS */
 
 async function getThreads() {
-  // VAR
   const cont = document.getElementById("thread-container");
-  // Request
-  const response = await fetch(`/api/topic/getThreads.php?s=${slug}&p=${page}`);
 
-  const bod = await parseResponse(response);
+  const bod = await getData(`/api/topic/getThreads.php?s=${slug}&p=${page}`);
 
   if (!bod[0]) return;
 
@@ -109,23 +106,15 @@ async function getThreads() {
 /* CREATE THREADS */
 
 async function createThread() {
-  // VAR
   const threadName = document.getElementById("thread-name");
   const content = document.getElementById("post-content");
-  // Request
-  const response = await fetch("/api/topic/createThread.php", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json; charset=utf-8",
-    },
-    body: JSON.stringify({
-      t: threadName.value.trim(),
-      c: content.value.trim(),
-      s: slug,
-    }),
-  });
 
-  const bod = await parseResponse(response);
+  const obj = {};
+  obj.t = threadName.value.trim();
+  obj.c = content.value.trim();
+  obj.s = slug;
+
+  const bod = await postJson("/api/topic/createThread.php", obj);
 
   if (bod[0]) {
     threadName.value = "";
@@ -141,16 +130,7 @@ async function deleteThread(id, reason, message) {
   obj.r = reason;
   obj.m = message;
 
-  // Request
-  const response = await fetch("/api/delete/deleteThread.php", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json; charset=utf-8",
-    },
-    body: JSON.stringify(obj),
-  });
-
-  const bod = await parseResponse(response);
+  const bod = await postJson("/api/delete/deleteThread.php", obj);
 
   if (bod[0]) getThreads();
 }

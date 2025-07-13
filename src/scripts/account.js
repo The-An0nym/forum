@@ -55,20 +55,12 @@ async function signUp() {
     return;
   }
 
-  // Sign up
-  const response = await fetch("/api/menu/signUp.php", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json; charset=utf-8",
-    },
-    body: JSON.stringify({
-      u: user,
-      h: handle,
-      p: pswd,
-    }),
-  });
+  const obj = {};
+  obj.u = user;
+  obj.h = handle;
+  obj.p = pswd;
 
-  const bod = await parseResponse(response);
+  const bod = await postJson("/api/menu/signUp.php", obj);
 
   if (bod[0]) {
     loginCont.remove();
@@ -115,16 +107,9 @@ async function login() {
   if (!checkHandle(handle)) return;
   if (!checkPassword(pswd)) return;
 
-  // Login
-  const response = await fetch("/api/menu/login.php", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/x-www-form-urlencoded",
-    },
-    body: `h=${encodeURIComponent(handle)}&p=${encodeURIComponent(pswd)}`,
-  });
+  const body = `h=${encodeURIComponent(handle)}&p=${encodeURIComponent(pswd)}`;
 
-  const bod = await parseResponse(response);
+  const bod = await postData("/api/menu/login.php", body);
 
   if (bod[0]) {
     loginCont.remove();
@@ -133,7 +118,6 @@ async function login() {
 }
 
 async function logout() {
-  const response = await fetch("/api/menu/logout.php");
-  const bod = await parseResponse(response);
+  const bod = await getData("/api/menu/logout.php");
   if (bod[0]) location.reload();
 }

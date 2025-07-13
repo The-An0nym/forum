@@ -1,22 +1,13 @@
 /* GETTING POSTS */
-
 async function getPosts(scrollBottom = false) {
-  progress(20);
+  const bod = await getData(`/api/thread/getPosts.php?s=${slug}&p=${page}`);
 
-  // VAR
+  if (bod[0]) parsePosts(bod[1].posts);
+}
+
+function parsePosts(jsonData) {
   const cont = document.getElementById("post-container");
-  // Request
-  const response = await fetch(`/api/thread/getPosts.php?s=${slug}&p=${page}`);
 
-  progress(40);
-
-  const bod = await parseResponse(response);
-
-  progress(0);
-
-  if (!bod[0]) return; // Status: fail
-
-  const jsonData = bod[1].posts;
   cont.innerHTML = "";
 
   totalPosts = bod[1].amount;
@@ -175,22 +166,13 @@ function cancelEdit(id) {
 /* SENDING EDITED POST */
 
 async function sendEdit(id) {
-  progress(10);
-  // VAR
   const editTxt = document.getElementById("editTxt");
-  // Requests
-  const response = await fetch("/api/thread/sendEdit.php", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json; charset=utf-8",
-    },
-    body: JSON.stringify({
-      c: editTxt.value.trim(),
-      i: id,
-    }),
-  });
 
-  const bod = await parseResponse(response);
+  const obj = {};
+  obj.c = editTxt.value.trim();
+  obj.i = id;
+
+  const bod = await postJson("/api/thread/sendEdit.php", obj);
 
   if (bod[0]) {
     editTxt.value = "";
@@ -201,23 +183,13 @@ async function sendEdit(id) {
 /* SENDING NEW POST */
 
 async function sendPost() {
-  progress(10);
-
-  // VAR
   const txt = document.getElementById("post-content");
-  // Request
-  const response = await fetch("/api/thread/sendPost.php", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json; charset=utf-8",
-    },
-    body: JSON.stringify({
-      c: txt.value.trim(),
-      s: slug,
-    }),
-  });
 
-  const bod = await parseResponse(response);
+  const obj = {};
+  obj.c = txt.value.trim();
+  obj.s = slug;
+
+  const bod = await postJson("/api/thread/sendPost.php", obj);
 
   if (bod[0]) {
     txt.value = "";
@@ -239,16 +211,7 @@ async function deletePost(id, reason, message) {
     obj.m = message;
   }
 
-  // Request
-  const response = await fetch("/api/delete/deletePost.php", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json; charset=utf-8",
-    },
-    body: JSON.stringify(obj),
-  });
-
-  const bod = await parseResponse(response);
+  const bod = await postJson("/api/delete/deletePost.php", obj);
 
   if (bod[0]) {
     // if (page) // What was the idea behind this?? -> test
@@ -257,10 +220,7 @@ async function deletePost(id, reason, message) {
 }
 
 async function unSubscribe(type = 1) {
-  const response = await fetch(
-    `/api/thread/unSubscribe.php?t=${slug}&s=${type}`
-  );
-  parseResponse(response);
+  postData("/api/thread/unSubscribe.php", `t=${slug}&s=${type}`);
 }
 
 async function gotoThreadPage(p, scrollBottom = false) {

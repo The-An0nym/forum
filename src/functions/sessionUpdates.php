@@ -3,7 +3,7 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
 include $path . '/functions/errors.php' ;
 
-function clearCurrSession() {
+function clearCurrSession() : array {
     // Get Connection
     $conn = getConn();
     
@@ -12,7 +12,7 @@ function clearCurrSession() {
     }
     
     if(!isset($_SESSION['session_id'], $_SESSION['user_id'])) {
-        return getError("login");
+        return ["login"];
     }
 
     $session_id = $_SESSION['session_id'];
@@ -22,15 +22,15 @@ function clearCurrSession() {
     if ($conn->query($sql) === TRUE) {
         unset($_SESSION['user_id']);
         unset($_SESSION['session_id']);
-        return;
+        return ["pass"];
     } else {
-        return getError() . " [SCC0]";
+        return ["", "[SCC0]"];
     }
 
-    return getError() . "[ SCC1]";
+    return ["", "[SCC1]"];
 }
 
-function deleteExpiredSessions() {
+function deleteExpiredSessions() : array {
     // Get connection
     $conn = getConn();
 
@@ -46,13 +46,15 @@ function deleteExpiredSessions() {
 
     $sql = "DELETE FROM sessions WHERE datetime < $delDatetime";
     if($conn->query($sql) === FALSE) {
-        return getError() . " [ SCD0]";
+        return ["", "[SCD0]"];
     }
+
+    return ["pass"];
 }
 
-function updateSession(string $id) {
+function updateSession(string $id) : array{
     if($id === "") {
-        return getError("args");
+        return ["args"];
     }
 
     // Get connection
@@ -66,6 +68,8 @@ function updateSession(string $id) {
     $session_id = $_SESSION["session_id"];
     $sql = "UPDATE sessions SET datetime = '$datetime' WHERE session_id = '$session_id'";
     if($conn->query($sql) === FALSE) {
-        return getError() . " [ SCU0]";
+        return ["", "[SCU0]"];
     }
+
+    return ["pass"];
 }
