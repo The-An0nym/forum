@@ -3,6 +3,7 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
 include $path . '/functions/validateSession.php';
 include $path . '/functions/errors.php' ;
+include $page . '/functions/require/posts.php' ;
 
 echo response();
 
@@ -43,35 +44,36 @@ function response() {
 
     // Escaping content and trimming whitespace
     $cont = nl2br(preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($json_obj->c))); // idk about mysql_real_escape_string ??
-            
-    if(strlen($cont) !== 0 && strlen($cont) <= 2000) {
-        $dtime = date('Y-m-d H:i:s');
-        $post_id = uniqid(rand(), true);
-        $user_id = $_SESSION["user_id"];
-        $sql = "INSERT INTO posts (user_id, post_id, content, created, edited, thread_id)
-        VALUES ('$user_id', '$post_id', '$cont', '$dtime', 'false', '$thread_id')";
-        if ($conn->query($sql) === FALSE) {
-            return jsonErr("", "[SP0]");
-        }
-
-        // Increment post count of user
-        $sql = "UPDATE users SET posts = posts +1 WHERE user_id = '$user_id'";
-        if ($conn->query($sql) === FALSE) {
-            return jsonErr("", "[SP1]");
-        }
-
-        // Increment post count of category and thread
-        $sql = "UPDATE categories c
-                INNER JOIN threads t ON t.category_id = c.id
-                SET c.posts = c.posts +1, t.posts = t.posts +1 
-                WHERE t.id = '$thread_id'";
-        if ($conn->query($sql) === FALSE) {
-            return jsonErr("", "[SP2]");
-        }
-    } else if(strlen($cont) === 0) {
+    
+    if(strlen($cont) === 0) {
         return jsonErr("contMin");
     } else if(strlen($cont) > 2000) {
         return jsonErr("contMax");
     }
-    return pass();
+
+    $dtime = date('Y-m-d H:i:s');
+    $post_id = uniqid(rand(), true);
+    $user_id = $_SESSION["user_id"];
+    $sql = "INSERT INTO posts (user_id, post_id, content, created, edited, thread_id)
+    VALUES ('$user_id', '$post_id', '$cont', '$dtime', 'false', '$thread_id')";
+    if ($conn->query($sql) === FALSE) {
+        return jsonErr("", "[SP0]");
+    }
+
+    // Increment post count of user
+    $sql = "UPDATE users SET posts = posts +1 WHERE user_id = '$user_id'";
+    if ($conn->query($sql) === FALSE) {
+        return jsonErr("", "[SP1]");
+    }
+
+    // Increment post count of category and thread
+    $sql = "UPDATE categories c
+            INNER JOIN threads t ON t.category_id = c.id
+            SET c.posts = c.posts +1, t.posts = t.posts +1 
+            WHERE t.id = '$thread_id'";
+    if ($conn->query($sql) === FALSE) {
+        return jsonErr("", "[SP2]");
+    }
+
+    return getPostsJson($slug, -1);
 }

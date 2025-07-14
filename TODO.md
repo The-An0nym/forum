@@ -26,15 +26,13 @@
 
 ## Categories and Threads
 
-- [ ] Make posting a new post focus on this post
+- [ ] Make posting a new post focus on this post with #id
 - [ ] Check whether thread is deleted before posting message
-- [ ] Allow (autherized) moderators to view deleted threads
-- [ ] Rewrite forum to be 1-indexed (not 0-indexed)
+- [ ] Allow (authorized) moderators to view deleted threads
 - [ ] Implement simple thread search
-- [ ] Scroll up the thread/threads list when moving from one page to another
-- [ ] Separate location from Menu (Home -> Topic -> Thread)
 - [ ] Formatting and URL support (and maaaayybbeee external images)
 - [ ] Ability to pin and lock threads
+- [ ] Upon sending an edit for a post, scroll to that post again.
 
 ## Account / Menu / Footer
 
@@ -53,11 +51,9 @@
 
 - [ ] Cleanup
 - [ ] Check if location.refresh() is necessary
-- [ ] Centralize fetch requests (paramaterized)
 
 ## API
 
-- [ ] In /profile/moderation/undo.php, check if it was the last action (only last actions can be undone)
 - [ ] For calls to /functions/statCount.php, make it return any error messages (and handle those accordingly)
 - [ ] Organize and clean up
 - [ ] Re-organize order of functions for deleting/undoing things and standardize them (first count, then history, then soft delete?)

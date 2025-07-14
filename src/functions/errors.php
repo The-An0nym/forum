@@ -43,6 +43,7 @@ function getErrorArr(string $lang = "en") : array {
             "404mod" => "This moderation row does not exist",
             "undoRepo" => "Cannot undo report",
             "undoOwn" => "Cannot undo as culprit",
+            "nLastAction" => "Cannot undo non-latest action",
             ]
     ];
 

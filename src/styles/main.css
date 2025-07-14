@@ -135,8 +135,8 @@ button:disabled {
 /* Progress bad */
 #progress-bar {
   position: fixed;
-  height: 5px;
+  height: 2px;
   width: 0%;
-  background-color: #faa;
+  background-color: #aaf;
   z-index: 10;
 }

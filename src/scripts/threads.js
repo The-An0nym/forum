@@ -7,9 +7,13 @@ async function getThreads() {
 
   if (!bod[0]) return;
 
-  const threadData = bod[1].threads;
+  parseThreads(bod[1]);
+}
 
-  threadCount = bod[1].amount;
+function parseThreads(jsonData) {
+  const threadData = jsonData.threads;
+
+  threadCount = jsonData.amount;
   createPageMenu("gotoTopicPage", page, threadCount);
 
   cont.innerHTML = "";
@@ -119,7 +123,8 @@ async function createThread() {
   if (bod[0]) {
     threadName.value = "";
     content.value = "";
-    gotoTopicPage(1);
+    history.pushState({}, null, `https://quir.free.nf/topic/${slug}`);
+    parseThreads(bod[1]);
   }
 }
 

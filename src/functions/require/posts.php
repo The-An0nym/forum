@@ -103,7 +103,7 @@ function generateHTMLFromPosts(string $slug, int $page) {
     }
 }
 
-function getPostCount(string $slug) {
+function getPostCount(string $slug) : int {
     if($slug === "") {
         return 0;
     }
@@ -119,4 +119,62 @@ function getPostCount(string $slug) {
     } else {
         return 0;
     }
+}
+
+function getPostsJson(string $slug, int $page = 1) : string {
+    if(!session_id()) {
+        session_start();
+    }
+
+    $post_count = getPostCount($slug);
+
+    if($post_count === 0) { 
+        return jsonErr("emptyThrd");
+    }
+
+    if($page === -1) {
+        $page = ceil($post_count / 20);
+    } else {
+        $page = min($page, ceil($post_count / 20));
+    }
+
+
+    $posts = getPosts($slug, $page);
+    $data = [];
+
+    // output data of each post
+    foreach($posts as $post) {
+        $p = new stdClass();
+        $p->username = $post["username"];
+        $p->handle = $post["handle"];
+        $p->imageSrc = $post["image_dir"];
+        $p->userPostCount = $post["posts"];
+        $p->id = $post["post_id"];
+        $p->content = $post["content"];
+        $p->created = $post["created"];
+        $p->edited = $post["edited"];
+        if(isset($_SESSION["user_id"])) {
+            if($post["user_id"] == $_SESSION["user_id"]) {
+                $p->editable = true;
+            } else {
+                $p->editable = false;
+            }
+        } else {
+            $p->editable = false;
+        }
+        $p->deletable = $post["clearance"];
+        $data[] = $p;
+    }
+
+    $dataJSON = json_encode(
+        array(
+            "status" => "pass",
+            "data" => array(
+                "posts" => $data,
+                "amount" => $post_count
+            )
+        )
+    );
+
+    return $dataJSON;
 }

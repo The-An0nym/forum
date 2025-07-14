@@ -112,7 +112,7 @@ function generateHTMLFromThreads(string $slug, int $page) {
     }
 }
 
-function getThreadCount(string $slug) {
+function getThreadCount(string $slug) : int {
     if($slug === "") {
         return 0;
     }
@@ -128,4 +128,54 @@ function getThreadCount(string $slug) {
     } else {
         return 0;
     }
+}
+
+function getThreadsJson(string $slug, int $page = 1) : string {
+    if(!session_id()) {
+        session_start();
+    }
+
+    $thread_count = (int)getThreadCount($slug);
+
+    if($thread_count === 0) {
+        return jsonErr("emptyCat");
+    }
+
+    if($page === -1) {
+        $page = ceil($thread_count / 20);
+    } else {
+        $page = min($page, ceil($thread_count / 20));
+    }
+
+    $threads = getThreads($slug, $page);
+
+    $data = [];
+
+    // output data of each thread
+    foreach($threads as $thread) {
+        $t = new stdClass();
+        $t->name = $thread["name"];
+        $t->slug = $thread["slug"];
+        $t->id = $thread["id"];
+        $t->created = $thread["created"];
+        $t->postCount = $thread["posts"];
+        $t->lastUser = $thread["lastUser"];
+        $t->lastHandle = $thread["lastHandle"];
+        $t->lastPost = $thread["lastPost"];
+        $t->creator = $thread["username"];
+        $t->creatorHandle = $thread["handle"];
+        $t->deletable = $thread["clearance"];
+        $data[] = $t;
+    }
+
+    $dataJSON = json_encode(
+        array(
+            "status" => "pass",
+            "data" => array(
+                "threads" => $data,
+                "amount" => $thread_count
+            )
+        )
+    );
+    return $dataJSON;
 }

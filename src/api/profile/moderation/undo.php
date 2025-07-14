@@ -52,7 +52,7 @@ function response() {
 
     $clearance = (int)$result->fetch_assoc()["clearance"];
 
-    $sql = "SELECT mh.type, mh.judgement, mh.id, mh.culp_id, u.clearance
+    $sql = "SELECT mh.type, mh.judgement, mh.id, mh.culp_id, mh.created, u.clearance
             FROM mod_history mh
             JOIN users u ON u.user_id = mh.culp_id
             WHERE mh.mod_id = '$mod_id'";
@@ -68,6 +68,7 @@ function response() {
     $id = $row["id"];
     $culp_auth = (int)$row["clearance"];
     $culp_id = $row["culp_id"];
+    $created = $row["created"];
 
     if($clearance < $type) {
         return jsonErr("auth");
@@ -81,9 +82,17 @@ function response() {
         return jsonErr("undoOwn");
     }
 
-    // Clearance of sender?
+    $sql = "SELECT max(created) AS created FROM mod_history WHERE type = $type AND id = '$id'";
+    $result = $conn->query($sql);
 
-    // CHECK IF IT WAS LATEST ACTION FOR THIS ID (& ~judgement)
+    if($result->num_rows !== 1) {
+        return jsonErr("404mod");
+    }
+
+    $maxCreated = $result->fetch_assoc()["created"]
+    if($maxCreated !== $created) {
+        return jsonErr("nLastAction");
+    }
 
     if($type === 0) {
         // POSTS

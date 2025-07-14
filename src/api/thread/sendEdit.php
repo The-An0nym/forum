@@ -3,6 +3,7 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
 include $path . '/functions/validateSession.php';
 include $path . '/functions/errors.php' ;
+include $page . '/functions/require/posts.php' ;
 
 echo response();
 
@@ -26,28 +27,35 @@ function response() {
 
     $json_obj = json_decode($json_params);
 
-    if(!isset($json_obj->c, $json_obj->i)) {
+    if(!isset($json_obj->c, $json_obj->i, $json_obj->s)) {
         return jsonErr("args");
     }
 
     // Escaping content and trimming whitespace
     $cont = nl2br(preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($json_obj->c))); // idk about mysql_real_escape_string ??
-            
-    if(strlen($cont) !== 0 && strlen($cont) <= 2000) {
-        $user_id = $_SESSION["user_id"];
-        $post_id = $json_obj->i;
-        $sql = "UPDATE posts
-                SET content = '$cont', edited = '1'
-                WHERE post_id = '$post_id' AND user_id = '$user_id'";
-        if ($conn->query($sql) === FALSE) {
-            return jsonErr("", "[SE0]");
-        } 
-    } else if(strlen($cont) === 0) {
+    
+    if(strlen($cont) === 0) {
         return jsonErr("contMin");
     } else if(strlen($cont) > 2000) {
         return jsonErr("contMax");
-    } else {
-        return jsonErr("", "[SE1]");
     }
-    return pass();
+
+    $user_id = $_SESSION["user_id"];
+    $post_id = $json_obj->i;
+    $slug = $json_obj->s;
+
+    if(isset($json_obj->p)) {
+        $page = (int)$json_obj->p;
+    } else {
+        $page = 1;
+    }
+
+    $sql = "UPDATE posts
+            SET content = '$cont', edited = '1'
+            WHERE post_id = '$post_id' AND user_id = '$user_id'";
+    if ($conn->query($sql) === FALSE) {
+        return jsonErr("", "[SE0]");
+    }
+
+    return getPostsJson($slug, $page);
 }

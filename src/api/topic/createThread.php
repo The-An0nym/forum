@@ -4,6 +4,8 @@ include $path . '/functions/.connect.php' ;
 include $path . '/functions/validateSession.php';
 include $path . '/functions/slug.php' ;
 include $path . '/functions/errors.php' ;
+include $page . '/functions/require/threads.php' ;
+
 
 echo response();
 
@@ -86,11 +88,11 @@ function response() {
 
     // Increment post count of category
     $sql = "UPDATE categories
-            SET posts = posts +1, threads = threads +1 
+            SET posts = posts + 1, threads = threads + 1 
             WHERE id = '$category_id'";
     if ($conn->query($sql) === FALSE) {
         return jsonErr("", "[CT3]");
     }
 
-    return pass();
+    return getThreadsJson($slug, 1);
 }

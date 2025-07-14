@@ -2,16 +2,20 @@
 async function getPosts(scrollBottom = false) {
   const bod = await getData(`/api/thread/getPosts.php?s=${slug}&p=${page}`);
 
-  if (bod[0]) parsePosts(bod[1].posts);
+  if (bod[0]) parsePosts(bod[1], scrollBottom);
 }
 
-function parsePosts(jsonData) {
+function parsePosts(data, scrollBottom = false) {
+  if (!data) return;
+
   const cont = document.getElementById("post-container");
 
   cont.innerHTML = "";
 
-  totalPosts = bod[1].amount;
+  totalPosts = data.amount;
   createPageMenu("gotoThreadPage", page, totalPosts);
+
+  const jsonData = data.posts;
 
   for (let i = 0; i < jsonData.length; i++) {
     const post = document.createElement("div");
@@ -171,12 +175,14 @@ async function sendEdit(id) {
   const obj = {};
   obj.c = editTxt.value.trim();
   obj.i = id;
+  obj.s = slug;
+  obj.p = page;
 
   const bod = await postJson("/api/thread/sendEdit.php", obj);
 
   if (bod[0]) {
     editTxt.value = "";
-    getPosts();
+    parsePosts(bod[1]);
   }
 }
 
@@ -193,8 +199,13 @@ async function sendPost() {
 
   if (bod[0]) {
     txt.value = "";
-    totalPosts++;
-    gotoThreadPage(Math.ceil(totalPosts / 20), true);
+    parsePosts(bod[1], true);
+
+    let url;
+    if (page !== 1) url = `https://quir.free.nf/thread/${slug}/${page}`;
+    else url = `https://quir.free.nf/thread/${slug}`;
+
+    history.pushState({}, null, url);
 
     if (autoSub) {
       unSubscribe();
