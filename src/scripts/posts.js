@@ -232,6 +232,15 @@ async function deletePost(id, reason, message) {
 
 async function unSubscribe(type = 1) {
   postData("/api/thread/unSubscribe.php", `t=${slug}&s=${type}`);
+
+  ele = document.getElementById("subscribe");
+  if (type === 1) {
+    ele.textContent = "Unsubscribe";
+    ele.setAttribute("onclick", "unSubscribe(0)");
+  } else {
+    ele.textContent = "Subscribe";
+    ele.setAttribute("onclick", "unSubscribe(1)");
+  }
 }
 
 async function gotoThreadPage(p, scrollBottom = false) {

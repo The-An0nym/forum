@@ -4,7 +4,7 @@ include $path . '/functions/.connect.php' ;
 include $path . '/functions/validateSession.php';
 include $path . '/functions/slug.php' ;
 include $path . '/functions/errors.php' ;
-include $page . '/functions/require/threads.php' ;
+include $path . '/functions/require/threads.php' ;
 
 
 echo response();

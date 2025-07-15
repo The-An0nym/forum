@@ -26,19 +26,19 @@ function generateMenu() {
         <?php
         if(isset($_SESSION['user_id'])) {
             ?>
-            <a class="menu-button" href="/profile/"><?= $info["handle"]; ?></a>
-            <span class="menu-button" onclick="logout()"><?= getLang("logout") ?></span>
-            <a class="menu-button home" href="/"><?= getLang("home") ?></a>
-            <span class="mode menu-button" onclick="toggle()"><?= getLang("togMode") ?></span>
+            <a class="menu-button home menu-left" href="/"><?= getLang("home") ?></a>
+            <span class="mode menu-button menu-left" onclick="toggle()"><?= getLang("togMode") ?></span>
+            <a class="menu-button split-right menu-right" href="/profile/"><?= $info["handle"]; ?></a>
+            <span class="menu-button menu-right" onclick="logout()"><?= getLang("logout") ?></span>
             <script> 
                 toggle(<?= $info["darkmode"]; ?>);
             </script>
             <?php
         } else {
             ?>
-            <a class="menu-button home" href="/">Home</a>
-            <span class="login menu-button" onclick="createLogin()"><?= getLang("login") ?></span>
-            <span class="sign-up menu-button" onclick="createSignUp()"><?= getLang("signUp") ?></span>
+            <a class="menu-button home menu-left" href="/">Home</a>
+            <span class="menu-button split-right menu-right" onclick="createLogin()"><?= getLang("login") ?></span>
+            <span class="menu-button menu-right" onclick="createSignUp()"><?= getLang("signUp") ?></span>
             <?php 
         } 
         ?>

@@ -54,7 +54,8 @@
 
 ## API
 
-- [ ] For calls to /functions/statCount.php, make it return any error messages (and handle those accordingly)
 - [ ] Organize and clean up
 - [ ] Re-organize order of functions for deleting/undoing things and standardize them (first count, then history, then soft delete?)
 - [ ] Cannot delete threads of already deleted accounts -> FIX THIS (thread count issue)
+- [ ] Consider seperating user from post data (reducing file size)
+- [ ] Re-organize all include statements to make sure they are only included ONCE (relying on !function_exists possible, but unclean)

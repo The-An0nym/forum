@@ -1,5 +1,7 @@
 <?php
 
+if(!function_exists("validateSession")) {
+
 function validateSession() {
     $path = $_SERVER['DOCUMENT_ROOT'];
     include $path . '/functions/.connect.php' ;
@@ -58,4 +60,6 @@ function validateSession() {
     }
 
     return false;
+}
+
 }

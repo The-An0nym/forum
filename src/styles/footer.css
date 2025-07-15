@@ -2,4 +2,8 @@
   font-size: 0.4em;
   position: relative;
   bottom: 0;
+  background-color: var(--bg);
+  height: 40px;
+  padding: 5px;
+  margin-top: 10px;
 }

@@ -3,7 +3,7 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
 include $path . '/functions/validateSession.php';
 include $path . '/functions/errors.php' ;
-include $page . '/functions/require/posts.php' ;
+include $path . '/functions/require/posts.php' ;
 
 echo response();
 

@@ -3,7 +3,7 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
 include $path . '/functions/validateSession.php';
 include $path . '/functions/errors.php' ;
-include $page . '/functions/require/posts.php' ;
+include $path . '/functions/require/posts.php' ;
 
 echo response();
 
@@ -44,10 +44,9 @@ function response() {
     $post_id = $json_obj->i;
     $slug = $json_obj->s;
 
+    $page = 1;
     if(isset($json_obj->p)) {
         $page = (int)$json_obj->p;
-    } else {
-        $page = 1;
     }
 
     $sql = "UPDATE posts

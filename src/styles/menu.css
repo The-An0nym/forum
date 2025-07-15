@@ -12,7 +12,6 @@
 .menu-button,
 .menu-path {
   padding: 10px;
-  border-left: 1px var(--border) solid;
   display: inline-block;
 }
 
@@ -22,8 +21,16 @@
   cursor: pointer;
 }
 
-.login {
+.split-right {
   margin-left: auto;
+}
+
+.menu-right {
+  border-left: 1px var(--border) solid;
+}
+
+.menu-left {
+  border-right: 1px var(--border) solid;
 }
 
 #menu-buffer {

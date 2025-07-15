@@ -19,14 +19,14 @@ function response() {
     }
 
     $sub = "1";
-    if (!isset($_GET["t"])) {
+    if (!isset($_POST["t"])) {
         return jsonErr("args");
     }
 
-    $thread_slug = $_GET["t"];
-    if (isset($_GET["s"])) {
-        if($_GET["s"] == 0 || $_GET["s"] == 1) {
-            $sub = $_GET["s"];
+    $thread_slug = $_POST["t"];
+    if (isset($_POST["s"])) {
+        if($_POST["s"] == 0 || $_POST["s"] == 1) {
+            $sub = $_POST["s"];
         }
     }
 
