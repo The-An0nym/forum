@@ -1,6 +1,7 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/functions/.connect.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/functions/lang.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/functions/notifications.php';
 
 function generateMenu() {
     if(!session_id()) {
@@ -15,6 +16,18 @@ function generateMenu() {
         $result = $conn->query($sql);
 
         $info = $result->fetch_assoc();
+
+        $res = NewNotifCount($user_id);
+        
+        $notifs = 0;
+        if($res[0]) {
+            $notifs = (int)$res[1];
+        }
+        
+        $notifClass = "";
+        if($notifs === 0) {
+            $notifClass = "none";
+        }
     }
     
     ?>
@@ -29,6 +42,7 @@ function generateMenu() {
             <a class="menu-button home menu-left" href="/"><?= getLang("home") ?></a>
             <span class="mode menu-button menu-left" onclick="toggle()"><?= getLang("togMode") ?></span>
             <a class="menu-button split-right menu-right" href="/profile/"><?= $info["handle"]; ?></a>
+            <span class="notifications <?= $notifClass; ?>"><?= $notifs; ?></span>
             <span class="menu-button menu-right" onclick="logout()"><?= getLang("logout") ?></span>
             <script> 
                 toggle(<?= $info["darkmode"]; ?>);

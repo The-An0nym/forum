@@ -75,5 +75,20 @@ function response() {
         return jsonErr("", "[SP2]");
     }
 
+    // Send notification
+    $sql = "SELECT user_id FROM subscribed WHERE thread_id = '$thread_id' AND subscribed = 1";
+    $result = $conn->query($sql);
+
+    while($rec_id = $result->fetch_assoc()["user_id"]) {
+        $sql = "INSERT INTO 
+                    notifications 
+                    (sender_id, receiver_id, type, thread_id) 
+                VALUES
+                    ('$user_id', '$rec_id', 0, '$thread_id')";
+        if($conn->query($sql) === FALSE) {
+            return jsonErr("", "SP3");
+        }
+    }
+
     return getPostsJson($slug, -1);
 }

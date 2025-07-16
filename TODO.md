@@ -12,6 +12,7 @@
 - [ ] Save ms in datetime !NOT easily implementable or recommended... so maybe not?
 - [ ] Customizable language support
 - [ ] Notification system
+- [ ] Unsubscribe deleted users from all threads in a recoverable fashion (Set to 2/3 instead of 0/1)
 
 ## Profile/
 
@@ -24,7 +25,7 @@
 - [ ] Scroll up the moderation history when moving from one page to another
 - [ ] Add ToS, Privacy Policy and cookies warning
 
-## Categories and Threads
+## Categories, Threads and Posts
 
 - [ ] Make posting a new post focus on this post with #id
 - [ ] Check whether thread is deleted before posting message
@@ -33,6 +34,7 @@
 - [ ] Formatting and URL support (and maaaayybbeee external images)
 - [ ] Ability to pin and lock threads
 - [ ] Upon sending an edit for a post, scroll to that post again.
+- [ ] Would it make sense to use the same varible names for e.g. totalItems or gotoPage for threads and topics for the sake of the page menu?
 
 ## Account / Menu / Footer
 

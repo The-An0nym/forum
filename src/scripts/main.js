@@ -65,13 +65,36 @@ function addPageButton(funcName, p, selected = false) {
   const button = document.createElement("button");
   button.textContent = p;
 
-  if (isNaN(p)) button.setAttribute("onclick", `${funcName}()`);
+  if (isNaN(p)) button.setAttribute("onclick", `${funcName}`);
   else button.setAttribute("onclick", `${funcName}(${p})`);
 
   if (selected) button.className = "page-menu-button selected-page";
   else button.className = "page-menu-button";
 
   document.getElementById("page-menu").appendChild(button);
+}
+
+function selectPage(e) {
+  const ele = e.target;
+  const loc = window.location.pathname.split("/")[1];
+
+  ele.style.display = "none";
+  const inp = document.getElementById("input");
+  inp.className = "page-menu-input";
+
+  inp.addEventListener("keyup", (e) => {
+    if (e.key !== "Enter") return;
+    if (isNaN(inp.value)) return;
+    const page = parseInt(inp.value);
+
+    if (loc === "thread") {
+      if (page > 0 && page <= Math.ceil(totalPosts / 20)) gotoThreadPage(page);
+    } else if (loc === "topic") {
+      if (page > 0 && page <= Math.ceil(threadCount / 20)) gotoTopicPage(page);
+    }
+  });
+
+  e.parentNode.appendChild(inp);
 }
 
 /* USER INPUT VALIDATION */
