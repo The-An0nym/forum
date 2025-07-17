@@ -79,14 +79,19 @@ function response() {
     $sql = "SELECT user_id FROM subscribed WHERE thread_id = '$thread_id' AND subscribed = 1";
     $result = $conn->query($sql);
 
-    while($rec_id = $result->fetch_assoc()["user_id"]) {
-        $sql = "INSERT INTO 
-                    notifications 
-                    (sender_id, receiver_id, type, thread_id) 
-                VALUES
-                    ('$user_id', '$rec_id', 0, '$thread_id')";
-        if($conn->query($sql) === FALSE) {
-            return jsonErr("", "SP3");
+    if($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            $rec_id = $row["user_id"];
+            if($rec_id === $user_id) continue;
+            
+            $sql = "INSERT INTO 
+                        notifications 
+                        (sender_id, receiver_id, type, thread_id) 
+                    VALUES
+                        ('$user_id', '$rec_id', 0, '$thread_id')";
+            if($conn->query($sql) === FALSE) {
+                return jsonErr("", "SP3");
+            }
         }
     }
 

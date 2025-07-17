@@ -2,7 +2,7 @@
 $path = $_SERVER['DOCUMENT_ROOT'];
 
 include $path . '/functions/validateSession.php';
-include $path . '/functions/notifications.php' ;
+include $path . '/functions/require/notifications.php' ;
 include $path . '/functions/errors.php' ;
 
 echo response();
@@ -31,5 +31,5 @@ function response() : string {
                 "count" => $res[1]
             )
         )
-    )
+    );
 }

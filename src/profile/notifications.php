@@ -38,18 +38,13 @@ include $path . '/functions/validateSession.php';
         if(validateSession()) {
             $user_id = $_SESSION["user_id"];
 
-            $sql = "SELECT username, handle, image_dir, posts, threads, clearance FROM users WHERE user_id = '$user_id' LIMIT 1";
-            $result = $conn->query($sql);
-            $row = $result->fetch_assoc();
-            $username = $row["username"];
-            $handle = $row["handle"];
-            $image_dir = $row["image_dir"];
-            $posts = $row["posts"];
-            $threads = $row["threads"];
-            $clearance = $row["clearance"];
+            echo "<button>Mark all as read</button>";
+
+            echo "<div>";
+            echo generateNotifsHTML($user_id);
+            echo "</div>";
 
             ?>  
-            To come...
                 <script>
                     const username = "<?= $username; ?>";
                     const handle = "<?= $handle; ?>"

@@ -174,7 +174,7 @@ async function undoRequest(id, reason = 0, message) {
 
   const bod = await postJson("/api/profile/moderation/undo.php", obj);
   if (bod[0]) {
-    location.reload(); // Maybe just getHistory() ?
+    getModerationHistory(modPage);
   }
 }
 
