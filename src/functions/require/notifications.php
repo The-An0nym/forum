@@ -13,12 +13,14 @@ function NewNotifCount(string $user_id = "") : array {
     return [true, (int)$result->fetch_assoc()["total"]];
 }
 
-function getNotifications(string $user_id = "") : array {
+function getNotifications(string $user_id = "", int $page = 0) : array {
     if($user_id === "") {
         return [false, "args"];
     }
 
     $conn = getConn();
+
+    $offset = $page * 20;
 
     $sql = "SELECT 
                 n.type, 
@@ -37,38 +39,89 @@ function getNotifications(string $user_id = "") : array {
                 threads t
             ON
                 t.id = n.thread_id
-            WHERE n.receiver_id = '$user_id'";
+            WHERE n.receiver_id = '$user_id'
+            LIMIT 20 OFFSET $offset";
 
     $result = $conn->query($sql);
 
     return [true, $result];
 }
 
-function generateNotifsHTML(string $user_id = "") : string {
-    $res = getNotifications($user_id);
+function generateNotifsHTML(string $user_id = "", int $page = 0) : string {
+    $res = getNotifications($user_id, $page);
     if(!$res[0]) {
         return "An error has occured";
     }
 
-    // For type 0 (which is the only type for now)
-
     $html = "";
     
-    for($res[1] as $item) {
-        if($item["type"] == "0") {
-            $html .= genForPost($item);
+    foreach($res[1] as $item) {
+        switch($item["type"]) {
+            case 0:
+                $html .= genForPost($item);
+                break;
+            case 1:
+                $html .= genForDelPost($item);
+                break;
+            case 2:
+                $html .= genForDelThread($item);
+                break;
+            case 3:
+                $html .= genForAuth($item, true); // Promotion
+                break;
+            case 4:
+                $html .= genForAuth($item, false); // Demotion
         }
     }
+
+    return $html;
 }
 
-function genForPost($item) : string {
+function genForPost(array $item) : string {
     $handle = $item["handle"];
     $username = $item["username"];
     $slug = $item["slug"];
     $name = $item["name"];
-    return "<span>
+    return "<span class=\"notification-item post\">
                 <a href=\"/user/$handle\">$username</a>
                 posted on
                 <a href=\"/thread/$slug\">$name</a>
             </span>";
+}
+
+function genForDelPost(array $item) : string {
+    return "Del post: todo";
+}
+
+function genForDelThread(array $item) : string {
+    return "Del thread: todo";
+}
+
+function genForAuth(array $item, bool $promote) : string {
+    return "Del prom: todo" . $promote;
+}
+
+function markAsRead(string $user_id = "") : array {
+    if($user_id === "") {
+        return [false, "args"];
+    }
+
+    $res = NewNotifCount($user_id);
+
+    if(!$res[0]) {
+        return [false, $res[1]];
+    }
+
+    if($res[1] === 0) {
+        return [true];
+    }
+
+    $conn = getConn();
+
+    $sql = "UPDATE `notifications` SET `read` = 1 WHERE `read` = 0 AND receiver_id = '$user_id'";
+    if($conn->query($sql) === FALSE) {
+        return [false, "", "RN0"];
+    }
+
+    return [true];
 }

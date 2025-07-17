@@ -52,3 +52,26 @@
   padding: 4px;
   border: 1px solid var(--border);
 }
+
+.notifications {
+  background-color: #faa;
+  font-size: 0.5em;
+  width: 2em;
+  height: 2em;
+  display: inline-flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  padding: 2px;
+  position: relative;
+  margin-left: 5px;
+  margin-right: -5px;
+  top: -2px;
+  color: var(--text);
+}
+
+.notifications.none {
+  display: none !important;
+}

@@ -41,8 +41,10 @@ function generateMenu() {
             ?>
             <a class="menu-button home menu-left" href="/"><?= getLang("home") ?></a>
             <span class="mode menu-button menu-left" onclick="toggle()"><?= getLang("togMode") ?></span>
-            <a class="menu-button split-right menu-right" href="/profile/"><?= $info["handle"]; ?></a>
-            <span class="notifications <?= $notifClass; ?>"><?= $notifs; ?></span>
+            <a class="menu-button split-right menu-right" href="/profile/">
+                <?= $info["handle"]; ?>
+                <span class="notifications <?= $notifClass; ?>"><?= $notifs; ?></span>
+            </a>
             <span class="menu-button menu-right" onclick="logout()"><?= getLang("logout") ?></span>
             <script> 
                 toggle(<?= $info["darkmode"]; ?>);

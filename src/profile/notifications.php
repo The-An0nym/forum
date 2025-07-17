@@ -40,17 +40,10 @@ include $path . '/functions/validateSession.php';
 
             echo "<button>Mark all as read</button>";
 
-            echo "<div>";
+            echo '<div id="notifications-container">';
             echo generateNotifsHTML($user_id);
+            markAsRead($user_id);
             echo "</div>";
-
-            ?>  
-                <script>
-                    const username = "<?= $username; ?>";
-                    const handle = "<?= $handle; ?>"
-                    const image_dir = "<?= $image_dir; ?>";
-                </script>
-            <?php
 
         } else {
             echo "Please Log in or Sign up to continue...";
