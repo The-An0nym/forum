@@ -135,6 +135,37 @@ Slugs are automatically generated for threads (for categories they need to be ma
 
 The `subscribed` table enables users to subscribe or unsubscribe form threads. If there is no entry yet, users will be auto-subscribed if they post for the first time on a thread.
 
+### Notifications
+
+Notifications are created upon:
+
+- Posting in a thread
+- Mod deleted post (culprit only)
+- Mod deleted thread (culprit only)
+- User promotion
+- User Demotion
+
+And deleted/updated upon:
+
+- Moderation undo action
+- Self deleted post
+- Expired
+
+The `type`s are:
+
+| Value | Meaning    |
+| ----- | ---------- |
+| 0     | Post       |
+| 1     | Del Post   |
+| 2     | Del Thread |
+| 3     | Promotion  |
+| 4     | Demotion   |
+
+(TBD) <br>
+
+`post_id` and `mod_id` are stored in the `assoc_id` column. <br>
+The `deleted` makes sure that when moderators are changing the visibility of posts with undo/redo, it won't re-generate notifications but instead preserve the old one.
+
 ## Tables
 
 (These may not be up to date and will be modified in the future)
@@ -289,4 +320,20 @@ ALTER TABLE `mod_history`
   ADD KEY `id` (`id`),
   ADD KEY `recent` (`type`,`id`,`judgement`,`created`);
 COMMIT;
+```
+
+### Notifications
+
+```SQL
+CREATE TABLE `notifications` (
+  `notification_id` varchar(33) NOT NULL,
+  `read` tinyint(1) NOT NULL DEFAULT 0,
+  `sender_id` varchar(33) NOT NULL,
+  `receiver_id` varchar(33) NOT NULL,
+  `type` int(1) NOT NULL DEFAULT 0,
+  `thread_id` varchar(33) DEFAULT '0',
+  `assoc_id` varchar(33) NOT NULL,
+  `deleted` tinyint(1) NOT NULL DEFAULT 0,
+  `datetime` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 ```

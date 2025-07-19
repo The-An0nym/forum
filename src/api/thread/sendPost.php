@@ -83,12 +83,14 @@ function response() {
         while($row = $result->fetch_assoc()) {
             $rec_id = $row["user_id"];
             if($rec_id === $user_id) continue;
-            
+
+            $notif_id = uniqid(rand(), true);
+
             $sql = "INSERT INTO 
                         notifications 
-                        (sender_id, receiver_id, type, thread_id) 
+                        (notification_id, sender_id, receiver_id, type, thread_id) 
                     VALUES
-                        ('$user_id', '$rec_id', 0, '$thread_id')";
+                        ('$notif_id', '$user_id', '$rec_id', 0, '$thread_id')";
             if($conn->query($sql) === FALSE) {
                 return jsonErr("", "SP3");
             }

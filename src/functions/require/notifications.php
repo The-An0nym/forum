@@ -8,7 +8,7 @@ function NewNotifCount(string $user_id = "") : array {
 
     $conn = getConn();
 
-    $sql = "SELECT COUNT(*) AS total FROM `notifications` WHERE `receiver_id` = '$user_id' AND `read` = 0";
+    $sql = "SELECT COUNT(*) AS total FROM `notifications` WHERE `receiver_id` = '$user_id' AND `read` = 0 AND `deleted` = 0";
     $result = $conn->query($sql);
     return [true, (int)$result->fetch_assoc()["total"]];
 }
@@ -25,6 +25,7 @@ function getNotifications(string $user_id = "", int $page = 0) : array {
     $sql = "SELECT 
                 n.type, 
                 n.read,
+                n.datetime,
                 u.handle, 
                 u.username,
                 t.name,
@@ -39,7 +40,8 @@ function getNotifications(string $user_id = "", int $page = 0) : array {
                 threads t
             ON
                 t.id = n.thread_id
-            WHERE n.receiver_id = '$user_id'
+            WHERE n.receiver_id = '$user_id' AND n.deleted = 0
+            ORDER BY n.datetime DESC
             LIMIT 20 OFFSET $offset";
 
     $result = $conn->query($sql);
@@ -82,7 +84,9 @@ function genForPost(array $item) : string {
     $username = $item["username"];
     $slug = $item["slug"];
     $name = $item["name"];
+    $dt = $item["datetime"];
     return "<span class=\"notification-item post\">
+                <span class=\"datetime\">$dt</span>
                 <a href=\"/user/$handle\">$username</a>
                 posted on
                 <a href=\"/thread/$slug\">$name</a>
@@ -121,6 +125,31 @@ function markAsRead(string $user_id = "") : array {
     $sql = "UPDATE `notifications` SET `read` = 1 WHERE `read` = 0 AND receiver_id = '$user_id'";
     if($conn->query($sql) === FALSE) {
         return [false, "", "RN0"];
+    }
+
+    return [true];
+}
+
+function setDelNotif(string $assoc_id = "", int $type = 10, bool $del = true) : array {
+    if($assoc_id === "") {
+        return [false, "args"];
+    }
+
+    if($type > 3 || $type < 0) {
+        return [false, "args"];
+    }
+
+    $conn = getConn();
+
+    if($del) {
+        $delVal = 1;
+    } else {
+        $delVal = 0;
+    }
+
+    $sql = "UPDATE `notifications` SET deleted = $delVal WHERE `assoc_id` = '$assoc_id' AND `type` = $type";
+    if($conn->query($sql) === FALSE) {
+        return [false, "", "RN1"];
     }
 
     return [true];

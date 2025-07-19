@@ -38,8 +38,6 @@ include $path . '/functions/validateSession.php';
         if(validateSession()) {
             $user_id = $_SESSION["user_id"];
 
-            echo "<button>Mark all as read</button>";
-
             echo '<div id="notifications-container">';
             echo generateNotifsHTML($user_id);
             markAsRead($user_id);

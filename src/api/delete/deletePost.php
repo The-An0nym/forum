@@ -3,6 +3,7 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
 include $path . '/functions/validateSession.php';
 include $path . '/functions/moderation.php' ;
+include $path . '/function/require/notifications' ;
 include $path . '/functions/statCount.php';
 include $path . '/functions/errors.php' ;
 
@@ -48,7 +49,7 @@ function response() {
     }
 
     $row = $result->fetch_assoc();
-    $clearance = $row['clearance'];
+    $clearance = (int)$row['clearance'];
     $post_user_id = $row['user_id'];
     $user_id === $_SESSION["user_id"];
 
@@ -64,30 +65,36 @@ function response() {
         }
     }
 
-    if($post_user_id === $user_id || $clearance >= 1) {
-        $err = jsonEncodeErrors(countForPost($id, false));
-        if($err !== "") {
-            return $err;
-        }
-
-        $type = 1;
-
-        if($post_user_id !== $user_id) {
-            $type = 2;
-            // Push onto history
-            $err = jsonEncodeErrors(createHistory(0, 2, $id, $user_id, $reason, $message));
-            if($err !== "") {
-                return $err;
-            }
-        }
-
-        // (Soft) delete post
-        $err = jsonEncodeErrors(deletePost($id, $type, false));
-        if($err !== "") {
-            return $err;
-        }     
-    } else {
+    if($post_user_id !== $user_id && $clearance == 0) {
         return jsonErr("auth");
+    }
+
+    $err = jsonEncodeErrors(countForPost($id, false));
+    if($err !== "") {
+        return $err;
+    }
+
+    $type = 1;
+
+    if($post_user_id !== $user_id) {
+        $type = 2;
+        // Push onto history
+        $err = jsonEncodeErrors(createHistory(0, 2, $id, $user_id, $reason, $message));
+        if($err !== "") {
+            return $err;
+        }
+    }
+
+    // (Soft) delete post
+    $err = jsonEncodeErrors(deletePost($id, $type, false));
+    if($err !== "") {
+        return $err;
+    }
+
+    // Delete notification(s)
+    $err = jsonEncodeErrors(setDelNotif($id, 0, true));
+    if($err !== "") {
+        return $err;
     }
 
     return pass();

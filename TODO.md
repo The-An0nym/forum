@@ -67,3 +67,7 @@
 - [ ] Consider seperating user from post data (reducing file size)
 - [ ] Re-organize all include statements to make sure they are only included ONCE (relying on !function_exists possible, but unclean)
 - [ ] Standardize introduction of session and when it reads the user_id
+
+## Notifications
+
+- [ ] Maybe include extra column for extra IDs -> e.g. post id so they can be hidden again upon deletion?

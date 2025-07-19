@@ -25,8 +25,10 @@ function generateMenu() {
         }
         
         $notifClass = "";
+        $profileSub = "";
         if($notifs === 0) {
             $notifClass = "none";
+            $profileSub = "notifications";
         }
     }
     
@@ -41,7 +43,7 @@ function generateMenu() {
             ?>
             <a class="menu-button home menu-left" href="/"><?= getLang("home") ?></a>
             <span class="mode menu-button menu-left" onclick="toggle()"><?= getLang("togMode") ?></span>
-            <a class="menu-button split-right menu-right" href="/profile/">
+            <a class="menu-button split-right menu-right" href="/profile/<?= $profileSub ?>">
                 <?= $info["handle"]; ?>
                 <span class="notifications <?= $notifClass; ?>"><?= $notifs; ?></span>
             </a>
