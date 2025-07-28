@@ -19,7 +19,6 @@
 
 ## Profile/
 
-- [ ] Notifications page
 - [ ] Revise settings structure
 - [ ] Show user sessions
 - [ ] Decide: Make normal user moderation and moderator moderation hidable (for moderators only)?
@@ -27,6 +26,7 @@
 - [ ] Add manual number re-sync button for admin 5
 - [ ] Scroll up the moderation history when moving from one page to another
 - [ ] Add ToS, Privacy Policy and cookies warning
+- [ ] List of subscribed threads (?)
 
 ## Categories, Threads and Posts
 
@@ -48,17 +48,16 @@
 - [ ] Adress, full legal name, etc. (pattern)
 - [ ] Make notification system (badge)
 - [ ] Redesign footer and menu
-- [ ] Add subscribe button to path menu (for /thread/ pages)
 
 ## Authentication / Sessions
 
 - [ ] Decide: Include clearance in the session?
 - [ ] Refactor the way it is authenticated (generally speaking)
 
-# Scripts
+## Scripts
 
 - [ ] Cleanup
-- [ ] Check if location.reload() is necessary
+- [ ] Check if location.reload() is necessary across all instances
 
 ## API
 
@@ -71,4 +70,4 @@
 
 ## Notifications
 
-- [ ] Maybe include extra column for extra IDs -> e.g. post id so they can be hidden again upon deletion?
+- [ ] Organize similar notifications into clusters (e.g. A, B, C and 12 other users posted in ...)

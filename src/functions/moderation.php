@@ -73,7 +73,7 @@ function createReport(int $type, $id, $user_id, int $reason, string $message) : 
     return ["pass"];
 }
 
-function handleNotifications(string $sender_id, string $culp_id, string $id, string $mod_id, int $type) : array {
+function handleNotifications(string $sender_id, string $culp_id, string $id, string $mod_id, int $type, int $judgement) : array {
     if($type === 0) {
         return handlePostNotification($id, $judgement);
     } else if($type === 1) {
@@ -151,10 +151,10 @@ function handleAuthChangeNotification(string $culp_id, string $sender_id, string
     $sql = "SELECT `read` FROM `notifications` WHERE `receiver_id` = '$culp_id' AND `type` = '$searchType' AND `deleted` = 0 ORDER BY `datetime` DESC LIMIT 1";
     $result = $conn->query($sql);
     if($result->num_rows === 0) {
-        return ["pass"]; // No notifications found
+        $read = 1; // Notification doesn't exist yet
+    } else {
+        $read = (int)$result->fetch_assoc()['read'];
     }
-
-    $read = (int)$result->fetch_assoc()['read'];
 
     if($read === 0) {
        $sql = "UPDATE `notifications` SET `deleted` = 1 WHERE `receiver_id` = '$culp_id' AND `type` = '$searchType' AND `deleted` = 0 ORDER BY `datetime` DESC LIMIT 1";

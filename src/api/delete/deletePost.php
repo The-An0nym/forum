@@ -3,7 +3,7 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
 include $path . '/functions/validateSession.php';
 include $path . '/functions/moderation.php' ;
-include $path . '/function/require/notifications.php' ;
+include $path . '/functions/require/notifications.php' ;
 include $path . '/functions/statCount.php';
 include $path . '/functions/errors.php' ;
 

@@ -117,7 +117,7 @@ function markAsRead(string $user_id = "") : array {
 
     $conn = getConn();
 
-    $sql = "UPDATE `notifications` SET `read` = 1 WHERE `read` = 0 AND receiver_id = '$user_id'";
+    $sql = "UPDATE `notifications` SET `read` = 1 WHERE `read` = 0 AND `deleted` = 0 AND receiver_id = '$user_id'";
     if($conn->query($sql) === FALSE) {
         return ["", "RN0"];
     }

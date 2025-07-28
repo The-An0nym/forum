@@ -24,10 +24,10 @@ function generateMenu() {
             $notifs = (int)$res[1];
         }
         
-        $notifClass = "";
+        $notifClass = "none";
         $profileSub = "";
-        if($notifs === 0) {
-            $notifClass = "none";
+        if($notifs > 0) {
+            $notifClass = "";
             $profileSub = "notifications";
         }
     }

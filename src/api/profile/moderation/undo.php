@@ -89,7 +89,7 @@ function response() {
         return jsonErr("404mod");
     }
 
-    $maxCreated = $result->fetch_assoc()["created"]
+    $maxCreated = $result->fetch_assoc()["created"];
     if($maxCreated !== $created) {
         return jsonErr("nLastAction");
     }
