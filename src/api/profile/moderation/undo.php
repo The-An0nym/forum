@@ -94,6 +94,11 @@ function response() {
         return jsonErr("nLastAction");
     }
 
+    $delDatetime = strtotime(date('Y-m-d H:i:s')) - 60 * 60 * 24 * 60; // 60 days ago
+    if(strtotime($maxCreated) < $delDatetime) {
+       return jsonErr("expired");
+    }
+
     if($type === 0) {
         // POSTS
         if($judgement === 2) {

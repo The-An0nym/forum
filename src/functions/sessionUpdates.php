@@ -45,9 +45,9 @@ function deleteExpiredSessions() : array {
 
     $delArr = array();
     
-    $delDatetime = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s')) - 60 * 60 * 24 * 3); // 3 days
+    $delDatetime = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s')) - 60 * 60 * 24 * 5); // 5 days
 
-    $sql = "DELETE FROM sessions WHERE datetime < $delDatetime";
+    $sql = "DELETE FROM sessions WHERE datetime < '$delDatetime'";
     if($conn->query($sql) === FALSE) {
         return ["", "[SCD0]"];
     }

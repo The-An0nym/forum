@@ -85,12 +85,13 @@ function response() {
             if($rec_id === $user_id) continue;
 
             $notif_id = uniqid(rand(), true);
+            $datetime = date("Y-m-d H:i:s");
 
-            $sql = "INSERT INTO 
+            $sql = "INSERT INTO
                         notifications 
-                        (notification_id, sender_id, receiver_id, type, thread_id) 
+                        (`notification_id`, `sender_id`, `receiver_id`, `type`, `thread_id`, `assoc_id`, `datetime`) 
                     VALUES
-                        ('$notif_id', '$user_id', '$rec_id', 0, '$thread_id')";
+                        ('$notif_id', '$user_id', '$rec_id', 0, '$thread_id', '$post_id', '$datetime')";
             if($conn->query($sql) === FALSE) {
                 return jsonErr("", "SP3");
             }

@@ -15,6 +15,7 @@
 - [ ] Unsubscribe deleted users from all threads in a recoverable fashion (Set to 2/3 instead of 0/1)
 - [ ] Use ` around column and table names.
 - [ ] PHP set types for all functions
+- [ ] Moderation rows older than 60 days cannot be undone
 
 ## Profile/
 

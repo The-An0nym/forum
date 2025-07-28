@@ -3,19 +3,19 @@ include $_SERVER['DOCUMENT_ROOT'] . '/functions/.connect.php';
 
 function NewNotifCount(string $user_id = "") : array {
     if($user_id === "") {
-        return [false, "args"];
+        return ["args"];
     }
 
     $conn = getConn();
 
     $sql = "SELECT COUNT(*) AS total FROM `notifications` WHERE `receiver_id` = '$user_id' AND `read` = 0 AND `deleted` = 0";
     $result = $conn->query($sql);
-    return [true, (int)$result->fetch_assoc()["total"]];
+    return ["pass", (int)$result->fetch_assoc()["total"]];
 }
 
 function getNotifications(string $user_id = "", int $page = 0) : array {
     if($user_id === "") {
-        return [false, "args"];
+        return ["args"];
     }
 
     $conn = getConn();
@@ -29,7 +29,8 @@ function getNotifications(string $user_id = "", int $page = 0) : array {
                 u.handle, 
                 u.username,
                 t.name,
-                t.slug
+                t.slug,
+                t.posts
             FROM 
                 notifications n
             JOIN 
@@ -46,13 +47,13 @@ function getNotifications(string $user_id = "", int $page = 0) : array {
 
     $result = $conn->query($sql);
 
-    return [true, $result];
+    return ["pass", $result];
 }
 
 function generateNotifsHTML(string $user_id = "", int $page = 0) : string {
     $res = getNotifications($user_id, $page);
-    if(!$res[0]) {
-        return "An error has occured";
+    if($res[0] !== "pass") {
+        return '<span id="error">An error has occured</span>';
     }
 
     $html = "";
@@ -62,17 +63,14 @@ function generateNotifsHTML(string $user_id = "", int $page = 0) : string {
             case 0:
                 $html .= genForPost($item);
                 break;
-            case 1:
-                $html .= genForDelPost($item);
-                break;
-            case 2:
-                $html .= genForDelThread($item);
-                break;
-            case 3:
+            case 6:
                 $html .= genForAuth($item, true); // Promotion
                 break;
-            case 4:
+            case 7:
                 $html .= genForAuth($item, false); // Demotion
+                break;
+            default:
+                $html .= genErr($item);
         }
     }
 
@@ -85,6 +83,7 @@ function genForPost(array $item) : string {
     $slug = $item["slug"];
     $name = $item["name"];
     $dt = $item["datetime"];
+    $page = ceil($item["posts"] / 20);
     return "<span class=\"notification-item post\">
                 <span class=\"datetime\">$dt</span>
                 <a href=\"/user/$handle\">$username</a>
@@ -93,50 +92,46 @@ function genForPost(array $item) : string {
             </span>";
 }
 
-function genForDelPost(array $item) : string {
-    return "Del post: todo";
-}
-
-function genForDelThread(array $item) : string {
-    return "Del thread: todo";
-}
-
 function genForAuth(array $item, bool $promote) : string {
     return "Del prom: todo" . $promote;
 }
 
+function genErr(array $item) : string {
+    return "Error";
+}
+
 function markAsRead(string $user_id = "") : array {
     if($user_id === "") {
-        return [false, "args"];
+        return ["args"];
     }
 
     $res = NewNotifCount($user_id);
 
-    if(!$res[0]) {
-        return [false, $res[1]];
+    if($res[0] !== "pass") {
+        return [$res[1]];
     }
 
     if($res[1] === 0) {
-        return [true];
+        return ["pass"];
     }
 
     $conn = getConn();
 
     $sql = "UPDATE `notifications` SET `read` = 1 WHERE `read` = 0 AND receiver_id = '$user_id'";
     if($conn->query($sql) === FALSE) {
-        return [false, "", "RN0"];
+        return ["", "RN0"];
     }
 
-    return [true];
+    return ["pass"];
 }
 
 function setDelNotif(string $assoc_id = "", int $type = 10, bool $del = true) : array {
     if($assoc_id === "") {
-        return [false, "args"];
+        return ["args"];
     }
 
     if($type > 3 || $type < 0) {
-        return [false, "args"];
+        return ["args"];
     }
 
     $conn = getConn();
@@ -149,8 +144,29 @@ function setDelNotif(string $assoc_id = "", int $type = 10, bool $del = true) : 
 
     $sql = "UPDATE `notifications` SET deleted = $delVal WHERE `assoc_id` = '$assoc_id' AND `type` = $type";
     if($conn->query($sql) === FALSE) {
-        return [false, "", "RN1"];
+        return ["", "RN1"];
     }
 
-    return [true];
+    $r = rand(0, 99);
+    if($r === 0) {
+        $res = deleteOldNotifs();
+        if($res[0] !== "pass") {
+            return $res;
+        }
+    }
+
+    return ["pass"];
+}
+
+function deleteOldNotifs() {
+    $conn = getConn();
+
+    $delDatetime = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s')) - 60 * 60 * 24 * 60); // 60 days
+
+    $sql = "DELETE FROM `notifications` WHERE `datetime` < '$delDatetime'";
+    if($conn->query($sql) === FALSE) {
+        return ["", "[RN2]"];
+    }
+
+    return ["pass"];
 }

@@ -76,7 +76,7 @@ All `deleted` columns adhere to the following logic:
 | 4     | 0100   | Thread deleted                             |
 | 8     | 1000   | Ban deleted/Self account deleted           |
 
-Which can be found on the `posts`, `threads` and `users` tables. All of these will be permenantly deleted after 60 days.
+Which can be found on the `posts`, `threads` and `users` tables. All of these will be permenantly deleted after 60 days, which is executed with a 1% chance every time there is a new `mod_history` entry.
 
 ### Users
 
@@ -140,31 +140,34 @@ The `subscribed` table enables users to subscribe or unsubscribe form threads. I
 Notifications are created upon:
 
 - Posting in a thread
-- Mod deleted post (culprit only)
-- Mod deleted thread (culprit only)
 - User promotion
 - User Demotion
 
 And deleted/updated upon:
 
-- Moderation undo action
+- Moderation action
+- Moderation undo
 - Self deleted post
 - Expired
 
+For clarification, users will **not** be notified when:
+
+- They post was deleted by a moderator
+- Their thread was deleted by a moderator
+- A thread they were a part of was deleted by a moderator
+
 The `type`s are:
 
-| Value | Meaning    |
-| ----- | ---------- |
-| 0     | Post       |
-| 1     | Del Post   |
-| 2     | Del Thread |
-| 3     | Promotion  |
-| 4     | Demotion   |
-
-(TBD) <br>
+| Value | Meaning   |
+| ----- | --------- |
+| 0     | Post      |
+| 6     | Demotion  |
+| 7     | Promotion |
 
 `post_id` and `mod_id` are stored in the `assoc_id` column. <br>
-The `deleted` makes sure that when moderators are changing the visibility of posts with undo/redo, it won't re-generate notifications but instead preserve the old one.
+The `deleted` makes sure that when moderators are changing the visibility of posts with undo/redo, it won't re-generate notifications but instead preserve the old one.<br>
+Notifications will be automatically deleted after 60 days. This is checked by 1% chance every time a notification is updated to be flagged as deleted or not.<br>
+Values 1 - 5 are reserved for future use if needed.<br>
 
 ## Tables
 

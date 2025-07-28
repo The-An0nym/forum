@@ -20,7 +20,7 @@ function generateMenu() {
         $res = NewNotifCount($user_id);
         
         $notifs = 0;
-        if($res[0]) {
+        if($res[0] === "pass") {
             $notifs = (int)$res[1];
         }
         

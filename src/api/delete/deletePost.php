@@ -3,7 +3,7 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 include $path . '/functions/.connect.php' ;
 include $path . '/functions/validateSession.php';
 include $path . '/functions/moderation.php' ;
-include $path . '/function/require/notifications' ;
+include $path . '/function/require/notifications.php' ;
 include $path . '/functions/statCount.php';
 include $path . '/functions/errors.php' ;
 
@@ -85,14 +85,16 @@ function response() {
         }
     }
 
-    // (Soft) delete post
-    $err = jsonEncodeErrors(deletePost($id, $type, false));
-    if($err !== "") {
-        return $err;
+    if($post_user_id === $user_id) {
+        // Delete notification(s)
+        $err = jsonEncodeErrors(setDelNotif($id, 0, true));
+        if($err !== "") {
+            return $err;
+        }
     }
 
-    // Delete notification(s)
-    $err = jsonEncodeErrors(setDelNotif($id, 0, true));
+    // (Soft) delete post
+    $err = jsonEncodeErrors(deletePost($id, $type, false));
     if($err !== "") {
         return $err;
     }

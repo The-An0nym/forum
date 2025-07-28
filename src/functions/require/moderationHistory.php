@@ -68,6 +68,12 @@ function getModHistory(int $page, array $params) {
 
     $data = [];
     while($row = $result->fetch_assoc()) {
+        if($row["is_latest"] == 1) {
+            $delDatetime = strtotime(date('Y-m-d H:i:s')) - 60 * 60 * 24 * 60; // 60 days ago
+            if(strtotime($row["created"]) < $delDatetime) {
+                $row["is_latest"] = 0;
+            }
+        }
         $data[] = $row;
     }
     return $data;
@@ -120,7 +126,6 @@ function getReportHistory(int $page, int $clearance, array $params) {
     $data = [];
     while($row = $result->fetch_assoc()) {
         $data[] = $row;
-        
     }
     return $data;
 }

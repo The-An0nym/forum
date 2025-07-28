@@ -4,6 +4,7 @@ include $path . '/functions/.connect.php' ;
 include $path . '/functions/moderation.php';
 include $path . '/functions/statCount.php';
 include $path . '/functions/validateSession.php';
+include $path . '/functions/require/notifications.php' ;
 include $path . '/functions/errors.php' ;
 
 echo response();
@@ -63,6 +64,13 @@ function response() {
         VALUES ('$id', 0, 1, '$user_id')";
         if ($conn->query($sql) === FALSE) {
             return jsonErr("", "[RP0]");
+        }
+    }
+
+    if($post_user_id === $user_id) {
+        $err = jsonEncodeErrors(setDelNotif($id, 0, false));
+        if($err !== "") {
+            return $err;
         }
     }
 

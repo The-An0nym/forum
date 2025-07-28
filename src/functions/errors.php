@@ -44,6 +44,7 @@ function getErrorArr(string $lang = "en") : array {
             "undoRepo" => "Cannot undo report",
             "undoOwn" => "Cannot undo as culprit",
             "nLastAction" => "Cannot undo non-latest action",
+            "expired" => "The timeframe for this action has expired"
             ]
     ];
 
