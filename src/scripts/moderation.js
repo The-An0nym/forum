@@ -1,8 +1,9 @@
 const getCache = {};
 
 async function deleteSession(session_id) {
-  const bod = postData(
-    "/api/profile/moderation/deleteSession.php?i=" + session_id
+  const bod = await postData(
+    "/api/profile/moderation/deleteSession.php",
+    `i=${encodeURIComponent(session_id)}`
   );
 
   if (bod[0]) document.getElementById(session_id).remove();

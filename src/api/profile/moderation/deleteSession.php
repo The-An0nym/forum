@@ -10,10 +10,6 @@ function response() {
     // Get connection
     $conn = getConn();
 
-    if(!session_id()) {
-        session_start();
-    } 
-
     if (!isset($_POST["i"])) {
         return jsonErr("args");
     }

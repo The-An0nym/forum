@@ -47,6 +47,7 @@
 - [ ] Adress, full legal name, etc. (pattern)
 - [ ] Make notification system (badge)
 - [ ] Redesign footer and menu
+- [ ] BUG: Unsynced between menu bar and account logged in
 
 ## Authentication / Sessions
 

@@ -64,10 +64,11 @@ include $path . '/functions/validateSession.php';
                 <span class="session-item" id="<?= $row_session_id; ?>">
                     <span class="user-agent"><?= $row["user_agent"]; ?></span>
                     <span class="ip"><?= $row["ip"]; ?></span>
-                    <span class="datetime"><?= $row["datetime"]; ?></span>
+                    <span class="session-datetime"><?= $row["datetime"]; ?></span>
                     <button class="delete-session" onclick="deleteSession('<?= $row_session_id; ?>')">Delete this session</button>
                 </span>
-            <?php}
+            <?php
+            }
 
             echo '</div>';
             ?>
