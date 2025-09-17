@@ -48,7 +48,31 @@ include $path . '/functions/validateSession.php';
             $threads = $row["threads"];
             $clearance = $row["clearance"];
 
-            ?>  
+            ?>
+
+            <!-- SESSIONS -->
+
+            <?php
+
+            $sql = "SELECT `ip`, `user_agent`, `datetime`, `session_id` FROM sessions WHERE user_id='$user_id'";
+            $result = $conn->query($sql);
+
+            echo '<div class="sessions">';
+            while($row = $result->fetch_assoc()) {
+                $row_session_id = $row["session_id"];
+                ?>
+                <span class="session-item" id="<?= $row_session_id; ?>">
+                    <span class="user-agent"><?= $row["user_agent"]; ?></span>
+                    <span class="ip"><?= $row["ip"]; ?></span>
+                    <span class="datetime"><?= $row["datetime"]; ?></span>
+                    <button class="delete-session" onclick="deleteSession('<?= $row_session_id; ?>')">Delete this session</button>
+                </span>
+            <?php}
+
+            echo '</div>';
+            ?>
+            
+
             <!-- DELETED THINGS -->
             <div class="deleted-posts">
                 <?php 

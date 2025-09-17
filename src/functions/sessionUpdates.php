@@ -69,7 +69,7 @@ function updateSession(string $id) : array{
 
     $datetime = date("Y-m-d H:i:s");
     $session_id = $_SESSION["session_id"];
-    $sql = "UPDATE sessions SET datetime = '$datetime' WHERE session_id = '$session_id'";
+    $sql = "UPDATE `sessions` SET `datetime` = '$datetime' WHERE session_id = '$session_id'";
     if($conn->query($sql) === FALSE) {
         return ["", "[SCU0]"];
     }

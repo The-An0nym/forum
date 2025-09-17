@@ -66,7 +66,7 @@ return array(
 
 ### General
 
-All `deleted` columns adhere to the following logic:
+The `deleted` columns of `posts`, `threads` and `users` adhere to the following logic:
 
 | Value | Binary | Meaning                                    |
 | ----- | ------ | ------------------------------------------ |
@@ -76,7 +76,7 @@ All `deleted` columns adhere to the following logic:
 | 4     | 0100   | Thread deleted                             |
 | 8     | 1000   | Ban deleted/Self account deleted           |
 
-Which can be found on the `posts`, `threads` and `users` tables. All of these will be permenantly deleted after 60 days, which is executed with a 1% chance every time there is a new `mod_history` entry.
+All soft deleted rows will be permenantly deleted after 60 days. This is executed for `posts`, `threads` and `users` with a 1% chance every time there a new row in the `mod_history` table is created.
 
 ### Users
 

@@ -1,5 +1,13 @@
 const getCache = {};
 
+async function deleteSession(session_id) {
+  const bod = postData(
+    "/api/profile/moderation/deleteSession.php?i=" + session_id
+  );
+
+  if (bod[0]) document.getElementById(session_id).remove();
+}
+
 async function getModerationHistory(page = 0, reports = false) {
   const target = reports
     ? document.getElementById("report-history")

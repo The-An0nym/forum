@@ -5,17 +5,16 @@
 - [ ] Cleanup
 - [ ] Styling
 - [ ] Rethink: Does using Javascript for all subsequent loads make sense?
-- [ ] Implement permanent deletion (after 60 days)
+- [ ] Check if permanent deletion is implemented for all non-permenant data (after 60 days)
 - [ ] Redesign http error pages
-- [ ] Implement languages
+- [ ] Implement languages & customizable language support
 - [ ] Format time more nicely -> Maybe format with XXX Ago and in final state the date instead of converting to client's time? Or store in cookie//Session
 - [ ] Save ms in datetime !NOT easily implementable or recommended... so maybe not?
-- [ ] Customizable language support
-- [ ] Notification system
 - [ ] Unsubscribe deleted users from all threads in a recoverable fashion (Set to 2/3 instead of 0/1)
-- [ ] Use ` around column and table names.
+- [ ] Use ` around column and table names for better SQL formatting
 - [ ] PHP set types for all functions
 - [ ] Moderation rows older than 60 days cannot be undone
+- [ ] Test user sessions and having several sessions across different devices
 
 ## Profile/
 
