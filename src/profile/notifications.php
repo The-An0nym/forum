@@ -14,7 +14,7 @@ if(!session_id()) {
   session_start();
 }
 
-include $path . "/basic/menu.php";
+include $path . "/assets/menu.php";
 include $path . '/functions/require/moderationHistory.php' ;
 include $path . '/functions/validateSession.php';
 
@@ -50,7 +50,7 @@ include $path . '/functions/validateSession.php';
     </div>
 
 
-    <?php include $path . "/basic/footer.php"; ?>
+    <?php include $path . "/assets/footer.php"; ?>
 
     <script src="/scripts/profile.js"></script>
 </body>

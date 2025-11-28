@@ -5,7 +5,7 @@ if(!session_id()) {
     session_start();
 } 
 
-include $path . "/basic/menu.php";
+include $path . "/assets/menu.php";
 
 include $path . "/functions/require/threads.php";
 
@@ -61,6 +61,6 @@ if(isset($_GET["p"])) {
     </script>
     <script src="/scripts/threads.js"></script>
 
-    <?php include $path . "/basic/footer.php"; ?>
+    <?php include $path . "/assets/footer.php"; ?>
 </body>
 </html>

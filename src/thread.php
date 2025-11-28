@@ -5,7 +5,7 @@ if(!session_id()) {
     session_start();
 }
 
-include $path . "/basic/menu.php";
+include $path . "/assets/menu.php";
 
 // Initial threads load
 include $path . "/functions/require/posts.php";
@@ -92,6 +92,6 @@ if(isset($_GET["p"])) {
         createPageMenu("gotoThreadPage", page, totalPosts);
     </script>
     <script src="/scripts/posts.js"></script>
-    <?php include $path . "/basic/footer.php"; ?>
+    <?php include $path . "/assets/footer.php"; ?>
 </body>
 </html>

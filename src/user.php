@@ -2,7 +2,7 @@
 $path = $_SERVER['DOCUMENT_ROOT']; 
 include $path . '/functions/.connect.php' ;
 include $path . '/functions/validateSession.php';
-include $path . "/basic/menu.php";
+include $path . "/assets/menu.php";
 
 if(!session_id()) {
     session_start();
@@ -164,6 +164,6 @@ if($result->num_rows === 1) {
     <script src="/scripts/user.js"></script>
     <?php } ?>
 
-    <?php include $path . "/basic/footer.php"; ?>
+    <?php include $path . "/assets/footer.php"; ?>
 </body>
 </html>
