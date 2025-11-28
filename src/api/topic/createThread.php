@@ -94,5 +94,10 @@ function response() {
         return jsonErr("", "[CT3]");
     }
 
-    return getThreadsJson($slug, 1);
+    // Appending newly generated slug name
+    $threadsDec = json_decode(getThreadsJson($slug, 1), TRUE);
+	$threadsDec["data"]["slug"] = $thread_slug;
+    $threadsJson = json_encode($threadsDec);
+
+    return $threadsJson;
 }

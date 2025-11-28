@@ -69,7 +69,7 @@ function getThreads(string $slug, int $page) {
         // output data of each row
         $data = [];
         while($thread = $result->fetch_assoc()) { 
-            if($thread["clearance"] < $myClearance && $myClearance > 1) {
+            if(($thread["clearance"] < $myClearance && $myClearance > 1) || $myClearance === 5) {
                 $thread["clearance"] = 1;
             } else {
                 $thread["clearance"] = 0;

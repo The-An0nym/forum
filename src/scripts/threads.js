@@ -126,7 +126,8 @@ async function createThread() {
     // Update page
     parseThreads(bod[1]);
     // Subscribe to thread
-    postData("/api/thread/unSubscribe.php", `t=${slug}&s=${1}`);
+    if (bod[1].slug)
+      postData("/api/thread/unSubscribe.php", `t=${bod[1].slug}&s=${1}`);
   }
 }
 

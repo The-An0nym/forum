@@ -60,24 +60,24 @@ function response() {
     $creator_user_id = $row['user_id'];
     $user_id === $_SESSION["user_id"];            
 
-    if($clearance >= 1) {
-        $err = jsonEncodeErrors(countForThread($id, false));
-        if($err !== "") {
-            return $err;
-        }
-
-        // Push onto history
-        $err = jsonEncodeErrors(createHistory(1, 2, $id, $user_id, $reason, $message));
-        if($err !== "") {
-            return $err;
-        }
-
-        $err = jsonEncodeErrors(deleteThread($id, 4, false));
-        if($err !== "") {
-            return $err;
-        }
-    } else {
+    if($clearance < 1) {
         return jsonErr("auth");
+    }
+
+    $err = jsonEncodeErrors(countForThread($id, false));
+    if($err !== "") {
+        return $err;
+    }
+
+    // Push onto history
+    $err = jsonEncodeErrors(createHistory(1, 2, $id, $user_id, $reason, $message));
+    if($err !== "") {
+        return $err;
+    }
+
+    $err = jsonEncodeErrors(deleteThread($id, 4, false));
+    if($err !== "") {
+        return $err;
     }
 
     return pass();
