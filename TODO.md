@@ -20,6 +20,7 @@
 
 - [ ] Revise settings structure
 - [ ] Show user sessions
+- [ ] Disable deleting session of self
 - [ ] Decide: Make normal user moderation and moderator moderation hidable (for moderators only)?
 - [ ] Make account deletion require password input
 - [ ] Add manual number re-sync button for admin 5

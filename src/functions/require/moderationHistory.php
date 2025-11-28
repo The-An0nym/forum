@@ -235,12 +235,12 @@ function generateHTML($row, int $clearance, bool $report) {
     <div class="history {$type} {$read}">
         <span class="datetime-history">{$row["created"]}</span>
         <span class="creator-username">
-            <a href="/user/{row['sender_handle']}">{$row["sender_username"]}</a>
+            <a href="/user/{$row['sender_handle']}">{$row["sender_username"]}</a>
             {$judgement}
             <a href="/user/{$row['culp_handle']}">{$row["culp_username"]}</a>'s
             {$type}
         </span>
-        <span class="history-summary" onclick="showContent({$row['type']}, {$row['id']}')"> 
+        <span class="history-summary" onclick="showContent({$row['type']}, '{$row['id']}')"> 
             {$row["summary"]}
         </span>
         <span class="reason-history"> {$reason}</span>

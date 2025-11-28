@@ -89,3 +89,12 @@
   display: grid;
   grid-template-columns: 60% 15% 15% 5%;
 }
+
+/* Moderation */
+.history-summary {
+  cursor: pointer;
+}
+
+.delete-session.disabled {
+  background-color: var(--bg-dark);
+}
