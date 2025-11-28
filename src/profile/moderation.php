@@ -58,10 +58,11 @@ include $path . '/functions/validateSession.php';
             $result = $conn->query($sql);
 
             echo '<div class="sessions">';
-            $session_id == $_SESSION["session_id"]
+            $session_id = $_SESSION["session_id"];
             while($row = $result->fetch_assoc()) {
                 $row_session_id = $row["session_id"];
                 $disabled = "";
+                // TODO make own session un-deletable
                 if($row_session_id === $session_id) {
                     $disabled = "disabled";
                 }

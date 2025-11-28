@@ -40,7 +40,6 @@
 - [ ] Would it make sense to use the same varible names for e.g. totalItems or gotoPage for threads and topics for the sake of the page menu?
 - [ ] Limit users to send max. one message per 15 seconds and 1 thread per week. (moderators exempt)
 - [ ] Indicator for user clearance (moderation level)
-- [ ] Auto subscribe when creating thread (to that thread)
 
 ## Account / Menu / Footer
 

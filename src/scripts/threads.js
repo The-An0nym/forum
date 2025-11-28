@@ -1,8 +1,6 @@
 /* GET THREADS */
 
 async function getThreads() {
-  const cont = document.getElementById("thread-container");
-
   const bod = await getData(`/api/topic/getThreads.php?s=${slug}&p=${page}`);
 
   if (!bod[0]) return;
@@ -11,6 +9,7 @@ async function getThreads() {
 }
 
 function parseThreads(jsonData) {
+  const cont = document.getElementById("thread-container");
   const threadData = jsonData.threads;
 
   threadCount = jsonData.amount;
@@ -124,7 +123,10 @@ async function createThread() {
     threadName.value = "";
     content.value = "";
     history.pushState({}, null, `https://quir.free.nf/topic/${slug}`);
+    // Update page
     parseThreads(bod[1]);
+    // Subscribe to thread
+    postData("/api/thread/unSubscribe.php", `t=${slug}&s=${1}`);
   }
 }
 
