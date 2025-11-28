@@ -85,6 +85,8 @@ function getThreads(string $slug, int $page) {
 function generateHTMLFromThreads(string $slug, int $page) {
     $threads = getThreads($slug, $page);
 
+    include $_SERVER['DOCUMENT_ROOT'] . '/functions/time.php';
+
     foreach($threads as $thread) {?>
         <div class="thread-wrapper">
             <span class="main-wrapper">
@@ -94,7 +96,7 @@ function generateHTMLFromThreads(string $slug, int $page) {
                 <span class="thread-creator">
                     <a href="/user/<?= $thread['handle'] ?>"><?= $thread['username'] ?></a>
                 </span>
-                <span class="created"><?= $thread['created'] ?></span>
+                <span class="created"><?= dateTimeStamp($thread['created']) ?></span>
             </span>
             <span class="last-wrapper">
                 <span class="last-post"><?= $thread['lastPost'] ?></span>

@@ -71,6 +71,9 @@ function getPosts(string $slug, int $page) :array {
 function generateHTMLFromPosts(string $slug, int $page) {
     $posts = getPosts($slug, $page);
 
+    // For time formatting
+    include $_SERVER['DOCUMENT_ROOT'] . '/functions/time.php';
+
     foreach($posts as $post) {?>
         <div class="post" id="<?= $post['post_id'] ?>">
             <span class="user-details">
@@ -82,7 +85,7 @@ function generateHTMLFromPosts(string $slug, int $page) {
                 <span class="content"><?= $post['content'] ?></span>
                 <span class="post-metadata">
                     <?php 
-                    echo '<span class="created">' . $post['created'] . '</span>';
+                    echo '<span class="created">' . timeAgo($post['created']) . '</span>';
                     if($post['edited'] === "1") {
                         echo '<span class="edited">edited</span>';
                     }
