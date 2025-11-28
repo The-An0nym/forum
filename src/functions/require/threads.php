@@ -2,7 +2,8 @@
 include $_SERVER['DOCUMENT_ROOT'] . '/functions/.connect.php';
 
 function getThreads(string $slug, int $page) {
-    include $_SERVER['DOCUMENT_ROOT'] . '/functions/validateSession.php';;
+    include $_SERVER['DOCUMENT_ROOT'] . '/functions/validateSession.php';
+    include $_SERVER['DOCUMENT_ROOT'] . '/functions/time.php';
 
     // Get connection
     $conn = getConn();
@@ -69,11 +70,14 @@ function getThreads(string $slug, int $page) {
         // output data of each row
         $data = [];
         while($thread = $result->fetch_assoc()) { 
-            if(($thread["clearance"] < $myClearance && $myClearance > 1) || $myClearance === 5) {
+            if(($thread["clearance"] < $myClearance && $myClearance > 1) || $myClearance === '5') {
                 $thread["clearance"] = 1;
             } else {
                 $thread["clearance"] = 0;
             }
+
+            $thread["created"] = timeAgo($thread["created"]);
+
             $data[] = $thread;
         }
         return $data;
@@ -85,8 +89,6 @@ function getThreads(string $slug, int $page) {
 function generateHTMLFromThreads(string $slug, int $page) {
     $threads = getThreads($slug, $page);
 
-    include $_SERVER['DOCUMENT_ROOT'] . '/functions/time.php';
-
     foreach($threads as $thread) {?>
         <div class="thread-wrapper">
             <span class="main-wrapper">
@@ -96,7 +98,7 @@ function generateHTMLFromThreads(string $slug, int $page) {
                 <span class="thread-creator">
                     <a href="/user/<?= $thread['handle'] ?>"><?= $thread['username'] ?></a>
                 </span>
-                <span class="created"><?= dateTimeStamp($thread['created']) ?></span>
+                <span class="created"><?= $thread['created'] ?></span>
             </span>
             <span class="last-wrapper">
                 <span class="last-post"><?= $thread['lastPost'] ?></span>
@@ -106,7 +108,7 @@ function generateHTMLFromThreads(string $slug, int $page) {
             </span>
             <span class="count"><?= $thread['posts'] ?></span>
             <?php if($thread['clearance'] === 1) {?>
-            <button class="delete-button" onclick="createModeration('deleting <?= $thread['username'] ?>\'s post', deleteThread, '<?= $thread['id'] ?>')">delete</button>
+            <button class="delete-button" onclick="createModeration('deleting <?= $thread['username'] ?>\'s thread', deleteThread, '<?= $thread['id'] ?>')">delete</button>
             <?php } ?>
         </div>
 

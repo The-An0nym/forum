@@ -1,6 +1,7 @@
 <?php
 
 // Time is always formatted as "Y-m-d H:i:s" within Database
+// TODO Maybe time should be formatted client side? At least the localized one.
 
 /**
  * Formats DateTime string to XX, XX ago
@@ -70,6 +71,8 @@ function timeAgo(string $dateString) : string {
  */
 function dateTimeStamp(string $dateString) : string {
     $dt = new DateTime($dateString, new DateTimeZone('UTC'));
+
+    // TODO Local time still not working
     $loc = (new DateTime)->getTimezone();
 
     $dt->setTimezone($loc);

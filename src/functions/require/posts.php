@@ -3,6 +3,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/functions/.connect.php';
 
 function getPosts(string $slug, int $page) :array {   
     include $_SERVER['DOCUMENT_ROOT'] . '/functions/validateSession.php';;
+    include $_SERVER['DOCUMENT_ROOT'] . '/functions/time.php';
 
     // Get connection
     $conn = getConn();
@@ -60,6 +61,9 @@ function getPosts(string $slug, int $page) :array {
             } else {
                 $row["clearance"] = 0;
             }
+
+            $row["created"] = timeAgo($row["created"]);
+
             $data[] = $row;
         }
         return $data;
@@ -70,9 +74,6 @@ function getPosts(string $slug, int $page) :array {
 
 function generateHTMLFromPosts(string $slug, int $page) {
     $posts = getPosts($slug, $page);
-
-    // For time formatting
-    include $_SERVER['DOCUMENT_ROOT'] . '/functions/time.php';
 
     foreach($posts as $post) {?>
         <div class="post" id="<?= $post['post_id'] ?>">
@@ -85,7 +86,7 @@ function generateHTMLFromPosts(string $slug, int $page) {
                 <span class="content"><?= $post['content'] ?></span>
                 <span class="post-metadata">
                     <?php 
-                    echo '<span class="created">' . timeAgo($post['created']) . '</span>';
+                    echo '<span class="created">' . $post['created'] . '</span>';
                     if($post['edited'] === "1") {
                         echo '<span class="edited">edited</span>';
                     }

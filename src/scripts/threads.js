@@ -86,7 +86,7 @@ function parseThreads(jsonData) {
       deleteButton.textContent = "delete";
       deleteButton.setAttribute(
         "onclick",
-        `createConfirmation('delete ${threadData[i].username}\\\'s post', '', deleteThread, '${threadData[i].id}')`
+        `createModeration('deleting ${threadData[i].username}\\\'s thread', deleteThread, '${threadData[i].id}')`
       );
 
       threadWrapper.appendChild(deleteButton);

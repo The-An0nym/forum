@@ -85,12 +85,17 @@ All soft deleted rows will be permenantly deleted after 60 days. This is execute
 `img_dir` (img in the schematic) contains the path to the image directory, stored in [src/images/profiles/](src/images/profiles/). Be careful to make sure include this directory when making backups, as the images are not saved in the database itself.
 
 `clearance` level is an integer.
-<br>0 = Regular user
-<br>1 = Moderator <sub>(Can delete posts)</sub>
-<br>2 = Moderator <sub>(The above and can delete threads)</sub>
-<br>3 = Admin <sub>(The above and can ban users)</sub>
-<br>4 = Admin <sub>(The above and can promote and demote all of the below)</sub>
-<br>5 = Super Admin <sub>(The above and can promote and demote level 3 to level 4 admin. Can also view all deleted posts and deleted accounts and restore them (within the time limit))</sub>
+
+| Value | Name        | Powers (always includes all of the previous ones)                    |
+| ----- | ----------- | -------------------------------------------------------------------- |
+| 0     | User        | Can create threads and posts                                         |
+| 1     | Moderator   | Can delete and restore posts                                         |
+| 2     | Moderator   | Can delete and restore threads                                       |
+| 3     | Admin       | Can ban and restore users                                            |
+| 4     | Admin       | Can promote and demote up to 0 <= val < 4                            |
+| 5     | Super admin | Can promote and demote up to 0 <= val < 5 and view all deleted items |
+
+Note: Restoration of deleted posts/threads or banned users can only be done if your moderation level is higher or equal to the moderator that deleted the post/thread or banned the user in the first place.
 
 ### Mod_History
 
