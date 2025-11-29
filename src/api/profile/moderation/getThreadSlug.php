@@ -53,7 +53,7 @@ function response() {
         array(
             "status" => "pass",
             "data" => array(
-                "cont" => $cont
+                "slug" => $cont
             )
         )
     );

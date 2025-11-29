@@ -190,8 +190,10 @@ async function undoRequest(id, reason = 0, message) {
 async function showContent(type, id) {
   if (type === 0) {
     const resp = await getPostContent(id);
-    errorMessage(resp); // Temporary
+    // TODO create a pop-up
+    errorMessage(resp);
   } else if (type === 1) {
+    // TODO grand moderators access to view deleted threads
     const slug = await getThreadSlug(id);
     window.open(`/thread/${slug}`, "_blank").focus();
   }
