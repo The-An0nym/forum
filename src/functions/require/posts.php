@@ -56,6 +56,8 @@ function getPosts(string $slug, int $page) :array {
     $data = [];
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
+            $row["auth"] = $row["clearance"];
+
             if($row["clearance"] < $myClearance) {
                 $row["clearance"] = 1;
             } else {
@@ -81,7 +83,7 @@ function generateHTMLFromPosts(string $slug, int $page) {
                 <img class="profile-picture" src="/images/profiles/<?= $post['image_dir'] ?>">
                 <span class="username"><a href="/user/<?= $post['handle'] ?>"><?= $post['username'] ?></a></span>
                 <span class="user-post-count"><?= $post['posts'] ?></span>
-                <span class="user-rating"><?= $post['clearance'] ?></span>
+                <span class="user-rating"><?= $post['auth'] ?></span>
             </span>
             <span class="post-data">
                 <span class="content"><?= $post['content'] ?></span>
