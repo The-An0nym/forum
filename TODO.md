@@ -39,7 +39,6 @@
 - [ ] Upon sending an edit for a post, scroll to that post again.
 - [ ] Would it make sense to use the same varible names for e.g. totalItems or gotoPage for threads and topics for the sake of the page menu?
 - [ ] Limit users to send max. one message per 15 seconds and 1 thread per week. (moderators exempt)
-- [ ] Indicator for user clearance (moderation level)
 
 ## Account / Menu / Footer
 
@@ -67,7 +66,3 @@
 - [ ] Consider seperating user from post data (reducing file size)
 - [ ] Re-organize all include statements to make sure they are only included ONCE (relying on !function_exists possible, but unclean)
 - [ ] Standardize introduction of session and when it reads the user_id
-
-## Notifications
-
-- [ ] Organize similar notifications into clusters (e.g. A, B, C and 12 other users posted in ...)

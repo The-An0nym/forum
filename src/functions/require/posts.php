@@ -81,6 +81,7 @@ function generateHTMLFromPosts(string $slug, int $page) {
                 <img class="profile-picture" src="/images/profiles/<?= $post['image_dir'] ?>">
                 <span class="username"><a href="/user/<?= $post['handle'] ?>"><?= $post['username'] ?></a></span>
                 <span class="user-post-count"><?= $post['posts'] ?></span>
+                <span class="user-rating"><?= $post['clearance'] ?></span>
             </span>
             <span class="post-data">
                 <span class="content"><?= $post['content'] ?></span>

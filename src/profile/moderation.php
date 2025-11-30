@@ -71,7 +71,7 @@ include $path . '/functions/validateSession.php';
                     <span class="user-agent"><?= $row["user_agent"]; ?></span>
                     <span class="ip"><?= $row["ip"]; ?></span>
                     <span class="session-datetime"><?= $row["datetime"]; ?></span>
-                    <button class="delete-session <?= $disabled ?>" onclick="deleteSession('<?= $row_session_id; ?>')">Delete this session</button>
+                    <button class="delete-session <?= $disabled ?>" onclick="deleteSession('<?= $row_session_id; ?>')">Revoke session</button>
                 </span>
             <?php
             }
