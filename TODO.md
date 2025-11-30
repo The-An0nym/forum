@@ -1,9 +1,5 @@
 # TODO:
 
-## Bugs
-
--[ ] For some reason, clicking summary on deleted threads sends you to an "undefined" page
-
 ## General
 
 - [ ] Cleanup

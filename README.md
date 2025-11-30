@@ -29,11 +29,11 @@ This project is currently under heavy development.
 | Home          | List of all topics.                                                             | `/`                               | [`/index.php`](/src/index.php)                                 |
 | Topic         | List of all threads within a given topic.                                       | `/topic/{slug}/{page}`            | [`/topic.php`](/src/topic.php)                                 |
 | Thread        | List of posts within a given thread                                             | `/thread/{slug}/{page}`           | [`/thread.php`](/src/thread.php)                               |
-| Profile page  | Public user profile page                                                        | `/user/{user-handle}`             | [`/user.php`](/src/user.php)                                   |
+| Profile page  | Public user profile page                                                        | `/user/{userhandle}`              | [`/user.php`](/src/user.php)                                   |
 | **ACCOUNT**   |                                                                                 |                                   |
 | Settings      | Allows the user to change various account settings                              | `/profile` or `/profile/settings` | [`/profile/settings`](/src/profile/settings.php)               |
 | Moderation    | Allows users to moderate their own content (or moderators also other's content) | `/profile/moderation`             | [`/profile/moderation`](/src/profile/moderation.php)           |
-| Notifications | List of notificatoins that this user has received                               | `/profile/notifications`          | [`/profile/notifications.php`](/src/profile/notifications.php) |
+| Notifications | List of notifications that this user has received                               | `/profile/notifications`          | [`/profile/notifications.php`](/src/profile/notifications.php) |
 
 # Config file
 

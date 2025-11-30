@@ -25,12 +25,13 @@ function getNotifications(string $user_id = "", int $page = 0) : array {
     $sql = "SELECT 
                 n.type, 
                 n.read,
-                n.datetime,
+                MAX(n.datetime) AS datetime,
                 u.handle, 
                 u.username,
                 t.name,
                 t.slug,
-                t.posts
+                t.posts,
+                COUNT(u.username) AS usercount
             FROM 
                 notifications n
             JOIN 
@@ -42,7 +43,8 @@ function getNotifications(string $user_id = "", int $page = 0) : array {
             ON
                 t.id = n.thread_id
             WHERE n.receiver_id = '$user_id' AND n.deleted = 0
-            ORDER BY n.datetime DESC
+            GROUP BY n.type, t.slug
+            ORDER BY MAX(n.datetime) DESC
             LIMIT 20 OFFSET $offset";
 
     $result = $conn->query($sql);
@@ -84,15 +86,22 @@ function genForPost(array $item) : string {
     $name = $item["name"];
     $dt = $item["datetime"];
     $page = ceil($item["posts"] / 20);
+
+    $usersText = "<a href=\"/user/$handle\">$username</a>";
+    if($item["usercount"] !== '1') {
+        $usersText .= " and " . $item["usercount"] . " others";
+    }
+
     return "<span class=\"notification-item post\">
                 <span class=\"datetime\">$dt</span>
-                <a href=\"/user/$handle\">$username</a>
+                <span class=\"users\">$usersText</span>
                 posted on
                 <a href=\"/thread/$slug\">$name</a>
             </span>";
 }
 
 function genForAuth(array $item, bool $promote) : string {
+    // TODO Promotion and demotion
     return "Del prom: todo" . $promote;
 }
 
