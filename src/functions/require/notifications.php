@@ -40,6 +40,7 @@ function getNotifications(string $user_id = "", int $page = 0) : array {
                     `type`,
                     `read`,
                     `thread_id`,
+                    `notification_id`,
                     MAX(DATETIME) AS max_datetime,
                     COUNT(DISTINCT `sender_id`) AS usercount,
                     COUNT(*) AS notifscount
@@ -52,9 +53,11 @@ function getNotifications(string $user_id = "", int $page = 0) : array {
                     `read`,
                     `thread_id`
             ) g
-            JOIN notifications n ON
-                n.type = g.type AND n.read = g.read AND n.thread_id = g.thread_id AND n.datetime = g.max_datetime
-            JOIN users u ON
+            LEFT JOIN notifications n ON
+                (n.type = g.type AND n.read = g.read AND n.thread_id = g.thread_id AND n.datetime = g.max_datetime)
+                OR
+                (g.thread_id IS NULL AND n.notification_id = g.notification.id)
+            LEFT JOIN users u ON
                 u.user_id = n.sender_id
             LEFT JOIN threads t ON
                 t.id = n.thread_id
@@ -101,7 +104,7 @@ function genForPost(array $item) : string {
     $slug = $item["slug"];
     $name = $item["name"];
     $dt = timeAgo($item["datetime"]);
-    $page = ceil($item["posts"] / 20);
+    $page = ceil(($item["posts"] - $item["notifscount"] + 1) / 20);
 
     $usersText = "<a href=\"/user/$handle\">$username</a>";
     if($item["usercount"] !== '1') {
