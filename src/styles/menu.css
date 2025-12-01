@@ -55,7 +55,7 @@
 }
 
 .notifications {
-  background-color: #faa;
+  background-color: var(--primary-color);
   font-size: 0.5em;
   width: 2em;
   height: 2em;

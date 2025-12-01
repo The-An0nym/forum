@@ -23,11 +23,10 @@ function getNotifications(string $user_id = "", int $page = 0) : array {
 
     $offset = $page * 20;
 
-    // TODO does notifcount also include deleted ones? Or is it calculated improperly? See promote/demote query
     $sql = "SELECT
                 n.type,
                 n.read,
-                g.max_datetime AS datetime,
+                n.datetime,
                 u.handle,
                 u.username,
                 t.name,
@@ -37,33 +36,30 @@ function getNotifications(string $user_id = "", int $page = 0) : array {
                 g.notifscount
             FROM
                 (
-                SELECT 
+                SELECT
                     `type`,
                     `read`,
-                    `thread_id`,
-                    `notification_id`,
-                    MAX(DATETIME) AS max_datetime,
+                    COALESCE(thread_id, notification_id) AS group_key,
+                    MAX(notification_id) AS latest_id,
                     COUNT(DISTINCT `sender_id`) AS usercount,
                     COUNT(*) AS notifscount
                 FROM
                     `notifications`
                 WHERE
                     receiver_id = '$user_id' AND deleted = 0
-                GROUP BY
+                GROUP BY 
                     `type`,
                     `read`,
-                    `thread_id`
+                    `group_key`
             ) g
             LEFT JOIN notifications n ON
-                (n.type = g.type AND n.read = g.read AND n.thread_id = g.thread_id AND n.datetime = g.max_datetime)
-                OR
-                (g.thread_id IS NULL AND n.notification_id = g.notification_id)
+                n.notification_id = g.latest_id
             LEFT JOIN users u ON
                 u.user_id = n.sender_id
             LEFT JOIN threads t ON
                 t.id = n.thread_id
             ORDER BY
-                g.max_datetime
+                n.datetime
             DESC
             LIMIT 20 OFFSET $offset";
 
@@ -114,7 +110,7 @@ function genForPost(array $item) : string {
 
     $unread = "";
     if($item["read"] == 0) {
-        $unread = "<span class=\"notification-count\">$item['notifscount'] notification(s)</span>";
+        $unread = "<span class=\"notification-count\">" . $item['notifscount'] . "notification(s)</span>";
     }
 
     return "<span class=\"notification-item post\">
@@ -135,14 +131,14 @@ function genForAuth(array $item, bool $promote) : string {
 
     $title = "You have been " . ($promote ? "promoted" : "demoted");
 
-    $initiator = "<a href=\"/user/$item['userhandle']\">$item['username']<a>";
+    $initiator = "<a href=\"/user/" . $item['handle'] . "\">" . $item['username'] . "</a>";
 
     // TODO Promotion and demotion
     return "<span class=\"notification-item demot\">
                 $unread
                 <span class=\"notification-datetime\">$dt</span>
                 <span class=\"/notification-title\">$title</span>
-                <span class=\"notification-initiators\">$initiator</span>
+                <span class=\"notification-initiators\">By $initiator</span>
             </span>";
 }
 
