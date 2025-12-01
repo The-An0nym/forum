@@ -24,11 +24,9 @@ function generateMenu() {
             $notifs = (int)$res[1];
         }
         
-        $notifClass = "none";
-        $profileSub = "";
+        $notifClass = " none";
         if($notifs > 0) {
             $notifClass = "";
-            $profileSub = "notifications";
         }
     }
     
@@ -44,8 +42,10 @@ function generateMenu() {
             <a class="menu-button home menu-left" href="/"><?= getLang("home") ?></a>
             <span class="mode menu-button menu-left" onclick="toggle()"><?= getLang("togMode") ?></span>
             <span class="menu-button split-right menu-right profile-menu" onclick="toggleMenuOptions()">
-                <?= $info["handle"]; ?>
-                <span class="notifications <?= $notifClass; ?>"><?= $notifs; ?></span>
+                <span class="menu-user-info">
+                    <?= $info["handle"]; ?>
+                    <a href="/profile/notifications" class="notifications <?= $notifClass; ?>"><?= $notifs; ?></a>
+                </span>
                 <span id="profile-options-wrapper">
                     <span id="profile-options">
                         <a class="menu-button" href="/profile/settings">settings</a>

@@ -16,7 +16,7 @@
   display: inline-block;
 }
 
-.menu-button:hover {
+.menu-button:hover:not(.new-notifications-indicator, #profile-options) {
   text-decoration: none;
   background-color: var(--bg-light);
   cursor: pointer;
@@ -38,22 +38,26 @@
   height: 60px;
 }
 
+.menu-user-info {
+  display: flex;
+  flex-direction: row;
+}
+
 .profile-menu {
   display: flex;
   flex-direction: column;
 }
 
 #profile-options-wrapper {
-  display: flex;
+  display: none; /*flex*/
   flex-direction: row-reverse;
 }
 
 #profile-options {
-  display: none; /*flex*/
+  display: flex;
   flex-direction: column;
   position: absolute;
   background-color: var(--bg);
-  padding: 10px;
   margin-right: -11px; /* 10px padding + 1px border */
   margin-top: 10px;
   border: 1px solid var(--border);
@@ -67,7 +71,7 @@
   border: 1px solid var(--border);
 }
 
-.notifications {
+.new-notifications-indicator {
   background-color: var(--primary-color);
   font-size: 0.5em;
   width: 2em;
@@ -84,6 +88,11 @@
   margin-right: -5px;
   top: -2px;
   color: var(--text);
+  text-decoration: none;
+}
+
+.new-notifications-indicator:hover {
+  background-color: var(--primary-color-active);
 }
 
 .notifications.none {

@@ -115,12 +115,19 @@ function genForPost(array $item) : string {
 
     $usersText = "<a href=\"/user/$handle\">$username</a>";
     if($item["usercount"] !== '1') {
-        $usersText .= " and " . ($item["usercount"] - 1) . " others";
+        $usersText .= " and " . ($item["usercount"] - 1) . " other";
+        if($item["usercount"] !== '2') {
+            $usersText .= "s";
+        }
     }
 
     $unread = "";
-    if($item["read"] == 0) {
-        $unread = "<span class=\"notification-count\">" . $item['notifscount'] . "notification(s)</span>";
+    if($item["read"] === '0') {
+        $unread = "<span class=\"notification-count\">" . $item['notifscount'] . " notification"
+        if($item['notifscount'] !== '1') {
+            $unread .= "s";
+        }
+        $unread .= "</span>";
     }
 
     return "<span class=\"notification-item post\">
