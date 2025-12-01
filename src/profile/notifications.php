@@ -31,7 +31,6 @@ require_once $path . '/functions/validateSession.php';
 </head>
 <body>
     <?php generateMenu() ?>
-    <?php generateProfileMenu() ?>
 
     <div class="container">
     <?php

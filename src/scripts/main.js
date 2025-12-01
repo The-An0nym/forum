@@ -24,7 +24,7 @@ function createWrapperOverlay() {
 /* MENU */
 function toggleMenuOptions() {
   const menuOption = document.getElementById("profile-options");
-  document.removeEventListener(menuEventListener);
+  document.removeEventListener("mouseup", menuEventListener);
 
   if (menuOption.style.display !== "flex") {
     menuOption.style.display = "flex";
@@ -32,8 +32,9 @@ function toggleMenuOptions() {
   } else menuOption.style.display = "none";
 }
 
-function menuEventListener() {
-  toggleMenuOptions();
+function menuEventListener(e) {
+  const menuOption = document.getElementById("profile-options");
+  if (!menuOption.parentElement.contains(e.target)) toggleMenuOptions();
 }
 
 /* OTHER */

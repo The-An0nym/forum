@@ -87,16 +87,6 @@ function getCategory(string $slug) {
     $total_posts = $result->fetch_assoc()["total_posts"];
 }
 
-function generateProfileMenu() {
-    ?>
-    <div class="profile-menu">
-        <a class="menu-button" href="/profile/settings">Settings</a>
-        <a class="menu-button" href="/profile/moderation">Moderation</a>
-        <a class="menu-button" href="/profile/notifications">Notifications</a>
-    </div>
-    <?php
-}
-
 function generateMenuPath(int $type = 0, string $slug = "") : string {
     // 0 home, 1 topic, 2 thread
 
