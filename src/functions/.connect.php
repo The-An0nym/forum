@@ -4,12 +4,12 @@ if (!function_exists('getConn')) {
         static $conn;
         if ($conn === NULL){ 
             $path = $_SERVER['DOCUMENT_ROOT'];
-            $configs = include($path . '/functions/.config.php');
+            $configs = require_once $path . '/functions/.config.php';
             extract($configs);
             try{
                 $conn = mysqli_connect($servername, $username, $password, $dbname);
             } catch (Exception $e) {
-                include $path . '/500.html';
+                require_once $path . '/500.html';
                 die();
             }
         }

@@ -1,11 +1,11 @@
 <?php
 $path = $_SERVER['DOCUMENT_ROOT'];
-include $path . '/functions/.connect.php' ;
-include $path . '/functions/validateSession.php';
-include $path . '/functions/moderation.php' ;
-include $path . '/functions/require/notifications.php' ;
-include $path . '/functions/statCount.php';
-include $path . '/functions/errors.php' ;
+require_once $path . '/functions/.connect.php' ;
+require_once $path . '/functions/validateSession.php';
+require_once $path . '/functions/moderation.php' ;
+require_once $path . '/functions/require/notifications.php' ;
+require_once $path . '/functions/statCount.php';
+require_once $path . '/functions/errors.php' ;
 
 echo response();
 

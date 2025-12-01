@@ -1,6 +1,6 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . '/functions/.connect.php';
-include $_SERVER['DOCUMENT_ROOT'] . '/functions/time.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/functions/.connect.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/functions/time.php';
 
 function NewNotifCount(string $user_id = "") : array {
     if($user_id === "") {

@@ -1,6 +1,6 @@
 <?php $path = $_SERVER['DOCUMENT_ROOT']; 
 
-include $path . '/functions/.connect.php' ;
+require_once $path . '/functions/.connect.php' ;
 
 // Get connection
 $conn = getConn();
@@ -14,9 +14,9 @@ if(!session_id()) {
   session_start();
 }
 
-include $path . "/assets/menu.php";
-include $path . '/functions/require/moderationHistory.php' ;
-include $path . '/functions/validateSession.php';
+require_once $path . "/assets/menu.php";
+require_once $path . '/functions/require/moderationHistory.php' ;
+require_once $path . '/functions/validateSession.php';
 
 ?>
 <!DOCTYPE html>
@@ -50,7 +50,7 @@ include $path . '/functions/validateSession.php';
     </div>
 
 
-    <?php include $path . "/assets/footer.php"; ?>
+    <?php require_once $path . "/assets/footer.php"; ?>
 
     <script src="/scripts/profile.js"></script>
 </body>

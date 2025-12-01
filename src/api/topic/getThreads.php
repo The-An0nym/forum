@@ -1,7 +1,7 @@
 <?php
 $path = $_SERVER['DOCUMENT_ROOT'];
-include $path . '/functions/require/threads.php';
-include $path . '/functions/errors.php' ;
+require_once $path . '/functions/require/threads.php';
+require_once $path . '/functions/errors.php' ;
 
 echo response();
 

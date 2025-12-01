@@ -5,10 +5,10 @@ if(!session_id()) {
     session_start();
 }
 
-include $path . "/assets/menu.php";
+require_once $path . "/assets/menu.php";
 
 // Initial threads load
-include $path . "/functions/require/posts.php";
+require_once $path . "/functions/require/posts.php";
 if(isset($_GET["s"])) {
     $slug = $_GET["s"];
 } else {
@@ -46,7 +46,7 @@ if(isset($_GET["p"])) {
     if(isset($_SESSION["user_id"])) {
         $user_id = $_SESSION["user_id"];
 
-        include $path . "/functions/.connect.php";
+        require_once $path . "/functions/.connect.php";
 
         $conn = getConn();
 
@@ -92,6 +92,6 @@ if(isset($_GET["p"])) {
         createPageMenu("gotoThreadPage", page, totalPosts);
     </script>
     <script src="/scripts/posts.js"></script>
-    <?php include $path . "/assets/footer.php"; ?>
+    <?php require_once $path . "/assets/footer.php"; ?>
 </body>
 </html>

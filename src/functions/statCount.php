@@ -1,7 +1,7 @@
 <?php
 function syncAll() : array {
     $path = $_SERVER['DOCUMENT_ROOT'];
-    include $path . '/functions/.connect.php' ;
+    require_once $path . '/functions/.connect.php' ;
     $conn = getConn();
 
     // Update threads
@@ -54,7 +54,7 @@ function syncAll() : array {
 
 function countForPost($id, bool $rest) : array {
     $path = $_SERVER['DOCUMENT_ROOT'];
-    include $path . '/functions/.connect.php' ;
+    require_once $path . '/functions/.connect.php' ;
     $conn = getConn();
 
     if($rest) {
@@ -84,7 +84,7 @@ function countForPost($id, bool $rest) : array {
 
 function countForThread($id, bool $rest) : array {
     $path = $_SERVER['DOCUMENT_ROOT'];
-    include $path . '/functions/.connect.php' ;
+    require_once $path . '/functions/.connect.php' ;
     $conn = getConn();
 
     if($rest) {
@@ -124,7 +124,7 @@ function countForThread($id, bool $rest) : array {
 
 function countForUser($id, bool $rest, bool $threads) : array {
     $path = $_SERVER['DOCUMENT_ROOT'];
-    include $path . '/functions/.connect.php' ;
+    require_once $path . '/functions/.connect.php' ;
     $conn = getConn();
 
     if($rest) {
@@ -223,7 +223,7 @@ function countForUser($id, bool $rest, bool $threads) : array {
 
 function checkEmptyThreads() : array {
     $path = $_SERVER['DOCUMENT_ROOT'];
-    include $path . '/functions/.connect.php' ;
+    require_once $path . '/functions/.connect.php' ;
     $conn = getConn();
 
     $sql = "UPDATE categories c, threads t, users u

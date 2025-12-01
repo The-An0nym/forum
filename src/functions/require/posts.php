@@ -1,9 +1,9 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . '/functions/.connect.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/functions/.connect.php';
 
 function getPosts(string $slug, int $page) :array {   
-    include $_SERVER['DOCUMENT_ROOT'] . '/functions/validateSession.php';;
-    include $_SERVER['DOCUMENT_ROOT'] . '/functions/time.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/functions/validateSession.php';;
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/functions/time.php';
 
     // Get connection
     $conn = getConn();

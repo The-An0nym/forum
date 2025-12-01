@@ -3,8 +3,8 @@
 if(!function_exists("clearCurrSession")) {
 
 $path = $_SERVER['DOCUMENT_ROOT'];
-include $path . '/functions/.connect.php' ;
-include $path . '/functions/errors.php' ;
+require_once $path . '/functions/.connect.php' ;
+require_once $path . '/functions/errors.php' ;
 
 function clearCurrSession() : array {
     // Get Connection

@@ -5,9 +5,9 @@ if(!session_id()) {
     session_start();
 } 
 
-include $path . "/assets/menu.php";
+require_once $path . "/assets/menu.php";
 
-include $path . "/functions/require/threads.php";
+require_once $path . "/functions/require/threads.php";
 
 if(isset($_GET["s"])) {
     $slug = $_GET["s"];
@@ -61,6 +61,6 @@ if(isset($_GET["p"])) {
     </script>
     <script src="/scripts/threads.js"></script>
 
-    <?php include $path . "/assets/footer.php"; ?>
+    <?php require_once $path . "/assets/footer.php"; ?>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <?php 
 $path = $_SERVER['DOCUMENT_ROOT'];
-include $path . '/functions/.connect.php' ;
-include $path . "/assets/menu.php";
+require_once $path . '/functions/.connect.php' ;
+require_once $path . "/assets/menu.php";
 
 // Get connection
 $conn = getConn();
@@ -55,6 +55,6 @@ $conn = getConn();
       ?>
     </div>
 
-    <?php include $path . "/assets/footer.php"; ?>
+    <?php require_once $path . "/assets/footer.php"; ?>
 </body>
 </html>

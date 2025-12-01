@@ -3,7 +3,7 @@
 function getModHistory(int $page, array $params) {
     $path = $_SERVER['DOCUMENT_ROOT'];
 
-    include $path . '/functions/.connect.php' ;
+    require_once $path . '/functions/.connect.php' ;
 
     // Get connection
     $conn = getConn();
@@ -82,7 +82,7 @@ function getModHistory(int $page, array $params) {
 function getReportHistory(int $page, int $clearance, array $params) {
     $path = $_SERVER['DOCUMENT_ROOT'];
 
-    include $path . '/functions/.connect.php' ;
+    require_once $path . '/functions/.connect.php' ;
 
     // Get connection
     $conn = getConn();

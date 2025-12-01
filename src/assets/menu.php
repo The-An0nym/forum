@@ -1,7 +1,7 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . '/functions/.connect.php';
-include $_SERVER['DOCUMENT_ROOT'] . '/functions/lang.php';
-include $_SERVER['DOCUMENT_ROOT'] . '/functions/require/notifications.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/functions/.connect.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/functions/lang.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/functions/require/notifications.php';
 
 function generateMenu() {
     if(!session_id()) {

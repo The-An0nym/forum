@@ -1,6 +1,6 @@
 <?php
 $path = $_SERVER['DOCUMENT_ROOT'];
-include $path . '/functions/.connect.php' ;
+require_once $path . '/functions/.connect.php' ;
 
 function generateSlug($text) {
     $baseSlug = slugify($text);
