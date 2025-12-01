@@ -23,6 +23,7 @@ function getNotifications(string $user_id = "", int $page = 0) : array {
 
     $offset = $page * 20;
 
+    // TODO does notifcount also include deleted ones? Or is it calculated improperly? See promote/demote query
     $sql = "SELECT
                 n.type,
                 n.read,
@@ -113,26 +114,36 @@ function genForPost(array $item) : string {
 
     $unread = "";
     if($item["read"] == 0) {
-        $unread = "<span class=\"new-notification\">NEW</span>";
+        $unread = "<span class=\"notification-count\">$item['notifscount'] notification(s)</span>";
     }
 
     return "<span class=\"notification-item post\">
-                <span class=\"datetime\">$dt</span>
-                <span class=\"users\">$usersText</span>
-                posted on
-                <a href=\"/thread/$slug/$page\">$name</a>
                 $unread
+                <span class=\"notification-datetime\">$dt</span>
+                <a class=\"/notification-title\" href=\"/thread/$slug/$page\">$name</a>
+                <span class=\"notification-initiators\">$usersText</span>
             </span>";
 }
 
 function genForAuth(array $item, bool $promote) : string {
     $dt = timeAgo($item["datetime"]);
 
+    $unread = "";
+    if($item["read"] == 0) {
+        $unread = "<span class=\"notification-count\">1 notification</span>";
+    }
+
+    $title = "You have been " . ($promote ? "promoted" : "demoted");
+
+    $initiator = "<a href=\"/user/$item['userhandle']\">$item['username']<a>";
+
     // TODO Promotion and demotion
     return "<span class=\"notification-item demot\">
-                <span class=\"datetime\">$dt</span>
-                Del prom: todo" . $promote . 
-            "</span>";
+                $unread
+                <span class=\"notification-datetime\">$dt</span>
+                <span class=\"/notification-title\">$title</span>
+                <span class=\"notification-initiators\">$initiator</span>
+            </span>";
 }
 
 function genErr(array $item) : string {

@@ -5,6 +5,7 @@
   --text: hsl(0 0 5);
   --text-muted: hsl(0 0 30);
   --border: hsl(0 0 70);
+  --primary-color: hsl(220 200 80);
 }
 
 body.dark {
@@ -14,6 +15,7 @@ body.dark {
   --text: hsl(0 0 95);
   --text-muted: hsl(0 0 70);
   --border: hsl(0 0 30);
+  --primary-color: hsl(220 200 80);
 }
 
 body {

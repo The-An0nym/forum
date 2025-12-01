@@ -9,7 +9,6 @@
 - [ ] Redesign http error pages
 - [ ] Implement languages & customizable language support
 - [ ] Format time more nicely -> Maybe format with XXX Ago and in final state the date instead of converting to client's time? Or store in cookie//Session
-- [ ] Save ms in datetime !NOT easily implementable or recommended... so maybe not?
 - [ ] Unsubscribe deleted users from all threads in a recoverable fashion (Set to 2/3 instead of 0/1)
 - [ ] Use ` around column and table names for better SQL formatting
 - [ ] PHP set types for all functions
