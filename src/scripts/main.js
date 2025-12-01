@@ -23,7 +23,7 @@ function createWrapperOverlay() {
 
 /* MENU */
 function toggleMenuOptions() {
-  const menuOption = document.getElementById("profile-options");
+  const menuOption = document.getElementById("profile-options-wrapper");
   document.removeEventListener("mouseup", menuEventListener);
 
   if (menuOption.style.display !== "flex") {
@@ -33,7 +33,7 @@ function toggleMenuOptions() {
 }
 
 function menuEventListener(e) {
-  const menuOption = document.getElementById("profile-options");
+  const menuOption = document.getElementById("profile-options-wrapper");
   if (!menuOption.parentElement.contains(e.target)) toggleMenuOptions();
 }
 

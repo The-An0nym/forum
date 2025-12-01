@@ -26,7 +26,7 @@ function getNotifications(string $user_id = "", int $page = 0) : array {
     $sql = "SELECT
                 n.type,
                 n.read,
-                n.datetime,
+                g.latest_time AS `datetime`,
                 u.handle,
                 u.username,
                 t.name,
@@ -39,27 +39,37 @@ function getNotifications(string $user_id = "", int $page = 0) : array {
                 SELECT
                     `type`,
                     `read`,
-                    COALESCE(thread_id, notification_id) AS group_key,
-                    MAX(notification_id) AS latest_id,
-                    COUNT(DISTINCT `sender_id`) AS usercount,
-                    COUNT(*) AS notifscount
+                    COALESCE(thread_id, notification_id) AS `group_key`,
+                    MAX(datetime) AS `latest_time`,
+                    COUNT(DISTINCT `sender_id`) AS `usercount`,
+                    COUNT(*) AS `notifscount`
                 FROM
                     `notifications`
                 WHERE
-                    receiver_id = '$user_id' AND deleted = 0
+                    `receiver_id` = '$user_id' AND `deleted` = 0
                 GROUP BY 
                     `type`,
                     `read`,
                     `group_key`
             ) g
-            LEFT JOIN notifications n ON
-                n.notification_id = g.latest_id
+            JOIN notifications n ON 
+                n.type = g.type AND n.read = g.read 
+                AND COALESCE(n.thread_id, n.notification_id) = g.group_key AND n.datetime = g.latest_time
+                AND n.notification_id =
+                    (
+                        SELECT MAX(notification_id)
+                        FROM notifications n2
+                        WHERE n2.type = g.type
+                            AND n2.read = g.read
+                            AND COALESCE(n2.thread_id, n2.notification_id) = g.group_key
+                            AND n2.datetime = g.latest_time
+                    )
             LEFT JOIN users u ON
                 u.user_id = n.sender_id
             LEFT JOIN threads t ON
                 t.id = n.thread_id
             ORDER BY
-                n.datetime
+                g.latest_time
             DESC
             LIMIT 20 OFFSET $offset";
 

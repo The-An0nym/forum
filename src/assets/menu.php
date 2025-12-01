@@ -43,13 +43,15 @@ function generateMenu() {
             ?>
             <a class="menu-button home menu-left" href="/"><?= getLang("home") ?></a>
             <span class="mode menu-button menu-left" onclick="toggle()"><?= getLang("togMode") ?></span>
-            <span class="menu-button split-right menu-right" onclick="toggleMenuOptions()">
+            <span class="menu-button split-right menu-right profile-menu" onclick="toggleMenuOptions()">
                 <?= $info["handle"]; ?>
                 <span class="notifications <?= $notifClass; ?>"><?= $notifs; ?></span>
-                <span id="profile-options">
-                    <a class="menu-button" href="/profile/settings">settings</a>
-                    <a class="menu-button" href="/profile/moderation">moderation</a>
-                    <a class="menu-button" href="/profile/notifications">notifications</a>
+                <span id="profile-options-wrapper">
+                    <span id="profile-options">
+                        <a class="menu-button" href="/profile/settings">settings</a>
+                        <a class="menu-button" href="/profile/moderation">moderation</a>
+                        <a class="menu-button" href="/profile/notifications">notifications</a>
+                    </span>
                 </span>
             </span>
             <span class="menu-button menu-right" onclick="logout()"><?= getLang("logout") ?></span>

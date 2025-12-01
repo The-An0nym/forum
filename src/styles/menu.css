@@ -40,10 +40,23 @@
 
 .profile-menu {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
+}
+
+#profile-options-wrapper {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+#profile-options {
+  display: none; /*flex*/
+  flex-direction: column;
+  position: absolute;
   background-color: var(--bg);
-  margin-bottom: 10px;
+  padding: 10px;
+  margin-right: -11px; /* 10px padding + 1px border */
+  margin-top: 10px;
+  border: 1px solid var(--border);
 }
 
 #menu-path {
@@ -75,14 +88,4 @@
 
 .notifications.none {
   display: none !important;
-}
-
-#profile-options {
-  display: none; /*flex*/
-  flex-direction: column;
-  position: absolute;
-  background-color: var(--bg);
-  padding: 10px;
-  margin-left: -10px;
-  margin-top: 10px;
 }
