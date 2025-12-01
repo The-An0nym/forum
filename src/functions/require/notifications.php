@@ -23,29 +23,44 @@ function getNotifications(string $user_id = "", int $page = 0) : array {
 
     $offset = $page * 20;
 
-    $sql = "SELECT 
-                n.type, 
+    $sql = "SELECT
+                n.type,
                 n.read,
-                MAX(n.datetime) AS datetime,
-                u.handle, 
+                g.max_datetime AS datetime,
+                u.handle,
                 u.username,
                 t.name,
                 t.slug,
                 t.posts,
-                COUNT(DISTINCT(u.handle)) AS usercount
-            FROM 
-                notifications n
-            JOIN 
-                users u
-            ON
+                g.usercount,
+                g.notifscount
+            FROM
+                (
+                SELECT 
+                    `type`,
+                    `read`,
+                    `thread_id`,
+                    MAX(DATETIME) AS max_datetime,
+                    COUNT(DISTINCT `sender_id`) AS usercount,
+                    COUNT(*) AS notifscount
+                FROM
+                    `notifications`
+                WHERE
+                    receiver_id = '$user_id' AND deleted = 0
+                GROUP BY
+                    `type`,
+                    `read`,
+                    `thread_id`
+            ) g
+            JOIN notifications n ON
+                n.type = g.type AND n.read = g.read AND n.thread_id = g.thread_id AND n.datetime = g.max_datetime
+            JOIN users u ON
                 u.user_id = n.sender_id
-            LEFT JOIN
-                threads t
-            ON
+            LEFT JOIN threads t ON
                 t.id = n.thread_id
-            WHERE n.receiver_id = '$user_id' AND n.deleted = 0
-            GROUP BY n.type, n.read, t.slug
-            ORDER BY MAX(n.datetime) DESC
+            ORDER BY
+                g.max_datetime
+            DESC
             LIMIT 20 OFFSET $offset";
 
     $result = $conn->query($sql);
@@ -102,14 +117,19 @@ function genForPost(array $item) : string {
                 <span class=\"datetime\">$dt</span>
                 <span class=\"users\">$usersText</span>
                 posted on
-                <a href=\"/thread/$slug\">$name</a>
+                <a href=\"/thread/$slug/$page\">$name</a>
                 $unread
             </span>";
 }
 
 function genForAuth(array $item, bool $promote) : string {
+    $dt = timeAgo($item["datetime"]);
+
     // TODO Promotion and demotion
-    return "Del prom: todo" . $promote;
+    return "<span class=\"notification-item demot\">
+                <span class=\"datetime\">$dt</span>
+                Del prom: todo" . $promote . 
+            "</span>";
 }
 
 function genErr(array $item) : string {
