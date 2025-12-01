@@ -21,6 +21,21 @@ function createWrapperOverlay() {
   return wrapper;
 }
 
+/* MENU */
+function toggleMenuOptions() {
+  const menuOption = document.getElementById("profile-options");
+  document.removeEventListener(menuEventListener);
+
+  if (menuOption.style.display !== "flex") {
+    menuOption.style.display = "flex";
+    document.addEventListener("mouseup", menuEventListener);
+  } else menuOption.style.display = "none";
+}
+
+function menuEventListener() {
+  toggleMenuOptions();
+}
+
 /* OTHER */
 
 function errorMessage(msg) {

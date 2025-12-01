@@ -56,7 +56,7 @@ function getNotifications(string $user_id = "", int $page = 0) : array {
             LEFT JOIN notifications n ON
                 (n.type = g.type AND n.read = g.read AND n.thread_id = g.thread_id AND n.datetime = g.max_datetime)
                 OR
-                (g.thread_id IS NULL AND n.notification_id = g.notification.id)
+                (g.thread_id IS NULL AND n.notification_id = g.notification_id)
             LEFT JOIN users u ON
                 u.user_id = n.sender_id
             LEFT JOIN threads t ON
