@@ -16,7 +16,9 @@
   display: inline-block;
 }
 
-.menu-button:hover:not(.new-notifications-indicator, #profile-options) {
+.menu-button:hover:not(
+    :has(.new-notifications-indicator:hover, #profile-options:hover)
+  ) {
   text-decoration: none;
   background-color: var(--bg-light);
   cursor: pointer;
@@ -84,15 +86,15 @@
   border: 1px solid var(--border);
   padding: 2px;
   position: relative;
-  margin-left: 5px;
-  margin-right: -5px;
-  top: -2px;
+  margin-bottom: -10px; /* Ensures menu bar height is not effected*/
+  margin-left: 10px;
+  top: -1px;
   color: var(--text);
-  text-decoration: none;
 }
 
 .new-notifications-indicator:hover {
   background-color: var(--primary-color-active);
+  text-decoration: none;
 }
 
 .notifications.none {

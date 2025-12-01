@@ -123,7 +123,7 @@ function genForPost(array $item) : string {
 
     $unread = "";
     if($item["read"] === '0') {
-        $unread = "<span class=\"notification-count\">" . $item['notifscount'] . " notification"
+        $unread = "<span class=\"notification-count\">" . $item['notifscount'] . " notification";
         if($item['notifscount'] !== '1') {
             $unread .= "s";
         }

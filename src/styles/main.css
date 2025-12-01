@@ -5,8 +5,8 @@
   --text: hsl(0 0 5);
   --text-muted: hsl(0 0 30);
   --border: hsl(0 0 70);
-  --primary-color: hsl(220 200 80);
-  --primary-color-active: hsl(220 200 88);
+  --primary-color: hsl(205 220 80);
+  --primary-color-active: hsl(195 220 82);
 }
 
 body.dark {
@@ -16,8 +16,8 @@ body.dark {
   --text: hsl(0 0 95);
   --text-muted: hsl(0 0 70);
   --border: hsl(0 0 30);
-  --primary-color: hsl(220 200 70);
-  --primary-color-active: hsl(220 200 80);
+  --primary-color: hsl(215 200 70);
+  --primary-color-active: hsl(210 250 75);
 }
 
 body {

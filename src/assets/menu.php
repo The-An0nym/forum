@@ -44,7 +44,7 @@ function generateMenu() {
             <span class="menu-button split-right menu-right profile-menu" onclick="toggleMenuOptions()">
                 <span class="menu-user-info">
                     <?= $info["handle"]; ?>
-                    <a href="/profile/notifications" class="notifications <?= $notifClass; ?>"><?= $notifs; ?></a>
+                    <a href="/profile/notifications" class="new-notifications-indicator <?= $notifClass; ?>"><?= $notifs; ?></a>
                 </span>
                 <span id="profile-options-wrapper">
                     <span id="profile-options">
