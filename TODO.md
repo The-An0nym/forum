@@ -15,6 +15,7 @@
 - [ ] PHP set types for all functions
 - [ ] Moderation rows older than 60 days cannot be undone
 - [ ] Test user sessions and having several sessions across different devices
+- [ ] Add ToS, Privacy Policy and cookies warning
 
 ## Profile/
 
@@ -25,12 +26,10 @@
 - [ ] Make account deletion require password input
 - [ ] Add manual number re-sync button for admin 5
 - [ ] Scroll up the moderation history when moving from one page to another
-- [ ] Add ToS, Privacy Policy and cookies warning
 - [ ] List of subscribed threads (?)
 
 ## Categories, Threads and Posts
 
-- [ ] Make posting a new post focus on this post with #id
 - [ ] Check whether thread is deleted before posting message
 - [ ] Allow (authorized) moderators to view deleted threads
 - [ ] Implement simple thread search
@@ -39,6 +38,7 @@
 - [ ] Upon sending an edit for a post, scroll to that post again.
 - [ ] Would it make sense to use the same varible names for e.g. totalItems or gotoPage for threads and topics for the sake of the page menu?
 - [ ] Limit users to send max. one message per 15 seconds and 1 thread per week. (moderators exempt)
+- [ ] Allow users to edit thread names (with time limit) -> Does this change the slug?
 
 ## Account / Menu / Footer
 

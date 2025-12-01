@@ -1,5 +1,6 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/functions/.connect.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/functions/time.php';
 
 function NewNotifCount(string $user_id = "") : array {
     if($user_id === "") {
@@ -31,7 +32,7 @@ function getNotifications(string $user_id = "", int $page = 0) : array {
                 t.name,
                 t.slug,
                 t.posts,
-                COUNT(u.username) AS usercount
+                COUNT(DISTINCT(u.handle)) AS usercount
             FROM 
                 notifications n
             JOIN 
@@ -43,7 +44,7 @@ function getNotifications(string $user_id = "", int $page = 0) : array {
             ON
                 t.id = n.thread_id
             WHERE n.receiver_id = '$user_id' AND n.deleted = 0
-            GROUP BY n.type, t.slug
+            GROUP BY n.type, n.read, t.slug
             ORDER BY MAX(n.datetime) DESC
             LIMIT 20 OFFSET $offset";
 
@@ -84,12 +85,17 @@ function genForPost(array $item) : string {
     $username = $item["username"];
     $slug = $item["slug"];
     $name = $item["name"];
-    $dt = $item["datetime"];
+    $dt = timeAgo($item["datetime"]);
     $page = ceil($item["posts"] / 20);
 
     $usersText = "<a href=\"/user/$handle\">$username</a>";
     if($item["usercount"] !== '1') {
-        $usersText .= " and " . $item["usercount"] . " others";
+        $usersText .= " and " . ($item["usercount"] - 1) . " others";
+    }
+
+    $unread = "";
+    if($item["read"] == 0) {
+        $unread = "<span class=\"new-notification\">NEW</span>";
     }
 
     return "<span class=\"notification-item post\">
@@ -97,6 +103,7 @@ function genForPost(array $item) : string {
                 <span class=\"users\">$usersText</span>
                 posted on
                 <a href=\"/thread/$slug\">$name</a>
+                $unread
             </span>";
 }
 

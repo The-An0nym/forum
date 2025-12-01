@@ -19,7 +19,16 @@ function getLangArr(string $lang = "en") : array {
             "pfp" => "profile picture",
             "posts" => "posts",
             "threads" => "threads",
-            "delAccount" => "delete account",
+            "settings" => "settings",
+            "notifs" => "notifications",
+            "changePFP" => "Change profile picture",
+            "changeUserName" => "Change username",
+            "changeUserHandle" => "Change userhandle",
+            "changePass" => "Change password",
+            "currPass" => "Current password",
+            "newPass" => "New password",
+            "confPass" => "Confirm password",
+            "delAcc" => "delete account",
             /* And so on... */
             ]
     ];

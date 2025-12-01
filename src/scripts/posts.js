@@ -50,10 +50,10 @@ function parsePosts(data, scrollBottom = false) {
     userPostCount.textContent = jsonData[i].userPostCount;
     userDetails.appendChild(userPostCount);
 
-    const userrating = document.createElement("span");
-    userrating.className = "user-rating";
-    userrating.textContent = jsonData[i].auth;
-    userDetails.appendChild(userrating);
+    const userRating = document.createElement("span");
+    userRating.className = "user-rating";
+    userRating.textContent = jsonData[i].auth;
+    userDetails.appendChild(userRating);
 
     post.appendChild(userDetails);
 

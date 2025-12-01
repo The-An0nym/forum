@@ -160,6 +160,7 @@ function getPostsJson(string $slug, int $page = 1) : string {
         $p->content = $post["content"];
         $p->created = $post["created"];
         $p->edited = $post["edited"];
+        $p->auth = $post["auth"];
         if(isset($_SESSION["user_id"])) {
             if($post["user_id"] == $_SESSION["user_id"]) {
                 $p->editable = true;
