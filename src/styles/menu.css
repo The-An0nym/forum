@@ -54,7 +54,7 @@
   padding: 6px 12px;
   height: calc(100% - 12px);
   aspect-ratio: 1 / 1;
-  fill: var(--text);
+  fill: none;
   stroke: var(--text);
   stroke-width: 12px;
 }

@@ -39,10 +39,10 @@ function generateMenu() {
     <script src="/scripts/account.js"></script>
     <div id="progress-bar"></div>
     <div class="menu">
+        <a class="menu-button icon menu-left" href="/"><?= generateHome() ?></a>
         <?php
         if(isset($_SESSION['user_id'])) {
             ?>
-            <a class="menu-button icon menu-left" href="/"><?= generateHome() ?></a>
             <span class="mode menu-button menu-left" onclick="toggle()"><?= getLang("togMode") ?></span>
             <span class="menu-button split-right menu-right profile-menu" onclick="toggleMenuOptions()">
                 <span class="menu-user-info">
@@ -57,14 +57,13 @@ function generateMenu() {
                     </span>
                 </span>
             </span>
-            <span class="menu-button menu-right" onclick="logout()"><?= getLang("logout") ?></span>
+            <span class="menu-button icon menu-right" onclick="logout()"><?= generateLogout() ?></span>
             <script> 
                 toggle(<?= $info["darkmode"]; ?>);
             </script>
             <?php
         } else {
             ?>
-            <a class="menu-button home menu-left" href="/">Home</a>
             <span class="menu-button split-right menu-right" onclick="createLogin()"><?= getLang("login") ?></span>
             <span class="menu-button menu-right" onclick="createSignUp()"><?= getLang("signUp") ?></span>
             <?php 
