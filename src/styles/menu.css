@@ -3,17 +3,17 @@
   flex-direction: row;
   background-color: var(--bg);
   border-bottom: 1px var(--border) solid;
-  align-items: end;
+  align-items: center;
   position: fixed;
+  height: 50px;
   width: 100%;
   top: 0;
   z-index: 10;
 }
 
-.menu-button,
-.menu-path {
+.menu-button {
   padding: 10px;
-  display: inline-block;
+  display: flex;
 }
 
 .menu-button:hover:not(
@@ -50,10 +50,13 @@
   flex-direction: column;
 }
 
-/* TODO refine styling for home icon*/
-.home {
-  aspect-ratio: 1/1;
-  height: 1em;
+.icon {
+  padding: 6px 12px;
+  height: calc(100% - 12px);
+  aspect-ratio: 1 / 1;
+  fill: var(--text);
+  stroke: var(--text);
+  stroke-width: 12px;
 }
 
 #profile-options-wrapper {

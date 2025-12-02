@@ -5,12 +5,8 @@
  */
 function generateHome() : string {
     $str = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
-        <rect width="50" height="100" x="30" y="80"></rect>
-        <rect width="50" height="100" x="120" y="80"></rect>
-        <rect width="140" height="30" x="30" y="90"></rect>
-        <rect width="160" height="20" x="20" y="80"></rect>
-        <polygon points="100,10 180,80 20,80" "=""></polygon>
-    </svg>';
+                <path d="M30 190 L30 90 L10 90 L10 70 L100 10 L190 70 L190 90 L170 90 L170 190 L125 190 L125 125 L75 125 L75 190 Z"></path>
+            </svg>';
 
     return $str;
 }
