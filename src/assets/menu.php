@@ -2,6 +2,7 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/functions/.connect.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/functions/lang.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/functions/require/notifications.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/generateSVG.php';
 
 function generateMenu() {
     if(!session_id()) {
@@ -24,8 +25,10 @@ function generateMenu() {
             $notifs = (int)$res[1];
         }
         
+        $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        
         $notifClass = " none";
-        if($notifs > 0) {
+        if($notifs > 0 && $path !== "/profile/notifications") {
             $notifClass = "";
         }
     }
@@ -39,7 +42,7 @@ function generateMenu() {
         <?php
         if(isset($_SESSION['user_id'])) {
             ?>
-            <a class="menu-button home menu-left" href="/"><?= getLang("home") ?></a>
+            <a class="menu-button home menu-left" href="/"><?= generateHome() ?></a>
             <span class="mode menu-button menu-left" onclick="toggle()"><?= getLang("togMode") ?></span>
             <span class="menu-button split-right menu-right profile-menu" onclick="toggleMenuOptions()">
                 <span class="menu-user-info">

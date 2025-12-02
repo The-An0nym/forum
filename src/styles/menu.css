@@ -50,6 +50,12 @@
   flex-direction: column;
 }
 
+/* TODO refine styling for home icon*/
+.home {
+  aspect-ratio: 1/1;
+  height: 1em;
+}
+
 #profile-options-wrapper {
   display: none; /*flex*/
   flex-direction: row-reverse;
@@ -97,6 +103,6 @@
   text-decoration: none;
 }
 
-.notifications.none {
+.new-notifications-indicator.none {
   display: none !important;
 }
