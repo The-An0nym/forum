@@ -3,7 +3,7 @@
   flex-direction: row;
   background-color: var(--bg);
   border-bottom: 1px var(--border) solid;
-  align-items: center;
+  align-items: stretch;
   position: fixed;
   height: 50px;
   width: 100%;
@@ -56,7 +56,7 @@
   aspect-ratio: 1 / 1;
   fill: none;
   stroke: var(--text);
-  stroke-width: 12px;
+  stroke-width: 10px;
 }
 
 #profile-options-wrapper {

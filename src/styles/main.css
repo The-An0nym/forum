@@ -151,3 +151,17 @@ button:disabled {
   background-color: #aaf;
   z-index: 10;
 }
+
+/* Buttons */
+.active-button {
+  background-color: var(--primary-color);
+}
+
+.active-button:hover {
+  background-color: var(--primary-color-active);
+}
+
+.send-button {
+  width: 48px;
+  height: 28px;
+}

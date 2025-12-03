@@ -77,9 +77,11 @@ if(isset($_GET["p"])) {
 
     <div id="page-menu"></div>
 
-    <?php if(isset($_SESSION['user_id']) && $postCount !== 0) { ?>
+    <?php if(isset($_SESSION['user_id']) && $postCount !== 0) { 
+        require_once $path . '/assets/generateSVG.php';
+        ?>
         <textarea id="post-content" placeholder="Type your post here..."></textarea>
-        <button onclick="sendPost()">Submit</button>
+        <button class="action-button" onclick="sendPost()"><?= generateSend() ?></button>
     <?php } ?>
 
     <script> 

@@ -47,10 +47,12 @@ if(isset($_GET["p"])) {
 
     <div id="page-menu"></div>
 
-    <?php if(isset($_SESSION['user_id'])) { ?>
+    <?php if(isset($_SESSION['user_id'])) { 
+        require_once $path . '/assets/generateSVG.php';
+        ?>
         <input id="thread-name" placeholder="Thread title..."></input>
         <textarea id="post-content" placeholder="Type your post here..."></textarea>
-        <button onclick="createThread()">Submit</button>
+        <button class="action-button" onclick="createThread()"><?= generateSend() ?></button>
     <?php } ?>
 
     <script> 
