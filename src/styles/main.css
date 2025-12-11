@@ -10,12 +10,12 @@
 }
 
 body.dark {
-  --bg-dark: hsl(0 0 0);
-  --bg: hsl(0 0 10);
-  --bg-light: hsl(0 0 20);
+  --bg-dark: hsl(0 0 1);
+  --bg: hsl(0 0 20);
+  --bg-light: hsl(0 0 35);
   --text: hsl(0 0 95);
   --text-muted: hsl(0 0 70);
-  --border: hsl(0 0 30);
+  --border: hsl(0 0 35);
   --primary-color: hsl(215 200 70);
   --primary-color-active: hsl(210 250 75);
 }

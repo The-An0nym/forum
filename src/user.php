@@ -97,7 +97,7 @@ if($result->num_rows === 1) {
 
         <div id="history">
             <div id="history-menu">
-                <span class="history-menu-tab" onclick="showPostHistory(true)">Posts</span>
+                <span class="history-menu-tab selected" onclick="showPostHistory(true)">Posts</span>
                 <span class="history-menu-tab" onclick="showPostHistory(false)">Threads</span>
             </div>
         
@@ -149,7 +149,7 @@ if($result->num_rows === 1) {
                     <a href="/topic/<?= $row['cat_slug']; ?>"><?= $row["cat_name"]; ?></a>
                 </span>
                 <span class="thread">
-                    <a href="/thread/<?= $row['slug']; ?>"><?= $row["name"]; ?></a>
+                    &gt; <a href="/thread/<?= $row['slug']; ?>"><?= $row["name"]; ?></a>
                 </span>
             </span>
             <?php }

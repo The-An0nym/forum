@@ -14,6 +14,7 @@
   border: 1px solid var(--border);
   text-align: center;
   background-color: var(--bg);
+  box-sizing: border-box; /* Makes sure padding does not affect height or width */
 }
 
 .user-image {
@@ -37,6 +38,7 @@
   flex-direction: column;
   padding: 1%;
   background-color: var(--bg);
+  box-sizing: border-box; /* Makes sure padding does not affect height or width */
 }
 
 #history-menu {
@@ -52,11 +54,8 @@
   height: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
-  border: 1px solid var(--border);
-  padding: 2%;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box; /* Makes sure padding does not affect height or width */
 }
 
 .history-menu-tab {
@@ -80,20 +79,30 @@
 .history-item {
   border-bottom: 1px solid var(--border);
   font-size: 0.8em;
-  padding-bottom: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
+  padding: 8px;
+  margin-right: 5px; /* Leaving a gap for the scroll-bar */
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
-.history-item > span {
-  width: 30%;
-  text-align: center;
+.datetime {
+  font-size: 0.5em;
+  text-align: right;
+  color: var(--text-muted);
+  margin-bottom: -0.5em;
+}
+
+.history-item.post > .thread,
+.history-item.thread > .topic {
+  width: 75%;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 }
 
-.datetime {
-  font-size: 0.5rem;
+.history-item.post > .content,
+.history-item.thread > .thread {
+  padding: 10px;
+  font-size: 0.8em;
 }
