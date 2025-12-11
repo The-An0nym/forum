@@ -1,21 +1,23 @@
 #global {
-  margin-top: 60px;
   display: flex;
   flex-direction: row;
+  justify-content: space-evenly;
+  height: calc(100vh - 120px);
 }
 
 #user-info {
+  height: 100%;
+  width: 25%;
   display: flex;
   flex-direction: column;
   padding: 1%;
-  margin: 1%;
   border: 1px solid var(--border);
   text-align: center;
   background-color: var(--bg);
 }
 
 .user-image {
-  max-width: 20vw;
+  width: 100%;
   border-radius: 50%;
 }
 
@@ -29,6 +31,8 @@
 }
 
 #history {
+  width: 70%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   padding: 1%;
@@ -39,6 +43,9 @@
   margin-bottom: 5px;
   padding-bottom: 5px;
   border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 
 .history-block {
@@ -49,21 +56,23 @@
   padding: 2%;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box; /* Makes sure padding does not affect height or width */
 }
 
 .history-menu-tab {
-  width: calc(50% - 5px);
+  width: calc(50% - 10px);
   display: inline-block;
   text-align: center;
+  background-color: var(--bg-dark);
+  padding: 5px 0;
+  border-radius: 2px;
 }
 
-.history-menu-tab {
-  width: calc(50% - 5px);
-  display: inline-block;
-  text-align: center;
+.history-menu-tab.selected {
+  background-color: var(--bg);
 }
 
-.history-menu-tab:hover {
+.history-menu-tab:not(.selected):hover {
   background-color: var(--bg-light);
   cursor: pointer;
 }

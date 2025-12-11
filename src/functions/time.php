@@ -2,6 +2,7 @@
 
 // Time is always formatted as "Y-m-d H:i:s" within Database
 // TODO Maybe time should be formatted client side? At least the localized one.
+// TODO Dynamically set plural of time ago
 
 /**
  * Formats DateTime string to XX, XX ago
@@ -25,40 +26,40 @@ function timeAgo(string $dateString) : string {
         if($years > 3 || $months === 0) {
             $ret .= $years . " years";
         } else {
-            $ret .= $years . " years and " . $months . " months";
+            $ret .= $years . " year(s) and " . $months . " month(s)";
         }
     } else if($months > 0) {
         if($months > 3 || $weeks === 0) {
             $ret .= $months . " months";
         } else {
-            $ret .= $months . " months and " . $weeks . " weeks";
+            $ret .= $months . " month(s) and " . $weeks . " week(s)";
         }
     } else if($weeks > 0) {
         if($days === 0) {
             $ret .= $weeks . " weeks";
         } else {
-            $ret .= $weeks . " weeks and " . $days . " days";
+            $ret .= $weeks . " week(s) and " . $days . " day(s)";
         }
     } else if($days > 0) {
         if($days > 3 || $hours === 0) {
             $ret .= $days . " days";
         } else {
-            $ret .= $days . " days and " . $hours . " hours";
+            $ret .= $days . " day(s) and " . $hours . " hour(s)";
         }
     } else if($hours > 0) {
         if($hours > 5 || $minutes === 0) {
             $ret .= $hours . " hours";
         } else {
-            $ret .= $hours . " hours and " . $minutes . " minutes";
+            $ret .= $hours . " hour(s) and " . $minutes . " minute(s)";
         }
     } else if($minutes > 0) {
         if($minutes > 5 || $seconds === 0) {
             $ret .= $minutes . " minutes";
         } else {
-            $ret .= $minutes . " minutes and " . $seconds . " seconds";
+            $ret .= $minutes . " minute(s) and " . $seconds . " second(s)";
         }
     } else {
-        $ret .= $seconds . " seconds";
+        $ret .= $seconds . " second(s)";
     }
 
     $ret .= " ago";

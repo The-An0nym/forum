@@ -113,7 +113,7 @@ if($result->num_rows === 1) {
         if($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {?>
             <span class="post history-item">
-                <span class="date"><?= timeAgo($row["created"]); ?></span>
+                <span class="datetime"><?= timeAgo($row["created"]); ?></span>
                 <span class="thread">
                     <a href="/thread/<?= $row['slug']; ?>"><?= $row["name"]; ?></a>
                 </span>
@@ -144,7 +144,7 @@ if($result->num_rows === 1) {
         if($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {?>
             <span class="thread history-item">
-                <span class="date"><?= timeAgo($row["created"]); ?></span>
+                <span class="datetime"><?= timeAgo($row["created"]); ?></span>
                 <span class="topic">
                     <a href="/topic/<?= $row['cat_slug']; ?>"><?= $row["cat_name"]; ?></a>
                 </span>

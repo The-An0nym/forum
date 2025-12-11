@@ -103,4 +103,7 @@ function showPostHistory(show) {
 
   postHistory.style.display = show ? "block" : "none";
   threadHistory.style.display = !show ? "block" : "none";
+
+  postHistory.className = "history-menu-tab"(show ? " selected" : "");
+  threadHistory.className = "history-menu-tab"(!show ? " selected" : "");
 }
