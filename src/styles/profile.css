@@ -2,6 +2,17 @@
   width: 20%;
 }
 
+#gloabl {
+  background-color: var(--bg);
+  height: calc(100vh - 120px);
+  padding: 5px;
+  width: 98%;
+  margin: auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
 .button-container {
   display: none;
 }
@@ -113,6 +124,8 @@
   max-height: 300px;
   overflow-y: scroll;
   background-color: var(--bg);
+  height: 100%;
+  overflow-x: hidden;
 }
 
 .session-item {
