@@ -8,7 +8,7 @@ function createSignUp() {
   container.id = "signup-container";
 
   const containerTitle = document.createElement("div");
-  containerTitle.className = "pop-up-container-title";
+  containerTitle.className = "pop-up-title";
   containerTitle.textContent = "Sign up";
 
   const username = document.createElement("input");
@@ -22,7 +22,7 @@ function createSignUp() {
   handle.id = "handle";
 
   const password = document.createElement("input");
-  password.className = "pop-up-input action-button";
+  password.className = "pop-up-input";
   password.placeholder = "Password...";
   password.type = "password";
   password.id = "password";
@@ -34,7 +34,7 @@ function createSignUp() {
   passwordConfirmation.id = "password-confirmation";
 
   const submitButton = document.createElement("button");
-  submitButton.className = "pop-up-submit";
+  submitButton.className = "pop-up-submit action-button";
   submitButton.textContent = "Sign-up";
   submitButton.setAttribute("onclick", "signUp()");
 
@@ -88,7 +88,7 @@ function createLogin() {
   container.id = "login-container";
 
   const containerTitle = document.createElement("div");
-  containerTitle.className = "pop-up-container-title";
+  containerTitle.className = "pop-up-title";
   containerTitle.textContent = "Login";
 
   const handle = document.createElement("input");

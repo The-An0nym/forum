@@ -30,7 +30,7 @@ function setupBan(id) {
   message.id = "message";
 
   const checkBoxWrapper = document.createElement("div");
-  checkBoxWrapper.className = "pop-up-input";
+  checkBoxWrapper.className = "pop-up-input pop-up-checkbox";
 
   const label = document.createElement("label");
   label.className = "pop-up-text";
@@ -94,4 +94,13 @@ async function changeUserAuth(id, reason, message, promote) {
   const bod = await postJson("/api/changeUserAuth.php", obj);
 
   if (bod[0]) location.reload();
+}
+
+/* HISTORY DISPLAY */
+function showPostHistory(show) {
+  const postHistory = document.getElementById("post-history");
+  const threadHistory = document.getElementById("thread-history");
+
+  postHistory.style.display = show ? "block" : "none";
+  threadHistory.style.display = !show ? "block" : "none";
 }

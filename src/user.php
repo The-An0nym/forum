@@ -1,6 +1,7 @@
 <?php 
 $path = $_SERVER['DOCUMENT_ROOT']; 
 require_once $path . '/functions/.connect.php' ;
+require_once $path . '/functions/time.php' ;
 require_once $path . '/functions/validateSession.php';
 require_once $path . "/assets/menu.php";
 
@@ -95,8 +96,12 @@ if($result->num_rows === 1) {
         </div>
 
         <div id="history">
-
-        Post History:
+            <div id="history-menu">
+                <span class="history-menu-tab" onclick="showPostHistory(true)">Posts</span>
+                <span class="history-menu-tab" onclick="showPostHistory(false)">Threads</span>
+            </div>
+        
+        <!-- POST HISTORY -->
         <div id="post-history" class="history-block">
         <?php
         $sql = "SELECT p.content, p.created, t.name, t.slug FROM posts p 
@@ -108,7 +113,7 @@ if($result->num_rows === 1) {
         if($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {?>
             <span class="post history-item">
-                <span class="date"><?= $row["created"]; ?></span>
+                <span class="date"><?= timeAgo($row["created"]); ?></span>
                 <span class="thread">
                     <a href="/thread/<?= $row['slug']; ?>"><?= $row["name"]; ?></a>
                 </span>
@@ -121,8 +126,8 @@ if($result->num_rows === 1) {
         ?>
         </div>
         
-        Thread History:
-        <div id="thread-history" class="history-block">
+        <!-- THREAD HISTORY -->
+        <div id="thread-history" class="history-block" style="display: none;">
         <?php
         $sql = "SELECT 
                     t.name, 
@@ -139,7 +144,7 @@ if($result->num_rows === 1) {
         if($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {?>
             <span class="thread history-item">
-                <span class="date"><?= $row["created"]; ?></span>
+                <span class="date"><?= timeAgo($row["created"]); ?></span>
                 <span class="topic">
                     <a href="/topic/<?= $row['cat_slug']; ?>"><?= $row["cat_name"]; ?></a>
                 </span>

@@ -112,7 +112,7 @@ svg {
   background-color: var(--bg);
 }
 
-.pop-up-container-title {
+.pop-up-title {
   margin-bottom: 10px;
   padding-bottom: 5px;
   border-bottom: 1px solid var(--border);
@@ -130,6 +130,13 @@ svg {
 
 .pop-up-text {
   font-size: 0.8em;
+}
+
+.pop-up-checkbox {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 5px;
 }
 
 .overlay {

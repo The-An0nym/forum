@@ -134,7 +134,7 @@ function undo(id, selection = true) {
   container.id = "mod-container";
 
   const containerTitle = document.createElement("span");
-  containerTitle.className = "pop-up-container-title";
+  containerTitle.className = "pop-up-title";
   containerTitle.textContent = `Reason for restoring this moderation action:`;
 
   const select = document.createElement("select");
