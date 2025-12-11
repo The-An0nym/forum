@@ -103,8 +103,8 @@ function showPostHistory(show) {
   postHistory.style.display = show ? "block" : "none";
   threadHistory.style.display = !show ? "block" : "none";
 
-  const postsTab = document.getElementById("history-menu-tab-posts;");
-  const threadsTabs = document.getElementById("history-menu-tab-threads;");
+  const postsTab = document.getElementById("history-menu-tab-posts");
+  const threadsTabs = document.getElementById("history-menu-tab-threads");
   postsTab.className = "history-menu-tab" + (show ? " selected" : "");
   threadsTabs.className = "history-menu-tab" + (!show ? " selected" : "");
 }

@@ -77,7 +77,7 @@ function getThreads(string $slug, int $page) {
             }
 
             $thread["created"] = timeAgo($thread["created"]);
-            $thread["lastPose"] = timeAgo($thread["lastPose"]);
+            $thread["lastPost"] = timeAgo($thread["lastPost"]);
 
             $data[] = $thread;
         }
