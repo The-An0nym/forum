@@ -28,6 +28,8 @@ require_once $path . '/functions/validateSession.php';
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/styles/main.css" />
     <link rel="stylesheet" href="/styles/profile.css"/>
+    <link rel="stylesheet" href="/styles/tab-menu.css"/>
+
 </head>
 <body>
     <?php generateMenu() ?>
@@ -49,156 +51,174 @@ require_once $path . '/functions/validateSession.php';
 
             ?>
 
-            <!-- SESSIONS -->
+            <div id="global">
 
-            <?php
+                <div id="tab-menu-bar">
+                    <span class="menu-tab selected" id="sessions-tab" onclick="switchTab(0)">Session</span>
+                    <span class="menu-tab" id="sessions-tab" onclick="switchTab(1)">Deleted posts</span>
+                    <?php 
+                        if($clearance > 0) { ?>
+                        <span class="menu-tab" id="moderation-tab" onclick="switchTab(2)">Moderation history</span>
+                        <span class="menu-tab" id="report-tab" onclick="switchTab(3)">Reports</span>
+                    <?php
+                        }
+                    ?>
+                </div>
 
-            $sql = "SELECT `ip`, `user_agent`, `datetime`, `session_id` FROM sessions WHERE user_id='$user_id'";
-            $result = $conn->query($sql);
+                <!-- SESSIONS -->
+                <?php
 
-            echo '<div class="sessions">';
-            $session_id = $_SESSION["session_id"];
-            while($row = $result->fetch_assoc()) {
-                $row_session_id = $row["session_id"];
-                $disabled = "";
-                // TODO make own session un-deletable
-                if($row_session_id === $session_id) {
-                    $disabled = "disabled";
-                }
-                ?>
-                <span class="session-item" id="<?= $row_session_id; ?>">
-                    <span class="user-agent"><?= $row["user_agent"]; ?></span>
-                    <span class="ip"><?= $row["ip"]; ?></span>
-                    <span class="session-datetime"><?= $row["datetime"]; ?></span>
-                    <button class="delete-session <?= $disabled ?>" onclick="deleteSession('<?= $row_session_id; ?>')">Revoke session</button>
-                </span>
-            <?php
-            }
-
-            echo '</div>';
-            ?>
-            
-
-            <!-- DELETED THINGS -->
-            <div class="deleted-posts">
-                <?php 
-                $sql = "SELECT 
-                            p.content, 
-                            p.created, 
-                            p.deleted_datetime, 
-                            p.post_id,
-                            t.slug, 
-                            t.name
-                        FROM 
-                            posts p 
-                        INNER JOIN 
-                            threads t
-                        ON 
-                            t.id = p.thread_id
-                        WHERE 
-                            p.deleted = 1 AND t.deleted = 0 AND p.user_id = '$user_id'
-                        ORDER BY p.deleted_datetime DESC";
+                $sql = "SELECT `ip`, `user_agent`, `datetime`, `session_id` FROM sessions WHERE user_id='$user_id'";
                 $result = $conn->query($sql);
-                if($result->num_rows > 0) {
-                    while($post = $result->fetch_assoc()) {?>
-                        <div class="deleted-post">
-                            <span class="deleted-datetime"><?= $post['deleted_datetime']; ?></span>
-                            <span class="deleted-created"><?= $post['created']; ?></span>
-                            <span class="deleted-thread">
-                                <a href="/thread/<?= $post['slug']; ?>"><?= $post['name']; ?></a>
-                            </span>
-                            <span class="deleted-content"><?= $post['content']; ?></span>
-                            <button class="restore" onclick="restorePost('<?= $post['post_id']; ?>')">restore</button>
-                        </div>
-                <?php }
-                } else {
-                    echo "No deleted posts";
+
+                echo '<div id="sessions" class="tab-content">';
+                $session_id = $_SESSION["session_id"];
+                while($row = $result->fetch_assoc()) {
+                    $row_session_id = $row["session_id"];
+                    $disabled = "";
+                    // TODO make own session un-deletable
+                    if($row_session_id === $session_id) {
+                        $disabled = "disabled";
+                    }
+                    ?>
+                    <span class="session-item" id="<?= $row_session_id; ?>">
+                        <span class="user-agent"><?= $row["user_agent"]; ?></span>
+                        <span class="ip"><?= $row["ip"]; ?></span>
+                        <span class="session-datetime"><?= $row["datetime"]; ?></span>
+                        <button class="delete-session <?= $disabled ?>" onclick="deleteSession('<?= $row_session_id; ?>')">Revoke session</button>
+                    </span>
+                <?php
                 }
+
+                echo '</div>';
                 ?>
-        </div>
+                
+
+                <!-- DELETED THINGS -->
+                <div id="deleted-posts" class="tab-content" style="display: none;">
+                    <?php 
+                    $sql = "SELECT 
+                                p.content, 
+                                p.created, 
+                                p.deleted_datetime, 
+                                p.post_id,
+                                t.slug, 
+                                t.name
+                            FROM 
+                                posts p 
+                            INNER JOIN 
+                                threads t
+                            ON 
+                                t.id = p.thread_id
+                            WHERE 
+                                p.deleted = 1 AND t.deleted = 0 AND p.user_id = '$user_id'
+                            ORDER BY p.deleted_datetime DESC";
+                    $result = $conn->query($sql);
+                    if($result->num_rows > 0) {
+                        while($post = $result->fetch_assoc()) {?>
+                            <div class="deleted-post">
+                                <span class="deleted-datetime"><?= $post['deleted_datetime']; ?></span>
+                                <span class="deleted-created"><?= $post['created']; ?></span>
+                                <span class="deleted-thread">
+                                    <a href="/thread/<?= $post['slug']; ?>"><?= $post['name']; ?></a>
+                                </span>
+                                <span class="deleted-content"><?= $post['content']; ?></span>
+                                <button class="restore" onclick="restorePost('<?= $post['post_id']; ?>')">restore</button>
+                            </div>
+                    <?php }
+                    } else {
+                        echo "No deleted posts";
+                    }
+                    ?>
+            </div>
                 <?php
                 // MODERATION
                 if($clearance > 0) {
                     $totalMod = (int)countModHistory();
                     $totalReport = (int)countReportHistory(false, $clearance);
                     ?>
-                    Moderation History
-                    <div id="mod-filter">
-                        <input id="mod-sender" placeholder="sender handle">
-                        <input id="mod-culp" placeholder="culprit handle">
-                        <input id="mod-id" placeholder="id">
-                        <select id="mod-type">
-                            <option value="">All</option>
-                            <option value="0">Post</option>
-                            <option value="1">Thread</option>
-                            <option value="2">User</option>
-                        </select>
-                        <label for="mod-sort">Reverse Order</label>
-                        <input id="mod-sort" type="checkbox">
-                        <button onclick="getModerationHistory()">Filter</button>
-                        <span id="mod-result"><?= $totalMod; ?></span> results
-                    </div>
-                    <div id="moderation-header">
-                        <div>Date</div>
-                        <div>Action</div>
-                        <div>Summary</div>
-                        <div>Reason</div>
-                        <div>Message</div>
-                        <div>Action</div>
-                    </div>
-                    <div id="moderation-history">
-                    <?= getHistoryHTML(false, 0, $clearance, []); ?>
-                    </div>
-                    
-                    Report History
-                    <div id="report-filter">
-                        <input id="report-sender" placeholder="sender handle">
-                        <input id="report-culp" placeholder="culprit handle">
-                        <input id="report-id" placeholder="id">
-                        <select id="report-type">
-                            <option value="">All</option>
-                            <option value="0">Post</option>
-                            <option value="1">Thread</option>
-                            <option value="2">User</option>
-                        </select>
-                        <label for="report-sort">Reverse Order</label>
-                        <input id="report-sort" type="checkbox">
-                        <button onclick="getModerationHistory(0, true)">Filter</button>
-                        <span id="report-result"><?= $totalReport; ?></span> results
-                        <span id="report-unread"><?= countReportHistory(true, $clearance); ?></span> unread
-                    </div>
-                    <div id="report-header">
-                        <div>Date</div>
-                        <div>Action</div>
-                        <div>Summary</div>
-                        <div>Reason</div>
-                        <div>Message</div>
-                        <div>Action</div>
-                    </div>
-                    <div id="report-history">
-                    <?= getHistoryHTML(true, 0, $clearance, []); ?>
-                    </div>
-                    <script src="/scripts/moderation.js"></script>
+                    <div class="tab-content" style="display: none;">
+                        Moderation History
+                        <div id="mod-filter">
+                            <input id="mod-sender" placeholder="sender handle">
+                            <input id="mod-culp" placeholder="culprit handle">
+                            <input id="mod-id" placeholder="id">
+                            <select id="mod-type">
+                                <option value="">All</option>
+                                <option value="0">Post</option>
+                                <option value="1">Thread</option>
+                                <option value="2">User</option>
+                            </select>
+                            <label for="mod-sort">Reverse Order</label>
+                            <input id="mod-sort" type="checkbox">
+                            <button onclick="getModerationHistory()">Filter</button>
+                            <span id="mod-result"><?= $totalMod; ?></span> results
+                        </div>
+                        <div id="moderation-header">
+                            <div>Date</div>
+                            <div>Action</div>
+                            <div>Summary</div>
+                            <div>Reason</div>
+                            <div>Message</div>
+                            <div>Action</div>
+                        </div>
+                        <div id="moderation-history">
+                        <?= getHistoryHTML(false, 0, $clearance, []); ?>
+                        </div>
+                </div>
+                <div class="tab-content" style="display: none;">                   
+                        Report History
+                        <div id="report-filter">
+                            <input id="report-sender" placeholder="sender handle">
+                            <input id="report-culp" placeholder="culprit handle">
+                            <input id="report-id" placeholder="id">
+                            <select id="report-type">
+                                <option value="">All</option>
+                                <option value="0">Post</option>
+                                <option value="1">Thread</option>
+                                <option value="2">User</option>
+                            </select>
+                            <label for="report-sort">Reverse Order</label>
+                            <input id="report-sort" type="checkbox">
+                            <button onclick="getModerationHistory(0, true)">Filter</button>
+                            <span id="report-result"><?= $totalReport; ?></span> results
+                            <span id="report-unread"><?= countReportHistory(true, $clearance); ?></span> unread
+                        </div>
+                        <div id="report-header">
+                            <div>Date</div>
+                            <div>Action</div>
+                            <div>Summary</div>
+                            <div>Reason</div>
+                            <div>Message</div>
+                            <div>Action</div>
+                        </div>
+                        <div id="report-history">
+                        <?= getHistoryHTML(true, 0, $clearance, []); ?>
+                        </div>
+                </div>
+                        <script src="/scripts/moderation.js"></script>
+                        <script>
+                            let modTotalPage = <?= $totalMod; ?>;
+                            let modPage = 0;
+                            let reportTotalPage = <?= $totalReport; ?>;
+                            let reportPage = 0;
+                            paginateMod();
+                            paginateReport()
+                        </script>
+                    <?php } ?>
                     <script>
-                        let modTotalPage = <?= $totalMod; ?>;
-                        let modPage = 0;
-                        let reportTotalPage = <?= $totalReport; ?>;
-                        let reportPage = 0;
-                        paginateMod();
-                        paginateReport()
+                        const username = "<?= $username; ?>";
+                        const handle = "<?= $handle; ?>"
+                        const image_dir = "<?= $image_dir; ?>";
                     </script>
-                <?php } ?>
-                <script>
-                    const username = "<?= $username; ?>";
-                    const handle = "<?= $handle; ?>"
-                    const image_dir = "<?= $image_dir; ?>";
-                </script>
-            <?php
+                <?php
 
-        } else {
-            echo "Please Log in or Sign up to continue...";
-        }        
-    ?>
+            } else {
+                echo "Please Log in or Sign up to continue...";
+            }        
+        ?>
+        </div>
+
     </div>
 
 

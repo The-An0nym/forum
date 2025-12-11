@@ -392,3 +392,14 @@ async function getData(URL) {
 
   return bod;
 }
+
+/* FOR PAGES WITH TABS (/user/ and /account/moderation/) */
+function switchTab(index) {
+  const tabs = document.getElementsByClassName("menu-tab");
+  const tabContent = document.getElementsByClassNames("tab-content");
+
+  for (let i = 0; i < tabs.length; i++) {
+    tabs[i].style.className = "menu-tab" + (i == index ? " selected" : "");
+    tabContent[i].style.display = i == index ? "block" : "none";
+  }
+}

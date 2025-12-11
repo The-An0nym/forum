@@ -95,16 +95,3 @@ async function changeUserAuth(id, reason, message, promote) {
 
   if (bod[0]) location.reload();
 }
-
-/* HISTORY DISPLAY */
-function showPostHistory(show) {
-  const postHistory = document.getElementById("post-history");
-  const threadHistory = document.getElementById("thread-history");
-  postHistory.style.display = show ? "block" : "none";
-  threadHistory.style.display = !show ? "block" : "none";
-
-  const postsTab = document.getElementById("history-menu-tab-posts");
-  const threadsTabs = document.getElementById("history-menu-tab-threads");
-  postsTab.className = "history-menu-tab" + (show ? " selected" : "");
-  threadsTabs.className = "history-menu-tab" + (!show ? " selected" : "");
-}

@@ -66,6 +66,7 @@ if($result->num_rows === 1) {
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/styles/main.css" />
     <link rel="stylesheet" href="/styles/user.css" />
+    <link rel="stylesheet" href="/styles/tab-menu.css" />
 </head>
 <body>
     <?php generateMenu() ?>
@@ -96,13 +97,13 @@ if($result->num_rows === 1) {
         </div>
 
         <div id="history">
-            <div id="history-menu">
-                <span class="history-menu-tab selected" id="history-menu-tab-posts" onclick="showPostHistory(true)">Posts</span>
-                <span class="history-menu-tab" id="history-menu-tab-threads" onclick="showPostHistory(false)">Threads</span>
+            <div id="tab-menu-bar">
+                <span class="menu-tab selected" onclick="switchTab(0)">Posts</span>
+                <span class="menu-tab" onclick="switchTab(1)">Threads</span>
             </div>
         
         <!-- POST HISTORY -->
-        <div id="post-history" class="history-block">
+        <div class="tab-content history-block">
         <?php
         $sql = "SELECT p.content, p.created, t.name, t.slug FROM posts p 
                 LEFT JOIN threads t ON t.id = p.thread_id
@@ -127,7 +128,7 @@ if($result->num_rows === 1) {
         </div>
         
         <!-- THREAD HISTORY -->
-        <div id="thread-history" class="history-block" style="display: none;">
+        <div class="tab-content history-block" style="display: none;">
         <?php
         $sql = "SELECT 
                     t.name, 

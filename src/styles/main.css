@@ -7,7 +7,7 @@
   --border: hsl(0 0 70);
   --primary-color: hsl(205 220 80);
   --primary-color-active: hsl(195 220 82);
-  --filter: 0;
+  --invert-value: 0;
 }
 
 body.dark {
@@ -19,7 +19,7 @@ body.dark {
   --border: hsl(0 0 40);
   --primary-color: hsl(215 200 70);
   --primary-color-active: hsl(210 250 75);
-  --filter: 1;
+  --invert-value: 1;
 }
 
 body {
@@ -89,8 +89,8 @@ svg {
   stroke-width: 10px;
 }
 
-.svg-image {
-  filter: invert(var(--invert));
+.svg-img {
+  filter: invert(var(--invert-value));
 }
 
 .error-message {
