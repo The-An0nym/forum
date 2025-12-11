@@ -2,6 +2,7 @@
 
 ## General
 
+- [ ] Refactor pop-ups to be handled through ONE JS function (consider using JSON objects)
 - [ ] Cleanup
 - [ ] Styling
 - [ ] Rethink: Does using Javascript for all subsequent loads make sense?

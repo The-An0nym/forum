@@ -54,8 +54,7 @@
 }
 
 #thread-name,
-#post-content,
-button {
+#post-content {
   margin-left: 20px;
   margin-bottom: 10px;
 }

@@ -81,7 +81,7 @@ if(isset($_GET["p"])) {
         require_once $path . '/assets/generateSVG.php';
         ?>
         <textarea id="post-content" placeholder="Type your post here..."></textarea>
-        <button class="action-button" onclick="sendPost()"><?= generateSend() ?></button>
+        <button class="action-button send-button" onclick="sendPost()"><?= generateSend() ?></button>
     <?php } ?>
 
     <script> 

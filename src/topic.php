@@ -52,7 +52,7 @@ if(isset($_GET["p"])) {
         ?>
         <input id="thread-name" placeholder="Thread title..."></input>
         <textarea id="post-content" placeholder="Type your post here..."></textarea>
-        <button class="action-button" onclick="createThread()"><?= generateSend() ?></button>
+        <button class="action-button send-button" onclick="createThread()"><?= generateSend() ?></button>
     <?php } ?>
 
     <script> 

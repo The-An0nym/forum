@@ -47,7 +47,7 @@ select,
   color: var(--text);
   border: 1px solid var(--border);
   padding: 4px;
-  border-radius: 4px;
+  border-radius: 2px;
   font-size: 0.6em;
 }
 
@@ -80,6 +80,13 @@ button:disabled {
   cursor: not-allowed;
 }
 
+svg {
+  stroke-linecap: round;
+  fill: none;
+  stroke: var(--text);
+  stroke-width: 10px;
+}
+
 .error-message {
   border-radius: 5px;
   position: fixed;
@@ -98,11 +105,31 @@ button:disabled {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  padding: 2%;
+  padding: 1.8% 3% 2.2% 3%;
   border: 1px solid var(--border);
-  border-radius: 5px;
+  border-radius: 2px;
   z-index: 1;
   background-color: var(--bg);
+}
+
+.pop-up-container-title {
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--border);
+  font-size: 1em;
+  text-align: center;
+}
+
+.pop-up-input {
+  margin: 2px 0;
+}
+
+.pop-up-submit {
+  margin-top: 5px;
+}
+
+.pop-up-text {
+  font-size: 0.8em;
 }
 
 .overlay {
@@ -136,6 +163,7 @@ button:disabled {
   text-align: center;
 }
 
+/* TODO replace variables */
 .selected-page {
   background-color: var(--saturated-blue);
 }
@@ -148,20 +176,24 @@ button:disabled {
   position: fixed;
   height: 2px;
   width: 0%;
-  background-color: #aaf;
+  background-color: var(--primary-color);
   z-index: 10;
 }
 
 /* Buttons */
-.active-button {
+.action-button {
   background-color: var(--primary-color);
 }
 
-.active-button:hover {
+.action-button:hover {
   background-color: var(--primary-color-active);
 }
 
 .send-button {
+  font-size: 0 !important;
+}
+
+.svg-send-button {
   width: 48px;
   height: 28px;
 }

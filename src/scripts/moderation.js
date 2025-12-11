@@ -133,12 +133,12 @@ function undo(id, selection = true) {
   container.className = "mod-container pop-up-container";
   container.id = "mod-container";
 
-  const info = document.createElement("span");
-  info.className = "mod-info";
-  info.textContent = `Reason for restoring this moderation action:`;
+  const containerTitle = document.createElement("span");
+  containerTitle.className = "pop-up-container-title";
+  containerTitle.textContent = `Reason for restoring this moderation action:`;
 
   const select = document.createElement("select");
-  select.className = "report-select";
+  select.className = "report-select pop-up-input";
   select.id = "report-select";
 
   const options = ["Spam", "Inappropriate", "Copyright", "Other"];
@@ -154,18 +154,19 @@ function undo(id, selection = true) {
   }
 
   const message = document.createElement("textarea");
+  message.className = "pop-up-input";
   message.placeholder = "Message...";
   message.id = "message";
 
   const del = document.createElement("button");
-  del.className = "mod-submit-button";
+  del.className = "pop-up-submit action-button";
   del.textContent = "submit";
   del.addEventListener("mouseup", () => {
     undoRequest(id, select.value, message.value);
     wrapper.remove();
   });
 
-  container.appendChild(info);
+  container.appendChild(containerTitle);
   container.appendChild(select);
   container.appendChild(message);
   container.appendChild(del);

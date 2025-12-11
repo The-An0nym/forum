@@ -8,12 +8,12 @@ function setupBan(id) {
   container.className = "mod-container pop-up-container";
   container.id = "mod-container";
 
-  const info = document.createElement("span");
-  info.className = "mod-info";
-  info.textContent = `Reason for deleting ${handle} :`;
+  const containerTitle = document.createElement("span");
+  containerTitle.className = "pop-up-title";
+  containerTitle.textContent = `Reason for deleting ${handle} :`;
 
   const select = document.createElement("select");
-  select.className = "mod-select";
+  select.className = "pop-up-input";
   select.id = "mod-select";
 
   const options = ["Spam", "Inappropriate", "Copyright", "Other"];
@@ -25,30 +25,37 @@ function setupBan(id) {
   }
 
   const message = document.createElement("textarea");
+  message.className = "pop-up-input";
   message.placeholder = "Message...";
   message.id = "message";
 
+  const checkBoxWrapper = document.createElement("div");
+  checkBoxWrapper.className = "pop-up-input";
+
   const label = document.createElement("label");
-  label.for = "checkbox";
+  label.className = "pop-up-text";
+  label.setAttribute("for", "checkbox");
   label.textContent = "Delete all thready by this user?";
 
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
   checkbox.id = "checkbox";
 
+  checkBoxWrapper.appendChild(label);
+  checkBoxWrapper.appendChild(checkbox);
+
   const del = document.createElement("button");
-  del.className = "mod-submit-button";
+  del.className = "pop-up-submit action-button";
   del.textContent = "submit";
   del.addEventListener("mouseup", () => {
     banUser(id, checkbox.checked, select.value, message.value);
     wrapper.remove();
   });
 
-  container.appendChild(info);
+  container.appendChild(containerTitle);
   container.appendChild(select);
   container.appendChild(message);
-  container.appendChild(label);
-  container.appendChild(checkbox);
+  container.appendChild(checkBoxWrapper);
   container.appendChild(del);
 
   wrapper.appendChild(container);

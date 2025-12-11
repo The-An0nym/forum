@@ -7,28 +7,38 @@ function createSignUp() {
   container.className = "signup-container pop-up-container";
   container.id = "signup-container";
 
+  const containerTitle = document.createElement("div");
+  containerTitle.className = "pop-up-container-title";
+  containerTitle.textContent = "Sign up";
+
   const username = document.createElement("input");
+  username.className = "pop-up-input";
   username.placeholder = "Username...";
   username.id = "username";
 
   const handle = document.createElement("input");
+  handle.className = "pop-up-input";
   handle.placeholder = "User handle...";
   handle.id = "handle";
 
   const password = document.createElement("input");
+  password.className = "pop-up-input action-button";
   password.placeholder = "Password...";
   password.type = "password";
   password.id = "password";
 
   const passwordConfirmation = document.createElement("input");
+  passwordConfirmation.className = "pop-up-input";
   passwordConfirmation.placeholder = "Confirm password";
   passwordConfirmation.type = "password";
   passwordConfirmation.id = "password-confirmation";
 
   const submitButton = document.createElement("button");
+  submitButton.className = "pop-up-submit";
   submitButton.textContent = "Sign-up";
   submitButton.setAttribute("onclick", "signUp()");
 
+  container.appendChild(containerTitle);
   container.appendChild(username);
   container.appendChild(handle);
   container.appendChild(password);
@@ -77,19 +87,28 @@ function createLogin() {
   container.className = "login-container pop-up-container";
   container.id = "login-container";
 
+  const containerTitle = document.createElement("div");
+  containerTitle.className = "pop-up-container-title";
+  containerTitle.textContent = "Login";
+
   const handle = document.createElement("input");
+  handle.className = "pop-up-input";
   handle.placeholder = "Handle...";
   handle.id = "handle";
 
   const password = document.createElement("input");
+  password.className = "pop-up-input";
+
   password.placeholder = "Password...";
   password.type = "password";
   password.id = "password";
 
   const submitButton = document.createElement("button");
+  submitButton.className = "pop-up-submit action-button";
   submitButton.textContent = "Login";
   submitButton.setAttribute("onclick", "login()");
 
+  container.appendChild(containerTitle);
   container.appendChild(handle);
   container.appendChild(password);
   container.appendChild(submitButton);
