@@ -83,7 +83,12 @@ function parseThreads(jsonData) {
     if (threadData[i].deletable === 1) {
       const deleteButton = document.createElement("button");
       deleteButton.className = "delete-button";
-      deleteButton.textContent = "delete";
+
+      const binImage = document.createElement("img");
+      binImage.src = "/images/icons/bin.svg";
+      binImage.className = "svg-img";
+
+      deleteButton.appendChild(binImage);
       deleteButton.setAttribute(
         "onclick",
         `createModeration('deleting ${threadData[i].username}\\\'s thread', deleteThread, '${threadData[i].id}')`

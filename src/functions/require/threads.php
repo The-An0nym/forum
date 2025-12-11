@@ -77,6 +77,7 @@ function getThreads(string $slug, int $page) {
             }
 
             $thread["created"] = timeAgo($thread["created"]);
+            $thread["lastPose"] = timeAgo($thread["lastPose"]);
 
             $data[] = $thread;
         }
@@ -108,7 +109,9 @@ function generateHTMLFromThreads(string $slug, int $page) {
             </span>
             <span class="count"><?= $thread['posts'] ?></span>
             <?php if($thread['clearance'] === 1) {?>
-            <button class="delete-button" onclick="createModeration('deleting <?= $thread['username'] ?>\'s thread', deleteThread, '<?= $thread['id'] ?>')">delete</button>
+            <button class="delete-button" onclick="createModeration('deleting <?= $thread['username'] ?>\'s thread', deleteThread, '<?= $thread['id'] ?>')">
+                <img class="svg-img" src="/images/icons/bin.svg"></img>
+            </button>
             <?php } ?>
         </div>
 

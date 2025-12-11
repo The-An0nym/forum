@@ -97,8 +97,8 @@ if($result->num_rows === 1) {
 
         <div id="history">
             <div id="history-menu">
-                <span class="history-menu-tab selected" onclick="showPostHistory(true)">Posts</span>
-                <span class="history-menu-tab" onclick="showPostHistory(false)">Threads</span>
+                <span class="history-menu-tab selected" id="history-menu-tab-posts" onclick="showPostHistory(true)">Posts</span>
+                <span class="history-menu-tab" id="history-menu-tab-threads" onclick="showPostHistory(false)">Threads</span>
             </div>
         
         <!-- POST HISTORY -->

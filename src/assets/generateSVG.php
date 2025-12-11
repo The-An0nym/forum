@@ -34,18 +34,3 @@ function generateSend() : string {
 
     return $svg;
 }
-
-/**
- * Generate bin icon SVG
- */
-function generateBin() : string {
-    $svg = '<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                <path d="M100 190 L65 190 A20 26 0 0 1 45 170 L30 60 A10 20 0 0 0 20 45" />
-                <path transform="translate(200), scale(-1 1)" d="M100 190 L65 190 A20 26 0 0 1 45 170 L30 60 A10 20 0 0 0 20 45" />
-                <path d="M20 45 L180 45" />
-                <path d="M70 30 A20 20 0 0 1 90 10 L110 10 A20 20 0 0 1 130 30" />
-                <path d="M65 70 L75 160 M100 70 L100 160 M135 70 L125 160" />
-            </svg>';
-
-    return $svg;
-}
