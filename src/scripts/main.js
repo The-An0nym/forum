@@ -11,17 +11,17 @@ async function toggle(to) {
     (to === 1 && classList.value === "")
   ) {
     classList.toggle("dark");
+  }
 
-    const modeSun = document.getElementById("mode-sun");
-    const modeMoon = document.getElementById("mode-moon");
+  const modeSun = document.getElementById("mode-sun");
+  const modeMoon = document.getElementById("mode-moon");
 
-    if (classList.value === "dark") {
-      modeSun.style.display = "block";
-      modeMoon.style.display = "none";
-    } else {
-      modeSun.style.display = "none";
-      modeMoon.style.display = "block";
-    }
+  if (classList.value === "dark") {
+    modeSun.style.display = "block";
+    modeMoon.style.display = "none";
+  } else {
+    modeSun.style.display = "none";
+    modeMoon.style.display = "block";
   }
 }
 
