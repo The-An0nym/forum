@@ -2,7 +2,6 @@
 
 ## General
 
-- [ ] Make toggling mode look nicer
 - [ ] Refactor pop-ups to be handled through ONE JS function (consider using JSON objects)
 - [ ] Cleanup
 - [ ] Styling

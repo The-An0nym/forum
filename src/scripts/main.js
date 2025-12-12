@@ -1,29 +1,39 @@
 /* STYLE */
-async function toggle(to) {
+function toggle(to) {
   // To with a value will never update settings.
   // To with a value is always called from menu
   const classList = document.body.classList;
   if (to === undefined) {
+    setModeSVG(classList.value === "dark"); // Pre toggle
     const set = classList.toggle("dark");
-    await postData("/api/menu/setMode.php", `m=${set ? 1 : 0}`);
+    const x = saveMode(set ? 1 : 0);
+    x(); // Execute
   } else if (
     (to === 0 && classList.value === "dark") ||
     (to === 1 && classList.value === "")
   ) {
+    setModeSVG(classList.value === "dark"); // Pre toggle
     classList.toggle("dark");
   }
+}
 
+function setModeSVG(sun = true) {
   const modeSun = document.getElementById("mode-sun");
   const modeMoon = document.getElementById("mode-moon");
 
-  if (classList.value === "dark") {
-    modeSun.style.display = "block";
-    modeMoon.style.display = "none";
-  } else {
-    modeSun.style.display = "none";
-    modeMoon.style.display = "block";
-  }
+  modeSun.style.display = sun ? "block" : "none";
+  modeMoon.style.display = !sun ? "block" : "none";
 }
+
+saveMode = function (to) {
+  let y;
+  return function () {
+    clearTimeout(y); // Cancel if done a lot
+    y = setTimeout(() => {
+      postData("/api/menu/setMode.php", `m=${to}`);
+    }, 2000); // Wait 2 seconds
+  };
+};
 
 /* OVERLAY */
 function createWrapperOverlay() {
