@@ -43,7 +43,11 @@ function generateMenu() {
         <?php
         if(isset($_SESSION['user_id'])) {
             ?>
-            <span class="mode menu-button menu-left" onclick="toggle()"><?= getLang("togMode") ?></span>
+            <span class="mode menu-button menu-left" onclick="toggle()">
+                <!-- IMPLEMENT TWO SVGS -->
+                <?= generateSun($info["darkmode"] === '0'); ?>
+                <?= generateMoon($info["darkmode"] === '1'); ?>
+            </span>
             <span class="menu-button split-right menu-right profile-menu" onclick="toggleMenuOptions()">
                 <span class="menu-user-info">
                     <?= $info["handle"]; ?>

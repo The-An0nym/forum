@@ -2,7 +2,7 @@
   width: 20%;
 }
 
-#gloabl {
+#global {
   background-color: var(--bg);
   height: calc(100vh - 120px);
   padding: 5px;

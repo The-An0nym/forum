@@ -18,6 +18,7 @@
 
 .menu-tab.selected {
   background-color: var(--bg);
+  border: 1px solid var(--bg);
 }
 
 .menu-tab:not(.selected) {

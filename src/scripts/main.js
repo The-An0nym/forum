@@ -1,13 +1,27 @@
 /* STYLE */
 async function toggle(to) {
+  // To with a value will never update settings.
+  // To with a value is always called from menu
+  const classList = document.body.classList;
   if (to === undefined) {
-    const set = document.body.classList.toggle("dark");
+    const set = classList.toggle("dark");
     await postData("/api/menu/setMode.php", `m=${set ? 1 : 0}`);
   } else if (
-    (to === 0 && document.body.classList.value === "dark") ||
-    (to === 1 && document.body.classList.value === "")
+    (to === 0 && classList.value === "dark") ||
+    (to === 1 && classList.value === "")
   ) {
-    document.body.classList.toggle("dark");
+    classList.toggle("dark");
+
+    const modeSun = document.getElementById("mode-sun");
+    const modeMoon = document.getElementById("mode-moon");
+
+    if (classList.value === "dark") {
+      modeSun.style.display = "block";
+      modeMoon.style.display = "none";
+    } else {
+      modeSun.style.display = "none";
+      modeMoon.style.display = "block";
+    }
   }
 }
 
