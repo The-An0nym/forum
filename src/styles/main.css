@@ -58,6 +58,10 @@ button,
   padding: 4px;
   border-radius: 0.25em;
   font-size: 0.6em;
+}
+
+button,
+.button {
   text-align: center;
 }
 
@@ -109,6 +113,7 @@ svg {
 
 /* pop-up container */
 #pop-up-message-container {
+  z-index: 20;
   position: absolute;
   top: 0;
   right: 0;
@@ -254,15 +259,6 @@ svg {
   padding-inline: 0;
   padding-block: 0;
   text-align: center;
-}
-
-/* TODO replace variables */
-.selected-page {
-  background-color: var(--primary-color);
-}
-
-.selected-page:hover {
-  background-color: var(--primary-color-hover);
 }
 
 /* Progress bad */

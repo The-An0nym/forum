@@ -16,6 +16,7 @@
 
 .profile-picture {
   width: 80%;
+  border-radius: 1em;
 }
 
 .username {
@@ -32,6 +33,7 @@
 
 .content {
   font-size: 0.7em;
+  padding: 0.5em;
 }
 
 .created {

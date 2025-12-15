@@ -83,7 +83,6 @@ require_once $path . '/functions/validateSession.php';
                             <option value="1">Light</option>
                             <option value="2">Dark</option>
                         </select>
-                        <button class="action-button disabled" onclick="changePassword()" id="passwordButton">Save</button>
                     </span>
                 </div>
                 <div id="danger-zone">Danger zone</div>

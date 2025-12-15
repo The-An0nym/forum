@@ -1,13 +1,10 @@
 /* UPLOADING THE PROFILE PICTURE */
 
 async function uploadImage() {
-  const file = document.getElementById("pfp");
+  const file = document.getElementById("pfp-input");
   const img = file.files[0];
 
-  if (!verifyImage(img)) {
-    const file = document.getElementById("pfp");
-    return;
-  }
+  if (!verifyImage(img)) return;
 
   const form_data = new FormData();
   form_data.append("i", img);
@@ -111,7 +108,7 @@ async function deleteAccount(id, reason, message) {
 
 // Image
 function loadPreview() {
-  const file = document.getElementById("pfp");
+  const file = document.getElementById("pfp-input");
   if (file.value == "") return; // Guard clause
 
   const img = file.files[0];

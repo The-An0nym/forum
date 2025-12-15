@@ -5,12 +5,6 @@
   margin: 0 1em;
 }
 
-@media screen and (max-width: 720px) {
-  #global {
-    flex-direction: column;
-  }
-}
-
 #profile-picture,
 #user-settings {
   display: flex;
@@ -29,6 +23,31 @@
   width: min-content; /* Looks better on mobile*/
 }
 
+/* Slimmer screens */
+@media screen and (max-width: 725px) {
+  #global {
+    flex-direction: column;
+  }
+
+  #profile-picture {
+    margin: auto;
+    padding-right: 0;
+    padding-bottom: 1em;
+  }
+
+  #user-settings {
+    padding-left: 0;
+    border: none;
+  }
+}
+
+/* Mobile */
+@media screen and (max-width: 475px) {
+  .setting-item {
+    flex-direction: column;
+  }
+}
+
 #preview {
   width: 10em;
   border: 1px solid black;
@@ -43,7 +62,6 @@
 .setting-item {
   margin-bottom: 2em;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
 }
 

@@ -47,7 +47,7 @@ function menuEventListener(e) {
  * @returns {boolean} returns true or false depending on whether pop-up could be created
  */
 function createPopUp(message = "", type = 1) {
-  const typeList = ["pass", "warn", "fail"];
+  const typeList = ["pass", "fail"];
   const popUpContainer = document.getElementById("pop-up-message-container");
 
   // Guard clauses
@@ -102,7 +102,7 @@ function addPageButton(funcName, p, selected = false) {
   if (isNaN(p)) button.setAttribute("onclick", `${funcName}`);
   else button.setAttribute("onclick", `${funcName}(${p})`);
 
-  if (selected) button.className = "page-menu-button selected-page";
+  if (selected) button.className = "page-menu-button action-button";
   else button.className = "page-menu-button";
 
   document.getElementById("page-menu").appendChild(button);
