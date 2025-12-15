@@ -50,7 +50,7 @@ require_once $path . '/functions/validateSession.php';
             ?>  
             <div id="profile-picture">
                 <img id="preview" src="/images/profiles/<?= $image_dir; ?>">
-                <label for="pfp-input"><span>Select file</span></label>
+                <label for="pfp-input"><span class="button">Select file</span></label>
                 <input onchange="loadPreview()" type="file" id="pfp-input" name="avatar" accept="image/png, image/jpeg, image/jpg" />
                 <button class="action-button disabled" id="imageButton" onclick="uploadImage()">Save</button>
             </div>
@@ -75,6 +75,17 @@ require_once $path . '/functions/validateSession.php';
                         <input oninput="passwordChange()" type="password" id="currPassword" placeholder="Current password...">
                         <input oninput="passwordChange()" type="password" id="newPassword" placeholder="New password...">
                         <input oninput="passwordChange()" type="password" id="confPassword" placeholder="Confirm password...">
+                        <button class="action-button disabled" onclick="changePassword()" id="passwordButton">Save</button>
+                    </span>
+                </div>
+                <div class="setting-item">
+                    <span>Appearance</span>
+                    <span class="setting-input">
+                        <select onchange="appearanceChange()" id="appearanceSelect">
+                            <option value="0">System Preference</option>
+                            <option value="1">Dark</option>
+                            <option value="2">Light</option>
+                        </select>
                         <button class="action-button disabled" onclick="changePassword()" id="passwordButton">Save</button>
                     </span>
                 </div>

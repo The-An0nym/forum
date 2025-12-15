@@ -43,11 +43,6 @@ function generateMenu() {
         <?php
         if(isset($_SESSION['user_id'])) {
             ?>
-            <span class="mode menu-button menu-left" onclick="toggle()">
-                <!-- IMPLEMENT TWO SVGS -->
-                <?= generateSun($info["darkmode"] === '0'); ?>
-                <?= generateMoon($info["darkmode"] === '1'); ?>
-            </span>
             <span class="menu-button split-right menu-right profile-menu" onclick="toggleMenuOptions()">
                 <span class="menu-user-info">
                     <?= $info["handle"]; ?>
@@ -63,7 +58,7 @@ function generateMenu() {
             </span>
             <span class="menu-button icon menu-right" onclick="logout()"><?= generateLogout() ?></span>
             <script> 
-                toggle(<?= $info["darkmode"]; ?>);
+                setAppearance(<?= $info["darkmode"]; ?>);
             </script>
             <?php
         } else {

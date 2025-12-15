@@ -1,40 +1,19 @@
 /* STYLE */
 
-const saveMode = function () {
-  let y;
-  return function (to) {
-    clearTimeout(y); // Cancel if done a lot
-    y = setTimeout(() => {
-      postData("/api/menu/setMode.php", `m=${to}`);
-    }, 1000); // Wait 1 seconds
-  };
-};
-
 const saveModeFunc = saveMode(); // Instance save mode
 
-function toggle(to) {
-  // To with a value will never update settings.
-  // To with a value is always called from menu
+/**
+ * Sets appearance to the specified value
+ * @param {Number} to 0 = system, 1 = light, 2 = dark
+ */
+function setAppearance(to = 0) {
   const classList = document.body.classList;
-  if (to === undefined) {
-    setModeSVG(classList.value === "dark"); // Pre toggle
-    const set = classList.toggle("dark");
-    saveModeFunc(set ? 1 : 0); // Execute
-  } else if (
-    (to === 0 && classList.value === "dark") ||
-    (to === 1 && classList.value === "")
-  ) {
-    setModeSVG(classList.value === "dark"); // Pre toggle
+  const result = window.matchMedia("(prefers-color-scheme: dark)");
+  const isDarkMode = classList.value === "dark";
+
+  if (((to === 0 && result.matches) || to === 2) && !isDarkMode)
     classList.toggle("dark");
-  }
-}
-
-function setModeSVG(sun = true) {
-  const modeSun = document.getElementById("mode-sun");
-  const modeMoon = document.getElementById("mode-moon");
-
-  modeSun.style.display = sun ? "block" : "none";
-  modeMoon.style.display = !sun ? "block" : "none";
+  else if (isDarkMode) classList.toggle("dark");
 }
 
 /* OVERLAY */
@@ -65,14 +44,31 @@ function menuEventListener(e) {
 
 /* OTHER */
 
-function errorMessage(msg) {
-  const errorMsg = document.createElement("div");
-  errorMsg.className = "error-message";
-  errorMsg.textContent = msg;
+/**
+ * Creates a new pop-up on screen
+ * @param {String} message
+ * @param {int} type 0 = pass, 1 = fail (default 1)
+ * @returns {boolean} returns true or false depending on whether pop-up could be created
+ */
+function createPopUp(message = "", type = 1) {
+  const typeList = ["pass", "warn", "fail"];
+  const popUpContainer = document.getElementById("pop-up-message-container");
 
-  document.body.prepend(errorMsg);
+  // Guard clauses
+  if (!popUpContainer) return false; // No pop up container found
+  if (!message) return false; // In case message is unset
+  if (type < 0 || type >= typeList.length) return false; // Invalid type
 
-  setTimeout(() => errorMsg.remove(), 5000);
+  // New pop-up
+  const popUp = document.createElement("div");
+  popUp.className = "pop-up-message " + typeList[type];
+  popUp.textContent = message;
+  popUpContainer.appendChild(popUp);
+
+  // Removal
+  setTimeout(() => popUp.remove(), 7900); // time in ms - 100ms
+
+  return true; // Successfully appended element
 }
 
 function createPageMenu(funcName, p, items) {
@@ -142,10 +138,10 @@ function selectPage(e) {
 /* USER INPUT VALIDATION */
 function checkUsername(username) {
   if (username.length > 24) {
-    errorMessage("Max 24. chars allowed for username");
+    createPopUp("Max 24. chars allowed for username");
     return false;
   } else if (username.length < 4) {
-    errorMessage("Min 4. chars needed for username");
+    createPopUp("Min 4. chars needed for username");
     return false;
   }
   return true;
@@ -153,13 +149,13 @@ function checkUsername(username) {
 
 function checkHandle(handle) {
   if (handle.length > 16) {
-    errorMessage("Max 16. chars allowed for handle");
+    createPopUp("Max 16. chars allowed for handle");
     return false;
   } else if (handle.length < 4) {
-    errorMessage("Min 4. chars needed for handle");
+    createPopUp("Min 4. chars needed for handle");
     return false;
   } else if (!/^[A-z0-9.\-_]*$/i.test(handle)) {
-    errorMessage(
+    createPopUp(
       "Only characters <b>a-Z 0-9 - _ .</b> are allowed for the handle"
     );
     return false;
@@ -169,10 +165,10 @@ function checkHandle(handle) {
 
 function checkPassword(pswd) {
   if (pswd.length > 64) {
-    errorMessage("Max 64. chars allowed for your password");
+    createPopUp("Max 64. chars allowed for your password");
     return false;
   } else if (pswd.length < 8) {
-    errorMessage("Min. 8 chars needed for password");
+    createPopUp("Min. 8 chars needed for password");
     return false;
   }
   return true;
@@ -341,13 +337,13 @@ async function parseResponse(resp, autoLog = true) {
       if (!result.msg) throw e;
       if (!/\S/.test(result.msg)) throw e;
 
-      if (autoLog) errorMessage(result.msg);
+      if (autoLog) createPopUp(result.msg, 0);
       return [false, result.msg];
     } else {
       throw e;
     }
   } catch (e) {
-    if (autoLog) errorMessage("An error has occured"); // Todo: language support
+    if (autoLog) createPopUp("An error has occured"); // Todo: language support
     return [false, ""];
   }
 }

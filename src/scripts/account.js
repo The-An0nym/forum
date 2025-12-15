@@ -61,7 +61,7 @@ async function signUp() {
   if (!checkHandle(handle)) return;
   if (!checkPassword(pswd)) return;
   if (pswd !== pswdCnf) {
-    errorMessage("Passwords do not match");
+    createPopUp("Passwords do not match");
     return;
   }
 

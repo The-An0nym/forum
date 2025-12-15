@@ -34,29 +34,3 @@ function generateSend() : string {
 
     return $svg;
 }
-
-/**
- * Generate sun icon SVG
-*/
-function generateSun(bool $show = true) : string {
-    $display = $show ? "block" : "none";
-    $svg = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"-100 -100 200 200\" id=\"mode-sun\" style=\"display: $display\">
-                <path d=\"M0 50 A20 20 0 0 0 0 -50 A20 20 0 0 0 0 50\" />
-                <path d=\"M0 -90 L0 -70 M0 70 L0 90 M-90 0 L-70 0 M70 0 L90 0\" />
-	            <path transform=\"rotate(45)\" d=\"M0 -100 L0 -70 M0 70 L0 100 M-100 0 L-70 0 M70 0 L100 0\" />
-            </svg>";
-
-    return $svg;
-}
-
-/**
- * Generate moon icon SVG
-*/
-function generateMoon(bool $show = true) : string {
-    $display = $show ? "block" : "none";
-    $svg = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"-100 -100 200 200\" id=\"mode-moon\" style=\"display: $display\">
-	            <path transform=\"rotate(-8), translate(-4, 4), scale(0.92)\" d=\"M70 -70 A85 90 0 0 0 -70 0 A85 90 0 0 0 65 70 A20 5 -20 0 0 65 65 A10 10 0 0 1 70 -70\" />
-            </svg>";
-
-    return $svg;
-}

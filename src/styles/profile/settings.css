@@ -57,6 +57,8 @@
   margin: 0 1em;
 }
 
-input {
+/* .button is profile image file select button */
+input,
+.button {
   margin-bottom: 0.25em;
 }

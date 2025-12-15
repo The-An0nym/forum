@@ -27,12 +27,12 @@ async function uploadImage() {
 
 function verifyImage(img) {
   if (!["image/jpeg", "image/jpg", "image/png"].includes(img.type)) {
-    errorMessage("Image must be jpg or png");
+    createPopUp("Image must be jpg or png");
     return false;
   }
 
   if (img.size > 1024 * 1024) {
-    errorMessage("Image must be less than 1MB");
+    createPopUp("Image must be less than 1MB");
     return false;
   }
 
@@ -82,7 +82,7 @@ async function changePassword() {
   if (!checkPassword(currPswd)) return;
   if (!checkPassword(newPswd)) return;
   if (confPswd !== newPswd) {
-    errorMessage("Passwords do not match");
+    createPopUp("Passwords do not match");
     return;
   }
 
@@ -156,6 +156,17 @@ function passwordChange() {
     document.getElementById("passwordButton").className =
       "action-button disabled";
   }
+}
+
+// Appearance
+
+function appearanceChange() {
+  const val = document.getElementById("appearanceSelect").value;
+  if (isNaN(val)) return;
+  const value = parseInt(val);
+
+  postData("/api/menu/setMode.php", `m=${value}`);
+  setAppearance(value);
 }
 
 /* OTHER BUTTONS */
