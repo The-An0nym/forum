@@ -1,0 +1,35 @@
+#global {
+  display: flex;
+  flex-direction: row;
+}
+
+#profile-picture {
+  display: flex;
+  flex-direction: column;
+}
+
+#user-settings {
+  display: flex;
+  flex-direction: column;
+}
+
+#preview {
+  width: 10em;
+  border: 1px solid black;
+}
+
+#pfp {
+  display: none;
+}
+
+.setting-item {
+  margin-bottom: 2em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.setting-input {
+  display: flex;
+  flex-direction: column;
+}

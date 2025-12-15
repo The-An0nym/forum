@@ -7,6 +7,8 @@
   --border: hsl(0 0 70);
   --primary-color: hsl(205 220 80);
   --primary-color-active: hsl(195 220 82);
+  --error-color: hsl(0 200 80);
+  --pass-color: hsl(120 200 80);
   --invert-value: 0;
 }
 
@@ -19,6 +21,8 @@ body.dark {
   --border: hsl(0 0 40);
   --primary-color: hsl(215 200 70);
   --primary-color-active: hsl(210 250 75);
+  --error-color: hsl(0 250 80);
+  --pass-color: hsl(120 250 80);
   --invert-value: 1;
 }
 
@@ -98,7 +102,7 @@ svg {
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #faa;
+  background-color: var(--error-color);
   padding: 1%;
   font-size: 0.8em;
   z-index: 20;

@@ -2,6 +2,8 @@
 
 ## General
 
+- [ ] Load session info via http://ip-api.com/json/{ip}?fields=49161&lang={lang} -> Country and regionName
+- [ ] undo toggle mode prevention and place toggle mode in settings
 - [ ] Refactor pop-ups to be handled through ONE JS function (consider using JSON objects)
 - [ ] Cleanup
 - [ ] Styling

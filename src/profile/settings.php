@@ -27,12 +27,12 @@ require_once $path . '/functions/validateSession.php';
     <title>Quir | Settings</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/styles/main.css" />
-    <link rel="stylesheet" href="/styles/profile.css"/>
+    <link rel="stylesheet" href="/styles/profile/settings.css"/>
 </head>
 <body>
     <?php generateMenu() ?>
 
-    <div class="container">
+    <div id="global">
     <?php
         if(validateSession()) {
             $user_id = $_SESSION["user_id"];
@@ -48,52 +48,56 @@ require_once $path . '/functions/validateSession.php';
             $clearance = $row["clearance"];
 
             ?>  
-            <div class="profile-picture">
-            <label for="pfp"><span class="button">Change pfp...</span></label>
+            <div id="profile-picture">
+                <img id="preview" src="/images/profiles/<?= $image_dir; ?>">
+                <label for="pfp"><span class="button">Change pfp...</span></label>
                 <input onchange="loadPreview()" type="file" id="pfp" name="avatar" accept="image/png, image/jpeg, image/jpg" />
                 <div class="button-container" id="imageButtons">
                     <button class="save button" onclick="uploadImage()">Save</button>
                     <button class="clear button" onclick="revertImage()">Cancel</button>
                 </div>
-                <img id="preview" src="/images/profiles/<?= $image_dir; ?>">
             </div>
-            <div class="username">
-                <label for="username">Change username</label>
-                <input oninput="usernameChange()" id="username" value="<?= $username; ?>" placeholder="Change username..." />
-                <div class="button-container" id="usernameButtons">
-                    <button class="save button" onclick="changeUsername()">Save</button>
-                    <button class="save button" onclick="revertUsername()">Cancel</button>
+            <div id="user-settings">
+                <div class="setting-item">
+                    <label for="username">Change username</label>
+                    <input class="setting-input" oninput="usernameChange()" id="username" value="<?= $username; ?>" placeholder="Change username..." />
+                    <span class="setting-input-buttons" id="usernameButtons">
+                        <button class="save button" onclick="changeUsername()">Save</button>
+                        <button class="save button" onclick="revertUsername()">Cancel</button>
+                    </span>
+                </div>
+                <div class="setting-item">
+                    <label for="handle">Change handle</label>
+                    <input class="setting-input" oninput="handleChange()" id="handle" value="<?= $handle; ?>" placeholder="Change handle..." />
+                    <span class="setting-input-buttons" id="handleButtons">
+                        <button class="save button" onclick="changeHandle()">Save</button>
+                        <button class="save button" onclick="revertHandle()">Cancel</button>
+                    </span>
+                </div>
+                <div class="setting-item">
+                    <label for="currPassword">Change password</label>
+                    <span class="setting-input">
+                        <input oninput="passwordChange()" type="password" id="currPassword" placeholder="Current password...">
+                        <input oninput="passwordChange()" type="password" id="newPassword" placeholder="New password...">
+                        <input oninput="passwordChange()" type="password" id="confPassword" placeholder="Confirm password...">
+                    </span>
+                    <span class="setting-input-buttons" id="passwordButtons">
+                        <button class="save button" onclick="changePassword()" id="passwordSave">Save</button>
+                        <button class="save button" onclick="revertPassword()" id="usernameSave">Cancel</button>
+                    </span>
+                </div>
+                <div class="posts">Posts: <?php echo $posts; ?></div>
+                <div class="threads">Threads: <?php echo $threads; ?></div>
+                <div class="delete-account">
+                    <button class="deleted" onclick="createConfirmation('delete your account', '<?= $handle ?>', deleteAccount, '<?= $user_id ?>')">Delete account</button>
                 </div>
             </div>
-            <div class="handle">
-                <label for="handle">Change handle</label>
-                <input oninput="handleChange()" id="handle" value="<?= $handle; ?>" placeholder="Change handle..." />
-                <div class="button-container" id="handleButtons">
-                    <button class="save button" onclick="changeHandle()">Save</button>
-                    <button class="save button" onclick="revertHandle()">Cancel</button>
-                </div>
-            </div>
-            <div class="password">
-                <label for="currPassword">Change password</label>
-                <input oninput="passwordChange()" type="password" id="currPassword" placeholder="Current password...">
-                <input oninput="passwordChange()" type="password" id="newPassword" placeholder="New password...">
-                <input oninput="passwordChange()" type="password" id="confPassword" placeholder="Confirm password...">
-                <div class="button-container" id="passwordButtons">
-                    <button class="save button" onclick="changePassword()" id="passwordSave">Save</button>
-                    <button class="save button" onclick="revertPassword()" id="usernameSave">Cancel</button>
-                </div>
-            </div>
-            <div class="posts">Posts: <?php echo $posts; ?></div>
-            <div class="threads">Threads: <?php echo $threads; ?></div>
-            <div class="delete-account">
-                <button class="deleted" onclick="createConfirmation('delete your account', '<?= $handle ?>', deleteAccount, '<?= $user_id ?>')">Delete account</button>
-             </div>
-                <script>
-                    const username = "<?= $username; ?>";
-                    const handle = "<?= $handle; ?>"
-                    const image_dir = "<?= $image_dir; ?>";
-                </script>
-            <?php
+            <script>
+                const username = "<?= $username; ?>";
+                const handle = "<?= $handle; ?>"
+                const image_dir = "<?= $image_dir; ?>";
+            </script>
+        <?php
 
         } else {
             echo "Please Log in or Sign up to continue...";

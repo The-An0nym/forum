@@ -1,0 +1,49 @@
+#global {
+  background-color: var(--bg);
+  height: calc(100vh - 120px);
+  padding: 5px;
+  width: 98%;
+  margin: auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+#notifications-container {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  margin-left: 20px;
+}
+
+.notification-item {
+  background-color: var(--bg);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.notification-count {
+  background-color: var(--primary-color);
+  padding: 5px;
+  border-radius: 10px;
+  font-size: 0.8em;
+  position: absolute;
+  margin-top: -25px;
+  margin-left: -20px;
+}
+
+.notification-datetime {
+  font-size: 0.5em;
+  color: var(--text-muted);
+  align-self: end;
+}
+
+.notification-title {
+  font-size: 1.2em;
+}
+
+.notification-initiators {
+  font-size: 0.8em;
+}

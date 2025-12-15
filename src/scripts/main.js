@@ -1,4 +1,17 @@
 /* STYLE */
+
+const saveMode = function () {
+  let y;
+  return function (to) {
+    clearTimeout(y); // Cancel if done a lot
+    y = setTimeout(() => {
+      postData("/api/menu/setMode.php", `m=${to}`);
+    }, 1000); // Wait 1 seconds
+  };
+};
+
+const saveModeFunc = saveMode(); // Instance save mode
+
 function toggle(to) {
   // To with a value will never update settings.
   // To with a value is always called from menu
@@ -6,8 +19,7 @@ function toggle(to) {
   if (to === undefined) {
     setModeSVG(classList.value === "dark"); // Pre toggle
     const set = classList.toggle("dark");
-    const x = saveMode(set ? 1 : 0);
-    x(); // Execute
+    saveModeFunc(set ? 1 : 0); // Execute
   } else if (
     (to === 0 && classList.value === "dark") ||
     (to === 1 && classList.value === "")
@@ -24,16 +36,6 @@ function setModeSVG(sun = true) {
   modeSun.style.display = sun ? "block" : "none";
   modeMoon.style.display = !sun ? "block" : "none";
 }
-
-saveMode = function (to) {
-  let y;
-  return function () {
-    clearTimeout(y); // Cancel if done a lot
-    y = setTimeout(() => {
-      postData("/api/menu/setMode.php", `m=${to}`);
-    }, 2000); // Wait 2 seconds
-  };
-};
 
 /* OVERLAY */
 function createWrapperOverlay() {

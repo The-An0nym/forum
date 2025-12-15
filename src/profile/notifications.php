@@ -27,7 +27,7 @@ require_once $path . '/functions/validateSession.php';
     <title>Quir | Notifications</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/styles/main.css" />
-    <link rel="stylesheet" href="/styles/profile.css"/>
+    <link rel="stylesheet" href="/styles/profile/notifications.css"/>
 </head>
 <body>
     <?php generateMenu() ?>
@@ -51,6 +51,6 @@ require_once $path . '/functions/validateSession.php';
 
     <?php require_once $path . "/assets/footer.php"; ?>
 
-    <script src="/scripts/profile.js"></script>
+    <!-- TODO verify that this is unnecessary <script src="/scripts/profile.js"></script> -->
 </body>
 </html>

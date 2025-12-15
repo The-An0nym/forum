@@ -27,7 +27,7 @@ require_once $path . '/functions/validateSession.php';
     <title>Quir | Moderation</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/styles/main.css" />
-    <link rel="stylesheet" href="/styles/profile.css"/>
+    <link rel="stylesheet" href="/styles/profile/moderation.css"/>
     <link rel="stylesheet" href="/styles/tab-menu.css"/>
 
 </head>
