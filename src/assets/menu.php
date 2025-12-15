@@ -38,6 +38,7 @@ function generateMenu() {
     <script src="/scripts/main.js"></script>
     <script src="/scripts/account.js"></script>
     <div id="progress-bar"></div>
+    <div id="pop-up-message-container"></div>
     <div class="menu">
         <a class="menu-button icon menu-left" href="/"><?= generateHome() ?></a>
         <?php

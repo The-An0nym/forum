@@ -1,7 +1,3 @@
-/* STYLE */
-
-const saveModeFunc = saveMode(); // Instance save mode
-
 /**
  * Sets appearance to the specified value
  * @param {Number} to 0 = system, 1 = light, 2 = dark
@@ -181,20 +177,18 @@ function createConfirmation(text, confInp, callback, param) {
   const wrapper = createWrapperOverlay();
 
   const container = document.createElement("div");
-  container.className = "conf-container pop-up-container";
-  container.id = "conf-container";
+  container.className = "pop-up-container";
 
-  const info = document.createElement("span");
-  info.className = "conf-info";
+  const info = document.createElement("div");
+  info.className = "pop-up-title";
   info.textContent = `Are you sure you want to ${text}?`;
 
   const input = document.createElement("input");
-  input.className = "conf-inp";
-  input.id = "conf-inp";
+  input.className = "pop-up-input";
   input.setAttribute("placeholder", confInp);
 
   const del = document.createElement("button");
-  del.className = "delete-conf-button";
+  del.className = "pop-up-submit danger-button";
   del.textContent = "delete";
   del.addEventListener("mouseup", () => {
     if (input.value === confInp) {

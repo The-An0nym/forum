@@ -59,6 +59,22 @@
 
 /* .button is profile image file select button */
 input,
+select,
 .button {
   margin-bottom: 0.25em;
+}
+
+#danger-zone {
+  margin: 1em 0;
+  align-items: center;
+  display: flex;
+}
+
+#danger-zone::after,
+#danger-zone::before {
+  border-top: 1px solid var(--border);
+  content: " ";
+  display: inline-block;
+  flex: 1;
+  margin: 0 1em;
 }

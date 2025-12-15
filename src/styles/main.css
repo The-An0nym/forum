@@ -6,22 +6,24 @@
   --text-muted: hsl(0 0 30);
   --border: hsl(0 0 70);
   --primary-color: hsl(205 220 80);
-  --primary-color-active: hsl(195 220 82);
+  --primary-color-hover: hsl(195 220 82);
   --error-color: hsl(0 200 80);
+  --error-color-hover: hsl(0 180 82);
   --pass-color: hsl(120 200 80);
   --invert-value: 0;
 }
 
 body.dark {
-  --bg-dark: hsl(0 0 1);
+  --bg-dark: hsl(0 0 10);
   --bg: hsl(0 0 20);
   --bg-light: hsl(0 0 30);
   --text: hsl(0 0 95);
   --text-muted: hsl(0 0 70);
   --border: hsl(0 0 40);
   --primary-color: hsl(215 200 70);
-  --primary-color-active: hsl(210 250 75);
+  --primary-color-hover: hsl(210 250 75);
   --error-color: hsl(0 250 80);
+  --error-color-hover: hsl(0 220 82);
   --pass-color: hsl(120 250 80);
   --invert-value: 1;
 }
@@ -56,6 +58,7 @@ button,
   padding: 4px;
   border-radius: 0.25em;
   font-size: 0.6em;
+  text-align: center;
 }
 
 textarea:not(.disabled):not([disabled]):hover,
@@ -121,7 +124,7 @@ svg {
 @keyframes pop-up-message-animation {
   0% {
     padding: 0.5em;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border);
     margin-top: 0.5em;
     margin-right: -1px; /* Taking border into account */
     transform: translateX(100%);
@@ -140,7 +143,7 @@ svg {
     margin-top: 0.5em;
     height: auto;
     padding: 0.5em;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border);
   }
   95% {
     transform: translateX(100%);
@@ -172,11 +175,11 @@ svg {
 /* pop-up-message colors */
 
 .pop-up-message.pass {
-  background-color: var(--pass);
+  background-color: var(--pass-color);
 }
 
 .pop--message.fail {
-  background-color: var(--fail);
+  background-color: var(--error-color);
 }
 
 /* END pop-up-message*/
@@ -255,10 +258,11 @@ svg {
 
 /* TODO replace variables */
 .selected-page {
-  background-color: var(--saturated-blue);
+  background-color: var(--primary-color);
 }
+
 .selected-page:hover {
-  background-color: var(--saturated-blue);
+  background-color: var(--primary-color-hover);
 }
 
 /* Progress bad */
@@ -276,7 +280,15 @@ svg {
 }
 
 .action-button:not(.disabled):not([disabled]):hover {
-  background-color: var(--primary-color-active) !important;
+  background-color: var(--primary-color-hover) !important;
+}
+
+.danger-button:not(.disabled) {
+  background-color: var(--error-color) !important;
+}
+
+.danger-button:not(.disabled):hover {
+  background-color: var(--error-color-hover) !important;
 }
 
 .send-button {

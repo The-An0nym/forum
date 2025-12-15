@@ -43,14 +43,11 @@ require_once $path . '/functions/validateSession.php';
             $username = $row["username"];
             $handle = $row["handle"];
             $image_dir = $row["image_dir"];
-            $posts = $row["posts"];
-            $threads = $row["threads"];
-            $clearance = $row["clearance"];
 
             ?>  
             <div id="profile-picture">
                 <img id="preview" src="/images/profiles/<?= $image_dir; ?>">
-                <label for="pfp-input"><span class="button">Select file</span></label>
+                <label for="pfp-input"><div class="button">Select file</div></label>
                 <input onchange="loadPreview()" type="file" id="pfp-input" name="avatar" accept="image/png, image/jpeg, image/jpg" />
                 <button class="action-button disabled" id="imageButton" onclick="uploadImage()">Save</button>
             </div>
@@ -83,16 +80,16 @@ require_once $path . '/functions/validateSession.php';
                     <span class="setting-input">
                         <select onchange="appearanceChange()" id="appearanceSelect">
                             <option value="0">System Preference</option>
-                            <option value="1">Dark</option>
-                            <option value="2">Light</option>
+                            <option value="1">Light</option>
+                            <option value="2">Dark</option>
                         </select>
                         <button class="action-button disabled" onclick="changePassword()" id="passwordButton">Save</button>
                     </span>
                 </div>
-                <div class="posts">Posts: <?php echo $posts; ?></div>
-                <div class="threads">Threads: <?php echo $threads; ?></div>
-                <div class="delete-account">
-                    <button class="deleted" onclick="createConfirmation('delete your account', '<?= $handle ?>', deleteAccount, '<?= $user_id ?>')">Delete account</button>
+                <div id="danger-zone">Danger zone</div>
+                <div class="setting-item">
+                    <span>Delete account?</span>
+                    <button class="danger-button" onclick="createConfirmation('delete your account', '<?= $handle ?>', deleteAccount, '<?= $user_id ?>')">Delete account</button>
                 </div>
             </div>
             <script>

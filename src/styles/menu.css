@@ -99,7 +99,7 @@
 }
 
 .new-notifications-indicator:hover {
-  background-color: var(--primary-color-active);
+  background-color: var(--primary-color-hover);
   text-decoration: none;
 }
 
