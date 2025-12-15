@@ -50,32 +50,32 @@ require_once $path . '/functions/validateSession.php';
             ?>  
             <div id="profile-picture">
                 <img id="preview" src="/images/profiles/<?= $image_dir; ?>">
-                <label for="pfp"><span class="button">Change pfp...</span></label>
-                <input onchange="loadPreview()" type="file" id="pfp" name="avatar" accept="image/png, image/jpeg, image/jpg" />
-                <button class="action-button" id="imageButton" onclick="uploadImage()">Save</button>
+                <label for="pfp-input"><span>Select file</span></label>
+                <input onchange="loadPreview()" type="file" id="pfp-input" name="avatar" accept="image/png, image/jpeg, image/jpg" />
+                <button class="action-button disabled" id="imageButton" onclick="uploadImage()">Save</button>
             </div>
             <div id="user-settings">
                 <div class="setting-item">
-                    <label for="username">Username</label>
+                    <span>Username</span>
                     <span class="setting-input">
                         <input oninput="usernameChange()" id="username" value="<?= $username; ?>" placeholder="Change username..." />
-                        <button class="action-button" id="usernameButton" onclick="changeUsername()">Save</button>
+                        <button class="action-button disabled" id="usernameButton" onclick="changeUsername()">Save</button>
                     </span>
                 </div>
                 <div class="setting-item">
-                    <label for="handle">Handle</label>
+                    <span>Handle</span>
                     <span class="setting-input">
-                        <input class="setting-input" oninput="handleChange()" id="handle" value="<?= $handle; ?>" placeholder="Change handle..." />
-                        <button class="action-button" id="handleButton" onclick="changeHandle()">Save</button>
+                        <input oninput="handleChange()" id="handle" value="<?= $handle; ?>" placeholder="Change handle..." />
+                        <button class="action-button disabled" id="handleButton" onclick="changeHandle()">Save</button>
                     </span>
                 </div>
                 <div class="setting-item">
-                    <label for="currPassword">Password</label>
+                    <span>Password</span>
                     <span class="setting-input">
                         <input oninput="passwordChange()" type="password" id="currPassword" placeholder="Current password...">
                         <input oninput="passwordChange()" type="password" id="newPassword" placeholder="New password...">
                         <input oninput="passwordChange()" type="password" id="confPassword" placeholder="Confirm password...">
-                        <button class="action-button" onclick="changePassword()" id="passwordButton">Save</button>
+                        <button class="action-button disabled" onclick="changePassword()" id="passwordButton">Save</button>
                     </span>
                 </div>
                 <div class="posts">Posts: <?php echo $posts; ?></div>

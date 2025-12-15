@@ -1,9 +1,14 @@
 #global {
   display: flex;
-  flex-direction: row;
   background-color: var(--bg);
   padding: 1em;
   margin: 0 1em;
+}
+
+@media screen and (max-width: 720px) {
+  #global {
+    flex-direction: column;
+  }
 }
 
 #profile-picture,
@@ -21,14 +26,17 @@
 
 #profile-picture {
   padding-right: 1em;
+  width: min-content; /* Looks better on mobile*/
 }
 
 #preview {
   width: 10em;
   border: 1px solid black;
+  border-radius: 1em;
+  margin-bottom: 1em;
 }
 
-#pfp {
+#pfp-input {
   display: none;
 }
 
@@ -49,23 +57,6 @@
   margin: 0 1em;
 }
 
-.setting-input-buttons {
-  opacity: 0.6;
+input {
+  margin-bottom: 0.25em;
 }
-
-.button {
-  padding: 0.2em;
-}
-
-.setting-input-buttons.disabled > .button {
-  /* Some styling here maybe*/
-  opacity: 0.7;
-}
-
-.setting-input-buttons.disabled > .button {
-  cursor: not-allowed !important;
-  opacity: 1;
-}
-
-/* TODO make disabled class for buttons instead of relying on opacity*/
-/* TODO clean up JS */

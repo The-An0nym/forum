@@ -44,21 +44,24 @@ a:hover {
   text-decoration: underline;
 }
 
+/* .button is for elements that cannot be button elements */
 input,
 textarea,
 select,
-button {
+button,
+.button {
   background-color: var(--bg);
   color: var(--text);
   border: 1px solid var(--border);
   padding: 4px;
-  border-radius: 2px;
+  border-radius: 0.25em;
   font-size: 0.6em;
 }
 
 textarea:not(.disabled):not([disabled]):hover,
 select:not(.disabled):not([disabled]):hover,
-button:not(.disabled):not([disabled]):hover {
+button:not(.disabled):not([disabled]):hover,
+.button:not(.disabled):not([disabled]):hover {
   background-color: var(--bg-light);
   color: var(--text);
   cursor: pointer;
@@ -101,7 +104,7 @@ svg {
 }
 
 .error-message {
-  border-radius: 5px;
+  border-radius: 0.25em;
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
@@ -120,25 +123,25 @@ svg {
   transform: translate(-50%, -50%);
   padding: 1.8% 3% 2.2% 3%;
   border: 1px solid var(--border);
-  border-radius: 2px;
+  border-radius: 0.25em;
   z-index: 1;
   background-color: var(--bg);
 }
 
 .pop-up-title {
-  margin-bottom: 10px;
-  padding-bottom: 5px;
+  margin-bottom: 0.5em;
+  padding-bottom: 0.25em;
   border-bottom: 1px solid var(--border);
   font-size: 1em;
   text-align: center;
 }
 
 .pop-up-input {
-  margin: 2px 0;
+  margin: 0.1em 0;
 }
 
 .pop-up-submit {
-  margin-top: 5px;
+  margin-top: 0.25px;
 }
 
 .pop-up-text {
@@ -200,13 +203,13 @@ svg {
   z-index: 10;
 }
 
-/* Buttons */
-.action-button {
-  background-color: var(--primary-color);
+/* Special buttons */
+.action-button:not(.disabled):not([disabled]) {
+  background-color: var(--primary-color) !important;
 }
 
-.action-button:not(.disabled):hover {
-  background-color: var(--primary-color-active);
+.action-button:not(.disabled):not([disabled]):hover {
+  background-color: var(--primary-color-active) !important;
 }
 
 .send-button {
