@@ -125,7 +125,7 @@ function loadPreview() {
 
 function revertImage() {
   document.getElementById("pfp").value = "";
-  document.getElementById("imageButtons").style.opacity = 0;
+  document.getElementById("imageButtons").style.opacity = 0.6;
   document.getElementById("preview").src = `/images/profiles/${image_dir}`;
 }
 
@@ -133,7 +133,7 @@ function revertImage() {
 function usernameChange() {
   const usernameInput = document.getElementById("username");
   if (username === usernameInput.value) {
-    document.getElementById("usernameButtons").style.opacity = 0;
+    document.getElementById("usernameButtons").style.opacity = 0.6;
   } else {
     document.getElementById("usernameButtons").style.opacity = 1;
   }
@@ -141,14 +141,14 @@ function usernameChange() {
 
 function revertUsername() {
   document.getElementById("username").value = username;
-  document.getElementById("usernameButtons").style.opacity = 0;
+  document.getElementById("usernameButtons").style.opacity = 0.6;
 }
 
 // Handle
 function handleChange() {
   const handleInput = document.getElementById("handle");
   if (handle === handleInput.value) {
-    document.getElementById("handleButtons").style.opacity = 0;
+    document.getElementById("handleButtons").style.opacity = 0.6;
   } else {
     document.getElementById("handleButtons").style.opacity = 1;
   }
@@ -156,7 +156,7 @@ function handleChange() {
 
 function revertHandle() {
   document.getElementById("handle").value = handle;
-  document.getElementById("handleButtons").style.opacity = 0;
+  document.getElementById("handleButtons").style.opacity = 0.6;
 }
 
 // Password
@@ -173,7 +173,7 @@ function passwordChange() {
   ) {
     document.getElementById("passwordButtons").style.opacity = 1;
   } else {
-    document.getElementById("passwordButtons").style.opacity = 0;
+    document.getElementById("passwordButtons").style.opacity = 0.6;
   }
 }
 

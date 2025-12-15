@@ -59,7 +59,7 @@ require_once $path . '/functions/validateSession.php';
             </div>
             <div id="user-settings">
                 <div class="setting-item">
-                    <label for="username">Change username</label>
+                    <label for="username">Username</label>
                     <input class="setting-input" oninput="usernameChange()" id="username" value="<?= $username; ?>" placeholder="Change username..." />
                     <span class="setting-input-buttons" id="usernameButtons">
                         <button class="button action-button" onclick="changeUsername()">Save</button>
@@ -67,7 +67,7 @@ require_once $path . '/functions/validateSession.php';
                     </span>
                 </div>
                 <div class="setting-item">
-                    <label for="handle">Change handle</label>
+                    <label for="handle">Handle</label>
                     <input class="setting-input" oninput="handleChange()" id="handle" value="<?= $handle; ?>" placeholder="Change handle..." />
                     <span class="setting-input-buttons" id="handleButtons">
                         <button class="button action-button" onclick="changeHandle()">Save</button>
@@ -75,7 +75,7 @@ require_once $path . '/functions/validateSession.php';
                     </span>
                 </div>
                 <div class="setting-item">
-                    <label for="currPassword">Change password</label>
+                    <label for="currPassword">Password</label>
                     <span class="setting-input">
                         <input oninput="passwordChange()" type="password" id="currPassword" placeholder="Current password...">
                         <input oninput="passwordChange()" type="password" id="newPassword" placeholder="New password...">
