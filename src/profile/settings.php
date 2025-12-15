@@ -53,8 +53,8 @@ require_once $path . '/functions/validateSession.php';
                 <label for="pfp"><span class="button">Change pfp...</span></label>
                 <input onchange="loadPreview()" type="file" id="pfp" name="avatar" accept="image/png, image/jpeg, image/jpg" />
                 <div class="button-container" id="imageButtons">
-                    <button class="save button" onclick="uploadImage()">Save</button>
-                    <button class="clear button" onclick="revertImage()">Cancel</button>
+                    <button class="button action-button" onclick="uploadImage()">Save</button>
+                    <button class="button" onclick="revertImage()">Cancel</button>
                 </div>
             </div>
             <div id="user-settings">
@@ -62,16 +62,16 @@ require_once $path . '/functions/validateSession.php';
                     <label for="username">Change username</label>
                     <input class="setting-input" oninput="usernameChange()" id="username" value="<?= $username; ?>" placeholder="Change username..." />
                     <span class="setting-input-buttons" id="usernameButtons">
-                        <button class="save button" onclick="changeUsername()">Save</button>
-                        <button class="save button" onclick="revertUsername()">Cancel</button>
+                        <button class="button action-button" onclick="changeUsername()">Save</button>
+                        <button class="button" onclick="revertUsername()">Cancel</button>
                     </span>
                 </div>
                 <div class="setting-item">
                     <label for="handle">Change handle</label>
                     <input class="setting-input" oninput="handleChange()" id="handle" value="<?= $handle; ?>" placeholder="Change handle..." />
                     <span class="setting-input-buttons" id="handleButtons">
-                        <button class="save button" onclick="changeHandle()">Save</button>
-                        <button class="save button" onclick="revertHandle()">Cancel</button>
+                        <button class="button action-button" onclick="changeHandle()">Save</button>
+                        <button class="button" onclick="revertHandle()">Cancel</button>
                     </span>
                 </div>
                 <div class="setting-item">
@@ -82,8 +82,8 @@ require_once $path . '/functions/validateSession.php';
                         <input oninput="passwordChange()" type="password" id="confPassword" placeholder="Confirm password...">
                     </span>
                     <span class="setting-input-buttons" id="passwordButtons">
-                        <button class="save button" onclick="changePassword()" id="passwordSave">Save</button>
-                        <button class="save button" onclick="revertPassword()" id="usernameSave">Cancel</button>
+                        <button class="button action-button" onclick="changePassword()" id="passwordSave">Save</button>
+                        <button class="button" onclick="revertPassword()" id="usernameSave">Cancel</button>
                     </span>
                 </div>
                 <div class="posts">Posts: <?php echo $posts; ?></div>

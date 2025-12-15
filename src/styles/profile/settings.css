@@ -3,14 +3,11 @@
   flex-direction: row;
 }
 
-#profile-picture {
-  display: flex;
-  flex-direction: column;
-}
-
+#profile-picture,
 #user-settings {
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 #preview {
@@ -32,4 +29,12 @@
 .setting-input {
   display: flex;
   flex-direction: column;
+}
+
+.setting-input-buttons {
+  opacity: 0;
+}
+
+.button {
+  padding: 0.2em;
 }

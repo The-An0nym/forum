@@ -116,7 +116,7 @@ function loadPreview() {
 
   const img = file.files[0];
   if (verifyImage(img)) {
-    document.getElementById("imageButtons").style.display = "block";
+    document.getElementById("imageButtons").style.opacity = 1;
     document.getElementById("preview").src = window.URL.createObjectURL(img);
   } else {
     revertImage();
@@ -125,7 +125,7 @@ function loadPreview() {
 
 function revertImage() {
   document.getElementById("pfp").value = "";
-  document.getElementById("imageButtons").style.display = "none";
+  document.getElementById("imageButtons").style.opacity = 0;
   document.getElementById("preview").src = `/images/profiles/${image_dir}`;
 }
 
@@ -133,30 +133,30 @@ function revertImage() {
 function usernameChange() {
   const usernameInput = document.getElementById("username");
   if (username === usernameInput.value) {
-    document.getElementById("usernameButtons").style.display = "none";
+    document.getElementById("usernameButtons").style.opacity = 0;
   } else {
-    document.getElementById("usernameButtons").style.display = "block";
+    document.getElementById("usernameButtons").style.opacity = 1;
   }
 }
 
 function revertUsername() {
   document.getElementById("username").value = username;
-  document.getElementById("usernameButtons").style.display = "none";
+  document.getElementById("usernameButtons").style.opacity = 0;
 }
 
 // Handle
 function handleChange() {
   const handleInput = document.getElementById("handle");
   if (handle === handleInput.value) {
-    document.getElementById("handleButtons").style.display = "none";
+    document.getElementById("handleButtons").style.opacity = 0;
   } else {
-    document.getElementById("handleButtons").style.display = "block";
+    document.getElementById("handleButtons").style.opacity = 1;
   }
 }
 
 function revertHandle() {
   document.getElementById("handle").value = handle;
-  document.getElementById("handleButtons").style.display = "none";
+  document.getElementById("handleButtons").style.opacity = 0;
 }
 
 // Password
@@ -171,9 +171,9 @@ function passwordChange() {
     confPassword !== "" &&
     currPassword !== newPassword
   ) {
-    document.getElementById("passwordButtons").style.display = "block";
+    document.getElementById("passwordButtons").style.opacity = 1;
   } else {
-    document.getElementById("passwordButtons").style.display = "none";
+    document.getElementById("passwordButtons").style.opacity = 0;
   }
 }
 
