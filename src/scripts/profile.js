@@ -116,7 +116,7 @@ function loadPreview() {
 
   const img = file.files[0];
   if (verifyImage(img)) {
-    document.getElementById("imageButtons").style.opacity = 1;
+    document.getElementById("imageButtons").className = "setting-input-buttons";
     document.getElementById("preview").src = window.URL.createObjectURL(img);
   } else {
     revertImage();
@@ -125,38 +125,40 @@ function loadPreview() {
 
 function revertImage() {
   document.getElementById("pfp").value = "";
-  document.getElementById("imageButtons").style.opacity = 0.6;
+  document.getElementById("imageButtons").className =
+    "setting-input-buttons disabled";
   document.getElementById("preview").src = `/images/profiles/${image_dir}`;
 }
 
 // Username
 function usernameChange() {
   const usernameInput = document.getElementById("username");
-  if (username === usernameInput.value) {
-    document.getElementById("usernameButtons").style.opacity = 0.6;
-  } else {
-    document.getElementById("usernameButtons").style.opacity = 1;
-  }
+
+  document.getElementById("usernameButtons").className =
+    username === usernameInput.value
+      ? "setting-input-buttons disabled"
+      : "setting-input-buttons";
 }
 
 function revertUsername() {
   document.getElementById("username").value = username;
-  document.getElementById("usernameButtons").style.opacity = 0.6;
+  document.getElementById("usernameButtons").className =
+    "setting-input-buttons disabled";
 }
 
 // Handle
 function handleChange() {
   const handleInput = document.getElementById("handle");
-  if (handle === handleInput.value) {
-    document.getElementById("handleButtons").style.opacity = 0.6;
-  } else {
-    document.getElementById("handleButtons").style.opacity = 1;
-  }
+  document.getElementById("handleButtons").className =
+    handle === handleInput.value
+      ? "setting-input-buttons disabled"
+      : "setting-input-buttons";
 }
 
 function revertHandle() {
   document.getElementById("handle").value = handle;
-  document.getElementById("handleButtons").style.opacity = 0.6;
+  document.getElementById("handleButtons").className =
+    "setting-input-buttons disabled";
 }
 
 // Password
@@ -164,16 +166,18 @@ function passwordChange() {
   const currPassword = document.getElementById("currPassword").value;
   const newPassword = document.getElementById("newPassword").value;
   const confPassword = document.getElementById("confPassword").value;
-  // Maybe just hide/show if the user wants to edit instead of detecting changes?
+  // TODO Maybe just hide/show if the user wants to edit instead of detecting changes?
   if (
     currPassword !== "" &&
     newPassword !== "" &&
     confPassword !== "" &&
     currPassword !== newPassword
   ) {
-    document.getElementById("passwordButtons").style.opacity = 1;
+    document.getElementById("passwordButtons").className =
+      "setting-input-buttons";
   } else {
-    document.getElementById("passwordButtons").style.opacity = 0.6;
+    document.getElementById("passwordButtons").className =
+      "setting-input-buttons disabled";
   }
 }
 

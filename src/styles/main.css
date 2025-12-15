@@ -57,10 +57,9 @@ select,
   font-size: 0.6em;
 }
 
-button:hover,
-textarea:hover,
-select:hover,
-.button:hover {
+textarea:not(.disabled):not([disabled]):hover,
+select:not(.disabled):not([disabled]):hover,
+.button:not(.disabled):not([disabled]):hover {
   background-color: var(--bg-light);
   color: var(--text);
   cursor: pointer;
@@ -72,18 +71,23 @@ input:hover {
   cursor: text;
 }
 
+.disabled,
+[disabled] {
+  color: var(--text-muted);
+  background-color: var(--bg-dark);
+}
+
+.disabled:hover,
+[disabled]:hover {
+  cursor: not-allowed;
+}
+
 input::placeholder {
   color: var(--text-muted);
 }
 
 textarea {
   resize: vertical;
-}
-
-button:disabled {
-  background-color: var(--bg-dark);
-  color: var(--text-muted);
-  cursor: not-allowed;
 }
 
 svg {
@@ -202,7 +206,7 @@ svg {
   background-color: var(--primary-color);
 }
 
-.action-button:hover {
+.action-button:not(.disabled):hover {
   background-color: var(--primary-color-active);
 }
 

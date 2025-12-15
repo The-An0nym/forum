@@ -10,7 +10,6 @@
 #user-settings {
   display: flex;
   flex-direction: column;
-  flex: 1;
 }
 
 #user-settings {
@@ -51,11 +50,20 @@
 }
 
 .setting-input-buttons {
-  opacity: 0;
+  opacity: 0.6;
 }
 
 .button {
   padding: 0.2em;
+}
+
+.setting-input-buttons.disabled > .button {
+  /* Some styling here maybe*/
+  opacity: 0.7;
+}
+
+.setting-input-buttons.disabled > .button {
+  cursor: not-allowed !important;
 }
 
 /* TODO make disabled class for buttons instead of relying on opacity*/
