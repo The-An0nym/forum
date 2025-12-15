@@ -116,49 +116,28 @@ function loadPreview() {
 
   const img = file.files[0];
   if (verifyImage(img)) {
-    document.getElementById("imageButtons").className = "setting-input-buttons";
+    document.getElementById("imageButton").className = "action-button";
     document.getElementById("preview").src = window.URL.createObjectURL(img);
   } else {
     revertImage();
   }
 }
 
-function revertImage() {
-  document.getElementById("pfp").value = "";
-  document.getElementById("imageButtons").className =
-    "setting-input-buttons disabled";
-  document.getElementById("preview").src = `/images/profiles/${image_dir}`;
-}
-
 // Username
 function usernameChange() {
   const usernameInput = document.getElementById("username");
 
-  document.getElementById("usernameButtons").className =
+  document.getElementById("usernameButton").className =
     username === usernameInput.value
-      ? "setting-input-buttons disabled"
-      : "setting-input-buttons";
-}
-
-function revertUsername() {
-  document.getElementById("username").value = username;
-  document.getElementById("usernameButtons").className =
-    "setting-input-buttons disabled";
+      ? "action-button disabled"
+      : "action-button";
 }
 
 // Handle
 function handleChange() {
   const handleInput = document.getElementById("handle");
-  document.getElementById("handleButtons").className =
-    handle === handleInput.value
-      ? "setting-input-buttons disabled"
-      : "setting-input-buttons";
-}
-
-function revertHandle() {
-  document.getElementById("handle").value = handle;
-  document.getElementById("handleButtons").className =
-    "setting-input-buttons disabled";
+  document.getElementById("handleButton").className =
+    handle === handleInput.value ? "action-button disabled" : "action-button";
 }
 
 // Password
@@ -166,25 +145,17 @@ function passwordChange() {
   const currPassword = document.getElementById("currPassword").value;
   const newPassword = document.getElementById("newPassword").value;
   const confPassword = document.getElementById("confPassword").value;
-  // TODO Maybe just hide/show if the user wants to edit instead of detecting changes?
   if (
     currPassword !== "" &&
     newPassword !== "" &&
     confPassword !== "" &&
     currPassword !== newPassword
   ) {
-    document.getElementById("passwordButtons").className =
-      "setting-input-buttons";
+    document.getElementById("passwordButton").className = "action-button";
   } else {
-    document.getElementById("passwordButtons").className =
-      "setting-input-buttons disabled";
+    document.getElementById("passwordButton").className =
+      "action-button disabled";
   }
-}
-
-function revertPassword() {
-  currPassword = document.getElementById("currPassword").value = "";
-  newPassword = document.getElementById("newPassword").value = "";
-  confPassword = document.getElementById("confPassword").value = "";
 }
 
 /* OTHER BUTTONS */

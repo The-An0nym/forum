@@ -52,30 +52,21 @@ require_once $path . '/functions/validateSession.php';
                 <img id="preview" src="/images/profiles/<?= $image_dir; ?>">
                 <label for="pfp"><span class="button">Change pfp...</span></label>
                 <input onchange="loadPreview()" type="file" id="pfp" name="avatar" accept="image/png, image/jpeg, image/jpg" />
-                <div class="setting-input-buttons" id="imageButtons">
-                    <button class="button action-button" onclick="uploadImage()">Save</button>
-                    <button class="button" onclick="revertImage()">Cancel</button>
-                </div>
+                <button class="action-button" id="imageButton" onclick="uploadImage()">Save</button>
             </div>
             <div id="user-settings">
                 <div class="setting-item">
                     <label for="username">Username</label>
                     <span class="setting-input">
                         <input oninput="usernameChange()" id="username" value="<?= $username; ?>" placeholder="Change username..." />
-                        <span class="setting-input-buttons" id="usernameButtons">
-                            <button class="button action-button" onclick="changeUsername()">Save</button>
-                            <button class="button" onclick="revertUsername()">Cancel</button>
-                        </span>
+                        <button class="action-button" id="usernameButton" onclick="changeUsername()">Save</button>
                     </span>
                 </div>
                 <div class="setting-item">
                     <label for="handle">Handle</label>
                     <span class="setting-input">
                         <input class="setting-input" oninput="handleChange()" id="handle" value="<?= $handle; ?>" placeholder="Change handle..." />
-                        <span class="setting-input-buttons" id="handleButtons">
-                            <button class="button action-button" onclick="changeHandle()">Save</button>
-                            <button class="button" onclick="revertHandle()">Cancel</button>
-                        </span>
+                        <button class="action-button" id="handleButton" onclick="changeHandle()">Save</button>
                     </span>
                 </div>
                 <div class="setting-item">
@@ -84,10 +75,7 @@ require_once $path . '/functions/validateSession.php';
                         <input oninput="passwordChange()" type="password" id="currPassword" placeholder="Current password...">
                         <input oninput="passwordChange()" type="password" id="newPassword" placeholder="New password...">
                         <input oninput="passwordChange()" type="password" id="confPassword" placeholder="Confirm password...">
-                        <span class="setting-input-buttons" id="passwordButtons">
-                            <button class="button action-button" onclick="changePassword()" id="passwordSave">Save</button>
-                            <button class="button" onclick="revertPassword()" id="usernameSave">Cancel</button>
-                        </span>
+                        <button class="action-button" onclick="changePassword()" id="passwordButton">Save</button>
                     </span>
                 </div>
                 <div class="posts">Posts: <?php echo $posts; ?></div>

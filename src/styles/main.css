@@ -45,10 +45,9 @@ a:hover {
 }
 
 input,
-button,
 textarea,
 select,
-.button {
+button {
   background-color: var(--bg);
   color: var(--text);
   border: 1px solid var(--border);
@@ -59,7 +58,7 @@ select,
 
 textarea:not(.disabled):not([disabled]):hover,
 select:not(.disabled):not([disabled]):hover,
-.button:not(.disabled):not([disabled]):hover {
+button:not(.disabled):not([disabled]):hover {
   background-color: var(--bg-light);
   color: var(--text);
   cursor: pointer;

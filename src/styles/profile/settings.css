@@ -64,6 +64,7 @@
 
 .setting-input-buttons.disabled > .button {
   cursor: not-allowed !important;
+  opacity: 1;
 }
 
 /* TODO make disabled class for buttons instead of relying on opacity*/
