@@ -40,7 +40,7 @@ function generateMenu() {
     <div id="progress-bar"></div>
     <div id="pop-up-message-container"></div>
     <div class="menu">
-        <a class="menu-button icon menu-left" href="/"><?= generateHome() ?></a>
+        <a class="menu-button icon menu-left" title="home" href="/"><?= generateHome() ?></a>
         <?php
         if(isset($_SESSION['user_id'])) {
             ?>
@@ -51,13 +51,13 @@ function generateMenu() {
                 </span>
                 <span id="profile-options-wrapper">
                     <span id="profile-options">
-                        <a class="menu-button" href="/profile/settings">settings</a>
-                        <a class="menu-button" href="/profile/moderation">moderation</a>
+                        <a class="menu-button border-bottom" href="/profile/settings">settings</a>
+                        <a class="menu-button border-bottom" href="/profile/moderation">moderation</a>
                         <a class="menu-button" href="/profile/notifications">notifications</a>
                     </span>
                 </span>
             </span>
-            <span class="menu-button icon menu-right" onclick="logout()"><?= generateLogout() ?></span>
+            <span class="menu-button icon menu-right" title="logout" onclick="logout()"><?= generateLogout() ?></span>
             <script> 
                 setAppearance(<?= $info["darkmode"]; ?>);
             </script>
@@ -71,6 +71,7 @@ function generateMenu() {
         ?>
     </div>
     <div id="menu-buffer"></div>
+    <div id="super-global">
 <?php }
 
 function getCategory(string $slug) {

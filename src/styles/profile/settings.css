@@ -24,7 +24,7 @@
 }
 
 /* Slimmer screens */
-@media screen and (max-width: 725px) {
+@media screen and (max-width: 800px) {
   #global {
     flex-direction: column;
   }

@@ -1,6 +1,6 @@
 :root {
   --bg-dark: hsl(0 0 80);
-  --bg: hsl(0 0 90);
+  --bg: hsl(0 0 92);
   --bg-light: hsl(0 0 100);
   --text: hsl(0 0 5);
   --text-muted: hsl(0 0 30);
@@ -15,8 +15,8 @@
 
 body.dark {
   --bg-dark: hsl(0 0 10);
-  --bg: hsl(0 0 20);
-  --bg-light: hsl(0 0 30);
+  --bg: hsl(0 0 16);
+  --bg-light: hsl(0 0 26);
   --text: hsl(0 0 95);
   --text-muted: hsl(0 0 70);
   --border: hsl(0 0 40);
@@ -24,7 +24,7 @@ body.dark {
   --primary-color-hover: hsl(210 250 75);
   --error-color: hsl(0 250 80);
   --error-color-hover: hsl(0 220 82);
-  --pass-color: hsl(120 250 80);
+  --pass-color: hsl(120 250 30);
   --invert-value: 1;
 }
 
@@ -35,6 +35,13 @@ body {
   font-size: 1.5rem;
   background-color: var(--bg-dark);
   color: var(--text);
+}
+
+#super-global {
+  height: calc(100vh - 60px); /* 60 px for menu bar */
+  overflow-y: scroll;
+  box-sizing: border-box;
+  padding-top: 0.5em;
 }
 
 a {
@@ -114,10 +121,10 @@ svg {
 /* pop-up container */
 #pop-up-message-container {
   z-index: 20;
-  position: absolute;
-  top: 0;
+  position: fixed;
+  top: 60px;
   right: 0;
-  height: 100vh;
+  height: calc(100vh - 60px);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -169,12 +176,13 @@ svg {
 
 .pop-up-message {
   /* All changing styles are in pop-up-animation */
+  font-size: 0.6em;
   width: 10em;
   overflow: hidden;
   flex-shrink: 0; /* Prevents pop-ups from becoming squashed */
   border-radius: 0.5em;
   user-select: none;
-  animation: 8s pop-up-message-animation forwards;
+  animation: 6s pop-up-message-animation forwards;
 }
 
 /* pop-up-message colors */
@@ -183,11 +191,11 @@ svg {
   background-color: var(--pass-color);
 }
 
-.pop--message.fail {
+.pop-up-message.fail {
   background-color: var(--error-color);
 }
 
-/* END pop-up-message*/
+/* Pop-up (login, sign-up, etc.)*/
 
 .pop-up-container {
   display: flex;
@@ -261,7 +269,7 @@ svg {
   text-align: center;
 }
 
-/* Progress bad */
+/* Progress bar */
 #progress-bar {
   position: fixed;
   height: 2px;
@@ -294,4 +302,10 @@ svg {
 .svg-send-button {
   width: 48px;
   height: 28px;
+}
+
+/* Scroll bar */
+#super-global,
+.tab-content {
+  scrollbar-color: var(--bg) var(--bg-dark);
 }

@@ -16,6 +16,10 @@
   display: flex;
 }
 
+.menu-button.border-bottom {
+  border-bottom: 1px solid var(--border);
+}
+
 .menu-button:hover:not(
     :has(.new-notifications-indicator:hover, #profile-options:hover)
   ) {
@@ -37,7 +41,7 @@
 }
 
 #menu-buffer {
-  height: 60px;
+  height: 51px; /* Menu height + border */
 }
 
 .menu-user-info {
@@ -69,13 +73,14 @@
   margin-right: -11px; /* 10px padding + 1px border */
   margin-top: 10px;
   border: 1px solid var(--border);
+  box-shadow: var(--bg-dark) -2px 2px 5px;
 }
 
 #menu-path {
-  margin-left: 10px;
+  margin: 0 0.5em;
   font-size: 0.8em;
   background-color: var(--bg);
-  padding: 4px;
+  padding: 0.25em;
   border: 1px solid var(--border);
 }
 

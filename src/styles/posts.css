@@ -1,6 +1,6 @@
 .post {
-  margin: 1%;
-  padding: 1%;
+  margin: 0.5em;
+  padding: 0.5em;
   border: 1px var(--border) solid;
   display: flex;
   flex-direction: row;

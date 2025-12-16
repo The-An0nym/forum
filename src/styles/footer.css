@@ -1,9 +1,15 @@
-.footer {
+#footer {
   font-size: 0.4em;
+  display: flex;
   position: relative;
   bottom: 0;
   background-color: var(--bg);
-  height: 40px;
-  padding: 5px;
+  padding: 0.25em;
   margin-top: 10px;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  margin-right: 0 1em;
 }

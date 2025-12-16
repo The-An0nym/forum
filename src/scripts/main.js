@@ -62,7 +62,7 @@ function createPopUp(message = "", type = 1) {
   popUpContainer.appendChild(popUp);
 
   // Removal
-  setTimeout(() => popUp.remove(), 7900); // time in ms - 100ms
+  setTimeout(() => popUp.remove(), 5900); // time in ms - 100ms
 
   return true; // Successfully appended element
 }
@@ -331,13 +331,13 @@ async function parseResponse(resp, autoLog = true) {
       if (!result.msg) throw e;
       if (!/\S/.test(result.msg)) throw e;
 
-      if (autoLog) createPopUp(result.msg, 0);
+      if (autoLog) createPopUp(result.msg);
       return [false, result.msg];
     } else {
       throw e;
     }
   } catch (e) {
-    if (autoLog) createPopUp("An error has occured"); // Todo: language support
+    if (autoLog) createPopUp("An error has occured"); // TODO language support
     return [false, ""];
   }
 }
