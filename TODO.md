@@ -2,8 +2,9 @@
 
 ## General
 
+- [ ] Question: How to handle user settings save? -> Refresh or save pop-up?
+- [ ] Maybe add more auth -> One for being able to create threads and one for being able to report. Then allow both of those after posting 10 posts.
 - [ ] Load session info via http://ip-api.com/json/{ip}?fields=49161&lang={lang} -> Country and regionName
-- [ ] undo toggle mode prevention and place toggle mode in settings
 - [ ] Refactor pop-ups to be handled through ONE JS function (consider using JSON objects)
 - [ ] Cleanup
 - [ ] Styling
@@ -21,8 +22,6 @@
 
 ## Profile/
 
-- [ ] Revise settings structure
-- [ ] Show user sessions
 - [ ] Disable deleting session of self
 - [ ] Decide: Make normal user moderation and moderator moderation hidable (for moderators only)?
 - [ ] Make account deletion require password input
@@ -33,7 +32,6 @@
 ## Categories, Threads and Posts
 
 - [ ] Check whether thread is deleted before posting message
-- [ ] Allow (authorized) moderators to view deleted threads
 - [ ] Implement simple thread search
 - [ ] Formatting and URL support (and maaaayybbeee external images)
 - [ ] Ability to pin and lock threads

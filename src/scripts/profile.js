@@ -24,12 +24,12 @@ async function uploadImage() {
 
 function verifyImage(img) {
   if (!["image/jpeg", "image/jpg", "image/png"].includes(img.type)) {
-    createPopUp("Image must be jpg or png");
+    createPopUpMessage("Image must be jpg or png");
     return false;
   }
 
   if (img.size > 1024 * 1024) {
-    createPopUp("Image must be less than 1MB");
+    createPopUpMessage("Image must be less than 1MB");
     return false;
   }
 
@@ -79,7 +79,7 @@ async function changePassword() {
   if (!checkPassword(currPswd)) return;
   if (!checkPassword(newPswd)) return;
   if (confPswd !== newPswd) {
-    createPopUp("Passwords do not match");
+    createPopUpMessage("Passwords do not match");
     return;
   }
 
@@ -91,13 +91,32 @@ async function changePassword() {
 }
 
 // Deleting account
-async function deleteAccount(id, reason, message) {
+function deleteAccountAlert(user_id) {
+  const wrapper = document.createElement("div");
+  wrapper.className = "pop-up-body";
+
+  const pwInput = document.createElement("input");
+  pwInput.className = "pop-up-input";
+  pwInput.placeholder = "Password...";
+
+  const submitButton = document.createElement("button");
+  submitButton.className = "action-button";
+  submitButton.textContent = "Delete";
+  submitButton.addEventListener("click", () => {
+    deleteAccount(pwInput.value, user_id);
+  });
+
+  wrapper.appendChild(pwInput);
+  wrapper.appendChild(submitButton);
+
+  createAlert("Are you sure you want to delete your account?", wrapper);
+}
+
+async function deleteAccount(pw, id) {
   obj = {};
   obj.i = id;
-  if (reason) {
-    obj.r = reason;
-    obj.m = message;
-  }
+  obj.r = 0; // Reason needs to be set (is never read though)
+  obj.m = pw;
 
   const bod = await postJson("/api/delete/deleteAccount.php", obj);
 
@@ -157,13 +176,14 @@ function passwordChange() {
 
 // Appearance
 
-function appearanceChange() {
+async function appearanceChange() {
   const val = document.getElementById("appearanceSelect").value;
   if (isNaN(val)) return;
   const value = parseInt(val);
 
-  postData("/api/menu/setMode.php", `m=${value}`);
   setAppearance(value);
+  const bod = await postData("/api/menu/setMode.php", `m=${value}`);
+  if (bod[0]) createPopUpMessage("Saved appearance", 0); // TODO language?
 }
 
 /* OTHER BUTTONS */

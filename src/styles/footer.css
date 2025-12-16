@@ -13,3 +13,8 @@
   flex-direction: column;
   margin-right: 0 1em;
 }
+
+.footer-image {
+  height: 4em;
+  width: 4em;
+}

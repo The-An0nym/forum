@@ -33,7 +33,7 @@ function response() {
 
     $slug = $json_obj->s;
 
-    $sql = "SELECT id FROM threads WHERE slug = '$slug'";
+    $sql = "SELECT id FROM threads WHERE slug = '$slug' AND deleted = 0";
         
     $result = $conn->query($sql);
     if ($result->num_rows === 0) {

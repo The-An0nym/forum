@@ -70,16 +70,16 @@ function getReportParams() {
   const id = document.getElementById("report-id").value;
   if (id !== "") {
     if (id.length === 33) params += `&i=${id}`;
-    else createPopUp("Invalid ID");
+    else createPopUpMessage("Invalid ID");
   }
 
   const type = document.getElementById("report-type").value;
   if (type !== "") {
     if (!isNaN(type)) {
       if (type >= 0 && type <= 3) params += `&t=${parseInt(type)}`;
-      else createPopUp("Invalid type");
+      else createPopUpMessage("Invalid type");
     } else {
-      createPopUp("Type not a number");
+      createPopUpMessage("Type not a number");
     }
   }
 
@@ -106,16 +106,16 @@ function getModParams() {
   const id = document.getElementById("mod-id").value;
   if (id !== "") {
     if (id.length === 33) params += `&i=${id}`;
-    else createPopUp("Invalid ID");
+    else createPopUpMessage("Invalid ID");
   }
 
   const type = document.getElementById("mod-type").value;
   if (type !== "") {
     if (!isNaN(type)) {
       if (type >= 0 && type <= 3) params += `&t=${parseInt(type)}`;
-      else createPopUp("Invalid type");
+      else createPopUpMessage("Invalid type");
     } else {
-      createPopUp("Type not a number");
+      createPopUpMessage("Type not a number");
     }
   }
 
@@ -192,7 +192,7 @@ async function showContent(type, id) {
   if (type === 0) {
     const resp = await getPostContent(id);
     // TODO create a pop-up
-    createPopUp(resp, 0);
+    createPopUpMessage(resp, 0);
   } else if (type === 1) {
     // TODO grand moderators access to view deleted threads
     const slug = await getThreadSlug(id);

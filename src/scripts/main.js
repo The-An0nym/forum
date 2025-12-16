@@ -40,13 +40,38 @@ function menuEventListener(e) {
 
 /* OTHER */
 
+// TODO rework function
 /**
- * Creates a new pop-up on screen
+ * Create an alert pop-up
+ * @param {string} title title of the pop-up
+ * @param {Element} content HTML content of pop-up, enclosed in <div class="pop-up-body"></div>
+ */
+function createAlert(title, content) {
+  const wrapper = createWrapperOverlay();
+
+  const container = document.createElement("div");
+  container.className = "signup-container pop-up-container";
+  container.id = "signup-container";
+
+  const containerTitle = document.createElement("div");
+  containerTitle.className = "pop-up-title";
+  containerTitle.textContent = title;
+  container.appendChild(containerTitle);
+
+  container.appendChild(content);
+
+  wrapper.appendChild(container);
+
+  document.body.prepend(wrapper);
+}
+
+/**
+ * Creates a pop-up message in the top right corner
  * @param {String} message
  * @param {int} type 0 = pass, 1 = fail (default 1)
  * @returns {boolean} returns true or false depending on whether pop-up could be created
  */
-function createPopUp(message = "", type = 1) {
+function createPopUpMessage(message = "", type = 1) {
   const typeList = ["pass", "fail"];
   const popUpContainer = document.getElementById("pop-up-message-container");
 
@@ -134,10 +159,10 @@ function selectPage(e) {
 /* USER INPUT VALIDATION */
 function checkUsername(username) {
   if (username.length > 24) {
-    createPopUp("Max 24. chars allowed for username");
+    createPopUpMessage("Max 24. chars allowed for username");
     return false;
   } else if (username.length < 4) {
-    createPopUp("Min 4. chars needed for username");
+    createPopUpMessage("Min 4. chars needed for username");
     return false;
   }
   return true;
@@ -145,13 +170,13 @@ function checkUsername(username) {
 
 function checkHandle(handle) {
   if (handle.length > 16) {
-    createPopUp("Max 16. chars allowed for handle");
+    createPopUpMessage("Max 16. chars allowed for handle");
     return false;
   } else if (handle.length < 4) {
-    createPopUp("Min 4. chars needed for handle");
+    createPopUpMessage("Min 4. chars needed for handle");
     return false;
   } else if (!/^[A-z0-9.\-_]*$/i.test(handle)) {
-    createPopUp(
+    createPopUpMessage(
       "Only characters <b>a-Z 0-9 - _ .</b> are allowed for the handle"
     );
     return false;
@@ -161,10 +186,10 @@ function checkHandle(handle) {
 
 function checkPassword(pswd) {
   if (pswd.length > 64) {
-    createPopUp("Max 64. chars allowed for your password");
+    createPopUpMessage("Max 64. chars allowed for your password");
     return false;
   } else if (pswd.length < 8) {
-    createPopUp("Min. 8 chars needed for password");
+    createPopUpMessage("Min. 8 chars needed for password");
     return false;
   }
   return true;
@@ -331,13 +356,13 @@ async function parseResponse(resp, autoLog = true) {
       if (!result.msg) throw e;
       if (!/\S/.test(result.msg)) throw e;
 
-      if (autoLog) createPopUp(result.msg);
+      if (autoLog) createPopUpMessage(result.msg);
       return [false, result.msg];
     } else {
       throw e;
     }
   } catch (e) {
-    if (autoLog) createPopUp("An error has occured"); // TODO language support
+    if (autoLog) createPopUpMessage("An error has occured"); // TODO language support
     return [false, ""];
   }
 }

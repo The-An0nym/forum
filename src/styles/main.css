@@ -38,7 +38,7 @@ body {
 }
 
 #super-global {
-  height: calc(100vh - 60px); /* 60 px for menu bar */
+  height: calc(100vh - 51px); /* 51px for menu bar */
   overflow-y: scroll;
   box-sizing: border-box;
   padding-top: 0.5em;
@@ -217,6 +217,11 @@ svg {
   border-bottom: 1px solid var(--border);
   font-size: 1em;
   text-align: center;
+}
+
+.pop-up-body {
+  display: flex;
+  flex-direction: column;
 }
 
 .pop-up-input {

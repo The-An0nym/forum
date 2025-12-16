@@ -9,6 +9,8 @@ function generateMenu() {
         session_start();
     }
 
+    // TODO validate session, maybe check everywhere else if session exists instead of validating as well?
+
     if(isset($_SESSION['user_id'])) {
         $conn = getConn();
 

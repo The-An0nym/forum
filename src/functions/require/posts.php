@@ -13,13 +13,17 @@ function getPosts(string $slug, int $page) :array {
         return [];
     }   
 
+    $myClearance = 0;
     if(validateSession()) {
         $user_id = $_SESSION['user_id'];
         $sql = "SELECT clearance FROM users WHERE user_id = '$user_id'";
         $result = $conn->query($sql);
         $myClearance = $result->fetch_assoc()["clearance"];
-    } else {
-        $myClearance = 0;
+    }
+
+    $deleted = " AND t.deleted = 0 ";
+    if($myClearance >= 2) {
+        $deleted = ""; // Can view deleted threads
     }
 
     $offset = (max($page, 1) - 1) * 20;
@@ -45,8 +49,7 @@ function getPosts(string $slug, int $page) :array {
                 t.slug = '$slug'
             AND 
                 p.deleted = 0
-            AND
-                t.deleted = 0
+            $deleted
             ORDER BY 
                 p.created ASC
             LIMIT 20 OFFSET $offset";
@@ -144,7 +147,6 @@ function getPostsJson(string $slug, int $page = 1) : string {
     } else {
         $page = min($page, ceil($post_count / 20));
     }
-
 
     $posts = getPosts($slug, $page);
     $data = [];

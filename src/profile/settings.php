@@ -88,7 +88,7 @@ require_once $path . '/functions/validateSession.php';
                 <div id="danger-zone">Danger zone</div>
                 <div class="setting-item">
                     <span>Delete account?</span>
-                    <button class="danger-button" onclick="createConfirmation('delete your account', '<?= $handle ?>', deleteAccount, '<?= $user_id ?>')">Delete account</button>
+                    <button class="danger-button" onclick="deleteAccountAlert('<?= $user_id ?>')">Delete account</button>
                 </div>
             </div>
             <script>

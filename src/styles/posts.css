@@ -57,8 +57,7 @@
 }
 
 #subscribe {
-  position: absolute;
-  right: 5px;
+  float: right;
 }
 
 .editTxt {

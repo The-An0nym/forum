@@ -16,6 +16,8 @@ if(!session_id()) {
 echo response();
 
 function response() {
+    /* Guard clauses */
+
     if(!validateSession()) {
         return jsonErr("login");
     }
@@ -42,7 +44,7 @@ function response() {
 
     $conn = getConn();
     $user_id = $_SESSION['user_id'];
-    $sql = "SELECT u.clearance, b.clearance AS user_clearance 
+    $sql = "SELECT u.clearance, u.password, b.clearance AS user_clearance 
                 FROM users u 
             JOIN users b 
                 ON b.user_id = '$id' 
@@ -58,49 +60,57 @@ function response() {
     $row = $result->fetch_assoc();
     $clearance = $row['clearance'];
     $user_clearance = $row['user_clearance'];
+    $hashedPassword = $row['password'];
 
-    if($id !== $user_id || $clearance >= 3) {
-        if(!isset($json_obj->m, $json_obj->r)) {
-            return jsonErr("args");
-        }
+    if($id !== $user_id || ($clearance < 3 && $clearance <= $user_clearance)) {
+        return jsonErr("auth"); // Insufficient authorization
+    }
 
+    $reason = 0;
+    $message = '';
+
+    if(!isset($json_obj->m, $json_obj->r)) {
+        return jsonErr("args");
+    } else if($id !== $user_id) {
         $reason = (int)$json_obj->r;
         $message = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($json_obj->m));
+
         if(strlen($message) < 20 || strlen($message) > 200) {
             return jsonErr("msgMinMax");
         }
+    } else {
+        $message = $json_obj->m; // Password - Shouldn't be altered
     }
 
-    if(($clearance >= 3 && $user_clearance < $clearance) || $id === $user_id) {
-        $type = 1; // Self-deleted
-        if($id !== $user_id) {
-            // Push onto history
-            if($del_threads) {
-                $err = jsonEncodeErrors(createHistory(2, 3, $id, $user_id, $reason, $message));
-            } else {
-                $err = jsonEncodeErrors(createHistory(2, 2, $id, $user_id, $reason, $message));
-            }
+    if($id === $user_id && !password_verify($message, $hashedPassword)) {
+        return jsonErr("pswdFail");
+    }
 
-            if($err !== "") {
-                return $err;
-            }
-
-            $type = 8; // Banned
+    /* Actual changes */
+    $del_threads = false;
+    if($id === $user_id) {
+        $del_threads = false;  // self-deleted (threads are kept)
+    } else { // Banned
+        // Push onto history
+        if($del_threads) {
+            $err = jsonEncodeErrors(createHistory(2, 3, $id, $user_id, $reason, $message));
         } else {
-            $del_threads = false;
+            $err = jsonEncodeErrors(createHistory(2, 2, $id, $user_id, $reason, $message));
         }
 
-        $err = jsonEncodeErrors(countForUser($id, false, $del_threads));
         if($err !== "") {
             return $err;
         }
+    }
 
-        $err = jsonEncodeErrors(deleteAccount($id, false, $del_threads));
-        if($err !== "") {
-            return $err;
-        }
-    } else {
-        return jsonErr("auth");
+    $err = jsonEncodeErrors(countForUser($id, false, $del_threads));
+    if($err !== "") {
+        return $err;
+    }
+
+    $err = jsonEncodeErrors(deleteAccount($id, false, $del_threads));
+    if($err !== "") {
+        return $err;
     }
 
     return pass();
