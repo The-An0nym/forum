@@ -69,6 +69,8 @@ The `deleted` columns of `posts`, `threads` and `users` adhere to the following 
 
 All soft deleted rows will be permenantly deleted after 60 days. This is executed for `posts`, `threads` and `users` with a 1% chance every time there a new row in the `mod_history` table is created.
 
+This project uses [geojs](https://www.geojs.io/) to figure out the origin of a country given a particular IP.
+
 ### Users
 
 `handle` may only contain A-z 0-9 \_ . and - and must be unique and between 4 and 16 characters (inclusive)

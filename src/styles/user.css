@@ -72,6 +72,11 @@
   margin: 0 1em;
 }
 
+button.moderation {
+  margin-bottom: 0.25em;
+  width: 100%;
+}
+
 #history {
   width: 70%;
   display: flex;

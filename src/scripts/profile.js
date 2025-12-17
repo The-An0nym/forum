@@ -225,6 +225,15 @@ async function appearanceChange() {
 
 /* OTHER BUTTONS */
 
+async function deleteSession(session_id) {
+  const bod = await postData(
+    "/api/profile/moderation/deleteSession.php",
+    `i=${encodeURIComponent(session_id)}`
+  );
+
+  if (bod[0]) document.getElementById(session_id).remove();
+}
+
 // Restoring post
 async function restorePost(id) {
   const body = `i=${id}`;
@@ -233,3 +242,20 @@ async function restorePost(id) {
 
   if (bod[0]) location.reload();
 }
+
+// Loading session info
+async function loadSessionLocation() {
+  const sessionItems = document.getElementsByClassName("session-item");
+
+  for (let i = 0; i < sessionItems.length; i++) {
+    const ipElement = sessionItems[i].getElementsByClassName("ip")[0];
+    const locationElement =
+      sessionItems[i].getElementsByClassName("location")[0];
+    const ip = ipElement.innerText.trim();
+    const resp = await fetch(`https://get.geojs.io/v1/ip/country/${ip}.json`);
+    const json = await resp.json();
+    locationElement.textContent = json.name;
+  }
+}
+
+loadSessionLocation();

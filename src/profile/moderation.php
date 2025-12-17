@@ -72,17 +72,19 @@ require_once $path . '/functions/validateSession.php';
                 $session_id = $_SESSION["session_id"];
                 while($row = $result->fetch_assoc()) {
                     $row_session_id = $row["session_id"];
-                    $disabled = "";
-                    // TODO make own session un-deletable
+                    $revokeButton = "<button class=\"delete-session\" onclick=\"deleteSession('$row_session_id')\">Revoke session</button>"
+                    
+                    // Cannot delete own session
                     if($row_session_id === $session_id) {
-                        $disabled = "disabled";
+                        $revokeButton = "<button class=\"delete-session disabled\">Revoke session</button>"
                     }
                     ?>
                     <span class="session-item" id="<?= $row_session_id; ?>">
                         <span class="user-agent"><?= $row["user_agent"]; ?></span>
+                        <span class="location">unknown</span>
                         <span class="ip"><?= $row["ip"]; ?></span>
                         <span class="session-datetime"><?= $row["datetime"]; ?></span>
-                        <button class="delete-session <?= $disabled ?>" onclick="deleteSession('<?= $row_session_id; ?>')">Revoke session</button>
+                        <?= $revokeButton; ?>
                     </span>
                 <?php
                 }
@@ -210,8 +212,6 @@ require_once $path . '/functions/validateSession.php';
                 echo "Please Log in or Sign up to continue...";
             }        
         ?>
-        </div>
-
     </div>
 
 

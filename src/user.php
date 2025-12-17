@@ -90,24 +90,25 @@ if($result->num_rows === 1) {
                     }
                 ?>
             </span>
+            <span class="user-about-me"><?= $about_me ?></span>
             <span class="user-stats">
                 <span class="posts">Posts: <?= $posts ?></span>
                 <span class="threads">Threads: <?= $threads ?></span>
             </span>
-            <span class="user-about-me"><?= $about_me ?></span>
             <?php 
             if($clearance >= 0 && $user_clearance <= $clearance) {
                 echo '<button class="moderation" onclick="createReport(2, \'' . $user_id . '\')">Report</button>';
-            }
-            if($clearance >= 3 && $user_clearance < $clearance) {
-                echo '<button class="moderation" onclick="setupBan(\'' . $user_id .'\')">Ban</button>';
             }
             if($clearance >= 4 && $user_clearance < $clearance && $user_clearance > 0) {
                 echo '<button class="moderation" onclick="createModeration(\'demote ' . $username . '\', demoteUser, \'' . $user_id .'\')">Demote User</button>';
             }
             if($clearance >= 4 && $user_clearance < ($clearance - 1)) {
                 echo '<button class="moderation" onclick="createModeration(\'promote ' . $username . '\', promoteUser, \'' . $user_id .'\')">Promote User</button>';
-            }?>
+            }
+            if($clearance >= 3 && $user_clearance < $clearance) {
+                echo '<button class="moderation danger-button" onclick="setupBan(\'' . $user_id .'\')">Ban</button>';
+            }
+            ?>
         </div>
 
         <div id="history">
