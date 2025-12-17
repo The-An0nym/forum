@@ -37,12 +37,13 @@ require_once $path . '/functions/validateSession.php';
         if(validateSession()) {
             $user_id = $_SESSION["user_id"];
 
-            $sql = "SELECT username, handle, image_dir, posts, threads, clearance FROM users WHERE user_id = '$user_id' LIMIT 1";
+            $sql = "SELECT username, handle, image_dir, about_me, posts, threads, clearance FROM users WHERE user_id = '$user_id' LIMIT 1";
             $result = $conn->query($sql);
             $row = $result->fetch_assoc();
             $username = $row["username"];
             $handle = $row["handle"];
             $image_dir = $row["image_dir"];
+            $about_me = $row["about_me"];
 
             ?>  
             <div id="profile-picture">
@@ -73,6 +74,13 @@ require_once $path . '/functions/validateSession.php';
                         <input oninput="passwordChange()" type="password" id="newPassword" placeholder="New password...">
                         <input oninput="passwordChange()" type="password" id="confPassword" placeholder="Confirm password...">
                         <button class="action-button disabled" onclick="changePassword()" id="passwordButton">Save</button>
+                    </span>
+                </div>
+                <div class="setting-item">
+                    <span>About me</span>
+                    <span class="setting-input">
+                        <textarea oninput="aboutMeChange()" id="aboutMeInput" placeholder="I like apples"></textarea>
+                        <button class="action-button disabled" id="aboutMeButton" onclick="changeAboutMe()">Save</button>
                     </span>
                 </div>
                 <div class="setting-item">

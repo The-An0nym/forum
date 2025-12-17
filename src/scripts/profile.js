@@ -90,6 +90,19 @@ async function changePassword() {
   if (bod[0]) location.reload();
 }
 
+async function changeAboutMe() {
+  const aboutMeVal = document.getElementById("aboutMeInput").value;
+
+  if (aboutMeVal > 200) {
+    createPopUpMessage("About me has to be less than 200 characters long");
+    return;
+  }
+
+  const body = `a=${aboutMeVal}`;
+  const bod = await postData("/api/profile/settings/changeAboutMe.php", body);
+  if (bod[0]) location.reload();
+}
+
 // Deleting account
 function deleteAccountAlert(user_id) {
   const wrapper = document.createElement("div");
@@ -172,6 +185,14 @@ function passwordChange() {
     document.getElementById("passwordButton").className =
       "action-button disabled";
   }
+}
+
+// About me
+function aboutMeChange() {
+  const aboutMeVal = document.getElementById("aboutMeInput").value;
+
+  document.getElementById("aboutMeButton").className =
+    aboutMe == aboutMeVal ? "action-button" : "action-button disabled";
 }
 
 // Appearance

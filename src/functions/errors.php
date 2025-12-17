@@ -30,6 +30,7 @@ function getErrorArr(string $lang = "en") : array {
             "handMin" => "Handle needs to be at least 4 characters long",
             "handReg" => "Only characters a-Z 0-9 - _ . are allowed for the handle",
             "handMax" => "Handle needs to be less than or equal to 16 characters long",
+            "aboutMeMax" => "About me section needs to be less than or equal to 200 characters long",
             "msgMinMax" => "Message needs to be between 20 and 200 chars (inclusive)",
             "contMin" => "No content",
             "contMax" => "Content needs to be less than or equal to 2000 characters long",

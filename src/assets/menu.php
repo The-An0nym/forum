@@ -17,7 +17,7 @@ function generateMenu() {
         $conn = getConn();
 
         $user_id = $_SESSION['user_id'];
-        $sql = "SELECT darkmode, handle FROM users WHERE user_id = '$user_id'";
+        $sql = "SELECT appearance, handle FROM users WHERE user_id = '$user_id'";
         $result = $conn->query($sql);
 
         $info = $result->fetch_assoc();
@@ -63,7 +63,7 @@ function generateMenu() {
             </span>
             <span class="menu-button icon menu-right" title="logout" onclick="logout()"><?= generateLogout() ?></span>
             <script> 
-                setAppearance(<?= $info["darkmode"]; ?>);
+                setAppearance(<?= $info["appearance"]; ?>);
             </script>
             <?php
         } else {
@@ -151,10 +151,11 @@ function getThreadPathName(string $slug) : array {
     $conn = getConn();
 
     // Category
-    $sql = "SELECT c.slug AS c_slug, c.name AS c_name, t.name AS t_name
+    $sql = "SELECT c.slug AS c_slug, c.name AS c_name, t.name AS t_name, t.deleted AS deleted
     FROM categories c
     JOIN threads t ON t.category_id = c.id
-    WHERE t.slug = '$slug' AND t.deleted = 0";
+    WHERE t.slug = '$slug' AND (t.deleted = 0 OR t.deleted = 4)";
+    // TODO menu bar for deleted threads (check if appropriate moderation rights)
 
     $result = $conn->query($sql);
     if ($result->num_rows === 1) {
