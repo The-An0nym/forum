@@ -82,7 +82,9 @@ button:not(.disabled):not([disabled]):hover,
 }
 
 input:hover,
-input:focus {
+input:focus,
+textarea:hover,
+textarea:focus {
   background-color: var(--bg-light);
   color: var(--text);
   cursor: text;
@@ -99,12 +101,15 @@ input:focus {
   cursor: not-allowed;
 }
 
-input::placeholder {
+input::placeholder,
+textarea::placeholder {
   color: var(--text-muted);
 }
 
 textarea {
   resize: vertical;
+  max-height: 20em;
+  min-height: 2em;
 }
 
 svg {
@@ -310,7 +315,6 @@ svg {
 }
 
 /* Scroll bar */
-#super-global,
-.tab-content {
+#super-global {
   scrollbar-color: var(--bg) var(--bg-dark);
 }

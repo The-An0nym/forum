@@ -32,7 +32,7 @@ function response() {
 
     $about_me = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($json_obj->a));
     
-    if(strlen($handle) > 200) {
+    if(strlen($about_me) > 200) {
         return jsonErr("aboutMeMax");
     }
     

@@ -268,7 +268,7 @@ function generateButton($mod_id, $culp_id, int $clearance, int $culp_clearance, 
             $button .= "0, '$mod_id')\">Mark unread";
         }
     } else {
-        if($culp_id === $user_id || !$is_latest) {
+        if(($culp_id === $user_id && $clearance < 5) || !$is_latest) {
             $button .= "disabled>undo";
         } else if($type === 0 || ($type === 1 && $clearance > 1)) {
             if($judgement === 4) {

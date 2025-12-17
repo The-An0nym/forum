@@ -78,8 +78,8 @@ function response() {
         return jsonErr("undoRepo");
     }
 
-    if($culp_id === $user_id) {
-        return jsonErr("undoOwn");
+    if($culp_id === $user_id && $clearance < 5) {
+        return jsonErr("undoOwn"); // Level 5 admin can do anything
     }
 
     $sql = "SELECT max(created) AS created FROM mod_history WHERE type = $type AND id = '$id'";
@@ -133,6 +133,7 @@ function response() {
         } else if($judgement === 4) {
             $dec = 2;
             $restore = false;
+            // Use reason provided by user
         }
 
         $err = jsonEncodeErrors(createHistory(1, $dec, $id, $user_id, $reason, $message));

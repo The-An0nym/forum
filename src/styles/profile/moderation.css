@@ -1,11 +1,16 @@
+#global {
+  background-color: var(--bg);
+  min-height: calc(100vh - 120px);
+  margin: 0.5em;
+  box-sizing: border-box;
+  padding: 0.5em;
+}
+
 #moderation-history,
 #report-history {
   display: flex;
   flex-direction: column;
   font-size: 0.7em;
-  height: 300px;
-  overflow-y: scroll;
-  background-color: var(--bg);
 }
 
 #moderation-history > div,

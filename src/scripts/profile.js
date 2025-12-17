@@ -208,7 +208,7 @@ function aboutMeChange() {
   const aboutMeVal = document.getElementById("aboutMeInput").value;
 
   document.getElementById("aboutMeButton").className =
-    aboutMe == aboutMeVal ? "action-button" : "action-button disabled";
+    aboutMe == aboutMeVal ? "action-button disabled" : "action-button";
 }
 
 // Appearance
