@@ -4,8 +4,8 @@
 
 - [ ] Question: How to handle user settings save? -> Refresh or save pop-up?
 - [ ] Maybe add more auth -> One for being able to create threads and one for being able to report. Then allow both of those after posting 10 posts.
-- [ ] Load session info via http://ip-api.com/json/{ip}?fields=49161&lang={lang} -> Country and regionName
 - [ ] Refactor pop-ups to be handled through ONE JS function (consider using JSON objects)
+- [ ] Redesign moderation panel for /user/
 - [ ] Cleanup
 - [ ] Styling
 - [ ] Rethink: Does using Javascript for all subsequent loads make sense?
@@ -13,7 +13,7 @@
 - [ ] Redesign http error pages
 - [ ] Implement languages & customizable language support
 - [ ] Format time more nicely -> Maybe format with XXX Ago and in final state the date instead of converting to client's time? Or store in cookie//Session
-- [ ] Unsubscribe deleted users from all threads in a recoverable fashion (Set to 2/3 instead of 0/1)
+- [ ] Unsubscribe deleted users from all threads in a recoverable fashion (Set to 2/3 instead of 0/1) -> Or just don't unsubscribe deleted users (and they will keep receiving notifications until hard deletion)
 - [ ] Use ` around column and table names for better SQL formatting
 - [ ] PHP set types for all functions
 - [ ] Moderation rows older than 60 days cannot be undone
@@ -44,9 +44,7 @@
 
 - [ ] Make login or sign-up pop-up hide when sign-up/login is pressed respectively
 - [ ] Adress, full legal name, etc. (pattern)
-- [ ] Make notification system (badge)
 - [ ] Redesign footer and menu
-- [ ] BUG: Unsynced between menu bar and account logged in
 
 ## Authentication / Sessions
 

@@ -4,6 +4,7 @@ require_once $path . '/functions/.connect.php' ;
 require_once $path . '/functions/time.php' ;
 require_once $path . '/functions/validateSession.php';
 require_once $path . "/assets/menu.php";
+require_once $path . "/assets/generateSVG.php";
 
 if(!session_id()) {
     session_start();
@@ -50,6 +51,7 @@ if($result->num_rows === 1) {
     $image_dir = $row["image_dir"];
     $posts = $row["posts"];
     $threads = $row["threads"];
+    $user_created = $row["created"];
     $user_clearance = $row["clearance"];
 } else {
     $load = false;
@@ -79,8 +81,18 @@ if($result->num_rows === 1) {
             <img class="user-image" src="/images/profiles/<?= $image_dir; ?>">
             <span class="username"><?= $username ?></span>
             <span class="handle">@<?= $handle ?></span>
-            <span class="posts">Posts: <?= $posts ?></span>
-            <span class="threads">Threads: <?= $threads ?></span>
+            <span class="joined">Member since <?= dateStamp($user_created) ?></span>
+            <span class="auth">
+                <?php
+                    for($i = 0; $i < 5; $i++) {
+                        echo generateStar($user_clearance > $i);
+                    }
+                ?>
+            </span>
+            <span>
+                <span class="posts">Posts: <?= $posts ?></span>
+                <span class="threads">Threads: <?= $threads ?></span>
+            </span>
             <?php 
             if($clearance >= 0 && $user_clearance <= $clearance) {
                 echo '<button class="moderation" onclick="createReport(2, \'' . $user_id . '\')">Report</button>';

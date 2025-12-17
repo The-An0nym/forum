@@ -34,3 +34,15 @@ function generateSend() : string {
 
     return $svg;
 }
+
+/**
+ * Generate star icon SVG 
+ */
+function generateStar(bool $filled = false) : string {
+    $svg = '<svg viewBox="-100 -100 200 200" class="auth-star' . ($filled ? " filled" : "") . '">
+                <path d="M-22 -25 L-5 -75 A10 30 0 0 1 5 -75 L22 -25 L70 -25 A30 10 -15 0 1 80 -16 L35 17 L50 65 A10 40 -40 0 1 42 72 L0 43"></path>
+                <path transform="scale(-1, 1)" d="M-22 -25 L-5 -75 A10 30 0 0 1 5 -75 L22 -25 L70 -25 A30 10 -15 0 1 80 -16 L35 17 L50 65 A10 40 -40 0 1 42 72 L0 43"></path>
+            </svg>';
+
+    return $svg;
+}

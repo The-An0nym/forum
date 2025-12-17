@@ -15,11 +15,13 @@
   text-align: center;
   background-color: var(--bg);
   box-sizing: border-box; /* Makes sure padding does not affect height or width */
+  align-items: center;
 }
 
 .user-image {
   width: 100%;
   border-radius: 50%;
+  max-width: 10em;
 }
 
 .username {
@@ -29,6 +31,31 @@
 .handle {
   font-style: italic;
   font-size: 0.8em;
+}
+
+.joined {
+  font-size: 0.8em;
+}
+
+.auth {
+  display: flex;
+  font-size: 0.8em;
+  height: 1em;
+}
+
+.auth-star.filled {
+  fill: var(--primary-color);
+}
+
+.auth-star:not(.filled) {
+  fill: var(--bg-dark);
+}
+
+.user-stats {
+  display: flex;
+  justify-content: space-around;
+  font-size: 0.8em;
+  margin-top: 1em;
 }
 
 #history {

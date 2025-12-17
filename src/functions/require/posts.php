@@ -21,11 +21,11 @@ function getPosts(string $slug, int $page) :array {
         $myClearance = $result->fetch_assoc()["clearance"];
     }
 
-    $deleted = " AND t.deleted = 0 ";
+    $deleted = " AND p.deleted = 0 AND t.deleted = 0 ";
     if($myClearance >= 2) {
-        $deleted = ""; // Can view deleted threads
+        $deleted = " AND (p.deleted = 0 OR p.deleted = 4) "; // Can view deleted threads
     }
-
+    
     $offset = (max($page, 1) - 1) * 20;
 
     $sql = "SELECT 
@@ -47,8 +47,6 @@ function getPosts(string $slug, int $page) :array {
                 threads t ON t.id = p.thread_id
             WHERE 
                 t.slug = '$slug'
-            AND 
-                p.deleted = 0
             $deleted
             ORDER BY 
                 p.created ASC

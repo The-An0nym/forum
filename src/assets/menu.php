@@ -1,17 +1,19 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/functions/.connect.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/functions/lang.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/functions/require/notifications.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/generateSVG.php';
+$path = $_SERVER['DOCUMENT_ROOT'];
+require_once $path . '/functions/.connect.php';
+require_once $path . '/functions/lang.php';
+require_once $path . '/functions/require/notifications.php';
+require_once $path . '/assets/generateSVG.php';
+require_once $path . '/functions/validateSession.php';
 
 function generateMenu() {
     if(!session_id()) {
         session_start();
     }
 
-    // TODO validate session, maybe check everywhere else if session exists instead of validating as well?
+    // TODO Validate session - maybe check everywhere else if session exists instead of validating as well?
 
-    if(isset($_SESSION['user_id'])) {
+    if(validateSession()) {
         $conn = getConn();
 
         $user_id = $_SESSION['user_id'];

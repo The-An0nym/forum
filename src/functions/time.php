@@ -80,3 +80,11 @@ function dateTimeStamp(string $dateString) : string {
 
     return $dt->format('j. M. Y G:i');
 }
+
+/**
+ * Formats to D. MMM. YYYY
+ */
+function dateStamp(string $dateString) : string {
+    $dt = new DateTime($dateString, new DateTimeZone('UTC'));
+    return $dt->format('j. M. Y');
+}
