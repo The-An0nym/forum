@@ -1,6 +1,9 @@
 /* UPLOADING THE PROFILE PICTURE */
 
 async function uploadImage() {
+  if (document.getElementById("imageButton").className.includes("disabled"))
+    return;
+
   const file = document.getElementById("pfp-input");
   const img = file.files[0];
 
@@ -39,6 +42,9 @@ function verifyImage(img) {
 /* CHANGING THE USERNAME */
 
 async function changeUsername() {
+  if (document.getElementById("usernameButton").className.includes("disabled"))
+    return;
+
   const val = document.getElementById("username").value.trim();
 
   if (username === val) return;
@@ -54,6 +60,9 @@ async function changeUsername() {
 /* CHANGING THE HANDLE */
 
 async function changeHandle() {
+  if (document.getElementById("handleButton").className.includes("disabled"))
+    return;
+
   const val = document.getElementById("handle").value.trim();
 
   if (handle === val) return;
@@ -69,6 +78,9 @@ async function changeHandle() {
 
 /* CHANGING THE PASSWORD */
 async function changePassword() {
+  if (document.getElementById("passwordButton").className.includes("disabled"))
+    return;
+
   const currPswdEle = document.getElementById("currPassword");
   const newPswdEle = document.getElementById("newPassword");
   const confPswdEle = document.getElementById("confPassword");
@@ -91,6 +103,9 @@ async function changePassword() {
 }
 
 async function changeAboutMe() {
+  if (document.getElementById("aboutMeButton").className.includes("disabled"))
+    return;
+
   const aboutMeVal = document.getElementById("aboutMeInput").value;
 
   if (aboutMeVal > 200) {
@@ -98,8 +113,9 @@ async function changeAboutMe() {
     return;
   }
 
-  const body = `a=${aboutMeVal}`;
-  const bod = await postData("/api/profile/settings/changeAboutMe.php", body);
+  const obj = {};
+  obj.a = aboutMeVal;
+  const bod = await postJson("/api/profile/settings/changeAboutMe.php", obj);
   if (bod[0]) location.reload();
 }
 

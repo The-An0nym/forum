@@ -37,13 +37,14 @@ require_once $path . '/functions/validateSession.php';
         if(validateSession()) {
             $user_id = $_SESSION["user_id"];
 
-            $sql = "SELECT username, handle, image_dir, about_me, posts, threads, clearance FROM users WHERE user_id = '$user_id' LIMIT 1";
+            $sql = "SELECT username, handle, image_dir, about_me, appearance, posts, threads, clearance FROM users WHERE user_id = '$user_id' LIMIT 1";
             $result = $conn->query($sql);
             $row = $result->fetch_assoc();
             $username = $row["username"];
             $handle = $row["handle"];
             $image_dir = $row["image_dir"];
             $about_me = $row["about_me"];
+            $appearance = $row["appearance"];
 
             ?>  
             <div id="profile-picture">
@@ -103,6 +104,12 @@ require_once $path . '/functions/validateSession.php';
                 const username = "<?= $username; ?>";
                 const handle = "<?= $handle; ?>"
                 const image_dir = "<?= $image_dir; ?>";
+                const aboutMe = "<?= $about_me; ?>";
+                const appearance = "<?= $appearance; ?>";
+
+                // Cannot set initial value directly in HTML
+                document.getElementById("aboutMeInput").value = aboutMe;
+                document.getElementById("appearanceSelect").value = appearance;
             </script>
         <?php
 
