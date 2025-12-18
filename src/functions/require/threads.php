@@ -96,20 +96,18 @@ function generateHTMLFromThreads(string $slug, int $page) {
                 <span class="thread-name">
                     <a href="/thread/<?= $thread['slug'] ?>"><?= $thread['name'] ?></a>
                 </span>
-                <span class="thread-creator">
-                    <a href="/user/<?= $thread['handle'] ?>"><?= $thread['username'] ?></a>
+                <span class="thread-info">
+                    <a class="thread-creator" href="/user/<?= $thread['handle'] ?>"><?= $thread['username'] ?></a>
+                    <span class="created"><?= $thread['created'] ?></span>
                 </span>
-                <span class="created"><?= $thread['created'] ?></span>
             </span>
             <span class="last-wrapper">
+                <a class="last-user" href="/user/<?= $thread['lastHandle'] ?>"><?= $thread['lastUser'] ?></a>
                 <span class="last-post"><?= $thread['lastPost'] ?></span>
-                <span class="last-user">
-                    <a href="/user/<?= $thread['lastHandle'] ?>"><?= $thread['lastUser'] ?></a>
-                </span>
             </span>
             <span class="count"><?= $thread['posts'] ?></span>
             <?php if($thread['clearance'] === 1) {?>
-            <button class="delete-button" onclick="createModeration('deleting <?= $thread['username'] ?>\'s thread', deleteThread, '<?= $thread['id'] ?>')">
+            <button class="delete-button danger-button" onclick="createModeration('deleting <?= $thread['username'] ?>\'s thread', deleteThread, '<?= $thread['id'] ?>')">
                 <img class="svg-img" src="/images/icons/bin.svg"></img>
             </button>
             <?php } ?>

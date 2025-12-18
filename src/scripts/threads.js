@@ -35,20 +35,22 @@ function parseThreads(jsonData) {
     name.appendChild(threadHref);
     mainWrapper.appendChild(name);
 
-    const creator = document.createElement("span");
+    // Thread info
+    const threadInfo = document.createElement("span");
+    threadInfo.className = "thread-info";
+
+    const creator = document.createElement("a");
+    creator.innerHTML = threadData[i].creator;
+    creator.href = "/user/" + threadData[i].creatorHandle;
     creator.className = "thread-creator";
-
-    const creatorHandle = document.createElement("a");
-    creatorHandle.innerHTML = threadData[i].creator;
-    creatorHandle.href = "/user/" + threadData[i].creatorHandle;
-
-    creator.appendChild(creatorHandle);
-    mainWrapper.appendChild(creator);
 
     const created = document.createElement("span");
     created.className = "created";
     created.textContent = threadData[i].created;
-    mainWrapper.appendChild(created);
+
+    threadInfo.appendChild(creator);
+    threadInfo.appendChild(created);
+    mainWrapper.appendChild(threadInfo);
 
     threadWrapper.appendChild(mainWrapper);
 
@@ -56,20 +58,17 @@ function parseThreads(jsonData) {
     const lastWrapper = document.createElement("span");
     lastWrapper.className = "last-wrapper";
 
+    const lastUser = document.createElement("a");
+    lastUser.textContent = threadData[i].lastUser;
+    lastUser.href = "/user/" + threadData[i].lastHandle;
+    lastUser.className = "last-user";
+
     const lastPost = document.createElement("span");
     lastPost.className = "last-post";
     lastPost.textContent = threadData[i].lastPost;
-    lastWrapper.appendChild(lastPost);
 
-    const lastUser = document.createElement("span");
-    lastUser.className = "last-user";
-
-    const lastHandle = document.createElement("a");
-    lastHandle.textContent = threadData[i].lastUser;
-    lastHandle.href = "/user/" + threadData[i].lastHandle;
-
-    lastUser.appendChild(lastHandle);
     lastWrapper.appendChild(lastUser);
+    lastWrapper.appendChild(lastPost);
 
     threadWrapper.appendChild(lastWrapper);
 
@@ -82,7 +81,7 @@ function parseThreads(jsonData) {
 
     if (threadData[i].deletable === 1) {
       const deleteButton = document.createElement("button");
-      deleteButton.className = "delete-button";
+      deleteButton.className = "delete-button danger-button";
 
       const binImage = document.createElement("img");
       binImage.src = "/images/icons/bin.svg";
@@ -108,7 +107,7 @@ function parseThreads(jsonData) {
     cont.appendChild(threadWrapper);
   }
   // Scroll
-  window.scrollTo(0, document.body);
+  document.getElementById("super-global").scrollTo(0, 0);
 }
 
 /* CREATE THREADS */

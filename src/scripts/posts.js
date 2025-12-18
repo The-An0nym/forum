@@ -123,8 +123,9 @@ function parsePosts(data, scrollBottom = false) {
     cont.appendChild(post);
   }
   // Scroll
-  if (scrollBottom) window.scrollTo(0, document.body.scrollHeight);
-  else window.scrollTo(0, document.body);
+  const sglob = document.getElementById("super-global");
+  if (scrollBottom) sglob.scrollTo(0, sglob.scrollHeight);
+  else sglob.scrollTo(0, 0);
 }
 
 /* EDITING POSTS */
