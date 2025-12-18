@@ -32,7 +32,7 @@ require_once $path . '/functions/validateSession.php';
 <body>
     <?php generateMenu() ?>
 
-    <div class="container">
+    <div id="global">
     <?php
         if(validateSession()) {
             $user_id = $_SESSION["user_id"];

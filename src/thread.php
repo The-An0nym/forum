@@ -37,52 +37,54 @@ if(isset($_GET["p"])) {
 <body>
     <?php generateMenu(); ?>
 
-    <div id="menu-path">
-        <?= generateMenuPath(2, $slug); ?>
+    <div id="global">
+        <div id="menu-path">
+            <?= generateMenuPath(2, $slug); ?>
 
-    <?php
-    $autoSub = "false";
+        <?php
+        $autoSub = "false";
 
-    if(isset($_SESSION["user_id"])) {
-        $user_id = $_SESSION["user_id"];
+        if(isset($_SESSION["user_id"])) {
+            $user_id = $_SESSION["user_id"];
 
-        require_once $path . "/functions/.connect.php";
+            require_once $path . "/functions/.connect.php";
 
-        $conn = getConn();
+            $conn = getConn();
 
-        $sql = "SELECT s.subscribed FROM subscribed s
-                JOIN threads t ON t.id = s.thread_id
-                WHERE t.slug = '$slug' AND s.user_id = '$user_id' AND t.deleted = 0";
-        
-        $result = $conn->query($sql);
-        if($result->num_rows > 0) {
-            if($result->fetch_assoc()["subscribed"] == 0) {
+            $sql = "SELECT s.subscribed FROM subscribed s
+                    JOIN threads t ON t.id = s.thread_id
+                    WHERE t.slug = '$slug' AND s.user_id = '$user_id' AND t.deleted = 0";
+            
+            $result = $conn->query($sql);
+            if($result->num_rows > 0) {
+                if($result->fetch_assoc()["subscribed"] == 0) {
+                    echo '<button id="subscribe" onclick="unSubscribe()">Subscribe</button>';
+                } else {
+                    echo '<button id="subscribe" onclick="unSubscribe(0)">Unsubscribe</button>';
+                }
+            } else { 
                 echo '<button id="subscribe" onclick="unSubscribe()">Subscribe</button>';
-            } else {
-                echo '<button id="subscribe" onclick="unSubscribe(0)">Unsubscribe</button>';
+                $autoSub = "true";
             }
-        } else { 
-            echo '<button id="subscribe" onclick="unSubscribe()">Subscribe</button>';
-            $autoSub = "true";
         }
-    }
-    
-    ?>
-    
-    </div>
-
-    <div id="post-container" class="container">
-        <?= generateHTMLFromPosts($slug, $page); ?>
-    </div>
-
-    <div id="page-menu"></div>
-
-    <?php if(isset($_SESSION['user_id']) && $postCount !== 0) { 
-        require_once $path . '/assets/generateSVG.php';
+        
         ?>
-        <textarea id="post-content" placeholder="Type your post here..."></textarea>
-        <button class="action-button send-button" onclick="sendPost()"><?= generateSend() ?></button>
-    <?php } ?>
+        
+        </div>
+
+        <div id="post-container" class="container">
+            <?= generateHTMLFromPosts($slug, $page); ?>
+        </div>
+
+        <div id="page-menu"></div>
+
+        <?php if(isset($_SESSION['user_id']) && $postCount !== 0) { 
+            require_once $path . '/assets/generateSVG.php';
+            ?>
+            <textarea id="post-content" placeholder="Type your post here..."></textarea>
+            <button class="action-button send-button" onclick="sendPost()"><?= generateSend() ?></button>
+        <?php } ?>
+    </div>
 
     <script> 
         const slug = "<?= $slug ?>";

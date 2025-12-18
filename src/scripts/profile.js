@@ -246,14 +246,25 @@ async function restorePost(id) {
 // Loading session info
 async function loadSessionLocation() {
   const sessionItems = document.getElementsByClassName("session-item");
+  const promises = [];
 
   for (let i = 0; i < sessionItems.length; i++) {
     const ipElement = sessionItems[i].getElementsByClassName("ip")[0];
+    const ip = ipElement.innerText.trim();
+
+    const r = fetch(`https://get.geojs.io/v1/ip/country/${ip}.json`).then((x) =>
+      x.json()
+    );
+    promises.push(r);
+  }
+
+  const resps = await Promise.all(promises);
+
+  for (let i = 0; i < sessionItems.length; i++) {
     const locationElement =
       sessionItems[i].getElementsByClassName("location")[0];
-    const ip = ipElement.innerText.trim();
-    const resp = await fetch(`https://get.geojs.io/v1/ip/country/${ip}.json`);
-    const json = await resp.json();
+
+    const json = resps[i];
     locationElement.textContent = json.name;
   }
 }

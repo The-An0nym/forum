@@ -37,23 +37,25 @@ if(isset($_GET["p"])) {
 <body>
     <?php generateMenu() ?>
 
-    <div id="menu-path">
-        <?= generateMenuPath(1, $slug) ?>
+    <div id="global">
+        <div id="menu-path">
+            <?= generateMenuPath(1, $slug) ?>
+        </div>
+
+        <div id="thread-container" class="container">
+            <?php generateHTMLFromThreads($slug, $page) ?>
+        </div>
+
+        <div id="page-menu"></div>
+
+        <?php if(isset($_SESSION['user_id'])) { 
+            require_once $path . '/assets/generateSVG.php';
+            ?>
+            <input id="thread-name" placeholder="Thread title..."></input>
+            <textarea id="post-content" placeholder="Type your post here..."></textarea>
+            <button class="action-button send-button" onclick="createThread()"><?= generateSend() ?></button>
+        <?php } ?>
     </div>
-
-    <div id="thread-container" class="container">
-        <?php generateHTMLFromThreads($slug, $page) ?>
-    </div>
-
-    <div id="page-menu"></div>
-
-    <?php if(isset($_SESSION['user_id'])) { 
-        require_once $path . '/assets/generateSVG.php';
-        ?>
-        <input id="thread-name" placeholder="Thread title..."></input>
-        <textarea id="post-content" placeholder="Type your post here..."></textarea>
-        <button class="action-button send-button" onclick="createThread()"><?= generateSend() ?></button>
-    <?php } ?>
 
     <script> 
         const slug = "<?= $slug; ?>";

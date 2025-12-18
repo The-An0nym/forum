@@ -1,20 +1,10 @@
 #global {
-  background-color: var(--bg);
-  height: calc(100vh - 120px);
-  padding: 5px;
-  width: 98%;
-  margin: auto;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid var(--border);
+  /* Stuff */
 }
 
 #notifications-container {
   display: flex;
   flex-direction: column;
-  margin: 10px;
-  margin-left: 20px;
 }
 
 .notification-item {

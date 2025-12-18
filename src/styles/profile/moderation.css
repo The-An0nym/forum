@@ -1,8 +1,8 @@
 #global {
   background-color: var(--bg);
-  min-height: calc(100vh - 120px);
-  margin: 0.5em;
+  min-height: calc(100vh - 122px); /* TODO think of a better way to do this*/
   box-sizing: border-box;
+  margin: 0 0.5em;
   padding: 0.5em;
 }
 
@@ -59,7 +59,6 @@
   display: flex;
   flex-direction: column;
   font-size: 0.7em;
-  max-height: 300px;
   background-color: var(--bg);
   height: 100%;
   overflow-x: hidden;
@@ -71,7 +70,7 @@
   margin-bottom: 2px;
   justify-content: space-between;
   display: grid;
-  grid-template-columns: 60% 15% 15% 5%;
+  grid-template-columns: 20% 25% 20% 15% auto;
 }
 
 /* Moderation */

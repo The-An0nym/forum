@@ -77,7 +77,6 @@ if($result->num_rows === 1) {
     <?php if($load) {?>
 
     <div id="global">
-
         <div id="user-info">
             <img class="user-image" src="/images/profiles/<?= $image_dir; ?>">
             <span class="username"><?= $username ?></span>
