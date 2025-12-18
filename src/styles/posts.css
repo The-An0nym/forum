@@ -1,5 +1,5 @@
 .post {
-  margin: 0.5em;
+  margin: 0.5em 0;
   padding: 0.5em;
   border: 1px var(--border) solid;
   display: flex;
@@ -53,7 +53,6 @@
 #post-content {
   min-width: 70vw;
   min-height: 20vh;
-  margin-left: 20px;
 }
 
 #subscribe {

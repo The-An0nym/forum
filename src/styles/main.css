@@ -41,10 +41,12 @@ body {
   height: calc(100vh - 51px); /* 51px for menu bar */
   overflow-y: scroll;
   box-sizing: border-box;
+  padding-top: 0.5em;
 }
 
 #global {
-  margin: 0.5em;
+  margin: 0 0.5em;
+  min-height: calc(100% - 81px); /* 85 pixels for the footer */
 }
 
 a {

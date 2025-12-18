@@ -1,7 +1,6 @@
 #global {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
   min-height: calc(100vh - 122px);
 }
 
@@ -15,6 +14,7 @@
   background-color: var(--bg);
   box-sizing: border-box; /* Makes sure padding does not affect height or width */
   align-items: center;
+  margin-right: 0.5em;
 }
 
 .user-image {
@@ -84,6 +84,7 @@ button.moderation {
   padding: 0.5em;
   background-color: var(--bg);
   box-sizing: border-box; /* Makes sure padding does not affect height or width */
+  flex: 1;
 }
 
 .history-block {

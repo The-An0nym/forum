@@ -2,7 +2,6 @@
   display: flex;
   background-color: var(--bg);
   padding: 1em;
-  margin: 0 1em;
   border: 1px solid var(--border);
 }
 

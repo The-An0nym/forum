@@ -1,8 +1,6 @@
 #global {
   background-color: var(--bg);
-  min-height: calc(100vh - 122px); /* TODO think of a better way to do this*/
   box-sizing: border-box;
-  margin: 0 0.5em;
   padding: 0.5em;
 }
 
@@ -27,9 +25,12 @@
 
 .datetime-history,
 .deleted-datetime,
-.deleted-created,
-.session-datetime {
+.deleted-created {
   font-size: 0.5em;
+}
+
+.session-datetime {
+  font-size: 0.8em;
 }
 
 #deleted-posts {
@@ -66,11 +67,15 @@
 
 .session-item {
   border-bottom: 1px solid var(--border);
-  padding-bottom: 2px;
-  margin-bottom: 2px;
   justify-content: space-between;
-  display: grid;
-  grid-template-columns: 20% 25% 20% 15% auto;
+  display: flex;
+  align-items: center;
+  padding: 0.5em;
+}
+
+.session-item > span,
+.session-item > button {
+  flex: 1;
 }
 
 /* Moderation */

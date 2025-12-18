@@ -4,14 +4,16 @@
   position: relative;
   bottom: 0;
   background-color: var(--bg);
-  padding: 0.25em;
+  box-sizing: border-box;
+  padding: 0.5em;
   margin-top: 10px;
+  height: 70px;
 }
 
 .footer-column {
   display: flex;
   flex-direction: column;
-  margin-right: 0 1em;
+  margin-right: 2em;
 }
 
 .footer-image {
