@@ -8,27 +8,47 @@
   align-items: center;
 }
 
+/* For smaller screens */
+@media screen and (max-width: calc(500px + 17em)) {
+  .misc {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: calc(500px + 8em)) {
+  .last-wrapper {
+    display: none !important;
+  }
+}
+
 .main-wrapper {
   display: flex;
   flex-direction: column;
   margin-right: auto;
+  max-width: 500px;
 }
 
 .thread-name {
   font-weight: 800;
   display: block;
+  overflow: hidden;
+  text-wrap: nowrap;
+  text-overflow: ellipsis;
 }
 
 .thread-info {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  margin-left: 0.5em;
+}
+
+.thread-creator {
+  font-size: 0.9em;
 }
 
 .created {
   color: var(--text-muted);
-  font-size: 0.4em;
+  font-size: 0.5em;
+  margin-left: 2em;
+  vertical-align: middle;
 }
 
 .details-wrapper {
@@ -40,9 +60,16 @@
 .last-wrapper {
   display: flex;
   flex-direction: column;
-  width: 5em;
-  margin-right: auto;
-  margin-left: 1em;
+  width: 6em;
+  margin: 0 1em;
+}
+
+.last-user {
+  font-size: 0.8em;
+  overflow: hidden;
+  text-wrap: nowrap;
+  text-overflow: ellipsis;
+  margin-bottom: 0.25em;
 }
 
 .last-post {
@@ -50,8 +77,9 @@
   color: var(--text-muted);
 }
 
-.last-user {
-  font-size: 0.8em;
+.misc {
+  display: flex;
+  align-items: center;
 }
 
 .count {

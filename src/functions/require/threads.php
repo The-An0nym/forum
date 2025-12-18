@@ -105,12 +105,14 @@ function generateHTMLFromThreads(string $slug, int $page) {
                 <a class="last-user" href="/user/<?= $thread['lastHandle'] ?>"><?= $thread['lastUser'] ?></a>
                 <span class="last-post"><?= $thread['lastPost'] ?></span>
             </span>
-            <span class="count"><?= $thread['posts'] ?></span>
-            <?php if($thread['clearance'] === 1) {?>
-            <button class="delete-button danger-button" onclick="createModeration('deleting <?= $thread['username'] ?>\'s thread', deleteThread, '<?= $thread['id'] ?>')">
-                <img class="svg-img" src="/images/icons/bin.svg"></img>
-            </button>
-            <?php } ?>
+            <span class="misc">
+                <span class="count"><?= $thread['posts'] ?></span>
+                <?php if($thread['clearance'] === 1) {?>
+                <button class="delete-button danger-button" onclick="createModeration('deleting <?= $thread['username'] ?>\'s thread', deleteThread, '<?= $thread['id'] ?>')">
+                    <img class="svg-img" src="/images/icons/bin.svg"></img>
+                </button>
+                <?php } ?>
+            </span>
         </div>
 
         <?php 

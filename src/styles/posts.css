@@ -8,42 +8,53 @@
 }
 
 .user-details {
-  width: 16%;
+  width: 5em;
   border-right: 1px solid var(--border);
-  overflow-wrap: break-word;
-  font-size: 0.8em;
+  padding-right: 0.5em;
 }
 
 .profile-picture {
-  width: 80%;
-  border-radius: 1em;
+  width: 100%;
+  border-radius: 0.5em;
 }
 
 .username {
-  font-weight: 800;
+  font-weight: 600;
   display: block;
+  font-size: 0.7em;
+  overflow: hidden;
+  text-wrap: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
+  margin: 0.25em;
 }
+
+/* POST CONTENT */
 
 .post-data {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 80%;
+  flex-direction: column;
+  width: 100%;
+  flex: 1;
+}
+
+.post-buttons {
+  align-self: end;
+  height: 0;
 }
 
 .content {
   font-size: 0.7em;
   padding: 0.5em;
+  flex: 1;
+  width: calc(100% - 2em); /* 2 em for extra buttons */
 }
 
-.created {
-  font-size: 0.4em;
-  color: var(--text-muted);
-}
-
+.created,
 .edited {
   font-size: 0.4em;
   color: var(--text-muted);
+  align-self: end;
 }
 
 .editTxt {

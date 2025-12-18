@@ -35,14 +35,11 @@ function parsePosts(data, scrollBottom = false) {
     );
     userDetails.appendChild(profilePicture);
 
-    const username = document.createElement("span");
+    const username = document.createElement("a");
+    username.textContent = jsonData[i].username;
+    username.href = "/user/" + jsonData[i].handle;
     username.className = "username";
 
-    const handle = document.createElement("a");
-    handle.textContent = jsonData[i].username;
-    handle.href = "/user/" + jsonData[i].handle;
-
-    username.appendChild(handle);
     userDetails.appendChild(username);
 
     const userPostCount = document.createElement("span");
@@ -57,39 +54,22 @@ function parsePosts(data, scrollBottom = false) {
 
     post.appendChild(userDetails);
 
-    /* REST OF THE POST */
+    /* POST CONTENT */
 
     const postData = document.createElement("span");
     postData.className = "post-data";
 
-    const content = document.createElement("span");
-    content.className = "content";
-    content.innerHTML = jsonData[i].content;
-    postData.appendChild(content);
+    /* POST BUTTONS */
 
-    /* META */
-
-    const postMeta = document.createElement("span");
-    postMeta.className = "post-metadata";
-
-    const created = document.createElement("span");
-    created.className = "created";
-    created.textContent = jsonData[i].created;
-    postMeta.appendChild(created);
-
-    if (jsonData[i].edited === "1") {
-      const edited = document.createElement("span");
-      edited.className = "edited";
-      edited.textContent = "edited";
-      postMeta.appendChild(edited);
-    }
+    const postButtons = document.createElement("span");
+    postButtons.className = "post-buttons";
 
     if (jsonData[i].editable) {
       const editable = document.createElement("button");
       editable.className = "edit-button";
       editable.textContent = "edit";
       editable.setAttribute("onclick", `editPost('${jsonData[i].id}')`);
-      postMeta.appendChild(editable);
+      postButtons.appendChild(editable);
     }
 
     if (jsonData[i].deletable === 1 || jsonData[i].editable) {
@@ -107,17 +87,43 @@ function parsePosts(data, scrollBottom = false) {
           `createModeration('deleting ${jsonData[i].username}\\\'s post', deletePost, '${jsonData[i].id}')`
         );
       }
-      postMeta.appendChild(deletable);
+      postButtons.appendChild(deletable);
     }
 
     if (!jsonData[i].deletable === 1 && !jsonData[i].deletable) {
-      const deletable = document.createElement("button");
-      deletable.className = "report-button";
-      deletable.textContent = "report";
-      deletable.setAttribute("onclick", `createReport(0, '${jsonData[i].id}')`);
+      const reportable = document.createElement("button");
+      reportable.className = "report-button";
+      reportable.textContent = "report";
+      reportable.setAttribute(
+        "onclick",
+        `createReport(0, '${jsonData[i].id}')`
+      );
+      postButtons.appendChild(reportable);
     }
 
-    postData.appendChild(postMeta);
+    postData.appendChild(postButtons);
+
+    /* CONTENT */
+
+    const content = document.createElement("span");
+    content.className = "content";
+    content.innerHTML = jsonData[i].content;
+    postData.appendChild(content);
+
+    /* METADATA (date + edited) */
+
+    const created = document.createElement("span");
+    created.className = "created";
+    created.textContent = jsonData[i].created;
+    postData.appendChild(created);
+
+    if (jsonData[i].edited === "1") {
+      const edited = document.createElement("span");
+      edited.className = "edited";
+      edited.textContent = "edited";
+      postData.appendChild(edited);
+    }
+
     post.appendChild(postData);
 
     cont.appendChild(post);
@@ -132,17 +138,15 @@ function parsePosts(data, scrollBottom = false) {
 
 function editPost(id) {
   // Reset Posts
-  const posts = document.getElementsByClassName("post");
-  for (let i of posts) {
-    if (i.querySelector(".edit-wrapper")) {
-      i.querySelector(".post-data").style.display = "flex";
-      i.querySelector(".edit-wrapper").remove();
-    }
+  const allPosts = document.getElementsByClassName("content");
+
+  for (let i of allPosts) {
+    i.style.display = "inline";
   }
 
-  const post = document.getElementById(id);
-  const textCont = post.querySelector(".content").textContent;
-  post.querySelector(".post-data").style.display = "none"; // Hide
+  const post = document.getElementById(id).querySelector(".content");
+  const textCont = post.textContent;
+  post.style.display = "none"; // Hide
 
   // Create textarea and buttons
   const editWrapper = document.createElement("span");
@@ -164,13 +168,14 @@ function editPost(id) {
   cancel.setAttribute("onclick", `cancelEdit("${id}")`);
   editWrapper.appendChild(cancel);
 
-  post.appendChild(editWrapper);
+  post.nextSibling.insertBefore(editWrapper);
 }
 
 function cancelEdit(id) {
-  const post = document.getElementById(id);
+  const post = document.getElementById(id).querySelector(".content");
   post.querySelector(".post-data").style.display = "flex";
-  post.querySelector(".edit-wrapper").remove();
+  if (post.parentElement.querySelector(".edit-wrapper"))
+    post.parentElement.querySelector(".edit-wrapper").remove();
 }
 
 /* SENDING EDITED POST */

@@ -82,18 +82,13 @@ function generateHTMLFromPosts(string $slug, int $page) {
         <div class="post" id="<?= $post['post_id'] ?>">
             <span class="user-details">
                 <img class="profile-picture" src="/images/profiles/<?= $post['image_dir'] ?>">
-                <span class="username"><a href="/user/<?= $post['handle'] ?>"><?= $post['username'] ?></a></span>
+                <a class="username" href="/user/<?= $post['handle'] ?>"><?= $post['username'] ?></a>
                 <span class="user-post-count"><?= $post['posts'] ?></span>
                 <span class="user-rating"><?= $post['auth'] ?></span>
             </span>
             <span class="post-data">
-                <span class="content"><?= $post['content'] ?></span>
-                <span class="post-metadata">
-                    <?php 
-                    echo '<span class="created">' . $post['created'] . '</span>';
-                    if($post['edited'] === "1") {
-                        echo '<span class="edited">edited</span>';
-                    }
+                <span class="post-buttons">
+                <?php
                     if(isset($_SESSION["user_id"])) {
                         if($post["user_id"] === $_SESSION["user_id"]) {
                             echo '<button class="edit-button" onclick="editPost(\'' . $post['post_id'] . '\')">edit</button>';
@@ -105,6 +100,13 @@ function generateHTMLFromPosts(string $slug, int $page) {
                         }
                     } ?>
                 </span>
+                <span class="content"><?= $post['content'] ?></span>
+                <?php 
+                echo '<span class="created">' . $post['created'] . '</span>';
+                if($post['edited'] === "1") {
+                    echo '<span class="edited">edited</span>';
+                }
+                ?>
             </span>
         </div>
     <?php 
