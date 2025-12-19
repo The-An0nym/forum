@@ -6,26 +6,17 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-}
-
-/* For smaller screens */
-@media screen and (max-width: calc(500px + 17em)) {
-  .misc {
-    display: none !important;
-  }
-}
-
-@media screen and (max-width: calc(500px + 8em)) {
-  .last-wrapper {
-    display: none !important;
-  }
+  height: 2.6em; /* Height */
+  row-gap: 5em; /* Pushes all wrapped elements further down */
+  overflow: hidden; /* Will hide any elements that wrap */
 }
 
 .main-wrapper {
   display: flex;
   flex-direction: column;
   margin-right: auto;
-  max-width: 500px;
+  width: 20em;
+  overflow: hidden;
 }
 
 .thread-name {
@@ -80,6 +71,7 @@
 .misc {
   display: flex;
   align-items: center;
+  width: 7em;
 }
 
 .count {

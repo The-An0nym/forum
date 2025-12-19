@@ -25,15 +25,12 @@ function parseThreads(jsonData) {
     const mainWrapper = document.createElement("span");
     mainWrapper.className = "main-wrapper";
 
-    const name = document.createElement("span");
-    name.className = "thread-name";
+    const threadName = document.createElement("a");
+    threadName.className = "thread-name";
+    threadName.setAttribute("href", `/thread/${threadData[i].slug}`);
+    threadName.innerHTML = threadData[i].name;
 
-    const threadHref = document.createElement("a");
-    threadHref.setAttribute("href", `/thread/${threadData[i].slug}`);
-    threadHref.innerHTML = threadData[i].name;
-
-    name.appendChild(threadHref);
-    mainWrapper.appendChild(name);
+    mainWrapper.appendChild(threadName);
 
     // Thread info
     const threadInfo = document.createElement("span");

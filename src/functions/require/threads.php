@@ -93,9 +93,7 @@ function generateHTMLFromThreads(string $slug, int $page) {
     foreach($threads as $thread) {?>
         <div class="thread-wrapper">
             <span class="main-wrapper">
-                <span class="thread-name">
-                    <a href="/thread/<?= $thread['slug'] ?>"><?= $thread['name'] ?></a>
-                </span>
+                <a class="thread-name" href="/thread/<?= $thread['slug'] ?>"><?= $thread['name'] ?></a>
                 <span class="thread-info">
                     <a class="thread-creator" href="/user/<?= $thread['handle'] ?>"><?= $thread['username'] ?></a>
                     <span class="created"><?= $thread['created'] ?></span>

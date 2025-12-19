@@ -168,7 +168,7 @@ function editPost(id) {
   cancel.setAttribute("onclick", `cancelEdit("${id}")`);
   editWrapper.appendChild(cancel);
 
-  post.nextSibling.insertBefore(editWrapper);
+  post.nextSibling.insertBefore("TODO SOME TEXT", editWrapper); // TODO fix this
 }
 
 function cancelEdit(id) {
