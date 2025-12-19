@@ -87,18 +87,20 @@ function generateHTMLFromPosts(string $slug, int $page) {
                 <span class="user-rating"><?= $post['auth'] ?></span>
             </span>
             <span class="post-data">
-                <span class="post-buttons">
-                <?php
-                    if(isset($_SESSION["user_id"])) {
-                        if($post["user_id"] === $_SESSION["user_id"]) {
-                            echo '<button class="edit-button" onclick="editPost(\'' . $post['post_id'] . '\')">edit</button>';
-                            echo '<button class="delete-button" onclick="createConfirmation(\'delete ' . $post['username'] . '\\\'s post\', \'\', deletePost, \'' . $post['post_id'] . '\')">delete</button>';
-                        } else if($post['clearance'] === 1) {
-                            echo '<button class="delete-button" onclick="createModeration(\'deleting ' . $post['username'] . '\\\'s post\', deletePost, \'' . $post['post_id'] . '\')">delete</button>';
-                        } else {
-                            echo '<button class="report-button" onclick="createReport(0, \'' . $post['post_id'] . '\')">Report</button>';
-                        }
-                    } ?>
+                <span class="post-options">
+                    <?php if(isset($_SESSION["user_id"])) { ?>
+                    <span onclick="toggleSibling(this)" class="options-reveal-button">...</span>
+                    <span class="option-buttons">
+                        <?php if($post["user_id"] === $_SESSION["user_id"]) {
+                                echo '<button class="edit-button" onclick="editPost(\'' . $post['post_id'] . '\')"><img class="svg-img" src="/images/icons/edit.svg"></button>';
+                                echo '<button class="danger-button" onclick="createConfirmation(\'delete ' . $post['username'] . '\\\'s post\', \'\', deletePost, \'' . $post['post_id'] . '\')"><img class="svg-img" src="/images/icons/bin.svg"></button>';
+                            } else if($post['clearance'] === 1) {
+                                echo '<button class="danger-button" onclick="createModeration(\'deleting ' . $post['username'] . '\\\'s post\', deletePost, \'' . $post['post_id'] . '\')"><img class="svg-img" src="/images/icons/bin.svg"></button>';
+                            } else {
+                                echo '<button class="report-button" onclick="createReport(0, \'' . $post['post_id'] . '\')"><img class="svg-img" src="/images/icons/report.svg"></button>';
+                            } ?>
+                    </span>
+                    <?php } ?>
                 </span>
                 <span class="content"><?= $post['content'] ?></span>
                 <?php 
@@ -176,12 +178,19 @@ function getPostsJson(string $slug, int $page = 1) : string {
         $data[] = $p;
     }
 
+    // Already required validateSession
+    $logged_in = false; // TODO maybe validate_session can be called earlier?
+    if(validateSession()) {
+        $logged_in = true;
+    }
+
     $dataJSON = json_encode(
         array(
             "status" => "pass",
             "data" => array(
                 "posts" => $data,
-                "amount" => $post_count
+                "amount" => $post_count,
+                "logged_in" => $logged_in
             )
         )
     );

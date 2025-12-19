@@ -61,47 +61,75 @@ function parsePosts(data, scrollBottom = false) {
 
     /* POST BUTTONS */
 
-    const postButtons = document.createElement("span");
-    postButtons.className = "post-buttons";
+    const postOptions = document.createElement("span");
+    postOptions.className = "post-options";
 
-    if (jsonData[i].editable) {
-      const editable = document.createElement("button");
-      editable.className = "edit-button";
-      editable.textContent = "edit";
-      editable.setAttribute("onclick", `editPost('${jsonData[i].id}')`);
-      postButtons.appendChild(editable);
-    }
+    if (data.logged_in) {
+      const optionsRevealButton = document.createElement("span");
+      optionsRevealButton.className = "options-reveal-button";
+      optionsRevealButton.textContent = "...";
+      optionsRevealButton.setAttribute("onClick", "toggleSibling(this)");
+      postOptions.appendChild(optionsRevealButton);
 
-    if (jsonData[i].deletable === 1 || jsonData[i].editable) {
-      const deletable = document.createElement("button");
-      deletable.className = "delete-button";
-      deletable.textContent = "delete";
+      const optionButtons = document.createElement("span");
+      optionButtons.className = "option-buttons";
+
       if (jsonData[i].editable) {
-        deletable.setAttribute(
-          "onclick",
-          `createConfirmation('delete ${jsonData[i].username}\\\'s post', '', deletePost, '${jsonData[i].id}')`
-        );
-      } else {
-        deletable.setAttribute(
-          "onclick",
-          `createModeration('deleting ${jsonData[i].username}\\\'s post', deletePost, '${jsonData[i].id}')`
-        );
+        const editable = document.createElement("button");
+        editable.className = "edit-button";
+        editable.setAttribute("onclick", `editPost('${jsonData[i].id}')`);
+
+        const editIcon = document.createElement("img");
+        editIcon.src = "/images/icons/edit.svg";
+        editIcon.className = "svg-img";
+        editable.appendChild(editIcon);
+
+        optionButtons.appendChild(editable);
       }
-      postButtons.appendChild(deletable);
+
+      if (jsonData[i].deletable === 1 || jsonData[i].editable) {
+        const deletable = document.createElement("button");
+        deletable.className = "danger-button";
+        if (jsonData[i].editable) {
+          deletable.setAttribute(
+            "onclick",
+            `createConfirmation('delete ${jsonData[i].username}\\\'s post', '', deletePost, '${jsonData[i].id}')`
+          );
+        } else {
+          deletable.setAttribute(
+            "onclick",
+            `createModeration('deleting ${jsonData[i].username}\\\'s post', deletePost, '${jsonData[i].id}')`
+          );
+        }
+
+        const binIcon = document.createElement("img");
+        binIcon.src = "/images/icons/bin.svg";
+        binIcon.className = "svg-img";
+        deletable.appendChild(binIcon);
+
+        optionButtons.appendChild(deletable);
+      }
+
+      if (!jsonData[i].deletable === 1 && !jsonData[i].editable) {
+        const reportable = document.createElement("button");
+        reportable.className = "report-button";
+        reportable.setAttribute(
+          "onclick",
+          `createReport(0, '${jsonData[i].id}')`
+        );
+
+        const reportIcon = document.createElement("img");
+        reportIcon.src = "/images/icons/report.svg";
+        reportIcon.className = "svg-img";
+        reportable.appendChild(reportIcon);
+
+        optionButtons.appendChild(reportable);
+      }
+
+      postOptions.appendChild(optionButtons);
     }
 
-    if (!jsonData[i].deletable === 1 && !jsonData[i].deletable) {
-      const reportable = document.createElement("button");
-      reportable.className = "report-button";
-      reportable.textContent = "report";
-      reportable.setAttribute(
-        "onclick",
-        `createReport(0, '${jsonData[i].id}')`
-      );
-      postButtons.appendChild(reportable);
-    }
-
-    postData.appendChild(postButtons);
+    postData.appendChild(postOptions);
 
     /* CONTENT */
 
@@ -134,15 +162,22 @@ function parsePosts(data, scrollBottom = false) {
   else sglob.scrollTo(0, 0);
 }
 
+/* ACCESSING OPTION BUTTONS */
+function toggleSibling(ele) {
+  const eles = document.getElementsByClassName("option-buttons");
+  for (e of eles)
+    if (ele.parentElement.contains(e))
+      if (e.style.display === "flex") e.style.display = "none";
+      else e.style.display = "flex";
+    else e.style.display = "none";
+}
+
 /* EDITING POSTS */
 
 function editPost(id) {
   // Reset Posts
   const allPosts = document.getElementsByClassName("content");
-
-  for (let i of allPosts) {
-    i.style.display = "inline";
-  }
+  for (let i of allPosts) i.style.display = "inline";
 
   const post = document.getElementById(id).querySelector(".content");
   const textCont = post.textContent;
@@ -159,21 +194,39 @@ function editPost(id) {
   editWrapper.appendChild(textarea);
 
   const send = document.createElement("button");
-  send.textContent = "send";
+  send.className = "action-button";
   send.setAttribute("onclick", `sendEdit("${id}")`);
+
+  const sendIcon = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "svg"
+  );
+  sendIcon.setAttribute("viewBox", "0 0 200 200");
+
+  const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
+  use.setAttribute("href", "#send-button");
+
+  sendIcon.appendChild(use);
+  send.appendChild(sendIcon);
   editWrapper.appendChild(send);
 
   const cancel = document.createElement("button");
-  cancel.textContent = "cancel";
   cancel.setAttribute("onclick", `cancelEdit("${id}")`);
+  cancel.className = "danger-button";
+
+  const binIcon = document.createElement("img");
+  binIcon.img = "/images/icons/bin.svg";
+  binIcon.className = "img-svg";
+
+  cancel.appendChild(binIcon);
   editWrapper.appendChild(cancel);
 
-  post.nextSibling.insertBefore("TODO SOME TEXT", editWrapper); // TODO fix this
+  post.after(editWrapper);
 }
 
 function cancelEdit(id) {
-  const post = document.getElementById(id).querySelector(".content");
-  post.querySelector(".post-data").style.display = "flex";
+  const post = document.getElementById(id).querySelector(".post-data");
+  post.querySelector(".content").style.display = "flex";
   if (post.parentElement.querySelector(".edit-wrapper"))
     post.parentElement.querySelector(".edit-wrapper").remove();
 }

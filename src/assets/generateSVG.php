@@ -28,7 +28,7 @@ function generateLogout() : string {
  * Generate send icon SVG
  */
 function generateSend() : string {
-    $svg = '<svg class="svg-send-button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+    $svg = '<svg id="send-button" class="svg-send-button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
                 <path d="M25 65 L10 30 A16 16 0 0 1 30 10 L180 90 A20 14 0 01 180 110 L30 190 A16 16 0 0 1 10 170 L25 135 A26 35 0 0 1 45 115 L80 105 A10 6 0 0 0 80 95 L45 85 A26 35 0 0 1 25 65 Z" />
             </svg>';
 
