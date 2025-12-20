@@ -97,7 +97,7 @@ function generateBell(bool $enabled = true) : string {
                  <path d="M0 -70 A50 50 0 0 1 50 -20 L50 20 A100 70 0 0 0 70 60" />
                  <path d="M-70 60 L70 60 M-20 60 A10 10 0 0 0 20 60 M0 -70 L0 -80" />';
     } else {
-        $svg = '<defs>
+        $svg .= '<defs>
                     <clipPath id="bell-cut-line">
                     <path d="M74 -86 L-86 74 L-86 -86 Z M86 -74 L-74 86 L86 86 Z" />
                     </clipPath>

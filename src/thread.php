@@ -68,8 +68,8 @@ if(isset($_GET["p"])) {
         }
         ?>
 
-        <button id="subscribed" onclick="unSubscribe(true)" <?= ($subscribed ? '' : 'style="display: none;"'); ?>><?= generateBell(true); ?></button>
-        <button id="unsubscribed" onclick="unSubscribe(false)" <?= ($subscribed ? 'style="display: none;"' : '') ?>><?= generateBell(false); ?></button>
+        <button id="subscribed" onclick="unSubscribe(0)" <?= ($subscribed ? '' : 'style="display: none;"'); ?>><?= generateBell(true); ?></button>
+        <button id="unsubscribed" onclick="unSubscribe(1)" <?= ($subscribed ? 'style="display: none;"' : '') ?>><?= generateBell(false); ?></button>
         
         </div>
 

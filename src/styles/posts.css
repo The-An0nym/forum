@@ -114,6 +114,11 @@
   min-height: 20vh;
 }
 
-#subscribe {
+#subscribed,
+#unsubscribed {
   float: right;
+  width: 1em;
+  height: 1em;
+  font-size: 1em;
+  padding: 0;
 }

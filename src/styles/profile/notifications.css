@@ -1,5 +1,7 @@
 #global {
-  /* Stuff */
+  box-sizing: border-box;
+  padding-top: 0.5em;
+  padding-left: 0.5em;
 }
 
 #notifications-container {

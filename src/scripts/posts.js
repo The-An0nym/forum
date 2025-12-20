@@ -270,11 +270,11 @@ async function sendPost() {
     if (page !== 1) url = `https://quir.free.nf/thread/${slug}/${page}`;
     else url = `https://quir.free.nf/thread/${slug}`;
 
+    createPageMenu("gotoThreadPage", page, totalPosts); // Refresh page menu
+
     history.pushState({}, null, url);
 
-    if (autoSub) {
-      unSubscribe();
-    }
+    if (autoSub) unSubscribe();
   }
 }
 
@@ -312,7 +312,7 @@ async function unSubscribe(type = 1) {
 
   // TODO language support?
   if (bod[0])
-    createPopUpMessage(`Successfully ${type === 1 ? "un" : ""}subscribed`, 0);
+    createPopUpMessage(`Successfully ${type === 0 ? "un" : ""}subscribed`, 0);
 }
 
 async function gotoThreadPage(p, scrollBottom = false) {

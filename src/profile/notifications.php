@@ -48,9 +48,6 @@ require_once $path . '/functions/validateSession.php';
     ?>
     </div>
 
-
     <?php require_once $path . "/assets/footer.php"; ?>
-
-    <!-- TODO verify that this is unnecessary <script src="/scripts/profile.js"></script> -->
 </body>
 </html>
