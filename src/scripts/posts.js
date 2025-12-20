@@ -110,7 +110,7 @@ function parsePosts(data, scrollBottom = false) {
         optionButtons.appendChild(deletable);
       }
 
-      if (!jsonData[i].deletable === 1 && !jsonData[i].editable) {
+      if (jsonData[i].deletable === 0 && !jsonData[i].editable) {
         const reportable = document.createElement("button");
         reportable.className = "report-button";
         reportable.setAttribute(
@@ -164,6 +164,7 @@ function parsePosts(data, scrollBottom = false) {
 
 /* ACCESSING OPTION BUTTONS */
 function toggleSibling(ele) {
+  // TODO hide not just on re-click, but also on document click
   const eles = document.getElementsByClassName("option-buttons");
   for (e of eles)
     if (ele.parentElement.contains(e))
@@ -215,7 +216,7 @@ function editPost(id) {
   cancel.className = "danger-button";
 
   const binIcon = document.createElement("img");
-  binIcon.img = "/images/icons/bin.svg";
+  binIcon.src = "/images/icons/bin.svg";
   binIcon.className = "img-svg";
 
   cancel.appendChild(binIcon);
@@ -294,17 +295,24 @@ async function deletePost(id, reason, message) {
   }
 }
 
+/**
+ * Handles subscription
+ * @param {integer} type 0 = unsubscribe, 1 = subscribe (1 is default)
+ */
 async function unSubscribe(type = 1) {
-  postData("/api/thread/unSubscribe.php", `t=${slug}&s=${type}`);
+  document.getElementById("subscribed").style.display =
+    type === 1 ? "block" : "none";
+  document.getElementById("unsubscribed").style.display =
+    type === 0 ? "block" : "none";
 
-  ele = document.getElementById("subscribe");
-  if (type === 1) {
-    ele.textContent = "Unsubscribe";
-    ele.setAttribute("onclick", "unSubscribe(0)");
-  } else {
-    ele.textContent = "Subscribe";
-    ele.setAttribute("onclick", "unSubscribe(1)");
-  }
+  const bod = await postData(
+    "/api/thread/unSubscribe.php",
+    `t=${slug}&s=${type}`
+  );
+
+  // TODO language support?
+  if (bod[0])
+    createPopUpMessage(`Successfully ${type === 1 ? "un" : ""}subscribed`, 0);
 }
 
 async function gotoThreadPage(p, scrollBottom = false) {

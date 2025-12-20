@@ -43,6 +43,7 @@ if(isset($_GET["p"])) {
 
         <?php
         $autoSub = "false";
+        $subscribed = false;
 
         if(isset($_SESSION["user_id"])) {
             $user_id = $_SESSION["user_id"];
@@ -58,17 +59,17 @@ if(isset($_GET["p"])) {
             $result = $conn->query($sql);
             if($result->num_rows > 0) {
                 if($result->fetch_assoc()["subscribed"] == 0) {
-                    echo '<button id="subscribe" onclick="unSubscribe()">Subscribe</button>';
-                } else {
-                    echo '<button id="subscribe" onclick="unSubscribe(0)">Unsubscribe</button>';
+                    $subscribed = true;
                 }
-            } else { 
-                echo '<button id="subscribe" onclick="unSubscribe()">Subscribe</button>';
+            } else {
+                $subscribed = true;
                 $autoSub = "true";
             }
         }
-        
         ?>
+
+        <button id="subscribed" onclick="unSubscribe(true)" <?= ($subscribed ? '' : 'style="display: none;"'); ?>><?= generateBell(true); ?></button>
+        <button id="unsubscribed" onclick="unSubscribe(false)" <?= ($subscribed ? 'style="display: none;"' : '') ?>><?= generateBell(false); ?></button>
         
         </div>
 

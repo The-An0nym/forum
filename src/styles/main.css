@@ -37,6 +37,19 @@ body {
   color: var(--text);
 }
 
+/* For a responsive design */
+@media screen and (max-width: 680px) {
+  body {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  body {
+    font-size: 12px;
+  }
+}
+
 #super-global {
   height: calc(100vh - 51px); /* 51px for menu bar */
   overflow-y: scroll;
@@ -271,11 +284,11 @@ svg {
 
 .page-menu-button,
 .page-menu-input {
-  padding: 2px;
-  border-radius: 50%;
-  margin: 2px;
-  aspect-ratio: 1 / 1;
-  width: 25px;
+  padding: 0.25em;
+  border-radius: 2.5em;
+  margin: 0.25em;
+  min-width: 2em;
+  height: 2em;
 }
 
 .page-menu-input {

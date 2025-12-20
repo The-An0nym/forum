@@ -86,3 +86,30 @@ function generatePC() : string {
     
     return $svg;
 }
+
+/**
+ * Generates bell icon SVG
+ */
+function generateBell(bool $enabled = true) : string {
+    $svg = '<svg viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg">';
+    if($enabled) {
+        $svg .= '<path d="M0 -70 A50 50 0 0 0 -50 -20 L-50 20 A100 70 0 0 1 -70 60" />
+                 <path d="M0 -70 A50 50 0 0 1 50 -20 L50 20 A100 70 0 0 0 70 60" />
+                 <path d="M-70 60 L70 60 M-20 60 A10 10 0 0 0 20 60 M0 -70 L0 -80" />';
+    } else {
+        $svg = '<defs>
+                    <clipPath id="bell-cut-line">
+                    <path d="M74 -86 L-86 74 L-86 -86 Z M86 -74 L-74 86 L86 86 Z" />
+                    </clipPath>
+                </defs>
+                
+                <path clip-path="url(#bell-cut-line)" d="M0 -70 A50 50 0 0 0 -50 -20 L-50 20 A100 70 0 0 1 -70 60" />
+                <path clip-path="url(#bell-cut-line)" d="M0 -70 A50 50 0 0 1 50 -20 L50 20 A100 70 0 0 0 70 60" />
+                <path clip-path="url(#bell-cut-line)" d="M-70 60 L70 60 M-20 60 A10 10 0 0 0 20 60 M0 -70 L0 -80" />
+                <path d="M75 -75 L-75 75" />';
+    }
+
+    $svg .= "</svg>";
+
+    return $svg;
+}
