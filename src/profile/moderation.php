@@ -17,6 +17,7 @@ if(!session_id()) {
 require_once $path . "/assets/menu.php";
 require_once $path . '/functions/require/moderationHistory.php' ;
 require_once $path . '/functions/validateSession.php';
+require_once $path . '/functions/time.php';
 
 ?>
 <!DOCTYPE html>
@@ -115,8 +116,8 @@ require_once $path . '/functions/validateSession.php';
                 if($result->num_rows > 0) {
                     while($post = $result->fetch_assoc()) {?>
                         <div class="deleted-post">
-                            <span class="deleted-datetime"><?= $post['deleted_datetime']; ?></span>
-                            <span class="deleted-created"><?= $post['created']; ?></span>
+                            <span class="deleted-datetime"><?= dateStamp($post['deleted_datetime']); ?></span>
+                            <span class="deleted-created"><?= dateStamp($post['created']); ?></span>
                             <span class="deleted-thread">
                                 <a href="/thread/<?= $post['slug']; ?>"><?= $post['name']; ?></a>
                             </span>

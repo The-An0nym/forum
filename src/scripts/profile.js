@@ -229,7 +229,10 @@ async function deleteSession(session_id) {
     `i=${encodeURIComponent(session_id)}`
   );
 
-  if (bod[0]) document.getElementById(session_id).remove();
+  if (bod[0]) {
+    document.getElementById(session_id).remove();
+    createPopUpMessage("Session deleted", 0);
+  }
 }
 
 // Restoring post

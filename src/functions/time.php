@@ -22,44 +22,23 @@ function timeAgo(string $dateString) : string {
     $minutes = floor($dateDiff / 60) % 60; // 60 minuts an hour
     $seconds = $dateDiff % 60; // 60 seconds a minute
 
-    if($years > 0) {
-        if($years > 3 || $months === 0) {
-            $ret .= $years . " years";
-        } else {
-            $ret .= $years . " year(s) and " . $months . " month(s)";
+    $values = [$years, $months, $weeks, $days, $hours, $minutes, $seconds];
+    $units = ["year", "month", "week", "day", "hour", "minute", "second"];
+
+    $len = count($units);
+
+    for($i = 0; $i < $len; $i++) {
+        if($values[$i] === 0) {
+            continue;
         }
-    } else if($months > 0) {
-        if($months > 3 || $weeks === 0) {
-            $ret .= $months . " months";
+
+        if($values[$i] === 1) {
+            $ret .= $values[$i] . $units[$i];
         } else {
-            $ret .= $months . " month(s) and " . $weeks . " week(s)";
+            $ret .= $values[$i] . $units[$i] . "s";
         }
-    } else if($weeks > 0) {
-        if($days === 0) {
-            $ret .= $weeks . " weeks";
-        } else {
-            $ret .= $weeks . " week(s) and " . $days . " day(s)";
-        }
-    } else if($days > 0) {
-        if($days > 3 || $hours === 0) {
-            $ret .= $days . " days";
-        } else {
-            $ret .= $days . " day(s) and " . $hours . " hour(s)";
-        }
-    } else if($hours > 0) {
-        if($hours > 5 || $minutes === 0) {
-            $ret .= $hours . " hours";
-        } else {
-            $ret .= $hours . " hour(s) and " . $minutes . " minute(s)";
-        }
-    } else if($minutes > 0) {
-        if($minutes > 5 || $seconds === 0) {
-            $ret .= $minutes . " minutes";
-        } else {
-            $ret .= $minutes . " minute(s) and " . $seconds . " second(s)";
-        }
-    } else {
-        $ret .= $seconds . " second(s)";
+
+        break;
     }
 
     $ret .= " ago";

@@ -2,7 +2,7 @@
 
 ## General
 
-- [ ] Question: How to handle user settings save? -> Refresh or save pop-up?
+- [ ] Still receiving notifications from deleted users (posts)
 - [ ] Maybe add more auth -> One for being able to create threads and one for being able to report. Then allow both of those after posting 10 posts.
 - [ ] Refactor pop-ups to be handled through ONE JS function (consider using JSON objects)
 - [ ] Redesign moderation panel for /user/
@@ -22,6 +22,7 @@
 
 ## Profile/
 
+- [ ] Question: How to handle user settings save? -> Refresh or save pop-up?
 - [ ] Fix aspect ratio of preview
 - [ ] Disable deleting session of self
 - [ ] Decide: Make normal user moderation and moderator moderation hidable (for moderators only)?

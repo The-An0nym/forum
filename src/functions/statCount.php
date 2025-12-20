@@ -175,7 +175,6 @@ function countForUser($id, bool $rest, bool $threads) : array {
     if($conn->query($sql) === FALSE) {
         return ["", "SC7"];
     }
-    
 
     // User post count
     $sql = "UPDATE 

@@ -99,7 +99,7 @@ function getCategory(string $slug) {
 function generateMenuPath(int $type = 0, string $slug = "") : string {
     // 0 home, 1 topic, 2 thread
 
-    $out = '<a href="/">Home</a>';
+    $out = '<span id="menu-path"><a href="/">Home</a>';
 
     if($type === 0) {
         return $out;
@@ -114,7 +114,7 @@ function generateMenuPath(int $type = 0, string $slug = "") : string {
         if($name === "") {
             return "";
         }
-        $out .= ' > <a onclick="getThreads()">' . $name . '</a>';
+        $out .= ' > <a onclick="getThreads()">' . $name . '</a></span>';
         return $out;
     } else if($type === 2) {
         $pathArr = getThreadPathName($slug);
@@ -122,7 +122,7 @@ function generateMenuPath(int $type = 0, string $slug = "") : string {
             return "";
         }
         $out .= ' > <a href="' . $pathArr[0] . '">' . $pathArr[1] . '</a>';
-        $out .= ' > <a onclick="getPosts()">' . $pathArr[2] . '</a>';
+        $out .= ' > <a onclick="getPosts()">' . $pathArr[2] . '</a></span>';
         return $out;
     }
 

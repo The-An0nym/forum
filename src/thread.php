@@ -38,7 +38,7 @@ if(isset($_GET["p"])) {
     <?php generateMenu(); ?>
 
     <div id="global">
-        <div id="menu-path">
+        <div id="menu-path-wrapper">
             <?= generateMenuPath(2, $slug); ?>
 
         <?php

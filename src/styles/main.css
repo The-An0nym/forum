@@ -69,6 +69,7 @@ a {
 
 a:hover {
   text-decoration: underline;
+  cursor: pointer;
 }
 
 /* .button is for elements that cannot be button elements */

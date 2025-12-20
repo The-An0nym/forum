@@ -76,11 +76,17 @@
   box-shadow: var(--bg-dark) -2px 2px 5px;
 }
 
+#menu-path-wrapper {
+  display: flex; /* Especially important for /thread/, not so much for /topic/ */
+  justify-content: space-between;
+}
+
 #menu-path {
   font-size: 0.8em;
   background-color: var(--bg);
   padding: 0.25em;
   border: 1px solid var(--border);
+  flex: 1;
 }
 
 .new-notifications-indicator {
