@@ -24,7 +24,7 @@ body.dark {
   --primary-color-hover: hsl(210 250 75);
   --error-color: hsl(0 250 80);
   --error-color-hover: hsl(0 220 82);
-  --pass-color: hsl(120 250 30);
+  --pass-color: hsl(90 360 18);
   --invert-value: 1;
 }
 
@@ -277,6 +277,7 @@ svg {
 
 /* Page menu */
 #page-menu {
+  margin: 1em 0;
   display: flex;
   flex-direction: row;
   justify-content: center;

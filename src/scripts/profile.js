@@ -163,8 +163,6 @@ function loadPreview() {
   if (verifyImage(img)) {
     document.getElementById("imageButton").className = "action-button";
     document.getElementById("preview").src = window.URL.createObjectURL(img);
-  } else {
-    revertImage();
   }
 }
 

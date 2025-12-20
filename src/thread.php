@@ -58,11 +58,10 @@ if(isset($_GET["p"])) {
             
             $result = $conn->query($sql);
             if($result->num_rows > 0) {
-                if($result->fetch_assoc()["subscribed"] == 0) {
+                if($result->fetch_assoc()["subscribed"] == 1) {
                     $subscribed = true;
                 }
             } else {
-                $subscribed = true;
                 $autoSub = "true";
             }
         }

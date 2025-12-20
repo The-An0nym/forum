@@ -122,6 +122,7 @@ function countForThread($id, bool $rest) : array {
     return ["pass"];
 }
 
+// Note: This function should only be executed when the posts/threads are deleted
 function countForUser($id, bool $rest, bool $threads) : array {
     $path = $_SERVER['DOCUMENT_ROOT'];
     require_once $path . '/functions/.connect.php' ;
@@ -133,11 +134,13 @@ function countForUser($id, bool $rest, bool $threads) : array {
         $op = '-';
     }
 
+    // TODO cannot delete user -> There is a bug overcounting user posts
+    // 8 -> Only user deleted
     // Thread post count
     $sql = "UPDATE threads t
             JOIN (
                 SELECT p.thread_id, COUNT(*) AS psts FROM posts p
-                WHERE p.user_id = '$id' AND p.deleted = p.deleted & ~7
+                WHERE p.user_id = '$id' AND p.deleted = 8
                 GROUP BY p.thread_id
                 ) p
             ON t.id = p.thread_id
@@ -158,7 +161,7 @@ function countForUser($id, bool $rest, bool $threads) : array {
             JOIN (
                 SELECT t.category_id, COUNT(*) AS psts FROM posts p
                 JOIN threads t ON t.id = p.thread_id
-                WHERE p.user_id = '$id' AND p.deleted = p.deleted & ~7";
+                WHERE p.user_id = '$id' AND p.deleted = 8";
 
     // As this already gets taken care of in the deleteThreads function
     if($threads) {
@@ -181,11 +184,11 @@ function countForUser($id, bool $rest, bool $threads) : array {
                 SELECT p.user_id, COUNT(*) AS psts FROM posts p";
 
     if($threads) {
-        // Will be decremented with threads anyway
+        // Will be decremented with thread deletion anyway
         $sql .= "\nJOIN threads t ON t.id = p.thread_id
-                WHERE p.user_id = '$id' AND t.user_id != '$id'";
+                WHERE p.user_id = '$id' AND t.user_id != '$id' AND p.deleted = 8";
     } else {
-        $sql .= "\nWHERE p.user_id = '$id'";
+        $sql .= "\nWHERE p.user_id = '$id' AND p.deleted = 8";
     }
 
     $sql .=     "\n) p ON p.user_id = u.user_id

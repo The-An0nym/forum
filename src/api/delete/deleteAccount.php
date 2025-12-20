@@ -62,7 +62,7 @@ function response() {
     $user_clearance = $row['user_clearance'];
     $hashedPassword = $row['password'];
 
-    if($id !== $user_id || ($clearance < 3 && $clearance <= $user_clearance)) {
+    if($id !== $user_id && $clearance < 3 && $clearance <= $user_clearance) {
         return jsonErr("auth"); // Insufficient authorization
     }
 

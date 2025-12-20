@@ -104,7 +104,7 @@ require_once $path . '/functions/validateSession.php';
                     const username = "<?= $username; ?>";
                     const handle = "<?= $handle; ?>"
                     const image_dir = "<?= $image_dir; ?>";
-                    const aboutMe = "<?= $about_me; ?>";
+                    const aboutMe = "<?= html_entity_decode($about_me); ?>";
                     const appearance = "<?= $appearance; ?>";
 
                     // Cannot set initial value directly in HTML

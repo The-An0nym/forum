@@ -2,7 +2,6 @@
 
 ## General
 
-- [ ] Update Schematic to include "about_me" and rename "darkmode" to "appearance", and maybe some other aspects
 - [ ] Question: How to handle user settings save? -> Refresh or save pop-up?
 - [ ] Maybe add more auth -> One for being able to create threads and one for being able to report. Then allow both of those after posting 10 posts.
 - [ ] Refactor pop-ups to be handled through ONE JS function (consider using JSON objects)
@@ -23,6 +22,7 @@
 
 ## Profile/
 
+- [ ] Fix aspect ratio of preview
 - [ ] Disable deleting session of self
 - [ ] Decide: Make normal user moderation and moderator moderation hidable (for moderators only)?
 - [ ] Make account deletion require password input

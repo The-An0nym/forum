@@ -92,10 +92,10 @@ function generateNotifsHTML(string $user_id = "", int $page = 0) : string {
                 $html .= genForPost($item);
                 break;
             case 6:
-                $html .= genForAuth($item, true); // Promotion
+                $html .= genForAuth($item, false); // Demotion
                 break;
             case 7:
-                $html .= genForAuth($item, false); // Demotion
+                $html .= genForAuth($item, true); // Promotion
                 break;
             default:
                 $html .= genErr($item);
