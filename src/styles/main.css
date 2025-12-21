@@ -5,8 +5,8 @@
   --text: hsl(0 0 5);
   --text-muted: hsl(0 0 30);
   --border: hsl(0 0 70);
-  --primary-color: hsl(205 220 80);
-  --primary-color-hover: hsl(195 220 82);
+  --primary-color: hsl(212 220 84);
+  --primary-color-hover: hsl(205 220 86);
   --error-color: hsl(0 200 80);
   --error-color-hover: hsl(0 180 82);
   --pass-color: hsl(120 200 80);
@@ -51,7 +51,7 @@ body {
 }
 
 #super-global {
-  height: calc(100vh - 51px); /* 51px for menu bar */
+  height: calc(100vh - 2em); /* 2em for menu bar */
   overflow-y: scroll;
   box-sizing: border-box;
   padding-top: 0.5em;
@@ -126,6 +126,8 @@ textarea::placeholder {
 }
 
 textarea {
+  padding: 0.5em;
+  font-family: "Arial";
   resize: vertical;
   max-height: 20em;
   min-height: 2em;
@@ -326,12 +328,12 @@ svg {
 }
 
 .send-button {
-  font-size: 0 !important;
+  width: 3em;
+  height: 2em;
 }
 
 .svg-send-button {
-  width: 48px;
-  height: 28px;
+  height: 100%;
 }
 
 /* Scroll bar */

@@ -5,15 +5,17 @@
   border-bottom: 1px var(--border) solid;
   align-items: stretch;
   position: fixed;
-  height: 50px;
+  height: calc(2em - 1px); /* Menu height - border */
   width: 100%;
   top: 0;
   z-index: 10;
 }
 
 .menu-button {
-  padding: 10px;
+  padding: 0.5em;
+  align-self: center;
   display: flex;
+  height: 1em; /* Ensures height is computed correctly */
 }
 
 .menu-button.border-bottom {
@@ -41,7 +43,7 @@
 }
 
 #menu-buffer {
-  height: 51px; /* Menu height + border */
+  height: 2em;
 }
 
 .menu-user-info {
@@ -55,9 +57,9 @@
 }
 
 .icon {
-  padding: 6px 12px;
-  height: calc(100% - 12px);
+  padding: 0.25em 0.5em;
   aspect-ratio: 1 / 1;
+  box-sizing: border-box;
 }
 
 #profile-options-wrapper {
@@ -70,8 +72,8 @@
   flex-direction: column;
   position: absolute;
   background-color: var(--bg);
-  margin-right: -11px; /* 10px padding + 1px border */
-  margin-top: 10px;
+  margin-right: calc(-0.5em - 1px); /* 0.5em padding + 1px border */
+  margin-top: calc(0.25em + 1px);
   border: 1px solid var(--border);
   box-shadow: var(--bg-dark) -2px 2px 5px;
 }
@@ -100,10 +102,10 @@
   text-align: center;
   border-radius: 50%;
   border: 1px solid var(--border);
-  padding: 2px;
+  padding: 0.1em;
   position: relative;
-  margin-bottom: -10px; /* Ensures menu bar height is not effected*/
-  margin-left: 10px;
+  margin-bottom: -0.5em; /* Ensures menu bar height is not effected*/
+  margin-left: 0.5em;
   top: -1px;
   color: var(--text);
 }

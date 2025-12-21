@@ -28,14 +28,14 @@ function timeAgo(string $dateString) : string {
     $len = count($units);
 
     for($i = 0; $i < $len; $i++) {
-        if($values[$i] === 0) {
+        if($values[$i] == 0 && ($i + 1) != $len) {
             continue;
         }
 
-        if($values[$i] === 1) {
-            $ret .= $values[$i] . $units[$i];
+        if($values[$i] == 1) {
+            $ret .= $values[$i] . " " . $units[$i];
         } else {
-            $ret .= $values[$i] . $units[$i] . "s";
+            $ret .= $values[$i] . " " . $units[$i] . "s";
         }
 
         break;
