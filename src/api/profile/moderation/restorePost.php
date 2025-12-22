@@ -68,7 +68,7 @@ function response() {
     }
 
     if($post_user_id === $user_id) {
-        $err = jsonEncodeErrors(setDelNotif($id, 0, false));
+        $err = jsonEncodeErrors(setDelNotifByAssoc($id, 0, false));
         if($err !== "") {
             return $err;
         }

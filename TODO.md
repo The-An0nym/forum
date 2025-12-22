@@ -2,7 +2,8 @@
 
 ## General
 
-- [ ] Still receiving notifications from deleted users (posts)
+- [ ] Store country in database instead of making repeated calls in session tab
+- [ ] Still receiving notifications from deleted users (posts) -> Is that really necessary?
 - [ ] Maybe add more auth -> One for being able to create threads and one for being able to report. Then allow both of those after posting 10 posts.
 - [ ] Refactor pop-ups to be handled through ONE JS function (consider using JSON objects)
 - [ ] Redesign moderation panel for /user/
@@ -50,7 +51,7 @@
 
 ## Authentication / Sessions
 
-- [ ] Decide: Include clearance in the session?
+- [ ] Decide: Include clearance in the session? (Have already done so on login, but not sure how to verify)
 - [ ] Refactor the way it is authenticated (generally speaking)
 
 ## Scripts

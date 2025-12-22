@@ -49,10 +49,13 @@
 }
 
 #preview {
-  width: 10em;
   border: 1px solid black;
   border-radius: 1em;
   margin-bottom: 1em;
+  width: 10em;
+  height: 10em;
+  object-fit: cover;
+  object-position: top left;
 }
 
 #pfp-input {

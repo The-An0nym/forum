@@ -188,7 +188,7 @@ function markAsRead(string $user_id = "") : array {
     return ["pass"];
 }
 
-function setDelNotif(string $assoc_id = "", int $type = 10, bool $del = true) : array {
+function setDelNotifByAssoc(string $assoc_id = "", int $type = -1, bool $del = true) : array {
     if($assoc_id === "") {
         return ["args"];
     }

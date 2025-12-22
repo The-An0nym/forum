@@ -18,7 +18,7 @@ function response() {
     $handle = htmlspecialchars($_POST["h"]);
     $password = $_POST["p"];
 
-    $sql = "SELECT password, user_id FROM users WHERE handle='$handle' AND deleted = 0";
+    $sql = "SELECT `password`, `user_id`, `clearance` FROM `users` WHERE handle='$handle' AND deleted = 0";
     $result = $conn->query($sql);
 
     if ($result->num_rows !== 1) {
@@ -28,6 +28,7 @@ function response() {
     $res = $result->fetch_assoc();
     $hashedPassword = $res["password"];
     $user_id = $res["user_id"];
+    $user_auth = $res["clearance"];
 
     if(!password_verify($password, $hashedPassword)) {
         return jsonErr("logPswd");
@@ -48,5 +49,6 @@ function response() {
     session_start();
     $_SESSION['user_id'] = $user_id;
     $_SESSION['session_id'] = $session_id;
+    $_SESSION['user_auth'] = $user_auth;
     return pass();
 }

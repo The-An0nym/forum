@@ -114,15 +114,15 @@ function generateMenuPath(int $type = 0, string $slug = "") : string {
         if($name === "") {
             return "";
         }
-        $out .= ' > <a onclick="getThreads()">' . $name . '</a></span>';
+        $out .= '<span class="menu-path-arrow">&gt;</span><a onclick="getThreads()">' . $name . '</a></span>';
         return $out;
     } else if($type === 2) {
         $pathArr = getThreadPathName($slug);
         if(count($pathArr) !== 3) {
             return "";
         }
-        $out .= ' > <a href="' . $pathArr[0] . '">' . $pathArr[1] . '</a>';
-        $out .= ' > <a onclick="getPosts()">' . $pathArr[2] . '</a></span>';
+        $out .= '<span class="menu-path-arrow">&gt;</span><a href="' . $pathArr[0] . '">' . $pathArr[1] . '</a>';
+        $out .= '<span class="menu-path-arrow">&gt;</span><a onclick="getPosts()">' . $pathArr[2] . '</a></span>';
         return $out;
     }
 

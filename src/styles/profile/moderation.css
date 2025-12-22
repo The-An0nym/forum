@@ -78,6 +78,10 @@
   flex: 1;
 }
 
+.session-item > .user-agent > svg {
+  width: 2em;
+}
+
 /* Moderation */
 .history-summary {
   cursor: pointer;

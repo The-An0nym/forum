@@ -59,7 +59,7 @@
 .option-buttons {
   display: none; /* Toggles to flex */
   flex-direction: column;
-  margin-top: 0.25em;
+  margin-top: 0.5em;
   row-gap: 0.25em;
 }
 

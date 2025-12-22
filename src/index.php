@@ -37,14 +37,12 @@ $conn = getConn();
             echo "
               <a href=\"/topic/" . $row["slug"] . "\">
                 <div class=\"category\">
-                  <span>
+                  <span class=\"title-wrapper\">
                     <span class=\"name\">" . $row["name"] . "</span>
                     <span class=\"description\">" . $row["description"] . "</span>
                   </span>
-                  <span class=\"count-wrapper\">
-                    <span class=\"count\">" . $row["threads"]. "</span>
-                    <span class=\"count\">" . $row["posts"]. "</span>
-                  </span>
+                  <span class=\"count\">" . $row["threads"]. "</span>
+                  <span class=\"count\">" . $row["posts"]. "</span>
                 </div>
               </a>";
           }

@@ -17,7 +17,7 @@ function validateSession() {
     if(isset($_SESSION['user_id'], $_SESSION['session_id'])) {
         $session_id = $_SESSION['session_id'];
 
-        $sql = "SELECT ip, user_agent, user_id, datetime FROM sessions WHERE session_id='$session_id' LIMIT 1";
+        $sql = "SELECT `ip`, `user_agent`, `user_id`, `datetime` FROM `sessions` WHERE session_id='$session_id' LIMIT 1";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {

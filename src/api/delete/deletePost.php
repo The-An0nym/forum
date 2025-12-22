@@ -87,7 +87,7 @@ function response() {
 
     if($post_user_id === $user_id) {
         // Delete notification(s)
-        $err = jsonEncodeErrors(setDelNotif($id, 0, true));
+        $err = jsonEncodeErrors(setDelNotifByAssoc($id, 0, true));
         if($err !== "") {
             return $err;
         }

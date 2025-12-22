@@ -86,5 +86,6 @@ function response() {
 
     $_SESSION['user_id'] = $user_id;
     $_SESSION['session_id'] = $session_id;
+    $_SESSION['user_auth'] = 0; // New users have auth 0
     return pass();
 }

@@ -7,12 +7,19 @@
   padding: 0.5em;
   border: 1px var(--border) solid;
   display: flex;
-  justify-content: space-between;
   background-color: var(--bg);
+  align-items: center;
 }
 
 .category:hover {
   background-color: var(--bg-light);
+}
+
+.title-wrapper {
+  flex: 1;
+  overflow: hidden;
+  text-wrap: nowrap;
+  text-overflow: ellipsis;
 }
 
 .name {
@@ -25,16 +32,11 @@
 }
 
 .count {
-  font-size: 1.2em;
   border: 1px var(--border) solid;
   aspect-ratio: 1 / 1;
   align-content: center;
   text-align: center;
-  margin: 0 4vw;
-}
-
-.count-wrapper {
-  display: flex;
-  flex-direction: row;
-  justify-content: end;
+  margin: 0 1em;
+  height: 2em;
+  width: 2em;
 }
