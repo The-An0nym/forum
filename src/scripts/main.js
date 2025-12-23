@@ -350,6 +350,8 @@ async function parseResponse(resp, autoLog = true) {
     if (!result.status) throw e;
 
     if (result.status === "pass") {
+      if (result.msg && autoLog) createPopUpMessage(result.msg, 0);
+      // Return
       if (!result.data) return [true, {}];
       return [true, result.data];
     } else if (result.status === "fail") {

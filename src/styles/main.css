@@ -272,7 +272,7 @@ svg {
 .overlay {
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 10;
+  z-index: 100; /* Should appear above EVERYTHING */
   position: fixed;
   width: 100vw;
   top: 0;

@@ -126,7 +126,7 @@ require_once $path . '/functions/time.php';
                         </div>
                 <?php }
                 } else {
-                    echo "No deleted posts";
+                    echo "<span class=\"no-results\">No deleted posts</span>"; // TODO langauge support
                 }
                 ?>
             </div>

@@ -295,14 +295,7 @@ async function unSubscribe(type = 1) {
   document.getElementById("unsubscribed").style.display =
     type === 0 ? "block" : "none";
 
-  const bod = await postData(
-    "/api/thread/unSubscribe.php",
-    `t=${slug}&s=${type}`
-  );
-
-  // TODO language support?
-  if (bod[0])
-    createPopUpMessage(`Successfully ${type === 0 ? "un" : ""}subscribed`, 0);
+  postData("/api/thread/unSubscribe.php", `t=${slug}&s=${type}`);
 }
 
 async function gotoThreadPage(p, scrollBottom = false) {

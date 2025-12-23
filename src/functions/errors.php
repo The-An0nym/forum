@@ -110,8 +110,56 @@ function jsonEncodeErrors(array $err = []) : string {
     return jsonErr();
 }
 
-function pass() : string {
-    return json_encode(array("status" => "pass"));
+/* PASS */
+
+function getPassArr(string $lang = "en") : array {
+    // "pass" is reserved and cannot be used as key! 
+    $errorLangArr = [
+        "en" => [
+            "unSub" => "Successfully unsubscribed",
+            "sub" => "Successfully subscribed",
+            "saveAppear" => "Saved appearance",
+            "delSess" => "Session deleted"
+            ]
+    ];
+
+    if(isset($errorLangArr[$lang])) {
+        return $errorLangArr[$lang];
+    } else {
+        return $errorLangArr["en"]; // Default
+    }
 }
 
+function getPass(string $id = "") : string {
+    if($id === "") {
+        return pass();
+    }
+
+    if(!session_id()) {
+        session_start();
+    }
+
+    if(isset($_SESSION['lang'])) {
+        $lang = $_SESSION['lang'];
+    } else {
+        $lang = "en"; // Default
+    }
+
+    $arr = getPassArr($lang);
+
+    if(isset($arr[$id])) {
+        $msg = $arr[$id];
+    } else {
+        return pass();
+    }
+
+    return json_encode(array("status" => "pass", "msg" => $msg));
 }
+
+function pass() : string {
+    return json_encode(array("status" => "pass"));    
+}
+
+
+
+} /* End if statement */

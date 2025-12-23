@@ -32,5 +32,6 @@ function response() {
     if($conn->query($sql) === FALSE) {
         return jsonErr("mode");
     }
-    return pass();
+    
+    return getPass("saveAppear");
 }

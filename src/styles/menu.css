@@ -94,6 +94,7 @@
   padding: 0.25em;
   border-bottom: 1px solid var(--border);
   flex: 1;
+  color: var(--text-muted);
 }
 
 #menu-path > a:hover {

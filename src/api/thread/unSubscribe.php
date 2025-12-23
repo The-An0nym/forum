@@ -63,5 +63,9 @@ function response() {
         return jsonErr("US2");
     }
 
-    return pass();
+    if($sub == 1) {
+        return getPass("sub");
+    } else {
+        return getPass("unSub");
+    }
 }

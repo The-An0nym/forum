@@ -217,8 +217,7 @@ async function appearanceChange() {
   const value = parseInt(val);
 
   setAppearance(value);
-  const bod = await postData("/api/menu/setMode.php", `m=${value}`);
-  if (bod[0]) createPopUpMessage("Saved appearance", 0); // TODO language?
+  postData("/api/profile/settings/setMode.php", `m=${value}`);
 }
 
 /* OTHER BUTTONS */
@@ -229,10 +228,7 @@ async function deleteSession(session_id) {
     `i=${encodeURIComponent(session_id)}`
   );
 
-  if (bod[0]) {
-    document.getElementById(session_id).remove();
-    createPopUpMessage("Session deleted", 0);
-  }
+  if (bod[0]) document.getElementById(session_id).remove();
 }
 
 // Restoring post

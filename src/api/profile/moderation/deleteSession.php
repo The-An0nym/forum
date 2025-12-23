@@ -25,8 +25,5 @@ function response() {
         return jsonErr();
     }
 
-    return json_encode(
-        array(
-            "status" => "pass")
-    );;
+    return getPass("delSess");
 }
