@@ -9,6 +9,7 @@
   height: 2.6em; /* Height */
   row-gap: 5em; /* Pushes all wrapped elements further down */
   overflow: hidden; /* Will hide any elements that wrap */
+  box-shadow: var(--text-muted) 0 1px 3px -1px;
 }
 
 .main-wrapper {

@@ -194,7 +194,7 @@ function getHistoryHTML(bool $report, int $page, int $clearance, array $params) 
 
     $html = "";
 
-    if(count($row) === 0) {
+    if(count($data) === 0) {
         $html = "<span class=\"no-results\">No results</span>"; // TODO Language support
     } else {
         foreach($data as $row) {

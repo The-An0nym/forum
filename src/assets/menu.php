@@ -43,7 +43,7 @@ function generateMenu() {
     <script src="/scripts/account.js"></script>
     <div id="progress-bar"></div>
     <div id="pop-up-message-container"></div>
-    <div class="menu">
+    <div id="menu">
         <a class="menu-button icon menu-left" title="home" href="/"><?= generateHome() ?></a>
         <?php
         if(isset($_SESSION['user_id'])) {

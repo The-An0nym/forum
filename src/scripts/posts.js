@@ -290,12 +290,17 @@ async function deletePost(id, reason, message) {
  * @param {integer} type 0 = unsubscribe, 1 = subscribe (1 is default)
  */
 async function unSubscribe(type = 1) {
-  document.getElementById("subscribed").style.display =
-    type === 1 ? "block" : "none";
-  document.getElementById("unsubscribed").style.display =
-    type === 0 ? "block" : "none";
+  const bod = await postData(
+    "/api/thread/unSubscribe.php",
+    `t=${slug}&s=${type}`
+  );
 
-  postData("/api/thread/unSubscribe.php", `t=${slug}&s=${type}`);
+  if (bod[0]) {
+    document.getElementById("subscribed").style.display =
+      type === 1 ? "block" : "none";
+    document.getElementById("unsubscribed").style.display =
+      type === 0 ? "block" : "none";
+  }
 }
 
 async function gotoThreadPage(p, scrollBottom = false) {

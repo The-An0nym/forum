@@ -8,7 +8,7 @@
 - [ ] Refactor pop-ups to be handled through ONE JS function (consider using JSON objects)
 - [ ] Redesign moderation panel for /user/
 - [ ] Cleanup
-- [ ] Styling
+- [ ] Styling -> E.g. Box shadows (not all have them yet // Standardize it)
 - [ ] Rethink: Does using Javascript for all subsequent loads make sense?
 - [ ] Check if permanent deletion is implemented for all non-permenant data (after 60 days)
 - [ ] Redesign http error pages

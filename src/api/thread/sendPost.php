@@ -4,6 +4,7 @@ require_once $path . '/functions/.connect.php' ;
 require_once $path . '/functions/validateSession.php';
 require_once $path . '/functions/errors.php' ;
 require_once $path . '/functions/require/posts.php' ;
+require_once $path . '/functions/format.php';
 
 echo response();
 
@@ -44,7 +45,8 @@ function response() {
 
     // Escaping content and trimming whitespace
     $cont = nl2br(preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($json_obj->c))); // idk about mysql_real_escape_string ??
-    
+    $cont = format($cont);
+
     if(strlen($cont) === 0) {
         return jsonErr("contMin");
     } else if(strlen($cont) > 2000) {
