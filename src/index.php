@@ -27,8 +27,7 @@ $conn = getConn();
 
       <div class="container">
         <?php
-        $sql = "SELECT name, slug, description, created, threads, posts 
-                FROM categories";
+        $sql = "SELECT `name`, `slug`, `description`, `created`, `threads`, `posts` FROM `categories`";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {

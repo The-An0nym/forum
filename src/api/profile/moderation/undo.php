@@ -41,9 +41,7 @@ function response() {
     }
         
     $user_id = $_SESSION['user_id'];
-    $sql = "SELECT clearance FROM users
-            WHERE user_id = '$user_id'
-            LIMIT 1";
+    $sql = "SELECT `clearance` FROM `users` WHERE `user_id` = '$user_id' LIMIT 1";
 
     $result = $conn->query($sql);
     if($result->num_rows !== 1) {
@@ -82,7 +80,7 @@ function response() {
         return jsonErr("undoOwn"); // Level 5 admin can do anything
     }
 
-    $sql = "SELECT max(created) AS created FROM mod_history WHERE type = $type AND id = '$id'";
+    $sql = "SELECT max(created) AS created FROM `mod_history` WHERE `type` = $type AND `id` = '$id'";
     $result = $conn->query($sql);
 
     if($result->num_rows !== 1) {
@@ -199,7 +197,7 @@ function response() {
                 }
 
                 // PROMOTE
-                $sql = "UPDATE users SET clearance = clearance + 1 WHERE user_id = '$culp_id'";
+                $sql = "UPDATE `users` SET `clearance` = clearance + 1 WHERE `user_id` = '$culp_id'";
                 if ($conn->query($sql) === FALSE) {
                     return jsonErr("", "[U0]");
                 }
@@ -215,7 +213,7 @@ function response() {
                 }
 
                 // DEMOTE
-                $sql = "UPDATE users SET clearance = clearance - 1 WHERE user_id = '$culp_id'";
+                $sql = "UPDATE `users` SET `clearance` = clearance - 1 WHERE `user_id` = '$culp_id'";
                 if ($conn->query($sql) === FALSE) {
                     return jsonErr("", "[U1]");
                 }

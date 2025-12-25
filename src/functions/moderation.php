@@ -12,13 +12,13 @@ function createHistory(int $type, int $judgement, $id, $sender_id, int $reason, 
     $culp_id = "";
 
     if($type === 0) {
-        $sql = "SELECT content, user_id FROM posts WHERE post_id = '$id'";
+        $sql = "SELECT `content`, `user_id` FROM `posts` WHERE `post_id` = '$id'";
         $result = $conn->query($sql);
         $row = $result->fetch_assoc();
         $summary = $row["content"];
         $culp_id = $row["user_id"];
     } else if($type === 1) {
-        $sql = "SELECT name, user_id FROM threads WHERE id = '$id'";
+        $sql = "SELECT `name`, `user_id` FROM `threads` WHERE `id` = '$id'";
         $result = $conn->query($sql);
         $row = $result->fetch_assoc();
         $summary = $row["name"];
@@ -29,7 +29,7 @@ function createHistory(int $type, int $judgement, $id, $sender_id, int $reason, 
 
     $summary = substr($summary, 0, 64);
 
-    $sql = "INSERT INTO mod_history (mod_id, culp_id, id, summary, type, judgement, sender_id, reason, message)
+    $sql = "INSERT INTO `mod_history` (`mod_id`, `culp_id`, `id`, `summary`, `type`, `judgement`, `sender_id`, `reason`, `message`)
             VALUES ('$mod_id', '$culp_id', '$id', '$summary', $type, $judgement, '$sender_id', $reason, '$message')";
     if ($conn->query($sql) === FALSE) {
         return ["", "[M0]"];
@@ -58,11 +58,11 @@ function createHistory(int $type, int $judgement, $id, $sender_id, int $reason, 
 function createReport(int $type, $id, $user_id, int $reason, string $message) : array {
     $conn = getConn();
 
-    $sql = "SELECT NULL FROM mod_history WHERE id = '$id' AND sender_id = '$user_id' AND judgement < 2";
+    $sql = "SELECT NULL FROM `mod_history` WHERE `id` = '$id' AND `sender_id` = '$user_id' AND `judgement` < 2";
 
     $result = $conn->query($sql);
     if($result->num_rows !== 0) {
-        return ["tReport"];
+        return ["tReport"]; // Already reported this
     }
     
     $err = createHistory($type, 0, $id, $user_id, $reason, $message);
@@ -203,7 +203,7 @@ function deletePost($id, int $cause, bool $rest) : array {
 
     $dtime = date('Y-m-d H:i:s');
     // Soft delete post
-    $sql = "UPDATE posts SET deleted = deleted $op $cause, deleted_datetime = '$dtime' WHERE post_id = '$id'";
+    $sql = "UPDATE `posts` SET `deleted` = deleted $op $cause, `deleted_datetime` = '$dtime' WHERE `post_id` = '$id'";
     if ($conn->query($sql) === FALSE) {
         return ["", "M1"];
     }
@@ -223,13 +223,13 @@ function deleteThread($id, int $cause, bool $rest) : array {
     $dtime = date('Y-m-d H:i:s');
 
     // (Soft) delete thread
-    $sql = "UPDATE threads SET deleted = deleted $op $cause, deleted_datetime = '$dtime' WHERE id = '$id'";
+    $sql = "UPDATE `threads` SET `deleted` = deleted $op $cause, `deleted_datetime` = '$dtime' WHERE `id` = '$id'";
     if ($conn->query($sql) === FALSE) {
         return ["", "[M2]"];
     }
 
     // (Soft) delete posts
-    $sql = "UPDATE posts SET deleted = deleted $op $cause, deleted_datetime = '$dtime' WHERE thread_id = '$id'";
+    $sql = "UPDATE `posts` SET `deleted` = deleted $op $cause, `deleted_datetime` = '$dtime' WHERE `thread_id` = '$id'";
     if ($conn->query($sql) === FALSE) {
         return ["", "[M3]"];
     }
@@ -249,27 +249,27 @@ function deleteAccount($id, bool $rest, bool $del_threads) : array {
     $dtime = date('Y-m-d H:i:s');
 
     // Flag user as banned or self-deleted
-    $sql = "UPDATE users SET deleted = deleted $op 8, deleted_datetime = '$dtime' WHERE user_id = '$id'";
+    $sql = "UPDATE `users` SET `deleted` = deleted $op 8, `deleted_datetime` = '$dtime' WHERE `user_id` = '$id'";
     if ($conn->query($sql) === FALSE) {
         return ["", "M4"];
     }
 
     if($del_threads) {
         // Soft delete threads
-        $sql = "UPDATE threads SET deleted = deleted $op 8, deleted_datetime = '$dtime' WHERE user_id = '$id'";
+        $sql = "UPDATE `threads` SET `deleted` = deleted $op 8, `deleted_datetime` = '$dtime' WHERE `user_id` = '$id'";
         if ($conn->query($sql) === FALSE) {
             return ["", "M5"];
         }
     }
 
     // Soft delete posts
-    $sql = "UPDATE posts SET deleted = deleted $op 8, deleted_datetime = '$dtime' WHERE user_id = '$id'";
+    $sql = "UPDATE `posts` SET `deleted` = deleted $op 8, `deleted_datetime` = '$dtime' WHERE `user_id` = '$id'";
     if ($conn->query($sql) === FALSE) {
         return ["", "M6"];
     }
 
     // Delete session
-    $sql = "DELETE FROM sessions WHERE user_id = '$id'";
+    $sql = "DELETE FROM `sessions` WHERE `user_id` = '$id'";
     if ($conn->query($sql) === FALSE) {
         return ["", "M7"];
     }
@@ -282,17 +282,17 @@ function deleteAccount($id, bool $rest, bool $del_threads) : array {
 function permaDeleteExpired() {
     $delDatetime = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s')) - 60 * 60 * 24 * 60); // 60 days
 
-    $sql = "DELETE FROM posts WHERE `deleted_datetime` < '$detlDatetime' AND `deleted` != 0";
+    $sql = "DELETE FROM `posts` WHERE `deleted_datetime` < '$detlDatetime' AND `deleted` != 0";
     if($conn->query($sql) === FALSE) {
         return ["", "[M8]"];
     }
 
-    $sql = "DELETE FROM threads WHERE `deleted_datetime` < '$detlDatetime' AND `deleted` != 0";
+    $sql = "DELETE FROM `threads` WHERE `deleted_datetime` < '$detlDatetime' AND `deleted` != 0";
     if($conn->query($sql) === FALSE) {
         return ["", "[M9]"];
     }
 
-    $sql = "DELETE FROM users WHERE `deleted_datetime` < '$detlDatetime' AND `deleted` != 0";
+    $sql = "DELETE FROM `users` WHERE `deleted_datetime` < '$detlDatetime' AND `deleted` != 0";
     if($conn->query($sql) === FALSE) {
         return ["", "[M10]"];
     }

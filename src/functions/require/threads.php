@@ -10,7 +10,7 @@ function getThreads(string $slug, int $page) {
 
     if(validateSession()) {
         $user_id = $_SESSION['user_id'];
-        $sql = "SELECT clearance FROM users WHERE user_id = '$user_id'";
+        $sql = "SELECT `clearance` FROM `users` WHERE `user_id` = '$user_id'";
         $result = $conn->query($sql);
         $myClearance = $result->fetch_assoc()["clearance"];
     } else {
@@ -125,7 +125,7 @@ function getThreadCount(string $slug) : int {
     // Get connection
     $conn = getConn();
 
-    $sql = "SELECT threads FROM categories WHERE slug = '$slug'";
+    $sql = "SELECT `threads` FROM `categories` WHERE `slug` = '$slug'";
     $result = $conn->query($sql);
 
     if ($result->num_rows === 1) {

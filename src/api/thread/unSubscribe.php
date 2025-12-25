@@ -32,7 +32,7 @@ function response() {
 
     $user_id = $_SESSION["user_id"];
 
-    $sql = "SELECT id FROM threads WHERE slug = '$thread_slug' AND deleted = 0";
+    $sql = "SELECT `id` FROM `threads` WHERE `slug` = '$thread_slug' AND `deleted` = 0";
     $result = $conn->query($sql);
     if($result->num_rows === 0) {
         return jsonErr("404thrds");
@@ -40,10 +40,10 @@ function response() {
 
     $thread_id = $result->fetch_assoc()["id"];
 
-    $sql = "SELECT thread_id FROM subscribed WHERE thread_id = '$thread_id' AND user_id = '$user_id'";
+    $sql = "SELECT `thread_id` FROM `subscribed` WHERE `thread_id` = '$thread_id' AND `user_id` = '$user_id'";
     $result = $conn->query($sql);
     if($result->num_rows === 1) {
-        $sql = "UPDATE subscribed SET subscribed = $sub WHERE thread_id = '$thread_id' AND user_id = '$user_id'";
+        $sql = "UPDATE `subscribed` SET `subscribed` = $sub WHERE `thread_id` = '$thread_id' AND `user_id` = '$user_id'";
         if($conn->query($sql) === FALSE) {
             return jsonErr("US0");
         }
@@ -51,13 +51,13 @@ function response() {
     }
 
     if($result->num_rows > 1) {
-        $sql = "DELETE subscribed WHERE thread_id = '$thread_id' AND user_id = '$user_id'";
+        $sql = "DELETE `subscribed` WHERE `thread_id` = '$thread_id' AND `user_id` = '$user_id'";
         if($conn->query($sql) === FALSE) {
             return jsonErr("US1");
         }
     }
 
-    $sql = "INSERT INTO subscribed (thread_id, user_id, subscribed)
+    $sql = "INSERT INTO `subscribed` (`thread_id`, `user_id`, `subscribed`)
             VALUES ('$thread_id', '$user_id', $sub)";
     if($conn->query($sql) === FALSE) {
         return jsonErr("US2");

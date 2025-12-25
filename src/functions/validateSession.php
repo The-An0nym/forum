@@ -17,7 +17,7 @@ function validateSession() {
     if(isset($_SESSION['user_id'], $_SESSION['session_id'])) {
         $session_id = $_SESSION['session_id'];
 
-        $sql = "SELECT `ip`, `user_agent`, `user_id`, `datetime` FROM `sessions` WHERE session_id='$session_id' LIMIT 1";
+        $sql = "SELECT `ip`, `user_agent`, `user_id`, `datetime` FROM `sessions` WHERE `session_id` = '$session_id' LIMIT 1";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
@@ -34,7 +34,7 @@ function validateSession() {
                     $r = rand(0, 19); // 1 in 20 chance to update session time
                     if($r === 0) {
                         $dtime = date('Y-m-d H:i:s');
-                        $sql = "UPDATE sessions SET datetime='$dtime' WHERE session_id = '$session_id'";
+                        $sql = "UPDATE `sessions` SET `datetime` = '$dtime' WHERE `session_id` = '$session_id'";
                         if ($conn->query($sql) === TRUE) {
                             return true;
                         }

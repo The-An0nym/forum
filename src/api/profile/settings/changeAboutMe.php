@@ -38,7 +38,7 @@ function response() {
     
     $user_id = $_SESSION["user_id"];
 
-    $sql = "UPDATE users SET about_me = '$about_me' WHERE user_id = '$user_id'";
+    $sql = "UPDATE `users` SET `about_me` = '$about_me' WHERE `user_id` = '$user_id'";
 
     if ($conn->query($sql) === FALSE) {
         return jsonErr("", "[CA0]");

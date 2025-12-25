@@ -32,7 +32,7 @@ function response() {
         return jsonErr("pswdMin");
     }
 
-    $sql = "SELECT password FROM users WHERE user_id='$user_id'";
+    $sql = "SELECT `password` FROM `users` WHERE `user_id` = '$user_id'";
     $result = $conn->query($sql);
 
     if ($result->num_rows !== 1) {
@@ -48,7 +48,7 @@ function response() {
     
     $newHashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 
-    $sql = "UPDATE users SET password = '$newHashedPassword' WHERE user_id='$user_id'";
+    $sql = "UPDATE `users` SET `password` = '$newHashedPassword' WHERE `user_id` = '$user_id'";
 
     if ($conn->query($sql) === FALSE) {
         return jsonErr("", "[CP0]");

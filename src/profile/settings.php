@@ -37,7 +37,7 @@ require_once $path . '/functions/validateSession.php';
             if(validateSession()) {
                 $user_id = $_SESSION["user_id"];
 
-                $sql = "SELECT username, handle, image_dir, about_me, appearance, posts, threads, clearance FROM users WHERE user_id = '$user_id' LIMIT 1";
+                $sql = "SELECT `username`, `handle`, `image_dir`, `about_me`, `appearance`, `posts`, `threads`, `clearance` FROM `users` WHERE `user_id` = '$user_id' LIMIT 1";
                 $result = $conn->query($sql);
                 $row = $result->fetch_assoc();
                 $username = $row["username"];

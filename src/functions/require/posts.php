@@ -16,7 +16,7 @@ function getPosts(string $slug, int $page) :array {
     $myClearance = 0;
     if(validateSession()) {
         $user_id = $_SESSION['user_id'];
-        $sql = "SELECT clearance FROM users WHERE user_id = '$user_id'";
+        $sql = "SELECT `clearance` FROM `users` WHERE `user_id` = '$user_id'";
         $result = $conn->query($sql);
         $myClearance = $result->fetch_assoc()["clearance"];
     }
@@ -121,7 +121,7 @@ function getPostCount(string $slug) : int {
     // Get connection
     $conn = getConn();
 
-    $sql = "SELECT posts FROM threads WHERE slug = '$slug'";
+    $sql = "SELECT `posts` FROM `threads` WHERE `slug` = '$slug'";
     $result = $conn->query($sql);
 
     if ($result->num_rows === 1) {

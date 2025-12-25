@@ -34,7 +34,7 @@ function response() {
 
     $slug = $json_obj->s;
 
-    $sql = "SELECT id FROM threads WHERE slug = '$slug' AND deleted = 0";
+    $sql = "SELECT `id` FROM `threads` WHERE `slug` = '$slug' AND `deleted` = 0";
         
     $result = $conn->query($sql);
     if ($result->num_rows === 0) {
@@ -56,14 +56,14 @@ function response() {
     $dtime = date('Y-m-d H:i:s');
     $post_id = uniqid(rand(), true);
     $user_id = $_SESSION["user_id"];
-    $sql = "INSERT INTO posts (user_id, post_id, content, created, edited, thread_id)
+    $sql = "INSERT INTO `posts` (`user_id`, `post_id`, `content`, `created`, `edited`, `thread_id`)
     VALUES ('$user_id', '$post_id', '$cont', '$dtime', 'false', '$thread_id')";
     if ($conn->query($sql) === FALSE) {
         return jsonErr("", "[SP0]");
     }
 
     // Increment post count of user
-    $sql = "UPDATE users SET posts = posts +1 WHERE user_id = '$user_id'";
+    $sql = "UPDATE `users` SET `posts` = posts +1 WHERE `user_id` = '$user_id'";
     if ($conn->query($sql) === FALSE) {
         return jsonErr("", "[SP1]");
     }
@@ -78,7 +78,7 @@ function response() {
     }
 
     // Send notification
-    $sql = "SELECT user_id FROM subscribed WHERE thread_id = '$thread_id' AND subscribed = 1";
+    $sql = "SELECT `user_id` FROM `subscribed` WHERE `thread_id` = '$thread_id' AND `subscribed` = 1";
     $result = $conn->query($sql);
 
     if($result->num_rows > 0) {
@@ -90,7 +90,7 @@ function response() {
             $datetime = date("Y-m-d H:i:s");
 
             $sql = "INSERT INTO
-                        notifications 
+                        `notifications` 
                         (`notification_id`, `sender_id`, `receiver_id`, `type`, `thread_id`, `assoc_id`, `datetime`) 
                     VALUES
                         ('$notif_id', '$user_id', '$rec_id', 0, '$thread_id', '$post_id', '$datetime')";

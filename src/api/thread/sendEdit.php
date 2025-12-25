@@ -51,9 +51,7 @@ function response() {
         $page = (int)$json_obj->p;
     }
 
-    $sql = "UPDATE posts
-            SET content = '$cont', edited = '1'
-            WHERE post_id = '$post_id' AND user_id = '$user_id'";
+    $sql = "UPDATE `posts` SET `content` = '$cont', `edited` = 1 WHERE `post_id` = '$post_id' AND `user_id` = '$user_id'";
     if ($conn->query($sql) === FALSE) {
         return jsonErr("", "[SE0]");
     }

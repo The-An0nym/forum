@@ -180,7 +180,7 @@ function markAsRead(string $user_id = "") : array {
 
     $conn = getConn();
 
-    $sql = "UPDATE `notifications` SET `read` = 1 WHERE `read` = 0 AND `deleted` = 0 AND receiver_id = '$user_id'";
+    $sql = "UPDATE `notifications` SET `read` = 1 WHERE `read` = 0 AND `deleted` = 0 AND `receiver_id` = '$user_id'";
     if($conn->query($sql) === FALSE) {
         return ["", "RN0"];
     }
@@ -205,7 +205,7 @@ function setDelNotifByAssoc(string $assoc_id = "", int $type = -1, bool $del = t
         $delVal = 0;
     }
 
-    $sql = "UPDATE `notifications` SET deleted = $delVal WHERE `assoc_id` = '$assoc_id' AND `type` = $type";
+    $sql = "UPDATE `notifications` SET `deleted` = $delVal WHERE `assoc_id` = '$assoc_id' AND `type` = $type";
     if($conn->query($sql) === FALSE) {
         return ["", "RN1"];
     }

@@ -31,9 +31,7 @@ function response() {
 
     $conn = getConn();
     $user_id = $_SESSION['user_id'];
-    $sql = "SELECT u.clearance FROM users u 
-            WHERE u.user_id = '$user_id'
-            LIMIT 1";
+    $sql = "SELECT `clearance` FROM `users` WHERE `user_id` = '$user_id' LIMIT 1";
 
     $result = $conn->query($sql);
     if($result->num_rows !== 1) {
@@ -42,7 +40,7 @@ function response() {
 
     $clearance = (int)$result->fetch_assoc()["clearance"];
 
-    $sql = "SELECT type FROM mod_history WHERE mod_id = '$id' LIMIT 1";
+    $sql = "SELECT `type` FROM `mod_history` WHERE `mod_id` = '$id' LIMIT 1";
 
     $result = $conn->query($sql);
     $type = (int)$result->fetch_assoc()["type"];
@@ -52,7 +50,7 @@ function response() {
     }
 
     // Update
-    $sql = "UPDATE mod_history SET judgement = $as WHERE mod_id = '$id'";
+    $sql = "UPDATE `mod_history` SET `judgement` = $as WHERE `mod_id` = '$id'";
     if ($conn->query($sql) === FALSE) {
         return jsonErr("", "[MR0]");
     }

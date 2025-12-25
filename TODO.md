@@ -2,6 +2,7 @@
 
 ## General
 
+- [ ] Somehow undo formatting when editing post
 - [ ] Store country in database instead of making repeated calls in session tab
 - [ ] Still receiving notifications from deleted users (posts) -> Is that really necessary?
 - [ ] Maybe add more auth -> One for being able to create threads and one for being able to report. Then allow both of those after posting 10 posts.

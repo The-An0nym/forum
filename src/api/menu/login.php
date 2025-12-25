@@ -18,7 +18,7 @@ function response() {
     $handle = htmlspecialchars($_POST["h"]);
     $password = $_POST["p"];
 
-    $sql = "SELECT `password`, `user_id`, `clearance` FROM `users` WHERE handle='$handle' AND deleted = 0";
+    $sql = "SELECT `password`, `user_id`, `clearance` FROM `users` WHERE `handle` = '$handle' AND `deleted` = 0";
     $result = $conn->query($sql);
 
     if ($result->num_rows !== 1) {
@@ -38,7 +38,7 @@ function response() {
     $user_agent = $_SERVER['HTTP_USER_AGENT'];
     $session_id = base64_encode(random_bytes(64));
     $dtime = date('Y-m-d H:i:s');
-    $sql = "INSERT INTO sessions (user_id, ip, user_agent, session_id, datetime)
+    $sql = "INSERT INTO `sessions` (`user_id`, `ip`, `user_agent`, `session_id`, `datetime`)
     VALUES ('$user_id', '$ip', '$user_agent', '$session_id', '$dtime')";
 
     if ($conn->query($sql) === FALSE) {

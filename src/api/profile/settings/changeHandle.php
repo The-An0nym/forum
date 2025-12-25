@@ -40,7 +40,7 @@ function response() {
         return jsonErr("handMin");
     }
 
-    $sql = "SELECT * FROM users WHERE handle='$handle' LIMIT 1";
+    $sql = "SELECT * FROM `users` WHERE `handle` = '$handle' LIMIT 1";
     $result = $conn->query($sql);
 
     if ($result->num_rows !== 0) {
@@ -49,7 +49,7 @@ function response() {
     
     $user_id = $_SESSION["user_id"];
 
-    $sql = "UPDATE users SET handle = '$handle' WHERE user_id = '$user_id'";
+    $sql = "UPDATE `users` SET `handle` = '$handle' WHERE `user_id` = '$user_id'";
 
     if ($conn->query($sql) === FALSE) {
         return jsonErr("", "[CH0]");

@@ -205,7 +205,7 @@ function countForUser($id, bool $rest, bool $threads) : array {
         return ["pass"];
     }
 
-    $sql = "SELECT id FROM threads WHERE user_id = '$id'";
+    $sql = "SELECT `id` FROM `threads` WHERE `user_id` = '$id'";
 
     $result = $conn->query($sql);
     if($result->num_rows === 0) {

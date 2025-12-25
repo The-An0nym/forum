@@ -19,7 +19,7 @@ function clearCurrSession() : array {
     }
 
     $session_id = $_SESSION['session_id'];
-    $sql = "DELETE FROM sessions WHERE session_id='$session_id'";
+    $sql = "DELETE FROM `sessions` WHERE `session_id` = '$session_id'";
     $result = $conn->query($sql);
 
     if ($conn->query($sql) === TRUE) {
@@ -47,7 +47,7 @@ function deleteExpiredSessions() : array {
     
     $delDatetime = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s')) - 60 * 60 * 24 * 5); // 5 days
 
-    $sql = "DELETE FROM sessions WHERE datetime < '$delDatetime'";
+    $sql = "DELETE FROM `sessions` WHERE `datetime` < '$delDatetime'";
     if($conn->query($sql) === FALSE) {
         return ["", "[SCD0]"];
     }
@@ -69,7 +69,7 @@ function updateSession(string $id) : array{
 
     $datetime = date("Y-m-d H:i:s");
     $session_id = $_SESSION["session_id"];
-    $sql = "UPDATE `sessions` SET `datetime` = '$datetime' WHERE session_id = '$session_id'";
+    $sql = "UPDATE `sessions` SET `datetime` = '$datetime' WHERE `session_id` = '$session_id'";
     if($conn->query($sql) === FALSE) {
         return ["", "[SCU0]"];
     }

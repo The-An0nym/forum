@@ -27,9 +27,7 @@ function response() {
     $conn = getConn();
         
     $user_id = $_SESSION['user_id'];
-    $sql = "SELECT u.clearance FROM users u 
-            WHERE u.user_id = '$user_id'
-            LIMIT 1";
+    $sql = "SELECT `clearance` FROM `users` WHERE `user_id` = '$user_id' LIMIT 1";
 
     $result = $conn->query($sql);
     if($result->num_rows !== 1) {
@@ -42,7 +40,7 @@ function response() {
         return jsonErr("auth");
     }
 
-    $sql = "SELECT content, created, edited FROM posts WHERE post_id = '$id'";
+    $sql = "SELECT `content`, `created`, `edited` FROM `posts` WHERE `post_id` = '$id'";
         
     $result = $conn->query($sql);
     if($result->num_rows !== 1) {

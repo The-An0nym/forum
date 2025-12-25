@@ -40,7 +40,7 @@ require_once $path . '/functions/time.php';
         if(validateSession()) {
             $user_id = $_SESSION["user_id"];
 
-            $sql = "SELECT username, handle, image_dir, posts, threads, clearance FROM users WHERE user_id = '$user_id' LIMIT 1";
+            $sql = "SELECT `username`, `handle`, `image_dir`, `posts`, `threads`, `clearance` FROM `users` WHERE `user_id` = '$user_id' LIMIT 1";
             $result = $conn->query($sql);
             $row = $result->fetch_assoc();
             $username = $row["username"];
@@ -67,7 +67,7 @@ require_once $path . '/functions/time.php';
             <div id="sessions" class="tab-content">
             <?php
 
-            $sql = "SELECT `ip`, `user_agent`, `datetime`, `session_id` FROM sessions WHERE user_id='$user_id'";
+            $sql = "SELECT `ip`, `user_agent`, `datetime`, `session_id` FROM `sessions` WHERE `user_id` = '$user_id'";
             $result = $conn->query($sql);
 
                 $session_id = $_SESSION["session_id"];

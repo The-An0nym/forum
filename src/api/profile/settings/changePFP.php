@@ -86,7 +86,7 @@ function response() {
         $user_id = $_SESSION["user_id"];
 
         // Get previous image path
-        $sql = "SELECT image_dir FROM users WHERE user_id = '$user_id'";
+        $sql = "SELECT `image_dir` FROM `users` WHERE `user_id` = '$user_id'";
         $result = $conn->query($sql);
         $previous_image_dir = $result->fetch_assoc()["image_dir"];
 
@@ -99,7 +99,7 @@ function response() {
         $image_dir = $image_id . "." . $imageFileType;
 
         // Update image path
-        $sql = "UPDATE users SET image_dir = '$image_dir' WHERE user_id = '$user_id'";
+        $sql = "UPDATE `users` SET `image_dir` = '$image_dir' WHERE `user_id` = '$user_id'";
         if ($conn->query($sql) === FALSE) {
             return jsonErr("", "[CPF0]");
         }

@@ -60,7 +60,7 @@ function response() {
     if($post_user_id !== $user_id) {
         $type = 2;
         // Push onto history
-        $sql = "INSERT INTO history (id, type, judgement, sender_id)
+        $sql = "INSERT INTO `history` (`id`, `type`, `judgement`, `sender_id`)
         VALUES ('$id', 0, 1, '$user_id')";
         if ($conn->query($sql) === FALSE) {
             return jsonErr("", "[RP0]");

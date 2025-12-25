@@ -30,7 +30,7 @@ function response() {
         return jsonErr("userMin");
     }
             
-    $sql = "SELECT * FROM users WHERE username='$username'";
+    $sql = "SELECT * FROM `users` WHERE `username` = '$username'";
     $result = $conn->query($sql);
 
     $user_id = $_SESSION["user_id"];
@@ -39,7 +39,7 @@ function response() {
         return jsonErr("tUser");
     }
 
-    $sql = "UPDATE users SET username = '$username' WHERE user_id = '$user_id'";
+    $sql = "UPDATE `users` SET `username` = '$username' WHERE `user_id` = '$user_id'";
 
     if ($conn->query($sql) === FALSE) {
         return jsonErr("", "[CU0]");

@@ -79,7 +79,7 @@ function response() {
         }
 
         // Demote user
-        $sql = "UPDATE users SET clearance = clearance $sy 1 WHERE user_id = '$id'";
+        $sql = "UPDATE `users` SET `clearance` = clearance $sy 1 WHERE `user_id` = '$id'";
         if ($conn->query($sql) === FALSE) {
             return jsonErr("", "[CUA0]");
         }

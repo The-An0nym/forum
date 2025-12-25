@@ -46,7 +46,7 @@ function response() {
         return jsonErr("pswdMin");
     }
             
-    $sql = "SELECT username, handle FROM users WHERE username='$username' OR handle='$handle' LIMIT 1";
+    $sql = "SELECT `username`, `handle` FROM `users` WHERE `username` = '$username' OR `handle` = '$handle' LIMIT 1";
     $result = $conn->query($sql);
                 
     if ($result->num_rows !== 0) {
@@ -65,7 +65,7 @@ function response() {
     $pswrd = password_hash($password, PASSWORD_DEFAULT);
     $dtime = date('Y-m-d H:i:s');
 
-    $sql = "INSERT INTO users (user_id, image_dir, username, handle, password, created)
+    $sql = "INSERT INTO `users` (`user_id`, `image_dir`, `username`, `handle`, `password`, `created`)
     VALUES ('$user_id', '_default.png', '$username', '$handle', '$pswrd', '$dtime')";
 
     if ($conn->query($sql) === FALSE) {
@@ -77,7 +77,7 @@ function response() {
     $user_agent = $_SERVER['HTTP_USER_AGENT'];
     $session_id = base64_encode(random_bytes(64));
     $dtime = date('Y-m-d H:i:s');
-    $sql = "INSERT INTO sessions (user_id, ip, user_agent, session_id, datetime)
+    $sql = "INSERT INTO `sessions` (`user_id`, `ip`, `user_agent`, `session_id`, `datetime`)
     VALUES ('$user_id', '$ip', '$user_agent', '$session_id', '$dtime')";
 
     if ($conn->query($sql) === FALSE) {

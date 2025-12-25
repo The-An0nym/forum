@@ -20,7 +20,7 @@ function response() {
         return jsonErr("login");
     }
 
-    $sql = "DELETE FROM `sessions` WHERE session_id = '$id'";
+    $sql = "DELETE FROM `sessions` WHERE `session_id` = '$id'";
     if($conn->query($sql) === FALSE) {
         return jsonErr();
     }

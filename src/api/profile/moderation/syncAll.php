@@ -22,9 +22,7 @@ function response() {
 
     $conn = getConn();
     $user_id = $_SESSION['user_id'];
-    $sql = "SELECT clearance FROM users 
-            WHERE user_id = '$user_id'
-            LIMIT 1";
+    $sql = "SELECT `clearance` FROM `users` WHERE `user_id` = '$user_id' LIMIT 1";
 
     $result = $conn->query($sql);
 

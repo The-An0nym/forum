@@ -37,7 +37,7 @@ function response() {
 
     $slug = $json_obj->s;
 
-    $sql = "SELECT id FROM categories WHERE slug = '$slug'";
+    $sql = "SELECT `id` FROM `categories` WHERE `slug` = '$slug'";
 
     $result = $conn->query($sql);
     if ($result->num_rows !== 1) {
@@ -68,7 +68,7 @@ function response() {
     // Create Thread
     $dtime = date('Y-m-d H:i:s');
     $thread_id = uniqid(rand(), true);
-    $sql = "INSERT INTO threads (name, slug, id, category_id, created, user_id, posts)
+    $sql = "INSERT INTO `threads` (`name`, `slug`, `id`, `category_id`, `created`, `user_id`, `posts`)
     VALUES ('$threadName', '$thread_slug', '$thread_id', '$category_id', '$dtime', '$user_id', 1)";
     if ($conn->query($sql) === FALSE) {
         return jsonErr("", "[CT0]");
@@ -76,22 +76,20 @@ function response() {
 
     // Create Post
     $post_id = uniqid(rand(), true);
-    $sql = "INSERT INTO posts (user_id, post_id, content, created, edited, thread_id)
+    $sql = "INSERT INTO `posts` (`user_id`, `post_id`, `content`, `created`, `edited`, `thread_id`)
     VALUES ('$user_id', '$post_id', '$cont', '$dtime', 'false', '$thread_id')";
     if ($conn->query($sql) === FALSE) {
         return jsonErr("", "[CT1]");
     }
 
     // Increment post and thread count of user and category
-    $sql = "UPDATE users SET posts = posts +1, threads = threads +1 WHERE user_id = '$user_id'";
+    $sql = "UPDATE `users` SET `posts` = posts +1, `threads` = threads +1 WHERE `user_id` = '$user_id'";
     if ($conn->query($sql) === FALSE) {
         return jsonErr("", "[CT2]");
     }
 
     // Increment post count of category
-    $sql = "UPDATE categories
-            SET posts = posts + 1, threads = threads + 1 
-            WHERE id = '$category_id'";
+    $sql = "UPDATE `categories` SET `posts` = posts + 1, `threads` = threads + 1 WHERE `id` = '$category_id'";
     if ($conn->query($sql) === FALSE) {
         return jsonErr("", "[CT3]");
     }
