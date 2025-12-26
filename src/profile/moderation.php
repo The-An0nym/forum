@@ -56,7 +56,7 @@ require_once $path . '/functions/time.php';
                 <span class="menu-tab" id="sessions-tab" onclick="switchTab(1)">Deleted posts</span>
                 <?php 
                     if($clearance > 0) { ?>
-                    <span class="menu-tab" id="moderation-tab" onclick="switchTab(2)">Moderation history</span>
+                    <span class="menu-tab" id="moderation-tab" onclick="switchTab(2)">Moderation</span>
                     <span class="menu-tab" id="report-tab" onclick="switchTab(3)">Reports</span>
                 <?php
                     }
@@ -116,13 +116,15 @@ require_once $path . '/functions/time.php';
                 if($result->num_rows > 0) {
                     while($post = $result->fetch_assoc()) {?>
                         <div class="deleted-post">
-                            <span class="deleted-datetime"><?= dateStamp($post['deleted_datetime']); ?></span>
-                            <span class="deleted-created"><?= dateStamp($post['created']); ?></span>
-                            <span class="deleted-thread">
-                                <a href="/thread/<?= $post['slug']; ?>"><?= $post['name']; ?></a>
+                            <span class="deleted-post-data">
+                                <a class="deleted-thread" href="/thread/<?= $post['slug']; ?>"><?= $post['name']; ?></a>
+                                <span class="deleted-content"><?= $post['content']; ?></span>
+                                <span class="deleted-created"><?= dateStamp($post['created']); ?></span>
                             </span>
-                            <span class="deleted-content"><?= $post['content']; ?></span>
-                            <button class="restore" onclick="restorePost('<?= $post['post_id']; ?>')">restore</button>
+                            <span class="deleted-post-mod">
+                                <span class="deleted-datetime"><?= dateStamp($post['deleted_datetime']); ?></span>
+                                <button class="restore" onclick="restorePost('<?= $post['post_id']; ?>')">restore</button>
+                            <span>
                         </div>
                 <?php }
                 } else {

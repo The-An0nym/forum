@@ -133,7 +133,7 @@ function genForPost(array $item) : string {
     return "<span class=\"notification-item post\">
                 $unread
                 <span class=\"notification-datetime\">$dt</span>
-                <a class=\"/notification-title\" href=\"/thread/$slug/$page\">$name</a>
+                <a class=\"notification-title\" href=\"/thread/$slug/$page\">$name</a>
                 <span class=\"notification-initiators\">$usersText</span>
             </span>";
 }

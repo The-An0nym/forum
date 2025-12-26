@@ -25,10 +25,19 @@ function parseThreads(jsonData) {
     const mainWrapper = document.createElement("span");
     mainWrapper.className = "main-wrapper";
 
-    const threadName = document.createElement("a");
+    const threadName = document.createElement("span");
     threadName.className = "thread-name";
-    threadName.setAttribute("href", `/thread/${threadData[i].slug}`);
-    threadName.innerHTML = threadData[i].name;
+
+    if (threadData[i].pinned == 1) {
+      const pinnedThread = document.createElement("span");
+      pinnedThread.textContent = "pin"; // TODO svg (also in php file)
+      threadName.appendChild(pinnedThread);
+    }
+
+    const threadHandle = document.createElement("a");
+    threadHandle.setAttribute("href", `/thread/${threadData[i].slug}`);
+    threadHandle.innerHTML = threadData[i].name;
+    threadName.appendChild(threadHandle);
 
     mainWrapper.appendChild(threadName);
 

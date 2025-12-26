@@ -2,6 +2,7 @@
 
 ## General
 
+- [ ] Add pinned to Schematic and SQL tables creation code & make new threads "pinnable" by admins
 - [ ] Somehow undo formatting when editing post
 - [ ] Store country in database instead of making repeated calls in session tab
 - [ ] Still receiving notifications from deleted users (posts) -> Is that really necessary?

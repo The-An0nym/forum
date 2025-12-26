@@ -36,6 +36,7 @@
 
 .notification-title {
   font-size: 1.2em;
+  margin-top: -0.25em;
 }
 
 .notification-initiators {

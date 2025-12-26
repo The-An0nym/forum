@@ -25,6 +25,7 @@ function getThreads(string $slug, int $page) {
                 t.slug,
                 t.created, 
                 t.posts,
+                t.pinned,
                 cr.clearance,
                 cr.username,
                 cr.handle,
@@ -61,6 +62,7 @@ function getThreads(string $slug, int $page) {
             WHERE 
                 c.slug = '$slug' AND t.deleted = 0
             ORDER BY 
+                t.pinned DESC,
                 lp.created DESC
             LIMIT 20 OFFSET $offset";
 
@@ -93,7 +95,10 @@ function generateHTMLFromThreads(string $slug, int $page) {
     foreach($threads as $thread) {?>
         <div class="thread-wrapper">
             <span class="main-wrapper">
-                <a class="thread-name" href="/thread/<?= $thread['slug'] ?>"><?= $thread['name'] ?></a>
+                <span class="thread-name">
+                    <?= $thread['pinned'] === "1" ? '<span class="pinned">pin</span>' : ''; ?>
+                    <a href="/thread/<?= $thread['slug'] ?>"><?= $thread['name'] ?></a>
+                </span>
                 <span class="thread-info">
                     <a class="thread-creator" href="/user/<?= $thread['handle'] ?>"><?= $thread['username'] ?></a>
                     <span class="created"><?= $thread['created'] ?></span>
@@ -170,6 +175,7 @@ function getThreadsJson(string $slug, int $page = 1) : string {
         $t->creator = $thread["username"];
         $t->creatorHandle = $thread["handle"];
         $t->deletable = $thread["clearance"];
+        $t->pinned = $thread["pinned"];
         $data[] = $t;
     }
 
