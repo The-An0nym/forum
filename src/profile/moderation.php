@@ -73,11 +73,11 @@ require_once $path . '/functions/time.php';
                 $session_id = $_SESSION["session_id"];
                 while($row = $result->fetch_assoc()) {
                     $row_session_id = $row["session_id"];
-                    $revokeButton = "<button class=\"delete-session\" onclick=\"deleteSession('$row_session_id')\">Revoke session</button>";
+                    $revokeButton = "<button class=\"delete-session danger-button\" onclick=\"deleteSession('$row_session_id')\"><img class=\"svg-img\" src=\"/images/icons/bin.svg\"></img></button>";
                     
                     // Cannot delete own session
                     if($row_session_id === $session_id) {
-                        $revokeButton = "<button class=\"delete-session disabled\">Revoke session</button>";
+                        $revokeButton = "<button class=\"delete-session disabled\"><img class=\"svg-img\" src=\"/images/icons/bin.svg\"></img></button>";
                     }
                     ?>
                     <span class="session-item" id="<?= $row_session_id; ?>">

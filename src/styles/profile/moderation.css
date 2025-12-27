@@ -112,9 +112,12 @@
   padding: 0.5em;
 }
 
-.session-item > span,
-.session-item > button {
+.session-item > span {
   flex: 1;
+}
+
+.session-item > .delete-session {
+  width: 4em;
 }
 
 .session-item > .user-agent > svg {
