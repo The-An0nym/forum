@@ -73,9 +73,15 @@ function getThreads(string $slug, int $page) {
         $data = [];
         while($thread = $result->fetch_assoc()) { 
             if(($thread["clearance"] < $myClearance && $myClearance > 1) || $myClearance === '5') {
-                $thread["clearance"] = 1;
+                $thread["clearance"] = true;
             } else {
-                $thread["clearance"] = 0;
+                $thread["clearance"] = false;
+            }
+
+            if($myClearance === '5') {
+                $thread["pinnable"] = true;
+            } else {
+                $thread["pinnable"] = false;
             }
 
             $thread["created"] = timeAgo($thread["created"]);
@@ -96,23 +102,28 @@ function generateHTMLFromThreads(string $slug, int $page) {
         <div class="thread-wrapper">
             <span class="main-wrapper">
                 <span class="thread-name">
-                    <?= $thread['pinned'] === "1" ? '<span class="pinned">pin</span>' : ''; ?>
-                    <a href="/thread/<?= $thread['slug'] ?>"><?= $thread['name'] ?></a>
+                    <?= $thread['pinned'] === "1" ? '<img src="/images/icons/pin.svg" class="svg-img pinned">pin</img>' : ''; ?>
+                    <a href="/thread/<?= $thread['slug']; ?>"><?= $thread['name']; ?></a>
                 </span>
                 <span class="thread-info">
-                    <a class="thread-creator" href="/user/<?= $thread['handle'] ?>"><?= $thread['username'] ?></a>
-                    <span class="created"><?= $thread['created'] ?></span>
+                    <a class="thread-creator" href="/user/<?= $thread['handle']; ?>"><?= $thread['username']; ?></a>
+                    <span class="created"><?= $thread['created']; ?></span>
                 </span>
             </span>
             <span class="last-wrapper">
-                <a class="last-user" href="/user/<?= $thread['lastHandle'] ?>"><?= $thread['lastUser'] ?></a>
+                <a class="last-user" href="/user/<?= $thread['lastHandle']; ?>"><?= $thread['lastUser']; ?></a>
                 <span class="last-post"><?= $thread['lastPost'] ?></span>
             </span>
             <span class="misc">
-                <span class="count"><?= $thread['posts'] ?></span>
-                <?php if($thread['clearance'] === 1) {?>
-                <button class="delete-button danger-button" onclick="createModeration('deleting <?= $thread['username'] ?>\'s thread', deleteThread, '<?= $thread['id'] ?>')">
+                <span class="count"><?= $thread['posts']; ?></span>
+                <?php if($thread['clearance']) {?>
+                <button class="delete-button danger-button" onclick="createModeration('deleting <?= $thread['username']; ?>\'s thread', deleteThread, '<?= $thread['id']; ?>')">
                     <img class="svg-img" src="/images/icons/bin.svg"></img>
+                </button>
+                <?php } ?>
+                <?php if($thread['pinnable']) { ?>
+                <button class="pin-button" onclick="togglePin('<?= $thread['id']; ?>')">
+                    <img class="svg-img" src="/images/icons/pin.svg"></img>
                 </button>
                 <?php } ?>
             </span>
@@ -175,6 +186,7 @@ function getThreadsJson(string $slug, int $page = 1) : string {
         $t->creator = $thread["username"];
         $t->creatorHandle = $thread["handle"];
         $t->deletable = $thread["clearance"];
+        $t->pinnable = $thread["pinnable"];
         $t->pinned = $thread["pinned"];
         $data[] = $t;
     }

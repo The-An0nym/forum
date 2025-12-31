@@ -116,8 +116,10 @@ function getPassArr(string $lang = "en") : array {
     // "pass" is reserved and cannot be used as key! 
     $errorLangArr = [
         "en" => [
-            "unSub" => "Successfully unsubscribed",
             "sub" => "Successfully subscribed",
+            "unSub" => "Successfully unsubscribed",
+            "pin" => "Successfully pinned thread",
+            "unPin" => "Successfully unpinned thread",
             "saveAppear" => "Saved appearance",
             "delSess" => "Session deleted"
             ]

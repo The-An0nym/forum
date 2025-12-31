@@ -29,8 +29,9 @@ function parseThreads(jsonData) {
     threadName.className = "thread-name";
 
     if (threadData[i].pinned == 1) {
-      const pinnedThread = document.createElement("span");
-      pinnedThread.textContent = "pin"; // TODO svg (also in php file)
+      const pinnedThread = document.createElement("img");
+      pinnedThread.className = "svg-img pinned";
+      pinnedThread.src = "/images/icons/pin.svg";
       threadName.appendChild(pinnedThread);
     }
 
@@ -85,7 +86,7 @@ function parseThreads(jsonData) {
 
     threadWrapper.appendChild(postCount);
 
-    if (threadData[i].deletable === 1) {
+    if (threadData[i].deletable) {
       const deleteButton = document.createElement("button");
       deleteButton.className = "delete-button danger-button";
 
@@ -108,6 +109,20 @@ function parseThreads(jsonData) {
         "onclick",
         `createReport(1, '${threadData[i].id}')`
       );
+    }
+
+    if (threadData[i].pinnable) {
+      const pinButton = document.createElement("button");
+      pinButton.className = "delete-button danger-button";
+
+      const pinImg = document.createElement("img");
+      pinImg.src = "/images/icons/bin.svg";
+      pinImg.className = "svg-img";
+
+      pinButton.appendChild(pinImg);
+      pinButton.setAttribute("onclick", `togglePin('${threadData[i].id}')`);
+
+      threadWrapper.appendChild(pinButton);
     }
 
     cont.appendChild(threadWrapper);
@@ -162,4 +177,10 @@ async function gotoTopicPage(p) {
   else url = `https://quir.free.nf/topic/${slug}`;
 
   history.pushState({}, null, url);
+}
+
+/* TOGGLE PINNED THREADS */
+async function togglePin(id) {
+  const bod = await postData("/api/thread/unPin.php", `i=${id}`);
+  if (bod[0]) getThreads();
 }

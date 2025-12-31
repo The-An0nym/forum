@@ -20,6 +20,11 @@
   overflow: hidden;
 }
 
+.pinned {
+  height: 1em;
+  vertical-align: middle;
+}
+
 .thread-name {
   font-weight: 800;
   display: block;
