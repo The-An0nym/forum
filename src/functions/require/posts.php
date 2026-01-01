@@ -37,7 +37,7 @@ function getPosts(string $slug, int $page) :array {
                 p.user_id, 
                 p.content, 
                 p.created, 
-                p.edited,
+                p.edited_datetime,
                 u.clearance
             FROM 
                 posts p
@@ -65,7 +65,14 @@ function getPosts(string $slug, int $page) :array {
                 $row["clearance"] = 0;
             }
 
+            if($row["edited_datetime"] != NULL) {
+                $row["edited"] = true;
+            } else {
+                $row["edited"] = false;
+            }
             $row["created"] = timeAgo($row["created"]);
+            $row["edited_datetime"] = timeAgo($row["edited_datetime"]);
+
 
             $data[] = $row;
         }
@@ -103,8 +110,9 @@ function generateHTMLFromPosts(string $slug, int $page) {
                 <span class="content"><?= $post['content'] ?></span>
                 <?php 
                 echo '<span class="created">' . $post['created'] . '</span>';
-                if($post['edited'] === "1") {
-                    echo '<span class="edited">edited</span>';
+                if($post['edited']) {
+                    $dt = $post['edited_datetime'];
+                    echo "<span class=\"edited\">edited $dt</span>";
                 }
                 ?>
             </span>
@@ -136,6 +144,8 @@ function getPostsJson(string $slug, int $page = 1) : string {
         session_start();
     }
 
+    require_once 
+
     $post_count = getPostCount($slug);
 
     if($post_count === 0) { 
@@ -160,8 +170,9 @@ function getPostsJson(string $slug, int $page = 1) : string {
         $p->userPostCount = $post["posts"];
         $p->id = $post["post_id"];
         $p->content = $post["content"];
-        $p->created = $post["created"];
+        $p->created = timeAgo($post["created"]);
         $p->edited = $post["edited"];
+        $p->editedDateTime = $post["edited_datetime"];
         $p->auth = $post["auth"];
         if(isset($_SESSION["user_id"])) {
             if($post["user_id"] == $_SESSION["user_id"]) {

@@ -102,7 +102,7 @@ function generateHTMLFromThreads(string $slug, int $page) {
         <div class="thread-wrapper">
             <span class="main-wrapper">
                 <span class="thread-name">
-                    <?= $thread['pinned'] === "1" ? '<img src="/images/icons/pin.svg" class="svg-img pinned">pin</img>' : ''; ?>
+                    <?= $thread['pinned'] === "1" ? '<img src="/images/icons/pin.svg" class="svg-img pinned"></img>' : ''; ?>
                     <a href="/thread/<?= $thread['slug']; ?>"><?= $thread['name']; ?></a>
                 </span>
                 <span class="thread-info">

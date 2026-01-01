@@ -53,11 +53,14 @@ function response() {
         return jsonErr("contMax");
     }
 
+    // TODO rate limiting (should also be implemented in sendEdit)
+    // "SELECT COUNT(*) AS `cnt` FROM `posts` WHERE `user_id` = '$user_id' AND (`created` > DATE_SUB(now(), INTERVAL 1 MINUTE) OR (`edited_datetime` > DATE_SUB(now(), INTERVAL 1 MINUTE))"
+
     $dtime = date('Y-m-d H:i:s');
     $post_id = uniqid(rand(), true);
     $user_id = $_SESSION["user_id"];
-    $sql = "INSERT INTO `posts` (`user_id`, `post_id`, `content`, `created`, `edited`, `thread_id`)
-    VALUES ('$user_id', '$post_id', '$cont', '$dtime', 'false', '$thread_id')";
+    $sql = "INSERT INTO `posts` (`user_id`, `post_id`, `content`, `created`, `thread_id`)
+    VALUES ('$user_id', '$post_id', '$cont', '$dtime', '$thread_id')";
     if ($conn->query($sql) === FALSE) {
         return jsonErr("", "[SP0]");
     }

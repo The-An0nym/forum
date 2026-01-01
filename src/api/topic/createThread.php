@@ -76,8 +76,8 @@ function response() {
 
     // Create Post
     $post_id = uniqid(rand(), true);
-    $sql = "INSERT INTO `posts` (`user_id`, `post_id`, `content`, `created`, `edited`, `thread_id`)
-    VALUES ('$user_id', '$post_id', '$cont', '$dtime', 'false', '$thread_id')";
+    $sql = "INSERT INTO `posts` (`user_id`, `post_id`, `content`, `created`, `thread_id`)
+    VALUES ('$user_id', '$post_id', '$cont', '$dtime', '$thread_id')";
     if ($conn->query($sql) === FALSE) {
         return jsonErr("", "[CT1]");
     }

@@ -135,10 +135,10 @@ function parsePosts(data, scrollBottom = false) {
     created.textContent = jsonData[i].created;
     postData.appendChild(created);
 
-    if (jsonData[i].edited === "1") {
+    if (jsonData[i].edited) {
       const edited = document.createElement("span");
       edited.className = "edited";
-      edited.textContent = "edited";
+      edited.textContent = `edited ${jsonData[i].editedDateTime}`;
       postData.appendChild(edited);
     }
 

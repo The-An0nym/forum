@@ -113,10 +113,10 @@ function parseThreads(jsonData) {
 
     if (threadData[i].pinnable) {
       const pinButton = document.createElement("button");
-      pinButton.className = "delete-button danger-button";
+      pinButton.className = "pin-button";
 
       const pinImg = document.createElement("img");
-      pinImg.src = "/images/icons/bin.svg";
+      pinImg.src = "/images/icons/pin.svg";
       pinImg.className = "svg-img";
 
       pinButton.appendChild(pinImg);

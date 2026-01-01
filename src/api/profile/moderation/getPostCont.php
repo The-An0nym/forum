@@ -40,7 +40,7 @@ function response() {
         return jsonErr("auth");
     }
 
-    $sql = "SELECT `content`, `created`, `edited` FROM `posts` WHERE `post_id` = '$id'";
+    $sql = "SELECT `content`, `created`, `edited_datetime` FROM `posts` WHERE `post_id` = '$id'";
         
     $result = $conn->query($sql);
     if($result->num_rows !== 1) {
@@ -55,7 +55,8 @@ function response() {
             "data" => array(
                 "cont" => $row["content"],
                 "dt" => $row["created"],
-                "edited" => $row["edited"]
+                "edited" => $row["edited_datetime"] != NULL,
+                "edited_datetime" => $row["edited_datetime"]
             )
         )
     );

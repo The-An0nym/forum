@@ -199,7 +199,7 @@ async function getPostContent(id) {
   const body = `i=${id}`;
 
   const bod = await postData("/api/profile/moderation/getPostCont.php", body);
-
+  // TODO display information in a better manner
   if (bod[0]) return bod[1].cont + bod[1].dt + bod[1].edited;
   return "";
 }

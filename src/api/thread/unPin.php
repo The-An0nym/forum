@@ -53,6 +53,6 @@ function response() {
     if($newPinVal === 1) {
         return getPass("pin");
     } else {
-        return getPass("unpin");
+        return getPass("unPin");
     }
 }

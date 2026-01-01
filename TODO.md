@@ -2,6 +2,7 @@
 
 ## General
 
+- [ ] Update schematic + sql codes to include edited_datetime
 - [ ] Add pinned to Schematic and SQL tables creation code & make new threads "pinnable" by admins
 - [ ] Somehow undo formatting when editing post
 - [ ] Store country in database instead of making repeated calls in session tab
