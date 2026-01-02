@@ -67,11 +67,11 @@ function getPosts(string $slug, int $page) :array {
 
             if($row["edited_datetime"] != NULL) {
                 $row["edited"] = true;
+                $row["edited_datetime"] = timeAgo($row["edited_datetime"]);
             } else {
                 $row["edited"] = false;
             }
             $row["created"] = timeAgo($row["created"]);
-            $row["edited_datetime"] = timeAgo($row["edited_datetime"]);
 
 
             $data[] = $row;
@@ -143,8 +143,6 @@ function getPostsJson(string $slug, int $page = 1) : string {
     if(!session_id()) {
         session_start();
     }
-
-    require_once 
 
     $post_count = getPostCount($slug);
 

@@ -53,8 +53,13 @@ function response() {
         return jsonErr("contMax");
     }
 
-    // TODO rate limiting (should also be implemented in sendEdit)
-    // "SELECT COUNT(*) AS `cnt` FROM `posts` WHERE `user_id` = '$user_id' AND (`created` > DATE_SUB(now(), INTERVAL 1 MINUTE) OR (`edited_datetime` > DATE_SUB(now(), INTERVAL 1 MINUTE))"
+    // Rate limiting
+    $sql = "SELECT COUNT(*) AS `cnt` FROM `posts` WHERE `user_id` = '$user_id' AND (`created` > DATE_SUB(now(), INTERVAL 15 SECOND) OR (`edited_datetime` > DATE_SUB(now(), INTERVAL 15 SECOND))";
+    $result = $conn->query($sql);
+    $cnt = $result->fetch_assoc()["cnt"];
+    if($cnt > 0) {
+        return jsonErr("postRate");
+    }
 
     $dtime = date('Y-m-d H:i:s');
     $post_id = uniqid(rand(), true);

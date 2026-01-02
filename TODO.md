@@ -2,6 +2,7 @@
 
 ## General
 
+- [ ] add rate limiting to all queries (via session and common endpoint?)
 - [ ] Update schematic + sql codes to include edited_datetime
 - [ ] Add pinned to Schematic and SQL tables creation code & make new threads "pinnable" by admins
 - [ ] Somehow undo formatting when editing post

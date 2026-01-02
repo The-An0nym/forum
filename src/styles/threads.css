@@ -87,7 +87,8 @@
   margin-left: 1.5em;
 }
 
-.delete-button {
+.delete-button,
+.pin-button {
   font-size: 0.8em;
   width: 2em;
   height: 2em;
