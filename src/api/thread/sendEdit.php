@@ -42,6 +42,8 @@ function response() {
         return jsonErr("contMax");
     }
 
+    $user_id = $_SESSION["user_id"];
+
     // Rate limiting
     $sql = "SELECT COUNT(*) AS `cnt` FROM `posts` WHERE `user_id` = '$user_id' AND (`created` > DATE_SUB(now(), INTERVAL 15 SECONDS) OR (`edited_datetime` > DATE_SUB(now(), INTERVAL 15 SECONDS))";
     $result = $conn->query($sql);
@@ -50,7 +52,6 @@ function response() {
         return jsonErr("postRate");
     }
 
-    $user_id = $_SESSION["user_id"];
     $post_id = $json_obj->i;
     $slug = $json_obj->s;
 

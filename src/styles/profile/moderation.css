@@ -9,6 +9,37 @@
   border-bottom: 1px solid var(--border);
   margin-bottom: 0.5em;
   padding: 0.5em 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.inps,
+.filts {
+  display: flex;
+  gap: 1em;
+}
+
+.inps > * {
+  flex: 1;
+}
+
+#mod-sort,
+#report-sort {
+  display: none;
+}
+
+#mod-sort + label,
+#report-sort + label {
+  background-color: var(--primary-color);
+}
+
+#mod-sort-label:hover,
+#report-sort-label:hover {
+  cursor: pointer;
+  /* width: 1em; TODO create svg */
+  height: 1em;
+  background-color: var(--bg);
 }
 
 #moderation-history,

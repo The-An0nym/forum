@@ -53,6 +53,8 @@ function response() {
         return jsonErr("contMax");
     }
 
+    $user_id = $_SESSION["user_id"];
+
     // Rate limiting
     $sql = "SELECT COUNT(*) AS `cnt` FROM `posts` WHERE `user_id` = '$user_id' AND (`created` > DATE_SUB(now(), INTERVAL 15 SECOND) OR (`edited_datetime` > DATE_SUB(now(), INTERVAL 15 SECOND))";
     $result = $conn->query($sql);
@@ -63,7 +65,6 @@ function response() {
 
     $dtime = date('Y-m-d H:i:s');
     $post_id = uniqid(rand(), true);
-    $user_id = $_SESSION["user_id"];
     $sql = "INSERT INTO `posts` (`user_id`, `post_id`, `content`, `created`, `thread_id`)
     VALUES ('$user_id', '$post_id', '$cont', '$dtime', '$thread_id')";
     if ($conn->query($sql) === FALSE) {

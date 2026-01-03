@@ -140,19 +140,23 @@ require_once $path . '/functions/time.php';
                 ?>
                 <div class="tab-content" style="display: none;">
                     <div id="mod-filter">
-                        <input id="mod-sender" placeholder="sender handle">
-                        <input id="mod-culp" placeholder="culprit handle">
-                        <input id="mod-id" placeholder="id">
-                        <select id="mod-type">
-                            <option value="">All</option>
-                            <option value="0">Post</option>
-                            <option value="1">Thread</option>
-                            <option value="2">User</option>
-                        </select>
-                        <label for="mod-sort">Reverse Order</label>
-                        <input id="mod-sort" type="checkbox">
-                        <button onclick="getModerationHistory()">Filter</button>
-                        <span id="mod-result"><?= $totalMod; ?></span> results
+                        <span class="inps">
+                            <input id="mod-sender" placeholder="sender handle">
+                            <input id="mod-culp" placeholder="culprit handle">
+                            <input id="mod-id" placeholder="id">
+                            <select id="mod-type">
+                                <option value="">All</option>
+                                <option value="0">Post</option>
+                                <option value="1">Thread</option>
+                                <option value="2">User</option>
+                            </select>
+                        </span>
+                        <span class="filts">
+                            <input id="mod-sort" type="checkbox">
+                            <label for="mod-sort" id="mod-sort-label">Reverse Order</label>
+                            <button class="action-button" onclick="getModerationHistory()">Filter</button>
+                            <span id="mod-result"><?= $totalMod; ?></span> results
+                        </span>
                     </div>
                     <div id="moderation-header">
                         <div>Date</div>
@@ -168,20 +172,24 @@ require_once $path . '/functions/time.php';
             </div>
             <div class="tab-content" style="display: none;">                   
                     <div id="report-filter">
-                        <input id="report-sender" placeholder="sender handle">
-                        <input id="report-culp" placeholder="culprit handle">
-                        <input id="report-id" placeholder="id">
-                        <select id="report-type">
-                            <option value="">All</option>
-                            <option value="0">Post</option>
-                            <option value="1">Thread</option>
-                            <option value="2">User</option>
-                        </select>
-                        <label for="report-sort">Reverse Order</label>
-                        <input id="report-sort" type="checkbox">
-                        <button onclick="getModerationHistory(0, true)">Filter</button>
-                        <span id="report-result"><?= $totalReport; ?></span> results
-                        <span id="report-unread"><?= countReportHistory(true, $clearance); ?></span> unread
+                        <span class="inps">
+                            <input id="report-sender" placeholder="sender handle">
+                            <input id="report-culp" placeholder="culprit handle">
+                            <input id="report-id" placeholder="id">
+                            <select id="report-type">
+                                <option value="">All</option>
+                                <option value="0">Post</option>
+                                <option value="1">Thread</option>
+                                <option value="2">User</option>
+                            </select>
+                        </span>
+                        <span class="filts">
+                            <input id="report-sort" type="checkbox">
+                            <label for="report-sort" id="report-sort-label">Reverse Order</label>
+                            <button class="action-button" onclick="getModerationHistory(0, true)">Filter</button>
+                            <span id="report-result"><?= $totalReport; ?></span> results
+                            <span id="report-unread"><?= countReportHistory(true, $clearance); ?></span> unread
+                        </span>
                     </div>
                     <div id="report-header">
                         <div>Date</div>
