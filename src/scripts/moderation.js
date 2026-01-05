@@ -21,10 +21,11 @@ async function getModerationHistory(page = 0, reports = false) {
   if (!bod[0]) return;
 
   target.innerHTML = bod[1].html;
-  targetNumb.textContent = bod[1].amount;
+  targetNumb.textContent = bod[1].amount + " results";
 
   if (reports) {
-    document.getElementById("report-unread").textContent = bod[1].unread;
+    document.getElementById("report-unread").textContent =
+      bod[1].unread + " unread";
     reportTotalPage = parseInt(bod[1].amount);
     reportPage = page;
     paginateReport();

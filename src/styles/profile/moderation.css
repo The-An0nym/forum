@@ -29,17 +29,32 @@
   display: none;
 }
 
-#mod-sort + label,
-#report-sort + label {
-  background-color: var(--primary-color);
+#mod-sort:checked + label > .svg-desc,
+#report-sort:checked + label > .svg-desc {
+  display: none;
+}
+
+#mod-sort:not(:checked) + label > .svg-asc,
+#report-sort:not(:checked) + label > .svg-asc {
+  display: none;
+}
+
+#mod-sort-label,
+#report-sort-label {
+  width: 1em;
+  height: 1em;
+  background-color: var(--bg);
 }
 
 #mod-sort-label:hover,
 #report-sort-label:hover {
   cursor: pointer;
-  /* width: 1em; TODO create svg */
-  height: 1em;
-  background-color: var(--bg);
+  background-color: var(--bg-light);
+}
+
+#mod-result,
+#report-result {
+  margin-left: auto;
 }
 
 #moderation-history,

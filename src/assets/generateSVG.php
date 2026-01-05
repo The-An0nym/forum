@@ -113,3 +113,26 @@ function generateBell(bool $enabled = true) : string {
 
     return $svg;
 }
+
+/**
+ * Generates order asc/desc SVG
+ */
+function generateOrder(bool $desc = true) : string {
+    $svg = '<svg class="svg-' . ($desc ? 'desc' : 'asc') . '" xmlns="http://www.w3.org/2000/svg" viewBox="-100 -100 200 200">';
+    if($asc) {
+        $svg .= '<path d="M-70 -90 L-70 90 M-90 60 L-70 90 M-50 60 L-70 90" />';
+    } else {
+        $svg .= '<path d="M-70 -90 L-70 90 M-90 -60 L-70 -90 M-50 -60 L-70 -90" />';
+    }
+
+    $svg .= '<path d="M-30 -90 L70 -90 A10 10 0 0 1 70 -70 L-30 -70 A10 10 0 0 1 -30 -90" />
+                <path d="M-30 -50 L50 -50 A10 10 0 0 1 50 -30 L-30 -30 A10 10 0 0 1 -30 -50" />
+                <path d="M-30 -10 L30 -10 A10 10 0 0 1 30 10 L-30 10 A10 10 0 0 1 -30 -10" />
+                <path d="M-30 30 L10 30 A10 10 0 0 1 10 50 L-30 50 A10 10 0 0 1 -30 30" />
+                <path d="M-30 70 L-10 70 A10 10 0 0 1 -10 90 L-30 90 A10 10 0 0 1 -30 70" />
+            </svg>';
+
+    return $svg;
+}
+
+	

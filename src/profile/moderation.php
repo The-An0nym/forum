@@ -128,7 +128,7 @@ require_once $path . '/functions/time.php';
                         </div>
                 <?php }
                 } else {
-                    echo "<span class=\"no-results\">No deleted posts</span>"; // TODO langauge support
+                    echo "<span class=\"no-results\">No deleted posts</span>"; // TODO language support
                 }
                 ?>
             </div>
@@ -153,9 +153,12 @@ require_once $path . '/functions/time.php';
                         </span>
                         <span class="filts">
                             <input id="mod-sort" type="checkbox">
-                            <label for="mod-sort" id="mod-sort-label">Reverse Order</label>
+                            <label for="mod-sort" id="mod-sort-label">
+                                <?= generateOrder(true) ?>
+                                <?= generateOrder(false) ?>
+                            </label>
                             <button class="action-button" onclick="getModerationHistory()">Filter</button>
-                            <span id="mod-result"><?= $totalMod; ?></span> results
+                            <span id="mod-result"><?= $totalMod; ?> results</span>
                         </span>
                     </div>
                     <div id="moderation-header">
@@ -185,10 +188,13 @@ require_once $path . '/functions/time.php';
                         </span>
                         <span class="filts">
                             <input id="report-sort" type="checkbox">
-                            <label for="report-sort" id="report-sort-label">Reverse Order</label>
+                            <label for="report-sort" id="report-sort-label">
+                                <?= generateOrder(true) ?>
+                                <?= generateOrder(false) ?>
+                            </label>
                             <button class="action-button" onclick="getModerationHistory(0, true)">Filter</button>
-                            <span id="report-result"><?= $totalReport; ?></span> results
-                            <span id="report-unread"><?= countReportHistory(true, $clearance); ?></span> unread
+                            <span id="report-result"><?= $totalReport; ?> results</span>
+                            <span id="report-unread"><?= countReportHistory(true, $clearance); ?> unread</span>
                         </span>
                     </div>
                     <div id="report-header">
