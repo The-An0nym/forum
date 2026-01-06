@@ -1,6 +1,6 @@
 <?php
 if (!function_exists('getConn')) {
-    function getConn () {
+    function getConn () : mysqli {
         static $conn;
         if ($conn === NULL){ 
             $path = $_SERVER['DOCUMENT_ROOT'];
@@ -14,7 +14,7 @@ if (!function_exists('getConn')) {
             }
         }
 
-        if ($conn->connect_error) {
+        if ($conn->connect_error || $conn === false) {
             die("Connection failed: " . $conn->connect_error);
         }    
         return $conn;

@@ -78,24 +78,6 @@ function generateMenu() {
     <div id="super-global">
 <?php }
 
-function getCategory(string $slug) {
-    // Get connection
-    $conn = getConn();
-
-    // Check connection
-    if ($conn->connect_error) {
-        return [];
-    }
-
-    $sql = "SELECT COUNT(*) AS total_posts
-                FROM posts p
-                JOIN threads t ON t.id = p.thread_id
-                WHERE t.slug = '$slug'";
-
-    $result = $conn->query($sql);
-    $total_posts = $result->fetch_assoc()["total_posts"];
-}
-
 function generateMenuPath(int $type = 0, string $slug = "") : string {
     // 0 home, 1 topic, 2 thread
 

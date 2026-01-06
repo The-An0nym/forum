@@ -119,7 +119,7 @@ function generateBell(bool $enabled = true) : string {
  */
 function generateOrder(bool $desc = true) : string {
     $svg = '<svg class="svg-' . ($desc ? 'desc' : 'asc') . '" xmlns="http://www.w3.org/2000/svg" viewBox="-100 -100 200 200">';
-    if($asc) {
+    if($desc) {
         $svg .= '<path d="M-70 -90 L-70 90 M-90 60 L-70 90 M-50 60 L-70 90" />';
     } else {
         $svg .= '<path d="M-70 -90 L-70 90 M-90 -60 L-70 -90 M-50 -60 L-70 -90" />';

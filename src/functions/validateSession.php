@@ -2,7 +2,7 @@
 
 if(!function_exists("validateSession")) {
 
-function validateSession() {
+function validateSession() : bool {
     $path = $_SERVER['DOCUMENT_ROOT'];
     require_once $path . '/functions/.connect.php' ;
     require_once $path . '/functions/sessionUpdates.php';

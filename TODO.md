@@ -20,7 +20,6 @@
 - [ ] Format time more nicely -> Maybe format with XXX Ago and in final state the date instead of converting to client's time? Or store in cookie//Session
 - [ ] Unsubscribe deleted users from all threads in a recoverable fashion (Set to 2/3 instead of 0/1) -> Or just don't unsubscribe deleted users (and they will keep receiving notifications until hard deletion)
 - [ ] Use ` around column and table names for better SQL formatting
-- [ ] PHP set types for all functions
 - [ ] Moderation rows older than 60 days cannot be undone
 - [ ] Test user sessions and having several sessions across different devices
 - [ ] Add ToS, Privacy Policy and cookies warning
@@ -29,7 +28,6 @@
 
 - [ ] Question: How to handle user settings save? -> Refresh or save pop-up?
 - [ ] Fix aspect ratio of preview
-- [ ] Disable deleting session of self
 - [ ] Decide: Make normal user moderation and moderator moderation hidable (for moderators only)?
 - [ ] Make account deletion require password input
 - [ ] Add manual number re-sync button for admin 5
@@ -41,7 +39,7 @@
 - [ ] Check whether thread is deleted before posting message
 - [ ] Implement simple thread search
 - [ ] Formatting and URL support (and maaaayybbeee external images)
-- [ ] Ability to pin and lock threads
+- [ ] Ability to lock threads
 - [ ] Upon sending an edit for a post, scroll to that post again.
 - [ ] Would it make sense to use the same varible names for e.g. totalItems or gotoPage for threads and topics for the sake of the page menu?
 - [ ] Limit users to send max. one message per 15 seconds and 1 thread per week. (moderators exempt)

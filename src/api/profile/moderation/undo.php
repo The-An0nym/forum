@@ -8,7 +8,7 @@ require_once $path . '/functions/errors.php' ;
 
 echo response();
 
-function response() {
+function response() : string {
     // Get connection
     $conn = getConn();
 

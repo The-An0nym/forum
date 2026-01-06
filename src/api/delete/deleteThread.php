@@ -7,7 +7,7 @@ require_once $path . '/functions/statCount.php';
 
 echo response();
 
-function response() {
+function response() : string {
     // Get connection
     $conn = getConn();
 

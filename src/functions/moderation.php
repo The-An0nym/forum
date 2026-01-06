@@ -3,7 +3,7 @@
 $path = $_SERVER['DOCUMENT_ROOT'];
 require_once $path . '/functions/.connect.php' ;
 
-function createHistory(int $type, int $judgement, $id, $sender_id, int $reason, string $message) : array {
+function createHistory(int $type, int $judgement, string $id, string $sender_id, int $reason, string $message) : array {
     $conn = getConn();
     
     $mod_id = uniqid(rand(), true);
@@ -55,7 +55,7 @@ function createHistory(int $type, int $judgement, $id, $sender_id, int $reason, 
     return ["pass"];
 }
 
-function createReport(int $type, $id, $user_id, int $reason, string $message) : array {
+function createReport(int $type, string $id, string $user_id, int $reason, string $message) : array {
     $conn = getConn();
 
     $sql = "SELECT NULL FROM `mod_history` WHERE `id` = '$id' AND `sender_id` = '$user_id' AND `judgement` < 2";
@@ -192,7 +192,7 @@ function handleAuthChangeNotification(string $culp_id, string $sender_id, string
 
 /* DELETE */
 
-function deletePost($id, int $cause, bool $rest) : array {
+function deletePost(string $id, int $cause, bool $rest) : array {
     $conn = getConn();
 
     if($rest) {
@@ -211,7 +211,7 @@ function deletePost($id, int $cause, bool $rest) : array {
     return ["pass"];
 }
 
-function deleteThread($id, int $cause, bool $rest) : array {
+function deleteThread(string $id, int $cause, bool $rest) : array {
     $conn = getConn();
 
     if($rest) {
@@ -237,7 +237,7 @@ function deleteThread($id, int $cause, bool $rest) : array {
     return ["pass"];
 }
 
-function deleteAccount($id, bool $rest, bool $del_threads) : array {
+function deleteAccount(string $id, bool $rest, bool $del_threads) : array {
     $conn = getConn();
 
     if($rest) {
@@ -279,7 +279,7 @@ function deleteAccount($id, bool $rest, bool $del_threads) : array {
 
 /* PERMENANT DELETION */
 
-function permaDeleteExpired() {
+function permaDeleteExpired() : array {
     $delDatetime = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s')) - 60 * 60 * 24 * 60); // 60 days
 
     $sql = "DELETE FROM `posts` WHERE `deleted_datetime` < '$detlDatetime' AND `deleted` != 0";

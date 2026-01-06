@@ -2,7 +2,7 @@
 $path = $_SERVER['DOCUMENT_ROOT'];
 require_once $path . '/functions/.connect.php' ;
 
-function generateSlug($text) {
+function generateSlug(string $text) : string {
     $baseSlug = slugify($text);
 
     $conn = getConn();
@@ -26,7 +26,7 @@ function generateSlug($text) {
     return $slug;
 }
 
-function slugify($text) {
+function slugify(string $text) : string {
     $text = mb_convert_encoding($text, 'UTF-8', 'UTF-8');
     $text = preg_replace('~[^\pL\d]+~u', '-', $text); // Replace non-letter or digits by hyphens
     $text = iconv('UTF-8', 'ASCII//TRANSLIT', $text); // Transliterate > convert to ASCII

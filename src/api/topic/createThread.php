@@ -10,7 +10,7 @@ require_once $path . '/functions/format.php';
 
 echo response();
 
-function response() {
+function response() : string {
 
     // Get connection
     $conn = getConn();

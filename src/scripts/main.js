@@ -445,4 +445,18 @@ function switchTab(index) {
     tabs[i].className = "menu-tab" + (i == index ? " selected" : "");
     tabContent[i].style.display = i == index ? "block" : "none";
   }
+
+  window.location.href =
+    window.location.origin +
+    window.location.pathname +
+    "#" +
+    tabs[index].textContent;
+}
+
+// For initial load
+if (window.location.href.includes("#")) {
+  const tabs = document.getElementsByClassName("menu-tab");
+  const name = window.location.href.split("#")[1].toLowerCase();
+  for (let i = 0; i < tabs.length; i++)
+    if (tabs[i].textContent.toLowerCase() === name) switchTab(i);
 }

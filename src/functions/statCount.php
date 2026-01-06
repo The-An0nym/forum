@@ -52,7 +52,7 @@ function syncAll() : array {
     return ["pass"];
 }
 
-function countForPost($id, bool $rest) : array {
+function countForPost(string $id, bool $rest) : array {
     $path = $_SERVER['DOCUMENT_ROOT'];
     require_once $path . '/functions/.connect.php' ;
     $conn = getConn();
@@ -82,7 +82,7 @@ function countForPost($id, bool $rest) : array {
     return ["pass"];
 }
 
-function countForThread($id, bool $rest) : array {
+function countForThread(string $id, bool $rest) : array {
     $path = $_SERVER['DOCUMENT_ROOT'];
     require_once $path . '/functions/.connect.php' ;
     $conn = getConn();
@@ -123,7 +123,7 @@ function countForThread($id, bool $rest) : array {
 }
 
 // Note: This function should only be executed when the posts/threads are deleted
-function countForUser($id, bool $rest, bool $threads) : array {
+function countForUser(string $id, bool $rest, bool $threads) : array {
     $path = $_SERVER['DOCUMENT_ROOT'];
     require_once $path . '/functions/.connect.php' ;
     $conn = getConn();

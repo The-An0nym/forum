@@ -6,7 +6,7 @@ require_once $path . '/functions/sessionUpdates.php' ;
 
 echo response();
 
-function response() {
+function response() : string {
     // Get connection
     $conn = getConn();
 

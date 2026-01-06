@@ -15,7 +15,7 @@ if(!session_id()) {
 
 echo response();
 
-function response() {
+function response() : string {
     /* Guard clauses */
 
     if(!validateSession()) {

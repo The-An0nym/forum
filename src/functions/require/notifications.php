@@ -221,7 +221,7 @@ function setDelNotifByAssoc(string $assoc_id = "", int $type = -1, bool $del = t
     return ["pass"];
 }
 
-function deleteOldNotifs() {
+function deleteOldNotifs() : array {
     $conn = getConn();
 
     $delDatetime = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s')) - 60 * 60 * 24 * 60); // 60 days

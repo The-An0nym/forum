@@ -1,6 +1,6 @@
 <?php
 
-function getModHistory(int $page, array $params) {
+function getModHistory(int $page, array $params) : array {
     $path = $_SERVER['DOCUMENT_ROOT'];
 
     require_once $path . '/functions/.connect.php' ;
@@ -79,7 +79,7 @@ function getModHistory(int $page, array $params) {
     return $data;
 }
 
-function getReportHistory(int $page, int $clearance, array $params) {
+function getReportHistory(int $page, int $clearance, array $params) : array {
     $path = $_SERVER['DOCUMENT_ROOT'];
 
     require_once $path . '/functions/.connect.php' ;
@@ -130,7 +130,7 @@ function getReportHistory(int $page, int $clearance, array $params) {
     return $data;
 }
 
-function countModHistory(array $params = []) {
+function countModHistory(array $params = []) : int {
     $conn = getConn();
 
     $sql = "SELECT COUNT(*) AS count FROM mod_history mh
@@ -144,7 +144,7 @@ function countModHistory(array $params = []) {
     return (int)$result->fetch_assoc()["count"];
 }
 
-function countReportHistory(bool $unread = false, int $clearance = 0, array $params = []) {
+function countReportHistory(bool $unread = false, int $clearance = 0, array $params = []) : int {
     $conn = getConn();
 
     if($unread) {
@@ -164,7 +164,7 @@ function countReportHistory(bool $unread = false, int $clearance = 0, array $par
     return (int)$result->fetch_assoc()["count"];
 }
 
-function filter(array $params = []) {
+function filter(array $params = []) : string {
     $filt = "";
     if(isset($params["culp_handle"])) {
         $culp_handle = $params['culp_handle'];
@@ -185,7 +185,7 @@ function filter(array $params = []) {
     return $filt; 
 }
 
-function getHistoryHTML(bool $report, int $page, int $clearance, array $params) {
+function getHistoryHTML(bool $report, int $page, int $clearance, array $params) : string {
     if($report) {
         $data = getReportHistory($page, $clearance, $params);
     } else {
@@ -205,7 +205,7 @@ function getHistoryHTML(bool $report, int $page, int $clearance, array $params) 
     return $html;
 }
 
-function generateHTML($row, int $clearance, bool $report) {
+function generateHTML($row, int $clearance, bool $report) : string {
     if($row["type"] == 0) {
         $type = "post";
     } else if($row["type"] == 1) {
@@ -254,7 +254,7 @@ function generateHTML($row, int $clearance, bool $report) {
 HTML; // No whitespace allowed
 }
 
-function generateButton($mod_id, $culp_id, int $clearance, int $culp_clearance, int $type, int $judgement, bool $is_latest) {
+function generateButton(string $mod_id, string $culp_id, int $clearance, int $culp_clearance, int $type, int $judgement, bool $is_latest) : string {
     if(!session_id()) {
        session_start();
     } 
@@ -306,18 +306,18 @@ function generateButton($mod_id, $culp_id, int $clearance, int $culp_clearance, 
     return $button;
 }
 
-function judge($i) {
+function judge($i) : string {
     return ["reported", "reported", "deleted", "deleted w threads", "restored", "restored w threads", "demoted", "promoted"][$i];
 }
 
-function reason($i) {
+function reason($i) : string {
     return ["Spam", "Inappropriate", "Copyright", "Other", "Restored"][$i];
 }
 
-function buttonMarkRead($id) {
+function buttonMarkRead($id) : string {
     echo '<button onclick="markReport(1, \'' . $id . '\')">Mark read</button>';
 }
 
-function buttonMarkUnread($id) {
+function buttonMarkUnread($id) : string {
     echo '<button onclick="markReport(0, \'' . $id . '\')">Mark unread</button>';
 }
