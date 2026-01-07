@@ -120,6 +120,7 @@
   float: right;
   width: 1.5em;
   height: 1.5em;
+  margin-bottom: -1em; /* Prevents affecting border-bottom */
   font-size: 1em;
   padding: 0.1em;
   margin-left: 1em;

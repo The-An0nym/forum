@@ -95,3 +95,11 @@ async function changeUserAuth(id, reason, message, promote) {
 
   if (bod[0]) location.reload();
 }
+
+// To load the right tab
+if (window.location.href.includes("#")) {
+  const tabs = document.getElementsByClassName("menu-tab");
+  const name = window.location.href.split("#")[1].toLowerCase();
+  for (let i = 0; i < tabs.length; i++)
+    if (tabs[i].textContent.toLowerCase() === name) switchTab(i);
+}

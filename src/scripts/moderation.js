@@ -259,3 +259,11 @@ function paginateReport() {
     generateButton(true, false);
   }
 }
+
+// To load the right tab
+if (window.location.href.includes("#")) {
+  const tabs = document.getElementsByClassName("menu-tab");
+  const name = window.location.href.split("#")[1].toLowerCase();
+  for (let i = 0; i < tabs.length; i++)
+    if (tabs[i].textContent.toLowerCase() === name) switchTab(i);
+}
