@@ -54,6 +54,10 @@ function getPosts(string $slug, int $page) : array {
     
     $result = $conn->query($sql);
 
+    // Formatting
+    $Parsedown = new Parsedown();
+    $Parsedown->setSafeMode(true);
+
     $data = [];
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
@@ -73,6 +77,7 @@ function getPosts(string $slug, int $page) : array {
             }
             $row["created"] = timeAgo($row["created"]);
 
+            $row["content"] = $Parsedown->text($row["content"]);
 
             $data[] = $row;
         }
