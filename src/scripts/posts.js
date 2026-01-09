@@ -165,13 +165,17 @@ function toggleSibling(ele) {
 
 /* EDITING POSTS */
 
-function editPost(id) {
+async function editPost(id) {
+  // TODO loading
+  const bod = await postData("/api/thread/getEdit.php", `i=${id}`);
+  if (!bod[0]) return; // Fail
+
   // Reset Posts
   const allPosts = document.getElementsByClassName("content");
   for (let i of allPosts) i.style.display = "inline";
 
   const post = document.getElementById(id).querySelector(".content");
-  const textCont = post.textContent;
+  const textCont = bod[1]; // Set content
   post.style.display = "none"; // Hide
 
   // Create textarea and buttons

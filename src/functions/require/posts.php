@@ -2,7 +2,8 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/functions/.connect.php';
 
 function getPosts(string $slug, int $page) : array {   
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/functions/validateSession.php';;
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/functions/external/parsedown/parsedown.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/functions/validateSession.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/functions/time.php';
 
     // Get connection
@@ -56,7 +57,7 @@ function getPosts(string $slug, int $page) : array {
 
     // Formatting
     $Parsedown = new Parsedown();
-    $Parsedown->setSafeMode(true);
+    // $Parsedown->setSafeMode(true); // Disable safe mode
 
     $data = [];
     if ($result->num_rows > 0) {

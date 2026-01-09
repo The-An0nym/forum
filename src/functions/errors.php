@@ -40,6 +40,7 @@ function getErrorArr(string $lang = "en") : array {
             "emptyCat" => "This category is empty", 
             "emptyThrd" => "This thread is empty", 
             "404user" => "This account does not exist",
+            "404post" => "This post does not exist",
             "404thrd" => "This thread does not exist",
             "404cat" => "This category does not exist",
             "404mod" => "This moderation row does not exist",
