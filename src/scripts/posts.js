@@ -175,17 +175,20 @@ async function editPost(id) {
   for (let i of allPosts) i.style.display = "inline";
 
   const post = document.getElementById(id).querySelector(".content");
-  const textCont = bod[1]; // Set content
   post.style.display = "none"; // Hide
 
   // Create textarea and buttons
   const editWrapper = document.createElement("span");
   editWrapper.className = "edit-wrapper";
 
+  // Set content (unescaping characters)
+  const dummy = document.createElement("span");
+  dummy.innerHTML = bod[1];
+
   const textarea = document.createElement("textarea");
   textarea.className = "editTxt";
   textarea.id = "editTxt";
-  textarea.value = textCont;
+  textarea.value = dummy.innerText;
   editWrapper.appendChild(textarea);
 
   const send = document.createElement("button");

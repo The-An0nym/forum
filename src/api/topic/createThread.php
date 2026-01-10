@@ -5,8 +5,6 @@ require_once $path . '/functions/validateSession.php';
 require_once $path . '/functions/slug.php' ;
 require_once $path . '/functions/errors.php' ;
 require_once $path . '/functions/require/threads.php' ;
-require_once $path . '/functions/format.php';
-
 
 echo response();
 

@@ -4,7 +4,6 @@ require_once $path . '/functions/.connect.php' ;
 require_once $path . '/functions/validateSession.php';
 require_once $path . '/functions/errors.php' ;
 require_once $path . '/functions/require/posts.php' ;
-require_once $path . '/functions/format.php';
 
 echo response();
 
@@ -20,14 +19,6 @@ function response() : string {
         return jsonErr("login");
     }
 
-    $json_params = file_get_contents("php://input");
-
-    if (strlen($json_params) === 0 || !json_validate($json_params)) {
-        return jsonErr("args");
-    }
-
-    $json_obj = json_decode($json_params);
-
     if(!isset($_POST["i"])) {
         return jsonErr("args");
     }
@@ -41,7 +32,7 @@ function response() : string {
         return jsonErr("404post");
     }
     
-    $data = $result->fetch_assoc()["cnt"];
+    $data = $result->fetch_assoc()["content"];
 
     return json_encode(array(
         "status" => "pass", 

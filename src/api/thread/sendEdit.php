@@ -4,7 +4,6 @@ require_once $path . '/functions/.connect.php' ;
 require_once $path . '/functions/validateSession.php';
 require_once $path . '/functions/errors.php' ;
 require_once $path . '/functions/require/posts.php' ;
-require_once $path . '/functions/format.php';
 
 echo response();
 
@@ -45,7 +44,7 @@ function response() : string {
     $user_id = $_SESSION["user_id"];
 
     // Rate limiting
-    $sql = "SELECT COUNT(*) AS `cnt` FROM `posts` WHERE `user_id` = '$user_id' AND (`created` > DATE_SUB(now(), INTERVAL 15 SECONDS) OR (`edited_datetime` > DATE_SUB(now(), INTERVAL 15 SECONDS))";
+    $sql = "SELECT COUNT(*) AS `cnt` FROM `posts` WHERE `user_id` = '$user_id' AND (`created` > DATE_SUB(CONVERT_TZ(NOW(),'SYSTEM','+00:00'), INTERVAL 15 SECOND) OR (`edited_datetime` > DATE_SUB(CONVERT_TZ(NOW(),'SYSTEM','+00:00'), INTERVAL 15 SECOND)))";
     $result = $conn->query($sql);
     $cnt = $result->fetch_assoc()["cnt"];
     if($cnt > 0) {
