@@ -224,7 +224,7 @@ async function editPost(id) {
 
 function cancelEdit(id) {
   const post = document.getElementById(id).querySelector(".post-data");
-  post.querySelector(".content").style.display = "flex";
+  post.querySelector(".content").style.display = "inline";
   if (post.parentElement.querySelector(".edit-wrapper"))
     post.parentElement.querySelector(".edit-wrapper").remove();
 }

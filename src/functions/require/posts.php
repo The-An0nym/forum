@@ -57,7 +57,7 @@ function getPosts(string $slug, int $page) : array {
 
     // Formatting
     $Parsedown = new Parsedown();
-    // $Parsedown->setSafeMode(true); // Disable safe mode
+    $Parsedown->setSafeMode(true);
 
     $data = [];
     if ($result->num_rows > 0) {
@@ -77,8 +77,8 @@ function getPosts(string $slug, int $page) : array {
                 $row["edited"] = false;
             }
             $row["created"] = timeAgo($row["created"]);
-
-            $row["content"] = $Parsedown->text($row["content"]);
+            // TODO rethink when & where decoding/encoding takes place...
+            $row["content"] = $Parsedown->text(htmlspecialchars_decode(nl2br($row["content"])));
 
             $data[] = $row;
         }

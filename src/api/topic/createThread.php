@@ -33,6 +33,16 @@ function response() : string {
         return jsonErr("args");
     }
 
+    $user_id = $_SESSION["user_id"];
+
+    // Rate limiting
+    $sql = "SELECT COUNT(*) AS `cnt` FROM `posts` WHERE `user_id` = '$user_id' AND `created` > DATE_SUB(CONVERT_TZ(NOW(),'SYSTEM','+00:00'), INTERVAL 15 SECOND)";
+    $result = $conn->query($sql);
+    $cnt = $result->fetch_assoc()["cnt"];
+    if($cnt > 0) {
+        return jsonErr("thrdRate");
+    }
+
     $slug = $json_obj->s;
 
     $sql = "SELECT `id` FROM `categories` WHERE `slug` = '$slug'";
@@ -59,8 +69,6 @@ function response() : string {
     } else if(strlen($threadName) < 8) {
         return jsonErr("thrdMin");
     }
-
-    $user_id = $_SESSION["user_id"];
 
     // Create Thread
     $dtime = date('Y-m-d H:i:s');

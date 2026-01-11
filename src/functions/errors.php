@@ -36,6 +36,7 @@ function getErrorArr(string $lang = "en") : array {
             "contMax" => "Content needs to be less than or equal to 2000 characters long",
             "thrdMin" => "Thread title needs to be at least 8 characters long",
             "thrdMax" => "Thread title needs to be less than or equal to 64 characters long",
+            "thrdRate" => "Rate limit exceeded: Please wait a few days before trying again",
             "postRate" => "Rate limit exceeded: Please wait a few seconds before posting again",
             "emptyCat" => "This category is empty", 
             "emptyThrd" => "This thread is empty", 
