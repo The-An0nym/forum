@@ -77,8 +77,8 @@ function getPosts(string $slug, int $page) : array {
                 $row["edited"] = false;
             }
             $row["created"] = timeAgo($row["created"]);
-            // TODO rethink when & where decoding/encoding takes place...
-            $row["content"] = $Parsedown->text(htmlspecialchars_decode(nl2br($row["content"])));
+            // Note: Post is unescaped
+            $row["content"] = $Parsedown->text($row["content"]);
 
             $data[] = $row;
         }
