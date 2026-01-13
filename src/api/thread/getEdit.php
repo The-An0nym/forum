@@ -32,7 +32,7 @@ function response() : string {
     }
     
     $data = $result->fetch_assoc()["content"];
-    $data = nl2br(htmlspecialchars($data)); // Escape (post data is saved unescaped)
+    $data = nl2br($data); // Set new lines
 
     return json_encode(array(
         "status" => "pass", 
