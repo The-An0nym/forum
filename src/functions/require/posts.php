@@ -58,6 +58,7 @@ function getPosts(string $slug, int $page) : array {
     // Formatting
     $Parsedown = new Parsedown();
     $Parsedown->setSafeMode(true);
+    $Parsedown->breaksEnabled(true);
 
     $data = [];
     if ($result->num_rows > 0) {

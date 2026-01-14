@@ -107,15 +107,3 @@
 #post-content {
   margin-bottom: 1em;
 }
-
-/* Post Formatting */
-p {
-  margin: 0;
-}
-
-h1,
-h2,
-h3,
-h4 {
-  margin: 0.25em 0;
-}

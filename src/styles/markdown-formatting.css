@@ -1,0 +1,27 @@
+blockquote {
+  color: var(--text-muted);
+  margin: 0.5em 0.5em 0.5em 0;
+  border-left: 0.25em solid var(--text-muted);
+  padding-left: 0.5em;
+}
+
+p {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0.25em 0;
+}
+
+code {
+  background-color: var(--bg-dark);
+  padding: 0.1em;
+  border-radius: 0.1em;
+}
+
+.content a {
+  color: revert; /* undo main.css anchor color */
+}

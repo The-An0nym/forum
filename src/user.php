@@ -69,6 +69,7 @@ if($result->num_rows === 1) {
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/styles/main.css" />
     <link rel="stylesheet" href="/styles/user.css" />
+    <link rel="stylesheet" href="/styles/markdown-formatting.css" />
     <link rel="stylesheet" href="/styles/tab-menu.css" />
 </head>
 <body>
@@ -125,14 +126,21 @@ if($result->num_rows === 1) {
                 ORDER BY p.created DESC
                 LIMIT 10";
         $result = $conn->query($sql);
+
+        $Parsedown = new Parsedown();
+        $Parsedown->setSafeMode(true);
+        $Parsedown->breaksEnabled(true);
+
         if($result->num_rows > 0) {
-            while($row = $result->fetch_assoc()) {?>
+            while($row = $result->fetch_assoc()) {
+                $content = $Parsedown->text(htmlspecialchars_decode($row["content"]));
+                ?>
             <span class="post history-item">
                 <span class="datetime"><?= timeAgo($row["created"]); ?></span>
                 <span class="thread">
                     <a href="/thread/<?= $row['slug']; ?>"><?= $row["name"]; ?></a>
                 </span>
-                <span class="content"><?= $row["content"]; ?></span>
+                <span class="content"><?= $content ?></span>
             </span>
             <?php }
         } else {

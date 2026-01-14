@@ -33,6 +33,7 @@ if(isset($_GET["p"])) {
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/styles/main.css" />
     <link rel="stylesheet" href="/styles/posts.css" />
+    <link rel="stylesheet" href="/styles/markdown-formatting.css" />
 </head>
 <body>
     <?php generateMenu(); ?>
