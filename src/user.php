@@ -5,6 +5,7 @@ require_once $path . '/functions/time.php' ;
 require_once $path . '/functions/validateSession.php';
 require_once $path . "/assets/menu.php";
 require_once $path . "/assets/generateSVG.php";
+require_once $path . '/functions/external/parsedown/parsedown.php';
 
 if(!session_id()) {
     session_start();
@@ -129,7 +130,7 @@ if($result->num_rows === 1) {
 
         $Parsedown = new Parsedown();
         $Parsedown->setSafeMode(true);
-        $Parsedown->breaksEnabled(true);
+        $Parsedown->setBreaksEnabled(true);
 
         if($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
