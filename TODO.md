@@ -1,71 +1,54 @@
 # TODO:
 
-## General
-
-- [ ] add rate limiting to all queries (via session and common endpoint?)
-- [ ] Update schematic + sql codes to include edited_datetime
-- [ ] Add pinned to Schematic and SQL tables creation code & make new threads "pinnable" by admins
-- [ ] Somehow undo formatting when editing post
-- [ ] Store country in database instead of making repeated calls in session tab
-- [ ] Still receiving notifications from deleted users (posts) -> Is that really necessary?
-- [ ] Maybe add more auth -> One for being able to create threads and one for being able to report. Then allow both of those after posting 10 posts.
-- [ ] Refactor pop-ups to be handled through ONE JS function (consider using JSON objects)
-- [ ] Redesign moderation panel for /user/
-- [ ] Cleanup
-- [ ] Styling -> E.g. Box shadows (not all have them yet // Standardize it)
-- [ ] Rethink: Does using Javascript for all subsequent loads make sense?
-- [ ] Check if permanent deletion is implemented for all non-permenant data (after 60 days)
-- [ ] Redesign http error pages
-- [ ] Implement languages & customizable language support
-- [ ] Format time more nicely -> Maybe format with XXX Ago and in final state the date instead of converting to client's time? Or store in cookie//Session
-- [ ] Unsubscribe deleted users from all threads in a recoverable fashion (Set to 2/3 instead of 0/1) -> Or just don't unsubscribe deleted users (and they will keep receiving notifications until hard deletion)
-- [ ] Use ` around column and table names for better SQL formatting
-- [ ] Moderation rows older than 60 days cannot be undone
-- [ ] Test user sessions and having several sessions across different devices
-- [ ] Add ToS, Privacy Policy and cookies warning
-
-## Profile/
-
-- [ ] Question: How to handle user settings save? -> Refresh or save pop-up?
-- [ ] Fix aspect ratio of preview
-- [ ] Decide: Make normal user moderation and moderator moderation hidable (for moderators only)?
+## Safety & Authentication
+- [ ] Add rate limiting to all write queries via session
+- [ ] Limit ability to create new threads to users who have more than 20 posts
 - [ ] Make account deletion require password input
-- [ ] Add manual number re-sync button for admin 5
-- [ ] Scroll up the moderation history when moving from one page to another
-- [ ] List of subscribed threads (?)
+- [ ] Refactor authentication to be more secure and/or efficient if necessary and possible.
 
-## Categories, Threads and Posts
+## Readme & Documentation
+- [ ] Update schematic and SQL table creation code to reflect all new changes - e.g. pinned threads, edited_datetime
+- [ ] Add function documentation to all JavaScript and PHP functions
 
-- [ ] Check whether thread is deleted before posting message
-- [ ] Implement simple thread search
-- [ ] Formatting and URL support (and maaaayybbeee external images)
+## Continue implementation of
+- [ ] Language support
+
+## Bug fixes & Redesign
+- [ ] Redesign moderation panel for /user/ page
+- [ ] Redesign moderation history and report history for /profile/moderation/ page
+- [ ] Scroll up moderation history and report history page upon loading next or previous page (and/or implement proper pages)
+- [ ] Standardize the Box Shadow styling (not all components have it yet either)
+- [ ] Redesign HTTP error pages
+- [ ] Redesign footer with better patterns, i.e. contact us, privacy policy link, ToS link, etc. 
+- [ ] Time format - it may be good to display XXX Ago for dates less than 3 days and the dd/mm/yyyy date for dates older than 3 days.
+- [ ] Standardize JavaScript pop-up function(s)
+- [ ] Use ` around all eligible names in SQL queries
+- [ ] Disallow undo for moderation rows older than 60 days
+- [ ] Disallow anyone from posting on deleteed threads
+- [ ] Upon sending an edit for a post, scroll to said post again
+- [ ] Standardize wording of "clearance" and "auth", preferably "auth"
+- [ ] Standardize order of functions for deleting/undoing items - NOTE, the order has an impact on functionality, i.e. wrong order *will* break things.
+- [ ] Cannot delete threads of already deleted accounts (thread count issue occurs)
+- [ ] Track include statements -> If a file is included multiple times, consider rethinking structure (collissions are avoided due to usage of require_once)
+
+## Ideas & Rethink
+- [ ] Allow users to edit the thread name of their own threads (once a week except after creation) which changes Slug
+- [ ] Store country in database to reduce amount of API calls
+- [ ] Deleting notifications initiated by deleted users.
+- [ ] Does using JavaScript for all subsequent loads make sense given the amount of data being transferred relative to the total site size?
+- [ ] How user settings are saved: A) Refresh page upon any save or B) Save all components individually and give a success message
+- [ ] Add manual re-sync button for Super Admin to sync all numeric values (API already implemented)
+- [ ] Simple thread search (searching titles only)
 - [ ] Ability to lock threads
-- [ ] Upon sending an edit for a post, scroll to that post again.
-- [ ] Would it make sense to use the same varible names for e.g. totalItems or gotoPage for threads and topics for the sake of the page menu?
-- [ ] Limit users to send max. one message per 15 seconds and 1 thread per week. (moderators exempt)
-- [ ] Allow users to edit thread names (with time limit) -> Does this change the slug?
+- [ ] Implement or reject: Using the same variable names (totalItems, gotoPage) for /threads/ and /topics/ for the page menu
+- [ ] Include clearance in session?
 
-## Account / Menu / Footer
+## To check
+- [ ] Permenant deletion for all non-permenant data (60 days)
+- [ ] Expired session deletion (5 days, 1/100 chance)
+- [ ] Current implementation of (un)subscribe feature for deleted users. Goal: No change to subscription entry and delete the subscription upon hard deletion.
+- [ ] Session across multiple different devices.
+- [ ] Is `location.reload()` necessary across all instances (JavaScript files)
 
-- [ ] Make login or sign-up pop-up hide when sign-up/login is pressed respectively
-- [ ] Adress, full legal name, etc. (pattern)
-- [ ] Redesign footer and menu
-
-## Authentication / Sessions
-
-- [ ] Decide: Include clearance in the session? (Have already done so on login, but not sure how to verify)
-- [ ] Refactor the way it is authenticated (generally speaking)
-
-## Scripts
-
-- [ ] Cleanup
-- [ ] Check if location.reload() is necessary across all instances
-
-## API
-
-- [ ] Organize and clean up
-- [ ] Re-organize order of functions for deleting/undoing things and standardize them (first count, then history, then soft delete?)
-- [ ] Cannot delete threads of already deleted accounts -> FIX THIS (thread count issue)
-- [ ] Consider seperating user from post data (reducing file size)
-- [ ] Re-organize all include statements to make sure they are only included ONCE (relying on !function_exists possible, but unclean)
-- [ ] Standardize introduction of session and when it reads the user_id
+## To add...
+- [ ] ToS, Privacy Policy, Cookies pop-up...
