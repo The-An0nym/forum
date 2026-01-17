@@ -86,9 +86,11 @@ This project uses [geojs](https://www.geojs.io/) to figure out the origin of a c
 | 2     | Moderator   | Can delete and restore threads                                       |
 | 3     | Admin       | Can ban and restore users                                            |
 | 4     | Admin       | Can promote and demote up to 0 <= val < 4                            |
-| 5     | Super admin | Can promote and demote up to 0 <= val < 5 and view all deleted items |
+| 5     | Super Admin | Can promote and demote up to 0 <= val < 5 and view all deleted items |
 
 Note: Restoration of deleted posts/threads or banned users can only be done if your moderation level is higher or equal to the moderator that deleted the post/thread or banned the user in the first place.
+
+Note: The Super Admin has a few more special rights, like pinning threads.
 
 ### Mod_History
 
