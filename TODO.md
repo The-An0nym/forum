@@ -40,15 +40,32 @@
 - [ ] Add manual re-sync button for Super Admin to sync all numeric values (API already implemented)
 - [ ] Simple thread search (searching titles only)
 - [ ] Ability to lock threads
-- [ ] Implement or reject: Using the same variable names (totalItems, gotoPage) for /threads/ and /topics/ for the page menu
-- [ ] Include clearance in session?
+- [ ] Upon sending an edit for a post, scroll to that post again.
+- [ ] Would it make sense to use the same varible names for e.g. totalItems or gotoPage for threads and topics for the sake of the page menu?
+- [ ] Limit users to send max. one message per 15 seconds and 1 thread per week. (moderators exempt)
+- [ ] Allow users to edit thread names (with time limit) -> Does this change the slug?
 
-## To check
-- [ ] Permenant deletion for all non-permenant data (60 days)
-- [ ] Expired session deletion (5 days, 1/100 chance)
-- [ ] Current implementation of (un)subscribe feature for deleted users. Goal: No change to subscription entry and delete the subscription upon hard deletion.
-- [ ] Session across multiple different devices.
-- [ ] Is `location.reload()` necessary across all instances (JavaScript files)
+## Account / Menu / Footer
 
-## To add...
-- [ ] ToS, Privacy Policy, Cookies pop-up...
+- [ ] Make login or sign-up pop-up hide when sign-up/login is pressed respectively
+- [ ] Adress, full legal name, etc. (pattern)
+- [ ] Redesign footer and menu
+
+## Authentication / Sessions
+
+- [ ] Decide: Include clearance in the session? (Have already done so on login, but not sure how to verify)
+- [ ] Refactor the way it is authenticated (generally speaking)
+
+## Scripts
+
+- [ ] Cleanup
+- [ ] Check if location.reload() is necessary across all instances
+
+## API
+
+- [ ] Organize and clean up
+- [ ] Re-organize order of functions for deleting/undoing things and standardize them (first count, then history, then soft delete?)
+- [ ] Cannot delete threads of already deleted accounts -> FIX THIS (thread count issue)
+- [ ] Consider seperating user from post data (reducing file size)
+- [ ] Re-organize all include statements to make sure they are only included ONCE (relying on !function_exists possible, but unclean)
+- [ ] Standardize introduction of session and when it reads the user_id
