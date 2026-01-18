@@ -80,10 +80,10 @@
   margin: 0.25em 0;
   justify-content: space-between;
   display: grid;
-  grid-template-columns: 5% 35% 15% 10% 20% auto;
+  grid-template-columns: 10% 10% 10% 1em 1em auto 1em;
 }
 
-.datetime-history,
+.mod-datetime,
 .deleted-datetime,
 .deleted-created {
   font-size: 0.5em;
@@ -131,8 +131,8 @@
   padding-top: 0.25em;
 }
 
-.creator-username,
-.sender-username {
+.mod-to,
+.mod-by {
   font-weight: 600;
 }
 
@@ -171,8 +171,9 @@
 }
 
 /* Moderation */
-.history-summary {
+.history:hover {
   cursor: pointer;
+  background-color: var(--bg-light);
 }
 
 .delete-session.disabled {

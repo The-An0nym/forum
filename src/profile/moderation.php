@@ -163,8 +163,9 @@ require_once $path . '/functions/time.php';
                     </div>
                     <div id="moderation-header">
                         <div>Date</div>
-                        <div>Action</div>
-                        <div>Summary</div>
+                        <div>By</div>
+                        <div>To</div>
+                        <div>Type</div>
                         <div>Reason</div>
                         <div>Message</div>
                         <div>Action</div>
@@ -199,8 +200,9 @@ require_once $path . '/functions/time.php';
                     </div>
                     <div id="report-header">
                         <div>Date</div>
-                        <div>Action</div>
-                        <div>Summary</div>
+                        <div>By</div>
+                        <div>To</div>
+                        <div>Type</div>
                         <div>Reason</div>
                         <div>Message</div>
                         <div>Action</div>
