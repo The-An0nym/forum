@@ -65,10 +65,13 @@ async function signUp() {
     return;
   }
 
+  const country = await getClientCountry();
+
   const obj = {};
   obj.u = user;
   obj.h = handle;
   obj.p = pswd;
+  obj.c = country;
 
   const bod = await postJson("/api/menu/signUp.php", obj);
 
@@ -126,7 +129,9 @@ async function login() {
   if (!checkHandle(handle)) return;
   if (!checkPassword(pswd)) return;
 
-  const body = `h=${encodeURIComponent(handle)}&p=${encodeURIComponent(pswd)}`;
+  const country = await getClientCountry();
+
+  const body = `h=${encodeURIComponent(handle)}&p=${encodeURIComponent(pswd)}&c=${encodeURIComponent(country)}`;
 
   const bod = await postData("/api/menu/login.php", body);
 
@@ -139,4 +144,8 @@ async function login() {
 async function logout() {
   const bod = await getData("/api/menu/logout.php");
   if (bod[0]) location.reload();
+}
+
+function getClientCountry() {
+  return fetch(`https://get.geojs.io/v1/ip/country.json`).then(x => x.json()).then(x => x.name);
 }

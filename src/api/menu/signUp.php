@@ -22,13 +22,14 @@ function response() : string {
 
     $json_obj = json_decode($json_params);
 
-    if(!isset($json_obj->u, $json_obj->h, $json_obj->p)) {
+    if(!isset($json_obj->u, $json_obj->h, $json_obj->p, $json_obj->c)) {
         return jsonErr("args");
     }
 
     $username = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($json_obj->u));
     $handle = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($json_obj->h));
     $password = $json_obj->p;
+    $country = htmlspecialchars($json_obj->c);
 
     if(preg_match('/^[A-z0-9.\-_]*$/i', $handle) !== 1) {
         return getErr("handReg");
@@ -77,8 +78,8 @@ function response() : string {
     $user_agent = $_SERVER['HTTP_USER_AGENT'];
     $session_id = base64_encode(random_bytes(64));
     $dtime = date('Y-m-d H:i:s');
-    $sql = "INSERT INTO `sessions` (`user_id`, `ip`, `user_agent`, `session_id`, `datetime`)
-    VALUES ('$user_id', '$ip', '$user_agent', '$session_id', '$dtime')";
+    $sql = "INSERT INTO `sessions` (`user_id`, `ip`, `user_agent`, `country`, `session_id`, `datetime`)
+    VALUES ('$user_id', '$ip', '$user_agent', '$country', '$session_id', '$dtime')";
 
     if ($conn->query($sql) === FALSE) {
         return jsonErr("sigFail");

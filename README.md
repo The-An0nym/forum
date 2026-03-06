@@ -219,6 +219,7 @@ CREATE TABLE `sessions` (
   `user_id` varchar(33) DEFAULT NULL,
   `ip` text DEFAULT NULL,
   `user_agent` text DEFAULT NULL,
+  `country` VARCHAR(64) NULL DEFAULT NULL, 
   `session_id` varchar(88) DEFAULT NULL,
   `datetime` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;

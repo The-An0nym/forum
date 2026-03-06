@@ -67,7 +67,7 @@ require_once $path . '/functions/time.php';
             <div id="sessions" class="tab-content">
             <?php
 
-            $sql = "SELECT `ip`, `user_agent`, `datetime`, `session_id` FROM `sessions` WHERE `user_id` = '$user_id'";
+            $sql = "SELECT `ip`, `user_agent`, `country`, `datetime`, `session_id` FROM `sessions` WHERE `user_id` = '$user_id'";
             $result = $conn->query($sql);
 
                 $session_id = $_SESSION["session_id"];
@@ -82,7 +82,7 @@ require_once $path . '/functions/time.php';
                     ?>
                     <span class="session-item" id="<?= $row_session_id; ?>">
                         <span class="user-agent"><?= getDeviceSVG($row["user_agent"]); ?></span>
-                        <span class="location">unknown</span>
+                        <span class="location"><?= $row["country"]; ?></span>
                         <span class="ip"><?= $row["ip"]; ?></span>
                         <span class="session-datetime"><?= timeAgo($row["datetime"]); ?></span>
                         <?= $revokeButton; ?>

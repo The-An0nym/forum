@@ -9,6 +9,7 @@
 ## Readme & Documentation
 - [ ] Update schematic and SQL table creation code to reflect all new changes - e.g. pinned threads, edited_datetime
 - [ ] Add function documentation to all JavaScript and PHP functions
+- [ ] Re-generate all SQL table creation codes
 
 ## Continue implementation of
 - [ ] Language support
@@ -33,7 +34,6 @@
 
 ## Ideas & Rethink
 - [ ] Allow users to edit the thread name of their own threads (once a week except after creation) which changes Slug
-- [ ] Store country in database to reduce amount of API calls
 - [ ] Deleting notifications initiated by deleted users.
 - [ ] Does using JavaScript for all subsequent loads make sense given the amount of data being transferred relative to the total site size?
 - [ ] How user settings are saved: A) Refresh page upon any save or B) Save all components individually and give a success message
