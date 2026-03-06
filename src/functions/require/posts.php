@@ -14,16 +14,16 @@ function getPosts(string $slug, int $page) : array {
         return [];
     }   
 
-    $myClearance = 0;
+    $myAuth = 0;
     if(validateSession()) {
         $user_id = $_SESSION['user_id'];
         $sql = "SELECT `clearance` FROM `users` WHERE `user_id` = '$user_id'";
         $result = $conn->query($sql);
-        $myClearance = $result->fetch_assoc()["clearance"];
+        $myAuth = $result->fetch_assoc()["clearance"];
     }
 
     $deleted = " AND p.deleted = 0 AND t.deleted = 0 ";
-    if($myClearance >= 2) {
+    if($myAuth >= 2) {
         $deleted = " AND (p.deleted = 0 OR p.deleted = 4) "; // Can view deleted threads
     }
     
@@ -65,7 +65,7 @@ function getPosts(string $slug, int $page) : array {
         while($row = $result->fetch_assoc()) {
             $row["auth"] = $row["clearance"];
 
-            if($row["clearance"] < $myClearance) {
+            if($row["clearance"] < $myAuth) {
                 $row["clearance"] = 1;
             } else {
                 $row["clearance"] = 0;

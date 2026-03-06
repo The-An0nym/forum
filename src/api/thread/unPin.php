@@ -26,10 +26,10 @@ function response() : string {
     $sql = "SELECT `clearance` FROM `users` WHERE `user_id` = '$user_id' LIMIT 1";
 
     $result = $conn->query($sql);
-    $clearance = $result->fetch_assoc()["clearance"];
+    $auth = $result->fetch_assoc()["clearance"];
 
     // Only lvl 5 admins can pin threads
-    if($clearance < 5) {
+    if($auth < 5) {
         return jsonErr("auth");
     }
 

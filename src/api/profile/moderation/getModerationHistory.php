@@ -56,16 +56,16 @@ function response() : string {
 
     $result = $conn->query($sql);
 
-    $clearance = $result->fetch_assoc()["clearance"];
+    $auth = $result->fetch_assoc()["clearance"];
 
-    if($clearance < 1) {
+    if($auth < 1) {
         return jsonErr("auth");
     }
 
-    $data = getHistoryHTML($report, $page, $clearance, $params);
+    $data = getHistoryHTML($report, $page, $auth, $params);
     if($report) {
-        $amount = countReportHistory(false, $clearance, $params);
-        $unread = countReportHistory(true, $clearance, $params);
+        $amount = countReportHistory(false, $auth, $params);
+        $unread = countReportHistory(true, $auth, $params);
 
         return json_encode(
             array(

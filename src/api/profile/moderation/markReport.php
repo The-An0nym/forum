@@ -38,14 +38,14 @@ function response() : string {
         return jsonErr("404user");
     }
 
-    $clearance = (int)$result->fetch_assoc()["clearance"];
+    $auth = (int)$result->fetch_assoc()["clearance"];
 
     $sql = "SELECT `type` FROM `mod_history` WHERE `mod_id` = '$id' LIMIT 1";
 
     $result = $conn->query($sql);
     $type = (int)$result->fetch_assoc()["type"];
 
-    if($type >= $clearance) {
+    if($type >= $auth) {
         return jsonErr("auth");
     }
 

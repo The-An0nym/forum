@@ -42,7 +42,7 @@ function response() : string {
 
     $conn = getConn();
     $user_id = $_SESSION['user_id'];
-    $sql = "SELECT u.clearance, b.clearance AS user_clearance 
+    $sql = "SELECT u.clearance, b.clearance AS user_auth 
                 FROM users u 
             JOIN users b 
                 ON b.user_id = '$id' 
@@ -56,8 +56,8 @@ function response() : string {
     }
 
     $row = $result->fetch_assoc();
-    $clearance = $row['clearance'];
-    $user_clearance = $row['user_clearance'];
+    $auth = $row['clearance'];
+    $user_auth = $row['user_auth'];
 
     // To make sure you cannot promote to your own auth level
     $const = 0;
@@ -65,7 +65,7 @@ function response() : string {
         $const = 1;
     }
 
-    if($clearance >= 4 && $user_clearance < $clearance - $const) {
+    if($auth >= 4 && $user_auth < $auth - $const) {
         // Push onto history
         $err = jsonEncodeErrors(createHistory(2, 6 + $const, $id, $user_id, $reason, $message));
         if($err !== "") {

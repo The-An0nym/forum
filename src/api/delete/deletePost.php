@@ -49,11 +49,11 @@ function response() : string {
     }
 
     $row = $result->fetch_assoc();
-    $clearance = (int)$row['clearance'];
+    $auth = (int)$row['clearance'];
     $post_user_id = $row['user_id'];
     $user_id === $_SESSION["user_id"];
 
-    if($post_user_id !== $user_id && $clearance >= 1) {
+    if($post_user_id !== $user_id && $auth >= 1) {
         if(isset($json_obj->m, $json_obj->r)) {
             $reason = (int)$json_obj->r;
             $message = preg_replace('/^[\p{Z}\p{C}]+|[\p{Z}\p{C}]+$/u', '', htmlspecialchars($json_obj->m));
@@ -65,7 +65,7 @@ function response() : string {
         }
     }
 
-    if($post_user_id !== $user_id && $clearance == 0) {
+    if($post_user_id !== $user_id && $auth == 0) {
         return jsonErr("auth");
     }
 

@@ -48,14 +48,14 @@ require_once $path . '/functions/time.php';
             $image_dir = $row["image_dir"];
             $posts = $row["posts"];
             $threads = $row["threads"];
-            $clearance = $row["clearance"];
+            $auth = $row["clearance"];
     ?>
 
             <div id="tab-menu-bar">
                 <span class="menu-tab selected" id="sessions-tab" onclick="switchTab(0)">Session</span>
                 <span class="menu-tab" id="sessions-tab" onclick="switchTab(1)">Deleted posts</span>
                 <?php 
-                    if($clearance > 0) { ?>
+                    if($auth > 0) { ?>
                     <span class="menu-tab" id="moderation-tab" onclick="switchTab(2)">Moderation</span>
                     <span class="menu-tab" id="report-tab" onclick="switchTab(3)">Reports</span>
                 <?php
@@ -134,9 +134,9 @@ require_once $path . '/functions/time.php';
             </div>
             <?php
             // MODERATION
-            if($clearance > 0) {
+            if($auth > 0) {
                 $totalMod = (int)countModHistory();
-                $totalReport = (int)countReportHistory(false, $clearance);
+                $totalReport = (int)countReportHistory(false, $auth);
                 ?>
                 <div class="tab-content" style="display: none;">
                     <div id="mod-filter">
@@ -171,7 +171,7 @@ require_once $path . '/functions/time.php';
                         <div>Action</div>
                     </div>
                     <div id="moderation-history">
-                    <?= getHistoryHTML(false, 0, $clearance, []); ?>
+                    <?= getHistoryHTML(false, 0, $auth, []); ?>
                     </div>
             </div>
             <div class="tab-content" style="display: none;">                   
@@ -195,7 +195,7 @@ require_once $path . '/functions/time.php';
                             </label>
                             <button class="action-button" onclick="getModerationHistory(0, true)">Filter</button>
                             <span id="report-result"><?= $totalReport; ?> results</span>
-                            <span id="report-unread"><?= countReportHistory(true, $clearance); ?> unread</span>
+                            <span id="report-unread"><?= countReportHistory(true, $auth); ?> unread</span>
                         </span>
                     </div>
                     <div id="report-header">
@@ -208,7 +208,7 @@ require_once $path . '/functions/time.php';
                         <div>Action</div>
                     </div>
                     <div id="report-history">
-                    <?= getHistoryHTML(true, 0, $clearance, []); ?>
+                    <?= getHistoryHTML(true, 0, $auth, []); ?>
                     </div>
             </div>
             <script src="/scripts/moderation.js"></script>

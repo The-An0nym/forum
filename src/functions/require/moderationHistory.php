@@ -15,7 +15,7 @@ function getModHistory(int $page, array $params) : array {
                 s.handle AS sender_handle,
                 c.username AS culp_username,
                 c.handle AS culp_handle,
-                c.clearance AS culp_clearance,
+                c.clearance AS culp_auth,
                 mh.culp_id,
                 mh.mod_id,
                 mh.id,
@@ -79,7 +79,7 @@ function getModHistory(int $page, array $params) : array {
     return $data;
 }
 
-function getReportHistory(int $page, int $clearance, array $params) : array {
+function getReportHistory(int $page, int $auth, array $params) : array {
     $path = $_SERVER['DOCUMENT_ROOT'];
 
     require_once $path . '/functions/.connect.php' ;
@@ -94,7 +94,7 @@ function getReportHistory(int $page, int $clearance, array $params) : array {
                 s.handle AS sender_handle,
                 c.username AS culp_username,
                 c.handle AS culp_handle,
-                c.clearance AS culp_clearance,
+                c.clearance AS culp_auth,
                 mh.culp_id,
                 mh.mod_id,
                 mh.id,
@@ -107,7 +107,7 @@ function getReportHistory(int $page, int $clearance, array $params) : array {
             FROM mod_history mh
             JOIN users s ON s.user_id = mh.sender_id
             JOIN users c ON c.user_id = mh.culp_id
-            WHERE mh.judgement < 2 AND mh.type < $clearance";
+            WHERE mh.judgement < 2 AND mh.type < $auth";
 
     $sql .= filter($params);
 
@@ -144,7 +144,7 @@ function countModHistory(array $params = []) : int {
     return (int)$result->fetch_assoc()["count"];
 }
 
-function countReportHistory(bool $unread = false, int $clearance = 0, array $params = []) : int {
+function countReportHistory(bool $unread = false, int $auth = 0, array $params = []) : int {
     $conn = getConn();
 
     if($unread) {
@@ -156,7 +156,7 @@ function countReportHistory(bool $unread = false, int $clearance = 0, array $par
     $sql = "SELECT COUNT(*) AS count FROM mod_history mh
             JOIN users s ON s.user_id = mh.sender_id
             JOIN users c ON c.user_id = mh.culp_id
-            WHERE judgement $symbol 1 AND type < $clearance";
+            WHERE judgement $symbol 1 AND type < $auth";
 
     $sql .= filter($params);
     
@@ -185,9 +185,9 @@ function filter(array $params = []) : string {
     return $filt; 
 }
 
-function getHistoryHTML(bool $report, int $page, int $clearance, array $params) : string {
+function getHistoryHTML(bool $report, int $page, int $auth, array $params) : string {
     if($report) {
-        $data = getReportHistory($page, $clearance, $params);
+        $data = getReportHistory($page, $auth, $params);
     } else {
         $data = getModHistory($page, $params);
     }
@@ -198,14 +198,14 @@ function getHistoryHTML(bool $report, int $page, int $clearance, array $params) 
         $html = "<span class=\"no-results\">No results</span>"; // TODO Language support
     } else {
         foreach($data as $row) {
-            $html .= generateHTML($row, $clearance, $report);
+            $html .= generateHTML($row, $auth, $report);
         }
     }
 
     return $html;
 }
 
-function generateHTML($row, int $clearance, bool $report) : string {
+function generateHTML($row, int $auth, bool $report) : string {
     if($row["type"] == 0) {
         $type = "post";
     } else if($row["type"] == 1) {
@@ -233,7 +233,7 @@ function generateHTML($row, int $clearance, bool $report) : string {
         $is_latest = false;
     }
 
-    $button = generateButton($row['mod_id'], $row['culp_id'], $clearance, $row['culp_clearance'], $row['type'], $row['judgement'], $is_latest);
+    $button = generateButton($row['mod_id'], $row['culp_id'], $auth, $row['culp_auth'], $row['type'], $row['judgement'], $is_latest);
 
     return <<<HTML
     <div class="history {$type} {$read}" onclick="showContent({$row['type']}, '{$row['id']}')">
@@ -248,7 +248,7 @@ function generateHTML($row, int $clearance, bool $report) : string {
 HTML; // No whitespace allowed
 }
 
-function generateButton(string $mod_id, string $culp_id, int $clearance, int $culp_clearance, int $type, int $judgement, bool $is_latest) : string {
+function generateButton(string $mod_id, string $culp_id, int $auth, int $culp_auth, int $type, int $judgement, bool $is_latest) : string {
     if(!session_id()) {
        session_start();
     } 
@@ -266,9 +266,9 @@ function generateButton(string $mod_id, string $culp_id, int $clearance, int $cu
             $button .= "0, '$mod_id')\">Mark unread";
         }
     } else {
-        if(($culp_id === $user_id && $clearance < 5) || !$is_latest) {
+        if(($culp_id === $user_id && $auth < 5) || !$is_latest) {
             $button .= "disabled>undo";
-        } else if($type === 0 || ($type === 1 && $clearance > 1)) {
+        } else if($type === 0 || ($type === 1 && $auth > 1)) {
             if($judgement === 4) {
                 $button .= "onclick=\"undo('$mod_id')\">undo";
             } else {
@@ -276,17 +276,17 @@ function generateButton(string $mod_id, string $culp_id, int $clearance, int $cu
             }
         } else if($type === 2) {
             // Deleted or restored
-            if($judgement < 6 && $clearance > 3) {
+            if($judgement < 6 && $auth > 3) {
                 if($judgement === 4 || $judgement === 5) {
                     $button .= "onclick=\"undo('$mod_id')\">undo";
                 } else {
                     $button .= "onclick=\"undo('$mod_id', false)\">undo";
                 }
             // demotion
-            } else if($judgement === 6 && $culp_clearance < $clearance && $clearance > 3) {
+            } else if($judgement === 6 && $culp_auth < $auth && $auth > 3) {
                 $button .= "onclick=\"undo('$mod_id')\">undo";
             // promotion
-            } else if($judgement === 7 && $culp_clearance + 1 < $clearance && $clearance > 3) {
+            } else if($judgement === 7 && $culp_auth + 1 < $auth && $auth > 3) {
                 $button .= "onclick=\"undo('$mod_id')\">undo";
             } else {
                 $button .= "disabled>undo";

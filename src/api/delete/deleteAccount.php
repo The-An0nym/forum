@@ -44,7 +44,7 @@ function response() : string {
 
     $conn = getConn();
     $user_id = $_SESSION['user_id'];
-    $sql = "SELECT u.clearance, u.password, b.clearance AS user_clearance 
+    $sql = "SELECT u.clearance, u.password, b.clearance AS user_auth 
                 FROM users u 
             JOIN users b 
                 ON b.user_id = '$id' 
@@ -58,11 +58,11 @@ function response() : string {
     }
         
     $row = $result->fetch_assoc();
-    $clearance = $row['clearance'];
-    $user_clearance = $row['user_clearance'];
+    $auth = $row['clearance'];
+    $user_auth = $row['user_auth'];
     $hashedPassword = $row['password'];
 
-    if($id !== $user_id && $clearance < 3 && $clearance <= $user_clearance) {
+    if($id !== $user_id && $auth < 3 && $auth <= $user_auth) {
         return jsonErr("auth"); // Insufficient authorization
     }
 

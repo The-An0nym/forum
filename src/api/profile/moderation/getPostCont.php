@@ -34,9 +34,9 @@ function response() : string {
         return jsonErr("[GPC0]");
     }
 
-    $clearance = (int)$result->fetch_assoc()["clearance"];
+    $auth = (int)$result->fetch_assoc()["clearance"];
 
-    if($clearance < 1) {
+    if($auth < 1) {
         return jsonErr("auth");
     }
 

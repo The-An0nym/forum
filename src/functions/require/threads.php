@@ -12,9 +12,9 @@ function getThreads(string $slug, int $page) : array {
         $user_id = $_SESSION['user_id'];
         $sql = "SELECT `clearance` FROM `users` WHERE `user_id` = '$user_id'";
         $result = $conn->query($sql);
-        $myClearance = $result->fetch_assoc()["clearance"];
+        $myAuth = $result->fetch_assoc()["clearance"];
     } else {
-        $myClearance = 0;
+        $myAuth = 0;
     }
 
     $offset = (max($page, 1) - 1) * 20;
@@ -72,13 +72,13 @@ function getThreads(string $slug, int $page) : array {
         // output data of each row
         $data = [];
         while($thread = $result->fetch_assoc()) { 
-            if(($thread["clearance"] < $myClearance && $myClearance > 1) || $myClearance === '5') {
+            if(($thread["clearance"] < $myAuth && $myAuth > 1) || $myAuth === '5') {
                 $thread["clearance"] = true;
             } else {
                 $thread["clearance"] = false;
             }
 
-            if($myClearance === '5') {
+            if($myAuth === '5') {
                 $thread["pinnable"] = true;
             } else {
                 $thread["pinnable"] = false;

@@ -31,9 +31,9 @@ function response() : string {
     }
         
     $row = $result->fetch_assoc();
-    $clearance = $row['clearance'];
+    $auth = $row['clearance'];
 
-    if($clearance != 5) {
+    if($auth < 5) {
         return jsonErr("auth");
     }
 

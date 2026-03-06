@@ -25,7 +25,7 @@ if(isset($_GET["s"])) {
     $handle = "";
 }
 
-$clearance = -1;
+$auth = -1;
 
 if(validateSession()) {
     $user_id = $_SESSION['user_id'];
@@ -34,9 +34,9 @@ if(validateSession()) {
     if($result->num_rows === 1) {
         $row = $result->fetch_assoc();
         if($row['handle'] === $handle) {
-            $clearance = -1;
+            $auth = -1;
         } else {
-            $clearance = $row['clearance'];
+            $auth = $row['clearance'];
         }
     }
 }
@@ -54,7 +54,7 @@ if($result->num_rows === 1) {
     $posts = $row["posts"];
     $threads = $row["threads"];
     $user_created = $row["created"];
-    $user_clearance = $row["clearance"];
+    $user_auth = $row["clearance"];
 } else {
     $load = false;
 }
@@ -87,7 +87,7 @@ if($result->num_rows === 1) {
             <span class="auth">
                 <?php
                     for($i = 0; $i < 5; $i++) {
-                        echo generateStar($user_clearance > $i);
+                        echo generateStar($user_auth > $i);
                     }
                 ?>
             </span>
@@ -97,16 +97,16 @@ if($result->num_rows === 1) {
                 <span class="threads">Threads: <?= $threads ?></span>
             </span>
             <?php 
-            if($clearance >= 0 && $user_clearance <= $clearance) {
+            if($auth >= 0 && $user_auth <= $auth) {
                 echo '<button class="moderation" onclick="createReport(2, \'' . $user_id . '\')">Report</button>';
             }
-            if($clearance >= 4 && $user_clearance < $clearance && $user_clearance > 0) {
+            if($auth >= 4 && $user_auth < $auth && $user_auth > 0) {
                 echo '<button class="moderation" onclick="createModeration(\'demote ' . $username . '\', demoteUser, \'' . $user_id .'\')">Demote User</button>';
             }
-            if($clearance >= 4 && $user_clearance < ($clearance - 1)) {
+            if($auth >= 4 && $user_auth < ($auth - 1)) {
                 echo '<button class="moderation" onclick="createModeration(\'promote ' . $username . '\', promoteUser, \'' . $user_id .'\')">Promote User</button>';
             }
-            if($clearance >= 3 && $user_clearance < $clearance) {
+            if($auth >= 3 && $user_auth < $auth) {
                 echo '<button class="moderation danger-button" onclick="setupBan(\'' . $user_id .'\')">Ban</button>';
             }
             ?>

@@ -48,7 +48,7 @@ function response() : string {
         return jsonErr("404user");
     }
 
-    $clearance = (int)$result->fetch_assoc()["clearance"];
+    $auth = (int)$result->fetch_assoc()["clearance"];
 
     $sql = "SELECT mh.type, mh.judgement, mh.id, mh.culp_id, mh.created, u.clearance
             FROM mod_history mh
@@ -68,7 +68,7 @@ function response() : string {
     $culp_id = $row["culp_id"];
     $created = $row["created"];
 
-    if($clearance < $type) {
+    if($auth < $type) {
         return jsonErr("auth");
     }
 
@@ -76,7 +76,7 @@ function response() : string {
         return jsonErr("undoRepo");
     }
 
-    if($culp_id === $user_id && $clearance < 5) {
+    if($culp_id === $user_id && $auth < 5) {
         return jsonErr("undoOwn"); // Level 5 admin can do anything
     }
 
@@ -190,7 +190,7 @@ function response() : string {
     } else if($type === 2 && $judgement >= 6) {
         if($judgement === 6) {
             // Promote again
-            if($clearance > $culp_auth + 1 && $clearance > 2) {
+            if($auth > $culp_auth + 1 && $auth > 2) {
                 $err = jsonEncodeErrors(createHistory(2, 7, $id, $user_id, $reason, $message));
                 if($err !== "") {
                     return $err;
@@ -206,7 +206,7 @@ function response() : string {
             }
         } else if($judgement === 7) {
             // Demote again
-            if($clearance > $culp_auth && $clearance > 2) {
+            if($auth > $culp_auth && $auth > 2) {
                 $err = jsonEncodeErrors(createHistory(2, 6, $id, $user_id, $reason, $message));
                 if($err !== "") {
                     return $err;

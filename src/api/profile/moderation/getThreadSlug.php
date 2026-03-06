@@ -34,8 +34,8 @@ function response() : string {
         return jsonErr("", "[GTS0]");
     }
 
-    $clearance = (int)$result->fetch_assoc()["clearance"];
-    if($clearance < 1) {
+    $auth = (int)$result->fetch_assoc()["clearance"];
+    if($auth < 1) {
         return jsonErr("auth");
     }
 

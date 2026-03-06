@@ -42,11 +42,11 @@ function response() : string {
     }
 
     $row = $result->fetch_assoc();
-    $clearance = $row['clearance'];
+    $auth = $row['clearance'];
     $post_user_id = $row['user_id'];
     $user_id === $_SESSION["user_id"];
 
-    if($post_user_id !== $user_id && $clearance < 1) {
+    if($post_user_id !== $user_id && $auth < 1) {
         return jsonErr("auth");
     }
     
