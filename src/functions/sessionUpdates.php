@@ -42,8 +42,6 @@ function deleteExpiredSessions() : array {
     }
 
     $user_id = $_SESSION['user_id'];
-
-    $delArr = array();
     
     $delDatetime = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s')) - 60 * 60 * 24 * 5); // 5 days
 
