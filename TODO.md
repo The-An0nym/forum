@@ -47,7 +47,6 @@
 
 ## Account / Menu / Footer
 
-- [ ] Make login or sign-up pop-up hide when sign-up/login is pressed respectively
 - [ ] Adress, full legal name, etc. (pattern)
 - [ ] Redesign footer and menu
 
