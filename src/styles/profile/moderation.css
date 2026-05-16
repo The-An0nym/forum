@@ -11,16 +11,14 @@
   padding: 0.5em 0;
   display: flex;
   flex-direction: column;
-  gap: 1em;
 }
 
-.inps,
-.filts {
+.inps, span {
   display: flex;
   gap: 1em;
 }
 
-.inps > * {
+.inps > .grow {
   flex: 1;
 }
 
@@ -52,9 +50,8 @@
   background-color: var(--bg-light);
 }
 
-#mod-result,
-#report-result {
-  margin-left: auto;
+.search-result {
+  font-size: 0.8em;
 }
 
 #moderation-history,

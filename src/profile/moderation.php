@@ -141,24 +141,24 @@ require_once $path . '/functions/time.php';
                 <div class="tab-content" style="display: none;">
                     <div id="mod-filter">
                         <span class="inps">
-                            <input id="mod-sender" placeholder="sender handle">
-                            <input id="mod-culp" placeholder="culprit handle">
-                            <input id="mod-id" placeholder="id">
-                            <select id="mod-type">
+                            <input class="grow" id="mod-sender" placeholder="sender handle">
+                            <input class="grow" id="mod-culp" placeholder="culprit handle">
+                            <input class="grow" id="mod-id" placeholder="id">
+                            <select class="grow" id="mod-type">
                                 <option value="">All</option>
                                 <option value="0">Post</option>
                                 <option value="1">Thread</option>
                                 <option value="2">User</option>
                             </select>
-                        </span>
-                        <span class="filts">
                             <input id="mod-sort" type="checkbox">
                             <label for="mod-sort" id="mod-sort-label">
                                 <?= generateOrder(true) ?>
                                 <?= generateOrder(false) ?>
                             </label>
                             <button class="action-button" onclick="getModerationHistory()">Filter</button>
-                            <span id="mod-result"><?= $totalMod; ?> results</span>
+                        </span>
+                        <span class="filts">
+                            <span class="search-result" id="mod-result"><?= $totalMod; ?> results</span>
                         </span>
                     </div>
                     <div id="moderation-header">
@@ -171,31 +171,31 @@ require_once $path . '/functions/time.php';
                         <div>Action</div>
                     </div>
                     <div id="moderation-history">
-                    <?= getHistoryHTML(false, 0, $auth, []); ?>
+                        <?= getHistoryHTML(false, 0, $auth, []); ?>
                     </div>
             </div>
             <div class="tab-content" style="display: none;">                   
                     <div id="report-filter">
                         <span class="inps">
-                            <input id="report-sender" placeholder="sender handle">
-                            <input id="report-culp" placeholder="culprit handle">
-                            <input id="report-id" placeholder="id">
-                            <select id="report-type">
+                            <input class="grow" id="report-sender" placeholder="sender handle">
+                            <input class="grow" id="report-culp" placeholder="culprit handle">
+                            <input class="grow" id="report-id" placeholder="id">
+                            <select class="grow" id="report-type">
                                 <option value="">All</option>
                                 <option value="0">Post</option>
                                 <option value="1">Thread</option>
                                 <option value="2">User</option>
                             </select>
-                        </span>
-                        <span class="filts">
                             <input id="report-sort" type="checkbox">
                             <label for="report-sort" id="report-sort-label">
                                 <?= generateOrder(true) ?>
                                 <?= generateOrder(false) ?>
                             </label>
                             <button class="action-button" onclick="getModerationHistory(0, true)">Filter</button>
-                            <span id="report-result"><?= $totalReport; ?> results</span>
-                            <span id="report-unread"><?= countReportHistory(true, $auth); ?> unread</span>
+                        </span>
+                        <span class="filts">
+                            <span class="search-result" id="report-result"><?= $totalReport; ?> results</span>
+                            <span class="search-result" id="report-unread"><?= countReportHistory(true, $auth); ?> unread</span>
                         </span>
                     </div>
                     <div id="report-header">
