@@ -236,13 +236,14 @@ function generateHTML($row, int $auth, bool $report) : string {
     $button = generateButton($row['mod_id'], $row['culp_id'], $auth, $row['culp_auth'], $row['type'], $row['judgement'], $is_latest);
 
     return <<<HTML
-    <div class="history {$type} {$read}" onclick="showContent({$row['type']}, '{$row['id']}')">
+    <div class="history {$type} {$read}">
         <span class="mod-datetime">{$row["created"]}</span>
+        <span class="mod-type">{$judgement} {$type}</span>
         <a href="/user/{$row['sender_handle']}" class="mod-by">{$row["sender_username"]}</a>
         <a href="/user/{$row['culp_handle']}" class="mod-to">{$row["culp_username"]}</a>
-        <span class="mod-type">{$judgement} {$type}</span>
         <span class="mod-reason"> {$reason}</span>
         <span class="mod-message"> {$row["message"]}</span>
+        <span onclick="showContent({$row['type']}, '{$row['id']}')" class="">eye icon</span>
         {$button}
     </div>
 HTML; // No whitespace allowed
