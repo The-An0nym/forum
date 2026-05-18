@@ -243,7 +243,7 @@ function generateHTML($row, int $auth, bool $report) : string {
         <a href="/user/{$row['culp_handle']}" class="mod-to">{$row["culp_username"]}</a>
         <span class="mod-reason"> {$reason}</span>
         <span class="mod-message"> {$row["message"]}</span>
-        <span onclick="showContent({$row['type']}, '{$row['id']}')" class="">eye icon</span>
+        <img src="/images/icons/view.svg" class="svg-img view-icon" onclick="showContent({$row['type']}, '{$row['id']}')">
         {$button}
     </div>
 HTML; // No whitespace allowed
