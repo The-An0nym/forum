@@ -168,7 +168,7 @@ require_once $path . '/functions/time.php';
                         <div>To</div>
                         <div>Reason</div>
                         <div>Message</div>
-                        <div>Actions</div>
+                        <div class="moderation-actions-category">Actions</div>
                     </div>
                     <div id="moderation-history">
                         <?= getHistoryHTML(false, 0, $auth, []); ?>
@@ -205,7 +205,7 @@ require_once $path . '/functions/time.php';
                         <div>To</div>
                         <div>Reason</div>
                         <div>Message</div>
-                        <div>Actions</div>
+                        <div class="moderation-actions-category">Actions</div>
                     </div>
                     <div id="report-history">
                     <?= getHistoryHTML(true, 0, $auth, []); ?>

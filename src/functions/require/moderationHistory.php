@@ -254,7 +254,7 @@ function generateButton(string $mod_id, string $culp_id, int $auth, int $culp_au
        session_start();
     } 
     
-    $button = '<button ';
+    $button = '<button class="moderation-action-button" ';
 
     $user_id = $_SESSION["user_id"];
 

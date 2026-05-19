@@ -15,6 +15,7 @@
 - [ ] Language support
 
 ## Bug fixes & Redesign
+- [ ] Add icons in moderation history for: undo, mark as read, mark as unread
 - [ ] Redesign moderation panel for /user/ page
 - [ ] Redesign moderation history and report history for /profile/moderation/ page
 - [ ] Scroll up moderation history and report history page upon loading next or previous page (and/or implement proper pages)

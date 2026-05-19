@@ -85,6 +85,12 @@
   flex: 1;
 }
 
+.moderation-actions-category {
+  flex: unset !important;
+  width: 7rem;
+  margin-left: 1rem;
+}
+
 .mod-datetime,
 .deleted-datetime,
 .deleted-created {
@@ -127,9 +133,11 @@
   justify-content: space-between;
 }
 
-.view-icon {
-  width: 3em;
-  flex: 0 !important;
+.view-icon,
+.moderation-action-button {
+  margin-left: 1rem;
+  width: 3rem;
+  flex: unset !important;
 }
 
 .deleted-content {
