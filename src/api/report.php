@@ -5,7 +5,7 @@ require_once $path . '/functions/moderation.php' ;
 require_once $path . '/functions/validateSession.php';
 require_once $path . '/functions/errors.php' ;
 
-echo response()
+echo response();
 
 function response() : string {
     // Get connection
@@ -45,7 +45,7 @@ function response() : string {
 
     $err = jsonEncodeErrors(createReport($type, $id, $user_id, $reason, $message)); // HANDLE ERROR
     if($err !== "") {
-        return $err
+        return $err;
     }
 
     return pass();
